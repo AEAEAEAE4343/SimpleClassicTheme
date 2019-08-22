@@ -66,6 +66,7 @@ namespace SimpleClassicTheme
                 button1.Enabled = false;
                 button2.Enabled = false;
                 button4.Enabled = false;
+                button5.Enabled = false;
             }
             else
                 button3.Enabled = false;
