@@ -1,5 +1,5 @@
 # Simple Classic Theme
-Basically, I saw this thread which is an amazing solution for Classic Theme and decided I wanted to create a GUI for it. It's a simple .NET app which does the following things:
+Basically, I saw <a href="http://winclassic.boards.net/thread/413/reversibly-enable-disable-classic-powershell">this thread</a> which is an amazing solution for Classic Theme and decided I wanted to create a GUI for it. It's a simple .NET app which does the following things:
 
     Installs PowerShell 6 and the module required
     Enables/Disables Classic Theme with a press of a button
