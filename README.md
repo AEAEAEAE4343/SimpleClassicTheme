@@ -14,8 +14,8 @@ I'm thinking about how to implement taskbar but we'll have to see. (suggestions 
 <img src="https://i.imgur.com/ocRzYt4.png" style="max-width:100%;" alt="image of taskbar">
 
 Screenshot of GUI running on Windows Insider Preview (post-1903):
-<img style="max-width:100%;" alt="sc" src="https://i.imgur.com/mfy1h02.png">
-TODO:
+<img style="max-width:100%;" alt="sc" src="https://i.imgur.com/mfy1h02.png"><br>
+<b>TODO:</b>
 <ul>
     <li>Actually automatically install PowerShell and OpenShell</li>
     <li>Fix weird coloring of taskbar (see bottom right of picture)</li>
