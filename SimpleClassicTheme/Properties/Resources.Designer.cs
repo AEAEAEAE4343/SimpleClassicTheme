@@ -68,5 +68,97 @@ namespace SimpleClassicTheme.Properties {
                 return ResourceManager.GetString("addSchemes", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Classic3 {
+            get {
+                object obj = ResourceManager.GetObject("Classic3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap null_classic3small {
+            get {
+                object obj = ResourceManager.GetObject("null_classic3small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows Registry Editor Version 5.00
+        ///
+        ///[HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings]
+        ///&quot;Version&quot;=dword:04040083
+        ///&quot;MenuStyle&quot;=&quot;Classic1&quot;
+        ///&quot;SkinC1&quot;=&quot;Classic Skin&quot;
+        ///&quot;SkinVariationC1&quot;=&quot;&quot;
+        ///&quot;SkinOptionsC1&quot;=hex(7):43,00,41,00,50,00,54,00,49,00,4f,00,4e,00,3d,00,31,00,\
+        ///  00,00,55,00,53,00,45,00,52,00,5f,00,49,00,4d,00,41,00,47,00,45,00,3d,00,30,\
+        ///  00,00,00,55,00,53,00,45,00,52,00,5f,00,4e,00,41,00,4d,00,45,00,3d,00,30,00,\
+        ///  00,00,43,00,45,00,4e,00,54,00,45,00,52,00,5f,00,4e,00,41,00,4d,00,45,00,3d [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ossettings {
+            get {
+                return ResourceManager.GetString("ossettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows Registry Editor Version 5.00
+        ///
+        ///[HKEY_CURRENT_USER\SOFTWARE\StartIsBack]
+        ///&quot;WelcomeShown&quot;=dword:00000002
+        ///&quot;ModernIconsColorized&quot;=dword:00000002
+        ///&quot;Start_LargeMFUIcons&quot;=dword:00000001
+        ///&quot;StartMetroAppsMFU&quot;=dword:00000001
+        ///&quot;StartScreenShortcut&quot;=dword:00000000
+        ///&quot;Start_SortByName&quot;=dword:00000001
+        ///&quot;StartMetroAppsFolder&quot;=dword:00000001
+        ///&quot;Start_SortFoldersFirst&quot;=dword:00000000
+        ///&quot;Start_NotifyNewApps&quot;=dword:00000001
+        ///&quot;Start_AutoCascade&quot;=dword:00000001
+        ///&quot;Start_AskCortana&quot;=dword:00000000
+        ///&quot;Start_RightPaneIcons&quot;=d [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sibsettings {
+            get {
+                return ResourceManager.GetString("sibsettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap taskbar {
+            get {
+                object obj = ResourceManager.GetObject("taskbar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap win7 {
+            get {
+                object obj = ResourceManager.GetObject("win7", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap win9x {
+            get {
+                object obj = ResourceManager.GetObject("win9x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

@@ -80,9 +80,24 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="Resources\addSchemes.bat" />
+    <None Include="Resources\Classic3.msstyles" />
+    <None Include="Resources\ossettings.reg" />
+    <None Include="Resources\sibsettings.reg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\null_classic3small.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\taskbar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\win9x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\win7.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
