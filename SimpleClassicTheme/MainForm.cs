@@ -61,6 +61,8 @@ namespace SimpleClassicTheme
                 pwsh.WaitForExit();
                 if (f.Contains("No match was found")) extInstalled = false;
             }
+            File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\addSchemes.bat"), Properties.Resources.addSchemes);
+            Process.Start(new ProcessStartInfo() { FileName = Path.Combine(Path.GetTempPath(), "\\addSchemes.bat"), Verb = "runas", UseShellExecute = false, CreateNoWindow = true });
             if (!psInstalled || !extInstalled)
             {
                 button1.Enabled = false;
@@ -131,6 +133,7 @@ namespace SimpleClassicTheme
             {
                 Registry.SetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender", "DisableAntiSpyware", 0);
                 Process.Start(@"C:\Windows\System32\shutdown.exe", "-r -t 00");
+                Environment.Exit(0);
             }
             else
             {

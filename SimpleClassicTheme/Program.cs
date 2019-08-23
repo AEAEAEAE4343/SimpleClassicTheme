@@ -22,7 +22,7 @@ namespace SimpleClassicTheme
             bool hasAdministrativeRight = pricipal.IsInRole(WindowsBuiltInRole.Administrator);
             if (!hasAdministrativeRight)
             {
-                if (MessageBox.Show("This application requires admin privilages.\nClick Ok to elevate or Cancel to exit.", "Elevate?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                if ((Assembly.GetExecutingAssembly().Location == @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe") || MessageBox.Show("This application requires admin privilages.\nClick Ok to elevate or Cancel to exit.", "Elevate?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                 {
                     ProcessStartInfo processInfo = new ProcessStartInfo
                     {

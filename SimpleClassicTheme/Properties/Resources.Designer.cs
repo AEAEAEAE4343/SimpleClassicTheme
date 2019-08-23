@@ -59,5 +59,14 @@ namespace SimpleClassicTheme.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to reg ADD &quot;HKCU\Control Panel\Appearance\Schemes&quot; /v &quot;Windows Modern&quot; /t REG_BINARY /d &quot;0200000034e439000100000010000000100000001200000012000000f5ffffff000000000000000000000000bc02000000000001000005005300650067006f0065002000550049000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f0000000f000000f5ffffff000000000000000000000000bc02000000000001000005005300650067006f0065002000550049000000000000000000000000000000000000000000000000000000000000000000000000000000000000 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string addSchemes {
+            get {
+                return ResourceManager.GetString("addSchemes", resourceCulture);
+            }
+        }
     }
 }
