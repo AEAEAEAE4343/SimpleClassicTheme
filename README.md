@@ -1,4 +1,4 @@
-<div align="center"><font size="5"># Simple Classic Theme</font></div><div><font size="5">
+# SimpleClassicTheme<div><font size="5">
 </font></div>Basically, I saw <a href="http://winclassic.boards.net/thread/413/reversibly-enable-disable-classic-powershell">this thread</a> which is an amazing solution for Classic Theme and decided I wanted to create a GUI for it. It's a simple .NET app which does the following things:
     <ul><li>Installs PowerShell 6 and the module required</li>    <li>Installs and configures Open-Shell and StartIsBack to emulate a Classic taskbar/start menu experience</li>    <li>Enables/Disables Classic Theme with a press of a button (or command)</li>    <li>Automatically enables Classic Theme on boot-up after explorer.exe has started (This makes sure all of the explorer bugs don't occur and that explorer behaves kinda like an immersive app)</li>    <li>Configure Classic Theme (requires disabling Defender, but thats implemented too)</li></ul>
 <div>Please give me suggestions on how to improve this app (eg. registry tweaks for buggy things)</div>
