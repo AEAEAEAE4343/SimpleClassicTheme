@@ -8,6 +8,7 @@ using System.Reflection;
 using Microsoft.Win32;
 using System.Net;
 using System.Threading;
+using NtApiDotNet;
 
 namespace SimpleClassicTheme
 {
@@ -36,54 +37,21 @@ namespace SimpleClassicTheme
         }
         public static void Enable()
         {
-            string cmdlet = "Set-NtSecurityDescriptor -path \\\"\\Sessions\\$([System.Diagnostics.Process]::GetCurrentProcess().SessionId)\\Windows\\ThemeSection\\\" \\\"O:BAG:SYD:(A;;RC;;;IU)(A;;DCSWRPSDRCWDWO;;;SY)\\\" Dacl";
-            Process pwsh = new Process()
-            {
-                StartInfo =
-                {
-                    FileName = @"C:\Program Files\PowerShell\6\\pwsh.exe",
-                    Arguments = "-c " + cmdlet,
-                    Verb = "runas"
-                }
-            };
-            pwsh.Start();
-            pwsh.WaitForExit();
+            NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
+            g.SetSecurityDescriptor(new SecurityDescriptor("O:BAG:SYD:(A;;RC;;;IU)(A;;DCSWRPSDRCWDWO;;;SY)"), SecurityInformation.Dacl);
+            g.Close();
         }
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            if (checkBox1.Enabled) EnableTaskbar();
+            if (checkBox1.Checked) EnableTaskbar();
             Enable();
         }
         public static bool CheckDependencies(bool Taskbar)
         {
-            if (!File.Exists(@"C:\Program Files\PowerShell\6\\pwsh.exe"))
-            {
-                psInstalled = false;
-                extInstalled = false;
-            }
-            else
-            {
-                string cmdlet = "Get-InstalledModule -Name NtObjectManager";
-                Process pwsh = new Process()
-                {
-                    StartInfo =
-                    {
-                        FileName = @"C:\Program Files\PowerShell\6\\pwsh.exe",
-                        Arguments = "-c " + cmdlet,
-                        Verb = "runas",
-                        RedirectStandardOutput = true,
-                        UseShellExecute = false
-                    }
-                };
-                pwsh.Start();
-                string f = pwsh.StandardOutput.ReadToEnd().Trim();
-                pwsh.WaitForExit();
-                if (f.Contains("No match was found")) extInstalled = false;
-            }
             osInstalled = Directory.Exists("C:\\Program Files\\Open-Shell\\");
             sibInstalled = Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
-            if (!psInstalled || !extInstalled || (!osInstalled || !sibInstalled) && Taskbar)
+            if ((!osInstalled || !sibInstalled) && Taskbar)
             {
                 return false;
             }
@@ -91,6 +59,8 @@ namespace SimpleClassicTheme
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            Registry.CurrentUser.OpenSubKey("SOFTWARE").CreateSubKey("SimpleClassicTheme");
+            checkBox1.Checked = bool.Parse((string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", false));
             if (CheckDependencies(checkBox1.Checked))
             {
                 button3.Enabled = false;
@@ -122,64 +92,26 @@ namespace SimpleClassicTheme
         }
         public static void Disable()
         {
-            string cmdlet = "Set-NtSecurityDescriptor -path \\\"\\Sessions\\$([System.Diagnostics.Process]::GetCurrentProcess().SessionId)\\Windows\\ThemeSection\\\" \\\"O:BAG:SYD:(A;;CCLCRC;;;IU)(A;;CCDCLCSWRPSDRCWDWO;;;SY)\\\" Dacl";
-            Process pwsh = new Process()
-            {
-                StartInfo =
-                {
-                    FileName = @"C:\Program Files\PowerShell\6\\pwsh.exe",
-                    Arguments = "-c " + cmdlet,
-                    Verb = "runas",
-                    CreateNoWindow = true
-                }
-            };
-            pwsh.Start();
-            pwsh.WaitForExit();
+            NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
+            g.SetSecurityDescriptor(new SecurityDescriptor("O:BAG:SYD:(A;;CCLCRC;;;IU)(A;;CCDCLCSWRPSDRCWDWO;;;SY)"), SecurityInformation.Dacl);
+            g.Close();
         }
         private void Button2_Click(object sender, EventArgs e)
         {
             Disable();
-            if (checkBox1.Enabled) DisableTaskbar();
+            if (checkBox1.Checked) DisableTaskbar();
         }
-        static bool psInstalled = true;
-        static bool extInstalled = true;
         static bool osInstalled = true;
         static bool sibInstalled = true;
         private void Button3_Click(object sender, EventArgs e)
         {
-            if (!psInstalled)
-            {
-                MessageBox.Show("For Simple Classic Theme to continue you have to manually install PowerShell 6\r\nThe page with the latest release will be opened.\r\nPlease download and install the file \"PowerShell-6.X.X-win-x64.exe\".\r\nAfter that reopen this program to continue", "PS6");
-                Process.Start("https://github.com/PowerShell/PowerShell/releases/latest");
-                Environment.Exit(0);
-            }
-            if (!extInstalled)
-            {
-                string cmdlet = "Install-Module -Name NtObjectManager";
-                Process pwsh = new Process()
-                {
-                    StartInfo =
-                    {
-                        FileName = @"C:\Program Files\PowerShell\6\\pwsh.exe",
-                        Arguments = "-c " + cmdlet,
-                        Verb = "runas",
-                        RedirectStandardInput = true,
-                        UseShellExecute = false
-                    }
-                };
-                pwsh.Start();
-                pwsh.StandardInput.Write("a\n");
-                pwsh.WaitForExit();
-                MessageBox.Show("Everything needed is installed! Reopen the program to start using Classic Theme.");
-                Environment.Exit(0);
-            }
-            if (!osInstalled && checkBox1.Enabled)
+            if (!osInstalled && checkBox1.Checked)
             {
                 MessageBox.Show("To continue installing dependencies you have to manually install Open-Shell\r\nThe page with the latest release will be opened.\r\nPlease download and install the file \"Open-Shell_X_X_X.exe\".\r\nAfter that reopen this program to continue", "Open-Shell");
                 Process.Start("https://github.com/Open-Shell/Open-Shell-Menu/releases/latest");
                 Environment.Exit(0);
             }
-            if (!sibInstalled && checkBox1.Enabled)
+            if (!sibInstalled && checkBox1.Checked)
             {
                 bool b = MessageBox.Show("To continue StartIsBack++ is required. Would you like Simple Classic Theme to install this for you?", "Open-Shell", MessageBoxButtons.YesNo) == DialogResult.Yes;
                 if (b)
@@ -258,12 +190,14 @@ namespace SimpleClassicTheme
         {
             if (MessageBox.Show("This launches the program in auto mode every time the pc starts up (after explorer.exe is loaded). Continue?", "Auto-launch Simple Clasic Theme", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                File.Copy(Assembly.GetExecutingAssembly().Location, @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe");
+                File.Copy(Assembly.GetExecutingAssembly().Location, @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe", true);
             }
         }
 
         private void CheckBox1_CheckedChanged(object sender, EventArgs e)
         {
+            Registry.CurrentUser.OpenSubKey("SOFTWARE").CreateSubKey("SimpleClassicTheme");
+            checkBox1.Checked = bool.Parse((string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", false));
             if (CheckDependencies(checkBox1.Checked))
             {
                 button3.Enabled = false;

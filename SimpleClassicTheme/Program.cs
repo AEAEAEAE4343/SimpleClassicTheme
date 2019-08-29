@@ -51,12 +51,8 @@ Arguments:
                         Arguments = string.Join(" ", args)
                     };
                     Process.Start(processInfo);
-                    Environment.Exit(0);
                 }
-                else
-                {
-                    Environment.Exit(0);
-                }
+                return;
             }
             if (args.Length > 0)
             {
@@ -135,24 +131,27 @@ Arguments:
                 }
                 return;
             }
+            if (Assembly.GetExecutingAssembly().Location == @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe")
+            {
+                Registry.CurrentUser.OpenSubKey("SOFTWARE").CreateSubKey("SimpleClassicTheme");
+                bool withTaskbar = bool.Parse((string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", false));
+                if (!MainForm.CheckDependencies(withTaskbar))
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("ERROR: ");
+                    Console.ResetColor();
+                    Console.WriteLine("Not all dependencies are installed. Please run the GUI and install the dependencies.");
+                }
+                if (withTaskbar)
+                { Console.Write("INFO: Enabling classic taskbar..."); MainForm.EnableTaskbar(); Console.WriteLine(); }
+                Console.Write("INFO: Enabling classic theme...");
+                MainForm.Enable(); Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("SUCCES");
+                Console.ResetColor();
+            }
             else
             {
                 FreeConsole();
-                if (Assembly.GetExecutingAssembly().Location == @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe")
-                {
-                    string cmdlet = "Set-NtSecurityDescriptor -path \\\"\\Sessions\\$([System.Diagnostics.Process]::GetCurrentProcess().SessionId)\\Windows\\ThemeSection\\\" \\\"O:BAG:SYD:(A;;RC;;;IU)(A;;DCSWRPSDRCWDWO;;;SY)\\\" Dacl";
-                    Process pwsh = new Process()
-                    {
-                        StartInfo =
-                {
-                    FileName = @"C:\Program Files\PowerShell\6\\pwsh.exe",
-                    Arguments = "-c " + cmdlet,
-                    Verb = "runas"
-                }
-                    };
-                    pwsh.Start();
-                    Environment.Exit(0);
-                }
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new MainForm());
