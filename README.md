@@ -14,6 +14,7 @@
 <ul><li>-t, --enable-taskbar Enables/Disables classic taskbar as well (Depending on operation)</li></ul><b>
 </b><div align="center"><b><font size="3">TODO</font></b>
     </div><ul><li><div align="left">Actually automatically install OpenShell
+</div></li><li><div align="left">Make File Explorer classic as well
 </div></li></ul><div align="center"><font size="3"><b>Download</b></font></div><div align="center"><font size="3">
 </font></div><div align="center"><font size="3"><font size="2">The application can be downloaded through my Github <a href="https://github.com/AEAEAEAE4343/SimpleClassicTheme/releases/download/b6/SimpleClassicTheme.exe">here</a> (b6)</font>
 </font></div>
