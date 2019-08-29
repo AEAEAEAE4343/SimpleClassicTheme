@@ -59,8 +59,8 @@ namespace SimpleClassicTheme
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            Registry.CurrentUser.OpenSubKey("SOFTWARE").CreateSubKey("SimpleClassicTheme");
-            checkBox1.Checked = bool.Parse((string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", false));
+            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
+            checkBox1.Checked = bool.Parse(Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", false.ToString()).ToString());
             if (CheckDependencies(checkBox1.Checked))
             {
                 button3.Enabled = false;
@@ -196,8 +196,8 @@ namespace SimpleClassicTheme
 
         private void CheckBox1_CheckedChanged(object sender, EventArgs e)
         {
-            Registry.CurrentUser.OpenSubKey("SOFTWARE").CreateSubKey("SimpleClassicTheme");
-            checkBox1.Checked = bool.Parse((string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", false));
+            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
+            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", checkBox1.Checked.ToString());
             if (CheckDependencies(checkBox1.Checked))
             {
                 button3.Enabled = false;

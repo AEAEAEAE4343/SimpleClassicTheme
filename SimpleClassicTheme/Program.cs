@@ -133,8 +133,8 @@ Arguments:
             }
             if (Assembly.GetExecutingAssembly().Location == @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe")
             {
-                Registry.CurrentUser.OpenSubKey("SOFTWARE").CreateSubKey("SimpleClassicTheme");
-                bool withTaskbar = bool.Parse((string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", false));
+                Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
+                bool withTaskbar = bool.Parse(Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", false.ToString()).ToString());
                 if (!MainForm.CheckDependencies(withTaskbar))
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
