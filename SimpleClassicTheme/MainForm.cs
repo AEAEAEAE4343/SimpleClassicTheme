@@ -35,11 +35,44 @@ namespace SimpleClassicTheme
             //Give Windows Explorer, StartIsBack and Classic Shell the time to load
             Thread.Sleep(5000);
         }
+        public static bool RenameSubKey(RegistryKey parentKey,
+            string subKeyName, string newSubKeyName)
+        {
+            CopyKey(parentKey, subKeyName, newSubKeyName);
+            parentKey.DeleteSubKeyTree(subKeyName);
+            return true;
+        }
+        public static bool CopyKey(RegistryKey parentKey,
+            string keyNameToCopy, string newKeyName)
+        {
+            RegistryKey destinationKey = parentKey.CreateSubKey(newKeyName);
+            RegistryKey sourceKey = parentKey.OpenSubKey(keyNameToCopy);
+            RecurseCopyKey(sourceKey, destinationKey);
+            return true;
+        }
+        private static void RecurseCopyKey(RegistryKey sourceKey, RegistryKey destinationKey)
+        {
+            foreach (string valueName in sourceKey.GetValueNames())
+            {
+                object objValue = sourceKey.GetValue(valueName);
+                RegistryValueKind valKind = sourceKey.GetValueKind(valueName);
+                destinationKey.SetValue(valueName, objValue, valKind);
+            }
+            foreach (string sourceSubKeyName in sourceKey.GetSubKeyNames())
+            {
+                RegistryKey sourceSubKey = sourceKey.OpenSubKey(sourceSubKeyName);
+                RegistryKey destSubKey = destinationKey.CreateSubKey(sourceSubKeyName);
+                RecurseCopyKey(sourceSubKey, destSubKey);
+            }
+        }
         public static void Enable()
         {
             NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
             g.SetSecurityDescriptor(new SecurityDescriptor("O:BAG:SYD:(A;;RC;;;IU)(A;;DCSWRPSDRCWDWO;;;SY)"), SecurityInformation.Dacl);
             g.Close();
+            RenameSubKey(Registry.LocalMachine.CreateSubKey("SOFTWARE").CreateSubKey("Microsoft").CreateSubKey("Windows").CreateSubKey("CurrentVersion").CreateSubKey("Themes"), "DefaultColors", "DefaultColorsOld");
+            File.WriteAllText("\\windowmetrics.reg", Properties.Resources.WindowMetrics);
+            Process.Start("C:\\Windows\\regedit.exe", "/s C:\\windowmetrics.reg");
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -142,6 +175,7 @@ namespace SimpleClassicTheme
                     Process p = new Process() { StartInfo = { FileName = Path.Combine(Path.GetTempPath(), "\\sib.exe"), Arguments = "/silent" } };
                     p.Start();
                     p.WaitForExit();
+                    p.Dispose();
                 }
                 else
                 {
@@ -209,6 +243,31 @@ namespace SimpleClassicTheme
                 button4.Enabled = false;
                 button5.Enabled = false;
             }
+        }
+
+        bool utilMenu = false;
+        private void Button6_Click(object sender, EventArgs e)
+        {
+            utilMenu = !utilMenu;
+            button6.Text = utilMenu ? "Back" : "Utilities";
+            panel1.Visible = utilMenu;
+        }
+
+        private void Button7_Click(object sender, EventArgs e)
+        {
+            File.WriteAllBytes("C:\\ctm.exe", Properties.Resources.ctm);
+            Process.Start("C:\\ctm.exe", "/silent");
+            MessageBox.Show("Classic Task Manager is being installed on your system");
+        }
+
+        private void Button8_Click(object sender, EventArgs e)
+        {
+            using (WebClient c = new WebClient())
+            {
+                c.DownloadFile("https://rammichael.com/downloads/7tt_setup.exe", "\\7tt.exe");
+            }
+            Process.Start("\\7tt.exe", "/S");
+            MessageBox.Show("7+ Taskbar Tweaker is being installed on your system");
         }
     }
 }

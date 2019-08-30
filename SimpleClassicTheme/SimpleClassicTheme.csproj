@@ -112,6 +112,7 @@
     <None Include="Resources\Classic3.msstyles" />
     <None Include="Resources\ossettings.reg" />
     <None Include="Resources\sibsettings.reg" />
+    <None Include="Resources\WindowMetrics.reg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -139,6 +140,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ctm.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.0\build\Fody.targets')" />
