@@ -152,7 +152,8 @@ Arguments:
             else
             {
                 FreeConsole();
-                Application.EnableVisualStyles();
+                //this line is for non-classic normies
+                //Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new MainForm());
             }
