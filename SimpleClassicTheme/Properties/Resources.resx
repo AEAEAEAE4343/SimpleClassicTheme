@@ -127,11 +127,17 @@
   <data name="ctm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ctm.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="ExplorerContextMenuTweaker" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ExplorerContextMenuTweaker.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="null_classic3small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\null_classic3small.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ossettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ossettings.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="ShellPayload" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ShellPayload.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="sibsettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sibsettings.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>

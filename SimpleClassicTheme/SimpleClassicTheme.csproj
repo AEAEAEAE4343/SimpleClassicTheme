@@ -108,6 +108,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="README.md" />
     <None Include="Resources\addSchemes.bat" />
     <None Include="Resources\Classic3.msstyles" />
     <None Include="Resources\ossettings.reg" />
@@ -143,6 +144,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ctm.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ShellPayload.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ExplorerContextMenuTweaker.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.0\build\Fody.targets')" />

@@ -36,8 +36,9 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button6 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -114,6 +115,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button9);
             this.panel1.Controls.Add(this.button8);
             this.panel1.Controls.Add(this.button7);
             this.panel1.Location = new System.Drawing.Point(12, 12);
@@ -121,6 +123,16 @@
             this.panel1.Size = new System.Drawing.Size(191, 139);
             this.panel1.TabIndex = 7;
             this.panel1.Visible = false;
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(0, 29);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(191, 23);
+            this.button8.TabIndex = 1;
+            this.button8.Text = "Install 7+ Taskbar Tweaker";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.Button8_Click);
             // 
             // button7
             // 
@@ -132,15 +144,15 @@
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.Button7_Click);
             // 
-            // button8
+            // button9
             // 
-            this.button8.Location = new System.Drawing.Point(-3, 29);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(191, 23);
-            this.button8.TabIndex = 1;
-            this.button8.Text = "Install 7+ Taskbar Tweaker";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.Button8_Click);
+            this.button9.Location = new System.Drawing.Point(0, 58);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(191, 23);
+            this.button9.TabIndex = 2;
+            this.button9.Text = "Install ExplorerContextMenuTweaker";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.Button9_Click);
             // 
             // MainForm
             // 
@@ -179,6 +191,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button9;
     }
 }
 

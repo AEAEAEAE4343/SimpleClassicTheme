@@ -90,6 +90,16 @@ namespace SimpleClassicTheme.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ExplorerContextMenuTweaker {
+            get {
+                object obj = ResourceManager.GetObject("ExplorerContextMenuTweaker", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap null_classic3small {
@@ -115,6 +125,16 @@ namespace SimpleClassicTheme.Properties {
         internal static string ossettings {
             get {
                 return ResourceManager.GetString("ossettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ShellPayload {
+            get {
+                object obj = ResourceManager.GetObject("ShellPayload", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

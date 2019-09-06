@@ -80,39 +80,35 @@ Arguments:
                     case "/enable":
                         if (!MainForm.CheckDependencies(withTaskbar))
                         {
-                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.Write("ERROR: ");
                             Console.ResetColor();
                             Console.WriteLine("Not all dependencies are installed. Please run the GUI and install the dependencies.");
                         }
-                        if (withTaskbar)
-                        { Console.Write("INFO: Enabling classic taskbar..."); MainForm.EnableTaskbar(); Console.WriteLine(); }
-                        Console.Write("INFO: Enabling classic theme...");
-                        MainForm.Enable(); Console.WriteLine();
+                        Console.Write($"INFO: Enabling classic theme{(withTaskbar ? " and taskbar" : "")}...");
+                        MainForm.MasterEnable(withTaskbar); Console.WriteLine();
                         Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("SUCCES");
                         Console.ResetColor();
                         break;
                     case "/disable":
                         if (!MainForm.CheckDependencies(withTaskbar))
                         {
-                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.Write("ERROR: ");
                             Console.ResetColor();
                             Console.WriteLine("Not all dependencies are installed. Please run the GUI and install the dependencies.");
                         }
-                        Console.Write("INFO: Disabling classic theme...");
-                        MainForm.Disable(); Console.WriteLine();
-
-                        if (withTaskbar) { Console.Write("INFO: Disabling classic taskbar..."); MainForm.DisableTaskbar(); Console.WriteLine(); }
+                        Console.Write($"INFO: Disabling classic theme{(withTaskbar ? " and taskbar" : "")}...");
+                        MainForm.MasterDisable(withTaskbar); Console.WriteLine();
                         Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("SUCCES");
                         Console.ResetColor();
                         break;
                     case "/configure":
-                        if (((int)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender", "DisableAntiSpyware", 0) == 0) && MessageBox.Show("Windows Defender is enabled. The control panel item will be blocked.\r\nWanna disable Defender and restart??? Not like it's defending you anyways", "Fail", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        if (((int)Registry.LocalMachine.CreateSubKey("SOFTWARE").CreateSubKey("Policies").CreateSubKey("Microsoft").CreateSubKey("Windows Defender").GetValue(@"DisableAntiSpyware", 0) == 0) && MessageBox.Show("Windows Defender is enabled. The control panel item will be blocked.\r\nWanna disable Defender and restart??? Not like it's defending you anyways!\r\nNOTE: Any other antivirus will work fine", "Fail", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             Registry.SetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender", "DisableAntiSpyware", 0);
                             Process.Start(@"C:\Windows\System32\shutdown.exe", "-r -t 00");
-                            return;
+                            Environment.Exit(0);
                         }
                         else
                         {
@@ -137,15 +133,13 @@ Arguments:
                 bool withTaskbar = bool.Parse(Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", false.ToString()).ToString());
                 if (!MainForm.CheckDependencies(withTaskbar))
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write("ERROR: ");
                     Console.ResetColor();
                     Console.WriteLine("Not all dependencies are installed. Please run the GUI and install the dependencies.");
                 }
-                if (withTaskbar)
-                { Console.Write("INFO: Enabling classic taskbar..."); MainForm.EnableTaskbar(); Console.WriteLine(); }
-                Console.Write("INFO: Enabling classic theme...");
-                MainForm.Enable(); Console.WriteLine();
+                Console.Write($"INFO: Enabling classic theme{(withTaskbar ? " and taskbar" : "")}...");
+                MainForm.MasterEnable(withTaskbar); Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("SUCCES");
                 Console.ResetColor();
             }

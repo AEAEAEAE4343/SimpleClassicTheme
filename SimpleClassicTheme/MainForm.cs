@@ -8,6 +8,7 @@ using System.Reflection;
 using Microsoft.Win32;
 using System.Net;
 using System.Threading;
+using System.Security.Cryptography;
 using NtApiDotNet;
 
 namespace SimpleClassicTheme
@@ -31,9 +32,13 @@ namespace SimpleClassicTheme
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "TaskbarLook", "Transparent");
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\StartIsBack", "Disabled", 0);
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Search", "SearchboxTaskbarMode", 0);
-            Process.Start("cmd", "/c taskkill /im sihost.exe /f").WaitForExit();
-            //Give Windows Explorer, StartIsBack and Classic Shell the time to load
-            Thread.Sleep(5000);
+            if (!File.Exists("C:/Windows/System32/ExplorerContextMenuTweaker.dll"))
+            {
+                Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
+                Process.Start("cmd", "/c taskkill /im sihost.exe /f").WaitForExit();
+                //Give Windows Explorer, StartIsBack and Classic Shell the time to load
+                Thread.Sleep(5000);
+            }
         }
         public static bool RenameSubKey(RegistryKey parentKey,
             string subKeyName, string newSubKeyName)
@@ -65,11 +70,31 @@ namespace SimpleClassicTheme
                 RecurseCopyKey(sourceSubKey, destSubKey);
             }
         }
+        public static void MasterEnable(bool taskbar)
+        {
+            if (taskbar)
+            {
+                EnableTaskbar();
+                Enable();
+            }
+            else
+            {
+                Enable();
+                if (File.Exists("C:/Windows/System32/ExplorerContextMenuTweaker.dll"))
+                {
+                    Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
+                    Process.Start("cmd", "/c taskkill /im sihost.exe /f").WaitForExit();
+                    //Give Windows Explorer, StartIsBack and Classic Shell the time to load
+                    Thread.Sleep(5000);
+                }
+            }
+        }
         public static void Enable()
         {
             NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
             g.SetSecurityDescriptor(new SecurityDescriptor("O:BAG:SYD:(A;;RC;;;IU)(A;;DCSWRPSDRCWDWO;;;SY)"), SecurityInformation.Dacl);
             g.Close();
+            Registry.LocalMachine.CreateSubKey("SOFTWARE").CreateSubKey("Microsoft").CreateSubKey("Windows").CreateSubKey("CurrentVersion").CreateSubKey("Themes").CreateSubKey("DefaultColors");
             RenameSubKey(Registry.LocalMachine.CreateSubKey("SOFTWARE").CreateSubKey("Microsoft").CreateSubKey("Windows").CreateSubKey("CurrentVersion").CreateSubKey("Themes"), "DefaultColors", "DefaultColorsOld");
             File.WriteAllText("\\windowmetrics.reg", Properties.Resources.WindowMetrics);
             Process.Start("C:\\Windows\\regedit.exe", "/s C:\\windowmetrics.reg");
@@ -77,8 +102,7 @@ namespace SimpleClassicTheme
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            if (checkBox1.Checked) EnableTaskbar();
-            Enable();
+            MasterEnable(checkBox1.Checked);
         }
         public static bool CheckDependencies(bool Taskbar)
         {
@@ -90,8 +114,28 @@ namespace SimpleClassicTheme
             }
             return true;
         }
+        public string CheckMD5(string filename)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filename))
+                {
+                    return Encoding.Default.GetString(md5.ComputeHash(stream));
+                }
+            }
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
+            if (File.Exists(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe"))
+            {
+                if (CheckMD5(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe") != CheckMD5(Assembly.GetExecutingAssembly().Location))
+                {
+                    if (MessageBox.Show("You have an old startup executable installed. Would you like to update it?", "Installation Detection", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        File.Copy(Assembly.GetExecutingAssembly().Location, @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe", true);
+                    }
+                }
+            }
             Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
             checkBox1.Checked = bool.Parse(Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", false.ToString()).ToString());
             if (CheckDependencies(checkBox1.Checked))
@@ -112,8 +156,26 @@ namespace SimpleClassicTheme
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            SetWindowTheme(Handle, " ", " ");   
+            SetWindowTheme(Handle, " ", " ");
         }
+        public static void MasterDisable(bool taskbar)
+        {
+            if (taskbar)
+            {
+                Disable();
+                DisableTaskbar();
+            }
+            else
+            {
+                Disable();
+                if (File.Exists("C:/Windows/System32/ExplorerContextMenuTweaker.dll"))
+                {
+                    Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
+                    Process.Start("cmd", "/c taskkill /im sihost.exe /f").WaitForExit();
+                }
+            }
+        }
+    
         public static void DisableTaskbar()
         {
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "EnableStartButton", 0);
@@ -121,6 +183,7 @@ namespace SimpleClassicTheme
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "WinKey", "WindowsMenu");
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "MouseClick", "WindowsMenu");
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\StartIsBack", "Disabled", 1);
+            Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
             Process.Start("cmd", "/c taskkill /im sihost.exe /f").WaitForExit();
         }
         public static void Disable()
@@ -131,8 +194,7 @@ namespace SimpleClassicTheme
         }
         private void Button2_Click(object sender, EventArgs e)
         {
-            Disable();
-            if (checkBox1.Checked) DisableTaskbar();
+            MasterDisable(checkBox1.Checked);
         }
         static bool osInstalled = true;
         static bool sibInstalled = true;
@@ -268,6 +330,14 @@ namespace SimpleClassicTheme
             }
             Process.Start("\\7tt.exe", "/S");
             MessageBox.Show("7+ Taskbar Tweaker is being installed on your system");
+        }
+
+        private void Button9_Click(object sender, EventArgs e)
+        {
+            button9.Enabled = false;
+            File.WriteAllBytes("C:\\Windows\\System32\\ExplorerContextMenuTweaker.dll", Properties.Resources.ExplorerContextMenuTweaker);
+            File.WriteAllBytes("C:\\Windows\\System32\\ShellPayload.dll", Properties.Resources.ShellPayload);
+            Process.Start(new ProcessStartInfo() { FileName = "regsvr32.exe", Arguments = "ExplorerContextMenuTweaker.dll", Verb = "runas" }).WaitForExit();
         }
     }
 }
