@@ -124,6 +124,19 @@
   <data name="Classic3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Classic3.msstyles;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="compatibiltyError" xml:space="preserve">
+    <value>+-------------------------------------------+
+|                                           |
+| This application is only compatible with  |
+| Windows 10 v1803 and up                   |
+|                                           |
+|                                           |
+|         +-------------------------------+ |
+|         | Press any key to continue...  | |
+|         +-------------------------------+ |
+|                                           |
++-------------------------------------------+</value>
+  </data>
   <data name="ctm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ctm.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

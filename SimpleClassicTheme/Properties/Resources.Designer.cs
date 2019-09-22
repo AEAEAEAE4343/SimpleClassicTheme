@@ -80,6 +80,25 @@ namespace SimpleClassicTheme.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to +-------------------------------------------+
+        ///|                                           |
+        ///| This application is only compatible with  |
+        ///| Windows 10 v1803 and up                   |
+        ///|                                           |
+        ///|                                           |
+        ///|         +-------------------------------+ |
+        ///|         | Press any key to continue...  | |
+        ///|         +-------------------------------+ |
+        ///|                                           |
+        ///+----------------------------------------- [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string compatibiltyError {
+            get {
+                return ResourceManager.GetString("compatibiltyError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] ctm {

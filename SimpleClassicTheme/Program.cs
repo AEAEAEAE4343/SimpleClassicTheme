@@ -38,6 +38,31 @@ Arguments:
         static void Main(string[] args)
         {
             AttachConsole(ATTACH_PARENT_PROCESS);
+
+            //Check if the OS is compatible
+            if (Environment.OSVersion.Platform != PlatformID.Win32NT || Environment.OSVersion.Version.Major != 10 || Int32.Parse(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId", "").ToString()) < 1803)
+            {
+                //If not, display a cool looking error message
+                string t = Console.Title;
+                Console.Title = "Simple Compatibilty Error";
+                int x = Console.BufferWidth;
+                int y = Console.BufferHeight;
+                int width = Console.WindowWidth;
+                int height = Console.WindowHeight;
+                Console.SetWindowSize(45, 12);
+                Console.BufferWidth = 45;
+                Console.BufferHeight = 12;
+                Console.SetCursorPosition(0, 0);
+                Console.Write(Properties.Resources.compatibiltyError.Replace("\n", ""));
+                Console.SetCursorPosition(40, 7);
+                Console.ReadKey();
+                Console.BufferWidth = x;
+                Console.BufferHeight = y;
+                Console.SetWindowSize(width, height);
+                Console.SetCursorPosition(0, 11);
+                Console.Title = t;
+                return;
+            }
             WindowsPrincipal pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
             bool hasAdministrativeRight = pricipal.IsInRole(WindowsBuiltInRole.Administrator);
             if (!hasAdministrativeRight)
@@ -86,7 +111,7 @@ Arguments:
                             Console.WriteLine("Not all dependencies are installed. Please run the GUI and install the dependencies.");
                         }
                         Console.Write($"INFO: Enabling classic theme{(withTaskbar ? " and taskbar" : "")}...");
-                        MainForm.MasterEnable(withTaskbar); Console.WriteLine();
+                        ClassicTheme.MasterEnable(withTaskbar); Console.WriteLine();
                         Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("SUCCES");
                         Console.ResetColor();
                         break;
@@ -99,7 +124,7 @@ Arguments:
                             Console.WriteLine("Not all dependencies are installed. Please run the GUI and install the dependencies.");
                         }
                         Console.Write($"INFO: Disabling classic theme{(withTaskbar ? " and taskbar" : "")}...");
-                        MainForm.MasterDisable(withTaskbar); Console.WriteLine();
+                        ClassicTheme.MasterDisable(withTaskbar); Console.WriteLine();
                         Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("SUCCES");
                         Console.ResetColor();
                         break;
@@ -112,7 +137,7 @@ Arguments:
                         }
                         else
                         {
-                            File.WriteAllBytes(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl", MainForm.StringToByteArray(MainForm.Base64Decode(MainForm.deskn)));
+                            File.WriteAllBytes(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl", ExtraFunctions.StringToByteArray(ExtraFunctions.Base64Decode(ExtraFunctions.deskn)));
                             Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl");
                         }
                         break;
@@ -139,7 +164,7 @@ Arguments:
                     Console.WriteLine("Not all dependencies are installed. Please run the GUI and install the dependencies.");
                 }
                 Console.Write($"INFO: Enabling classic theme{(withTaskbar ? " and taskbar" : "")}...");
-                MainForm.MasterEnable(withTaskbar); Console.WriteLine();
+                ClassicTheme.MasterEnable(withTaskbar); Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("SUCCES");
                 Console.ResetColor();
             }

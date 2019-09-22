@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -36,9 +37,9 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button6 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button9 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -124,6 +125,16 @@
             this.panel1.TabIndex = 7;
             this.panel1.Visible = false;
             // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(0, 58);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(191, 23);
+            this.button9.TabIndex = 2;
+            this.button9.Text = "Install ExplorerContextMenuTweaker";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.Button9_Click);
+            // 
             // button8
             // 
             this.button8.Location = new System.Drawing.Point(0, 29);
@@ -144,16 +155,6 @@
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.Button7_Click);
             // 
-            // button9
-            // 
-            this.button9.Location = new System.Drawing.Point(0, 58);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(191, 23);
-            this.button9.TabIndex = 2;
-            this.button9.Text = "Install ExplorerContextMenuTweaker";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.Button9_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -168,6 +169,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
