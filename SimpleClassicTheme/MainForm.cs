@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 using Microsoft.Win32;
 using System.Net;
+using System.IO.Compression;
 
 namespace SimpleClassicTheme
 {
@@ -22,17 +23,15 @@ namespace SimpleClassicTheme
             return true;
         }
 
-        static bool osInstalled = true;
-        static bool sibInstalled = true;
-        bool utilMenu = false;
+        int utilMenu = 0;
 
-        //Initialize all controls
+        //Main code: Construct and initialize all controls
         public MainForm()
         {
             InitializeComponent();
         }
 
-        //Main code: checks current installation
+        //Main code: loads the UI
         private void Form1_Load(object sender, EventArgs e)
         {
             if (File.Exists(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe"))
@@ -42,25 +41,17 @@ namespace SimpleClassicTheme
                     if (MessageBox.Show("You have an old startup executable installed. Would you like to update it?", "Installation Detection", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         File.Copy(Assembly.GetExecutingAssembly().Location, @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe", true);
+                        File.WriteAllText("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp\\sct.cmd", "call \"C:\\programdata\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp\\Simple Classic Theme.exe\"");
                     }
                 }
             }
             Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
             checkBox1.Checked = bool.Parse(Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", false.ToString()).ToString());
-            if (CheckDependencies(checkBox1.Checked))
-            {
-                button3.Enabled = false;
-            }
-            else
-            {
-                button1.Enabled = false;
-                button2.Enabled = false;
-                button4.Enabled = false;
-                button5.Enabled = false;
-            }
             File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\addSchemes.bat"), Properties.Resources.addSchemes);
             Process.Start(new ProcessStartInfo() { FileName = Path.Combine(Path.GetTempPath(), "\\addSchemes.bat"), Verb = "runas", UseShellExecute = false, CreateNoWindow = true });
             Shown += Form1_Shown;
+            maskedTextBox1.Text = ((int)Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme").GetValue("TaskbarDelay", 5000)).ToString();
+            CheckDependenciesAndSetControls(); 
         }
 
         //Make the window itself use Classic Theme regardless of the current theme
@@ -84,6 +75,9 @@ namespace SimpleClassicTheme
         //Install dependencies
         private void Button3_Click(object sender, EventArgs e)
         {
+
+            bool osInstalled = Directory.Exists("C:\\Program Files\\Open-Shell\\");
+            bool sibInstalled = Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
             if (!osInstalled && checkBox1.Checked)
             {
                 MessageBox.Show("To continue installing dependencies you have to manually install Open-Shell\r\nThe page with the latest release will be opened.\r\nPlease download and install the file \"Open-Shell_X_X_X.exe\".\r\nAfter that reopen this program to continue", "Open-Shell");
@@ -141,17 +135,8 @@ namespace SimpleClassicTheme
         //Open Classic Theme CPL
         private void Button4_Click(object sender, EventArgs e)
         {
-            if (((int)Registry.LocalMachine.CreateSubKey("SOFTWARE").CreateSubKey("Policies").CreateSubKey("Microsoft").CreateSubKey("Windows Defender").GetValue(@"DisableAntiSpyware", 0) == 0) && MessageBox.Show("Windows Defender is enabled. The control panel item will be blocked.\r\nWanna disable Defender and restart??? Not like it's defending you anyways!\r\nNOTE: Any other antivirus will work fine", "Fail", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                Registry.SetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender", "DisableAntiSpyware", 0);
-                Process.Start(@"C:\Windows\System32\shutdown.exe", "-r -t 00");
-                Environment.Exit(0);
-            }
-            else
-            {
-                File.WriteAllBytes(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl", ExtraFunctions.StringToByteArray(ExtraFunctions.Base64Decode(ExtraFunctions.deskn)));
-                Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl");
-            }
+            File.WriteAllBytes(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl", ExtraFunctions.StringToByteArray(ExtraFunctions.Base64Decode(ExtraFunctions.deskn)));
+            Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl");
         }
 
         //Enable install mode
@@ -160,15 +145,18 @@ namespace SimpleClassicTheme
             if (MessageBox.Show("This launches the program in auto mode every time the pc starts up (after explorer.exe is loaded). Continue?", "Auto-launch Simple Clasic Theme", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 File.Copy(Assembly.GetExecutingAssembly().Location, @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe", true);
+                File.WriteAllText("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp\\sct.cmd", "call \"C:\\programdata\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp\\Simple Classic Theme.exe\"");
             }
         }
 
         //Switch between menu's
         private void Button6_Click(object sender, EventArgs e)
         {
-            utilMenu = !utilMenu;
-            button6.Text = utilMenu ? "Back" : "Utilities";
-            panel1.Visible = utilMenu;
+            utilMenu++;
+            if (utilMenu == 3) utilMenu = 0;
+            button6.Text = utilMenu == 0 ? "Utilities" : utilMenu == 1 ? "Next" : "Back";
+            panel1.Visible = utilMenu == 1;
+            panel2.Visible = utilMenu == 2;
         }
 
         //Install Classic Task Manager
@@ -204,16 +192,115 @@ namespace SimpleClassicTheme
         {
             Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", checkBox1.Checked.ToString());
+            CheckDependenciesAndSetControls();
+        }
+
+        //Check dependencies and set control visibilty/usability
+        private void CheckDependenciesAndSetControls()
+        {
+            EnableAllControls();
             if (CheckDependencies(checkBox1.Checked))
             {
                 button3.Enabled = false;
             }
             else
             {
-                button1.Enabled = false;
-                button2.Enabled = false;
-                button4.Enabled = false;
-                button5.Enabled = false;
+                DisableAllControls();
+                button3.Enabled = true;
+            }
+            label1.Visible = checkBox1.Checked;
+            maskedTextBox1.Visible = checkBox1.Checked;
+            Height = checkBox1.Checked ? 293 : 254;
+            if (Directory.Exists("C:\\T-Clock\\"))
+                button10.Text = "Open T-Clock";
+        }
+
+        //Enables all controls
+        private void EnableAllControls()
+        {
+            foreach (Control c in Controls)
+                c.Enabled = true;
+        }
+
+        //Disables all controls
+        private void DisableAllControls()
+        {
+            foreach (Control c in Controls)
+                c.Enabled = false;
+        }
+
+        //Numbers only for taskbar delay
+        private void MaskedTextBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsNumber(e.KeyChar) || char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+            }
+        }
+
+        //Update delay
+        private void MaskedTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
+            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "TaskbarDelay", Int32.Parse(maskedTextBox1.Text));
+        }
+
+        //Install T-Clock
+        private void Button10_Click(object sender, EventArgs e)
+        {
+            if (button10.Text == "Install T-Clock")
+            {
+                using (WebClient c = new WebClient())
+                {
+                    c.DownloadFile("https://github.com/White-Tiger/T-Clock/releases/download/v2.4.4%23492-rc/T-Clock.zip", "C:\\t-clock.zip");
+                }
+                Directory.CreateDirectory("C:\\T-Clock\\");
+                ZipFile.ExtractToDirectory("C:\\t-clock.zip", "C:\\T-Clock\\");
+                MessageBox.Show("T-Clock has been installed on your system");
+                button10.Text = "Open T-Clock";
+            }
+            else
+            {
+                Process.Start("C:\\T-Clock\\Clock64.exe");
+            }
+        }
+
+        //Install Folder Options X
+        private void Button11_Click(object sender, EventArgs e)
+        {
+            File.WriteAllBytes("C:\\fox.exe", Properties.Resources.fox);
+            Process.Start("C:\\fox.exe", "/silent");
+            MessageBox.Show("Folder Options X is being installed on your system");
+        }
+
+        //Open RibbonDisabler 4.0
+        private void Button12_Click(object sender, EventArgs e)
+        {
+            if (!File.Exists("C:\\RibbonDisabler.exe"))
+            {
+                File.WriteAllBytes("C:\\RibbonDisabler.exe", Properties.Resources.RibbonDisabler);
+            }
+            Process.Start("C:\\RibbonDisabler.exe");
+        }
+
+        //Make borders 3D by changing UPM
+        private void Button13_Click(object sender, EventArgs e)
+        {
+            File.WriteAllText("C:\\upm.reg", Properties.Resources.upm);
+            Process.Start("C:\\upm.reg").WaitForExit();
+        }
+
+        //Restore WindowMetrics
+        private void Button14_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("This restores the default WindowMetrics for Windows 10. Restore guide:\r\n1. Set Classic Theme to \"Windows Aero\"\r\n2. Disable Classic Theme\r\n3. Use this option\r\nWould you like to continue?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                File.WriteAllText("C:\\restoreMetrics.reg", Properties.Resources.restoreMetrics);
+                Process.Start("C:\\restoreMetrics.reg").WaitForExit();
             }
         }
     }

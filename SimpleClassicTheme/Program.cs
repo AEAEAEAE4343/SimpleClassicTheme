@@ -39,8 +39,12 @@ Arguments:
         {
             AttachConsole(ATTACH_PARENT_PROCESS);
 
+            bool windows = Environment.OSVersion.Platform == PlatformID.Win32NT;
+            bool windows10 = Environment.OSVersion.Version.Major == 10 && Int32.Parse(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId", "").ToString()) >= 1803;
+            bool windows8 = Environment.OSVersion.Version.Major == 6 && (Environment.OSVersion.Version.Minor == 2 || Environment.OSVersion.Version.Minor == 2);
+
             //Check if the OS is compatible
-            if (Environment.OSVersion.Platform != PlatformID.Win32NT || Environment.OSVersion.Version.Major != 10 || Int32.Parse(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId", "").ToString()) < 1803)
+            if (!(windows && (windows10 || windows8)))
             {
                 //If not, display a cool looking error message
                 string t = Console.Title;
@@ -154,19 +158,23 @@ Arguments:
             }
             if (Assembly.GetExecutingAssembly().Location.ToLower() == @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe".ToLower())
             {
-                Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
-                bool withTaskbar = bool.Parse(Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", false.ToString()).ToString());
-                if (!MainForm.CheckDependencies(withTaskbar))
+                bool Enabled = bool.Parse(Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme").GetValue("Enabled", "False").ToString());
+                if (Enabled)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("ERROR: ");
+                    Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
+                    bool withTaskbar = bool.Parse(Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", false.ToString()).ToString());
+                    if (!MainForm.CheckDependencies(withTaskbar))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("ERROR: ");
+                        Console.ResetColor();
+                        Console.WriteLine("Not all dependencies are installed. Please run the GUI and install the dependencies.");
+                    }
+                    Console.Write($"INFO: Enabling classic theme{(withTaskbar ? " and taskbar" : "")}...");
+                    ClassicTheme.MasterEnable(withTaskbar); Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("SUCCES");
                     Console.ResetColor();
-                    Console.WriteLine("Not all dependencies are installed. Please run the GUI and install the dependencies.");
                 }
-                Console.Write($"INFO: Enabling classic theme{(withTaskbar ? " and taskbar" : "")}...");
-                ClassicTheme.MasterEnable(withTaskbar); Console.WriteLine();
-                Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("SUCCES");
-                Console.ResetColor();
             }
             else
             {

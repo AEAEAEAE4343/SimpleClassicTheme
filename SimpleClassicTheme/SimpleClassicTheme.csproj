@@ -88,6 +88,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -138,7 +140,9 @@
     <None Include="Resources\addSchemes.bat" />
     <None Include="Resources\Classic3.msstyles" />
     <None Include="Resources\ossettings.reg" />
+    <None Include="Resources\restoreMetrics.reg" />
     <None Include="Resources\sibsettings.reg" />
+    <None Include="Resources\upm.reg" />
     <None Include="Resources\WindowMetrics.reg" />
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +182,8 @@
     <None Include="Resources\ExplorerContextMenuTweaker.dll" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\fox.exe" />
+    <None Include="Resources\RibbonDisabler.exe" />
     <Content Include="win98.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

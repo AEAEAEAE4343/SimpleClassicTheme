@@ -21,13 +21,10 @@ namespace SimpleClassicTheme
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "TaskbarLook", "Transparent");
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\StartIsBack", "Disabled", 0);
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Search", "SearchboxTaskbarMode", 0);
-            if (!File.Exists("C:/Windows/System32/ExplorerContextMenuTweaker.dll"))
-            {
-                Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-                Process.Start("cmd", "/c taskkill /im sihost.exe /f").WaitForExit();
-                //Give Windows Explorer, StartIsBack and Classic Shell the time to load
-                Thread.Sleep(5000);
-            }
+            Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
+            Process.Start("cmd", "/c taskkill /im sihost.exe /f").WaitForExit();
+            //Give Windows Explorer, StartIsBack and Classic Shell the time to load
+            Thread.Sleep((int)Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme").GetValue("TaskbarDelay", 5000));
         }
 
         public static void Disable()

@@ -119,6 +119,16 @@ namespace SimpleClassicTheme.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fox {
+            get {
+                object obj = ResourceManager.GetObject("fox", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap null_classic3small {
@@ -144,6 +154,37 @@ namespace SimpleClassicTheme.Properties {
         internal static string ossettings {
             get {
                 return ResourceManager.GetString("ossettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows Registry Editor Version 5.00
+        ///
+        ///[HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics]
+        ///
+        ///&quot;CaptionHeight&quot;=&quot;-330&quot;
+        ///&quot;CaptionWidth&quot;=&quot;-330&quot;
+        ///&quot;CaptionFont&quot;=hex:f4,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,00,\
+        ///  00,00,00,01,00,00,05,00,53,00,65,00,67,00,6f,00,65,00,20,00,55,00,49,00,00,\
+        ///  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\
+        ///  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+        ///&quot;ScrollWidth&quot;=&quot;-255&quot;
+        ///&quot;ScrollHeight&quot;=&quot;-255&quot;
+        ///&quot;PaddedBord [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string restoreMetrics {
+            get {
+                return ResourceManager.GetString("restoreMetrics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] RibbonDisabler {
+            get {
+                object obj = ResourceManager.GetObject("RibbonDisabler", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -187,6 +228,18 @@ namespace SimpleClassicTheme.Properties {
             get {
                 object obj = ResourceManager.GetObject("taskbar", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows Registry Editor Version 5.00
+        ///
+        ///[HKEY_CURRENT_USER\Control Panel\Desktop]
+        ///&quot;UserPreferencesMask&quot;=hex:be,1e,05,80,12,00,00,00.
+        /// </summary>
+        internal static string upm {
+            get {
+                return ResourceManager.GetString("upm", resourceCulture);
             }
         }
         

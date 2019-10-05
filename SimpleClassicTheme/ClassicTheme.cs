@@ -36,6 +36,8 @@ namespace SimpleClassicTheme
         //Enables Classic Theme and if specified Classic Taskbar. Also makes sure ExplorerContextMenuTweaker can load.
         public static void MasterEnable(bool taskbar)
         {
+            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
+            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "Enabled", true.ToString());
             if (taskbar)
             {
                 ClassicTaskbar.Enable();
@@ -49,7 +51,7 @@ namespace SimpleClassicTheme
                     Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                     Process.Start("cmd", "/c taskkill /im sihost.exe /f").WaitForExit();
                     //Give Windows Explorer, StartIsBack and Classic Shell the time to load
-                    Thread.Sleep(5000);
+                    Thread.Sleep((int)Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme").GetValue("TaskbarDelay", 5000));
                 }
             }
         }
@@ -57,6 +59,8 @@ namespace SimpleClassicTheme
         //Disables Classic Theme and if specified Classic Taskbar. Also makes sure ExplorerContextMenuTweaker can unload.
         public static void MasterDisable(bool taskbar)
         {
+            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
+            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "Enabled", false.ToString());
             if (taskbar)
             {
                 ClassicTheme.Disable();

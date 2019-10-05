@@ -143,11 +143,20 @@
   <data name="ExplorerContextMenuTweaker" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ExplorerContextMenuTweaker.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="fox" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fox.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="null_classic3small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\null_classic3small.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ossettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ossettings.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="restoreMetrics" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\restoreMetrics.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="RibbonDisabler" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RibbonDisabler.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ShellPayload" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ShellPayload.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -157,6 +166,9 @@
   </data>
   <data name="taskbar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\taskbar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="upm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\upm.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
   </data>
   <data name="win7" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\win7.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
