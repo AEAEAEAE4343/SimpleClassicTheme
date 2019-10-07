@@ -16,13 +16,14 @@ namespace SimpleClassicTheme
         //Enables Classic Theme
         public static void Enable()
         {
+            File.WriteAllText("\\windowmetrics.reg", Properties.Resources.WindowMetrics);
+            Process.Start("C:\\Windows\\regedit.exe", "/s C:\\windowmetrics.reg").WaitForExit();
+            Registry.CurrentUser.CreateSubKey("Control Panel").CreateSubKey("Desktop").CreateSubKey("WindowMetrics").SetValue("MinAnimate", "0");
             NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
             g.SetSecurityDescriptor(new SecurityDescriptor("O:BAG:SYD:(A;;RC;;;IU)(A;;DCSWRPSDRCWDWO;;;SY)"), SecurityInformation.Dacl);
             g.Close();
             Registry.LocalMachine.CreateSubKey("SOFTWARE").CreateSubKey("Microsoft").CreateSubKey("Windows").CreateSubKey("CurrentVersion").CreateSubKey("Themes").CreateSubKey("DefaultColors");
             ExtraFunctions.RenameSubKey(Registry.LocalMachine.CreateSubKey("SOFTWARE").CreateSubKey("Microsoft").CreateSubKey("Windows").CreateSubKey("CurrentVersion").CreateSubKey("Themes"), "DefaultColors", "DefaultColorsOld");
-            File.WriteAllText("\\windowmetrics.reg", Properties.Resources.WindowMetrics);
-            Process.Start("C:\\Windows\\regedit.exe", "/s C:\\windowmetrics.reg");
         }
 
         //Disables Classic Theme
@@ -31,6 +32,8 @@ namespace SimpleClassicTheme
             NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
             g.SetSecurityDescriptor(new SecurityDescriptor("O:BAG:SYD:(A;;CCLCRC;;;IU)(A;;CCDCLCSWRPSDRCWDWO;;;SY)"), SecurityInformation.Dacl);
             g.Close();
+
+            Registry.CurrentUser.CreateSubKey("Control Panel").CreateSubKey("Desktop").CreateSubKey("WindowMetrics").SetValue("MinAnimate", "1");
         }
 
         //Enables Classic Theme and if specified Classic Taskbar. Also makes sure ExplorerContextMenuTweaker can load.
