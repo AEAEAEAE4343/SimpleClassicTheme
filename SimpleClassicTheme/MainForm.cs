@@ -125,11 +125,7 @@ namespace SimpleClassicTheme
             }
             Button2_Click(sender, e);
             MessageBox.Show("All requirements are installed! Enjoy!!!!");
-            button3.Enabled = false;
-            button1.Enabled = true;
-            button2.Enabled = true;
-            button3.Enabled = true;
-            button4.Enabled = true;
+            CheckDependenciesAndSetControls();
         }
 
         //Open Classic Theme CPL
@@ -207,6 +203,8 @@ namespace SimpleClassicTheme
             {
                 DisableAllControls();
                 button3.Enabled = true;
+                checkBox1.Enabled = true;
+                maskedTextBox1.Enabled = true;
             }
             label1.Visible = checkBox1.Checked;
             maskedTextBox1.Visible = checkBox1.Checked;
