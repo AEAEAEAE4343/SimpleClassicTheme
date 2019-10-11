@@ -83,8 +83,8 @@ namespace SimpleClassicTheme.Properties {
         ///   Looks up a localized string similar to +-------------------------------------------+
         ///|                                           |
         ///| This application is only compatible with  |
-        ///| Windows 10 v1803 and up                   |
-        ///|                                           |
+        ///| Windows 10 v1803 and up or                |
+        ///| Windows 8 and 8.1                         |
         ///|                                           |
         ///|         +-------------------------------+ |
         ///|         | Press any key to continue...  | |

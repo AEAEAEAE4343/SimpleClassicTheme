@@ -34,17 +34,7 @@ namespace SimpleClassicTheme
         //Main code: loads the UI
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (File.Exists(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe"))
-            {
-                if (ExtraFunctions.CheckMD5(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe") != ExtraFunctions.CheckMD5(Assembly.GetExecutingAssembly().Location))
-                {
-                    if (MessageBox.Show("You have an old startup executable installed. Would you like to update it?", "Installation Detection", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    {
-                        File.Copy(Assembly.GetExecutingAssembly().Location, @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe", true);
-                        File.WriteAllText("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp\\sct.cmd", "call \"C:\\programdata\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp\\Simple Classic Theme.exe\"");
-                    }
-                }
-            }
+            ExtraFunctions.UpdateStartupExecutable(false);
             Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
             checkBox1.Checked = bool.Parse(Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", false.ToString()).ToString());
             File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\addSchemes.bat"), Properties.Resources.addSchemes);
@@ -140,8 +130,7 @@ namespace SimpleClassicTheme
         {
             if (MessageBox.Show("This launches the program in auto mode every time the pc starts up (after explorer.exe is loaded). Continue?", "Auto-launch Simple Clasic Theme", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                File.Copy(Assembly.GetExecutingAssembly().Location, @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe", true);
-                File.WriteAllText("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp\\sct.cmd", "call \"C:\\programdata\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp\\Simple Classic Theme.exe\"");
+                ExtraFunctions.UpdateStartupExecutable(true);
             }
         }
 

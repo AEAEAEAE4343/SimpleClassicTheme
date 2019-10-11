@@ -14,6 +14,8 @@ namespace SimpleClassicTheme
     {
         public static void Enable()
         {
+            //Start settings app in order to increase chances of metro working
+            Process.Start("ms-settings:");
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "EnableStartButton", 1);
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "CustomTaskbar", 1);
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "WinKey", "ClassicMenu");
