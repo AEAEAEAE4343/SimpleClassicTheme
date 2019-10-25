@@ -111,6 +111,16 @@ namespace SimpleClassicTheme.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] deskn {
+            get {
+                object obj = ResourceManager.GetObject("deskn", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] ExplorerContextMenuTweaker {
             get {
                 object obj = ResourceManager.GetObject("ExplorerContextMenuTweaker", resourceCulture);
@@ -228,6 +238,16 @@ namespace SimpleClassicTheme.Properties {
             get {
                 object obj = ResourceManager.GetObject("taskbar", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to schtasks /Delete /TN &quot;Simple Classic Theme&quot; /F
+        ///schtasks /Create /TN &quot;Simple Classic Theme&quot; /SC ONLOGON /TR &quot;C:\ProgramData\Microsoft\Windows\Start Menu\\Programs\1337ftw\Simple Classic Theme.exe&quot;.
+        /// </summary>
+        internal static string taskScheduleCommands {
+            get {
+                return ResourceManager.GetString("taskScheduleCommands", resourceCulture);
             }
         }
         

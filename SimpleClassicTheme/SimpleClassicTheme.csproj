@@ -139,6 +139,7 @@
     <EmbeddedResource Include="README.md" />
     <None Include="Resources\addSchemes.bat" />
     <None Include="Resources\Classic3.msstyles" />
+    <None Include="Resources\deskn.cpl" />
     <None Include="Resources\ossettings.reg" />
     <None Include="Resources\restoreMetrics.reg" />
     <None Include="Resources\sibsettings.reg" />
@@ -185,6 +186,17 @@
     <None Include="Resources\fox.exe" />
     <None Include="Resources\RibbonDisabler.exe" />
     <Content Include="win98.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.0\build\Fody.targets')" />

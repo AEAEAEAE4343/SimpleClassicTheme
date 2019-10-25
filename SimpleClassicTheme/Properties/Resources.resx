@@ -140,6 +140,9 @@
   <data name="ctm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ctm.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="deskn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\deskn.cpl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="ExplorerContextMenuTweaker" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ExplorerContextMenuTweaker.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -166,6 +169,10 @@
   </data>
   <data name="taskbar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\taskbar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="taskScheduleCommands" xml:space="preserve">
+    <value>schtasks /Delete /TN "Simple Classic Theme" /F
+schtasks /Create /TN "Simple Classic Theme" /SC ONLOGON /TR "C:\ProgramData\Microsoft\Windows\Start Menu\\Programs\1337ftw\Simple Classic Theme.exe"</value>
   </data>
   <data name="upm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\upm.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>

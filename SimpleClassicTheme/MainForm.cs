@@ -34,13 +34,15 @@ namespace SimpleClassicTheme
         //Main code: loads the UI
         private void Form1_Load(object sender, EventArgs e)
         {
+            numericUpDown1.Maximum = Int32.MaxValue;
             ExtraFunctions.UpdateStartupExecutable(false);
             Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
             checkBox1.Checked = bool.Parse(Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", false.ToString()).ToString());
             File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\addSchemes.bat"), Properties.Resources.addSchemes);
             Process.Start(new ProcessStartInfo() { FileName = Path.Combine(Path.GetTempPath(), "\\addSchemes.bat"), Verb = "runas", UseShellExecute = false, CreateNoWindow = true });
             Shown += Form1_Shown;
-            maskedTextBox1.Text = ((int)Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme").GetValue("TaskbarDelay", 5000)).ToString();
+            var lol = Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme").GetValue("TaskbarDelay", 5000);
+            numericUpDown1.Value = (int)lol;
             CheckDependenciesAndSetControls(); 
         }
 
@@ -65,7 +67,6 @@ namespace SimpleClassicTheme
         //Install dependencies
         private void Button3_Click(object sender, EventArgs e)
         {
-
             bool osInstalled = Directory.Exists("C:\\Program Files\\Open-Shell\\");
             bool sibInstalled = Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
             if (!osInstalled && checkBox1.Checked)
@@ -106,11 +107,14 @@ namespace SimpleClassicTheme
                     p.Start();
                     p.WaitForExit();
                     p.Dispose();
+                    File.Delete("C:\\ossettings.reg");
+                    File.Delete("C:\\sib.reg");
+                    File.Delete("C:\\sib.exe");
                 }
                 else
                 {
-                    MessageBox.Show("This application cannot continue without StartIsBack++. It will now self-destruct", "Simple Classic Theme");
-                    Environment.Exit(0);
+                    MessageBox.Show("Using taskbar without StartIsBack++ is not possible!", "Simple Classic Theme");
+                    checkBox1.Checked = false;
                 }
             }
             Button2_Click(sender, e);
@@ -121,7 +125,7 @@ namespace SimpleClassicTheme
         //Open Classic Theme CPL
         private void Button4_Click(object sender, EventArgs e)
         {
-            File.WriteAllBytes(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl", ExtraFunctions.StringToByteArray(ExtraFunctions.Base64Decode(ExtraFunctions.deskn)));
+            File.WriteAllBytes(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl", Properties.Resources.deskn);
             Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl");
         }
 
@@ -148,8 +152,9 @@ namespace SimpleClassicTheme
         private void Button7_Click(object sender, EventArgs e)
         {
             File.WriteAllBytes("C:\\ctm.exe", Properties.Resources.ctm);
-            Process.Start("C:\\ctm.exe", "/silent");
-            MessageBox.Show("Classic Task Manager is being installed on your system");
+            Process.Start("C:\\ctm.exe", "/silent").WaitForExit();
+            MessageBox.Show("Classic Task Manager has been installed on your system");
+            File.Delete("C:\\ctm.exe");
         }
 
         //Install 7+ Taskbar Tweaker
@@ -159,8 +164,9 @@ namespace SimpleClassicTheme
             {
                 c.DownloadFile("https://rammichael.com/downloads/7tt_setup.exe", "\\7tt.exe");
             }
-            Process.Start("\\7tt.exe", "/S");
-            MessageBox.Show("7+ Taskbar Tweaker is being installed on your system");
+            Process.Start("C:\\7tt.exe", "/S").WaitForExit();
+            MessageBox.Show("7+ Taskbar Tweaker has been installed on your system");
+            File.Delete("C:\\7tt.exe");
         }
 
         //Install ExplorerContextMenuTweaker
@@ -193,10 +199,10 @@ namespace SimpleClassicTheme
                 DisableAllControls();
                 button3.Enabled = true;
                 checkBox1.Enabled = true;
-                maskedTextBox1.Enabled = true;
+                numericUpDown1.Enabled = true;
             }
             label1.Visible = checkBox1.Checked;
-            maskedTextBox1.Visible = checkBox1.Checked;
+            numericUpDown1.Visible = checkBox1.Checked;
             Height = checkBox1.Checked ? 293 : 254;
             if (Directory.Exists("C:\\T-Clock\\"))
                 button10.Text = "Open T-Clock";
@@ -216,26 +222,6 @@ namespace SimpleClassicTheme
                 c.Enabled = false;
         }
 
-        //Numbers only for taskbar delay
-        private void MaskedTextBox1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (char.IsNumber(e.KeyChar) || char.IsControl(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            else
-            {
-                e.Handled = true;
-            }
-        }
-
-        //Update delay
-        private void MaskedTextBox1_TextChanged(object sender, EventArgs e)
-        {
-            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "TaskbarDelay", Int32.Parse(maskedTextBox1.Text));
-        }
-
         //Install T-Clock
         private void Button10_Click(object sender, EventArgs e)
         {
@@ -247,6 +233,7 @@ namespace SimpleClassicTheme
                 }
                 Directory.CreateDirectory("C:\\T-Clock\\");
                 ZipFile.ExtractToDirectory("C:\\t-clock.zip", "C:\\T-Clock\\");
+                File.Delete("C:\\t-clock.zip");
                 MessageBox.Show("T-Clock has been installed on your system");
                 button10.Text = "Open T-Clock";
             }
@@ -260,8 +247,9 @@ namespace SimpleClassicTheme
         private void Button11_Click(object sender, EventArgs e)
         {
             File.WriteAllBytes("C:\\fox.exe", Properties.Resources.fox);
-            Process.Start("C:\\fox.exe", "/silent");
-            MessageBox.Show("Folder Options X is being installed on your system");
+            Process.Start("C:\\fox.exe", "/silent").WaitForExit();
+            MessageBox.Show("Folder Options X has been installed on your system");
+            File.Delete("C:\\fox.exe");
         }
 
         //Open RibbonDisabler 4.0
@@ -279,6 +267,7 @@ namespace SimpleClassicTheme
         {
             File.WriteAllText("C:\\upm.reg", Properties.Resources.upm);
             Process.Start("C:\\upm.reg").WaitForExit();
+            File.Delete("C:\\upm.reg");
         }
 
         //Restore WindowMetrics
@@ -288,7 +277,15 @@ namespace SimpleClassicTheme
             {
                 File.WriteAllText("C:\\restoreMetrics.reg", Properties.Resources.restoreMetrics);
                 Process.Start("C:\\restoreMetrics.reg").WaitForExit();
+                File.Delete("C:\\restoreMetrics.reg");
             }
+        }
+
+        //UpdateDelay
+        private void NumericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
+            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "TaskbarDelay", (int)numericUpDown1.Value, RegistryValueKind.DWord);
         }
     }
 }

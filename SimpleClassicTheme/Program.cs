@@ -86,6 +86,19 @@ Arguments:
                 }
                 return;
             }
+            
+            //Clean up any files that might have been left over on the root of the C: drive
+            File.Delete("C:\\upm.reg");
+            File.Delete("C:\\restoreMetrics.reg");
+            File.Delete("C:\\fox.exe");
+            File.Delete("C:\\7tt.exe");
+            File.Delete("C:\\ctm.exe");
+            File.Delete("C:\\ossettings.reg");
+            File.Delete("C:\\sib.reg");
+            File.Delete("C:\\sib.exe");
+            File.Delete("C:\\windowmetrics.reg");
+            File.Delete("C:\\RibbonDisabler.exe");
+
             if (args.Length > 0)
             {
                 bool withTaskbar = false;
@@ -136,17 +149,8 @@ Arguments:
                         Console.ResetColor();
                         break;
                     case "/configure":
-                        if (((int)Registry.LocalMachine.CreateSubKey("SOFTWARE").CreateSubKey("Policies").CreateSubKey("Microsoft").CreateSubKey("Windows Defender").GetValue(@"DisableAntiSpyware", 0) == 0) && MessageBox.Show("Windows Defender is enabled. The control panel item will be blocked.\r\nWanna disable Defender and restart??? Not like it's defending you anyways!\r\nNOTE: Any other antivirus will work fine", "Fail", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        {
-                            Registry.SetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender", "DisableAntiSpyware", 0);
-                            Process.Start(@"C:\Windows\System32\shutdown.exe", "-r -t 00");
-                            Environment.Exit(0);
-                        }
-                        else
-                        {
-                            File.WriteAllBytes(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl", ExtraFunctions.StringToByteArray(ExtraFunctions.Base64Decode(ExtraFunctions.deskn)));
-                            Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl");
-                        }
+                        File.WriteAllBytes(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl", Properties.Resources.deskn);
+                        Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl");
                         break;
                     case "/boot":
                         bool Enabled = bool.Parse(Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme").GetValue("Enabled", "False").ToString());

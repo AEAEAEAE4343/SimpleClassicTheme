@@ -18,6 +18,7 @@ namespace SimpleClassicTheme
         {
             File.WriteAllText("\\windowmetrics.reg", Properties.Resources.WindowMetrics);
             Process.Start("C:\\Windows\\regedit.exe", "/s C:\\windowmetrics.reg").WaitForExit();
+            File.Delete("C:\\windowmetrics.reg");
             NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
             g.SetSecurityDescriptor(new SecurityDescriptor("O:BAG:SYD:(A;;RC;;;IU)(A;;DCSWRPSDRCWDWO;;;SY)"), SecurityInformation.Dacl);
             g.Close();
