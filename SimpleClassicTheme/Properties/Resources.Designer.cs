@@ -139,6 +139,25 @@ namespace SimpleClassicTheme.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to USAGE: SimpleClassicTheme.exe [OPERATION] {ARGS..}
+        ///
+        ///Operations:
+        ///    /enable This enables the classic theme
+        ///    /disable This disables the classic theme
+        ///    /configure This opens the classic theme control panel
+        ///    /boot This runs the boot circuitry of the utility. Do not use. Use /enableauto instead
+        ///    /enableauto This enables/disables (depending on current state) the classic theme, and if enabled in GUI, also the taskbar.
+        ///
+        ///Arguments:
+        ///    -t, --enable-taskbar Enables/Disables classic taskbar (Dep [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string helpMessage {
+            get {
+                return ResourceManager.GetString("helpMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap null_classic3small {

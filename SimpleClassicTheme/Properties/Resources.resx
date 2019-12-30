@@ -119,7 +119,7 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="addSchemes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\addSchemes.bat;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\addSchemes.sbat;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="Classic3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Classic3.msstyles;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -148,6 +148,19 @@
   </data>
   <data name="fox" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\fox.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="helpMessage" xml:space="preserve">
+    <value>USAGE: SimpleClassicTheme.exe [OPERATION] {ARGS..}
+
+Operations:
+    /enable This enables the classic theme
+    /disable This disables the classic theme
+    /configure This opens the classic theme control panel
+    /boot This runs the boot circuitry of the utility. Do not use. Use /enableauto instead
+    /enableauto This enables/disables (depending on current state) the classic theme, and if enabled in GUI, also the taskbar.
+
+Arguments:
+    -t, --enable-taskbar Enables/Disables classic taskbar (Depending on operation)</value>
   </data>
   <data name="null_classic3small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\null_classic3small.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

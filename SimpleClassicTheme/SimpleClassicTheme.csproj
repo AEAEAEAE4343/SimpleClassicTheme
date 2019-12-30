@@ -138,6 +138,7 @@
     </Compile>
     <EmbeddedResource Include="README.md" />
     <None Include="Resources\addSchemes.bat" />
+    <None Include="Resources\addSchemes.sbat" />
     <None Include="Resources\Classic3.msstyles" />
     <None Include="Resources\deskn.cpl" />
     <None Include="Resources\ossettings.reg" />

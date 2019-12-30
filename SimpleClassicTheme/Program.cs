@@ -16,17 +16,7 @@ namespace SimpleClassicTheme
     {
         static void ShowHelp()
         {
-            Console.Write(@"USAGE: SimpleClassicTheme.exe [OPERATION] {ARGS..}
-
-Operations:
-    /enable This enables the classic theme
-    /disable This disables the classic theme
-    /configure This opens the classic theme control panel
-    /boot This runs the boot circuitry of the utility. Do not use. Use /enableauto instead
-    /enableauto This enables/disables (depending on current state) the classic theme, and if enabled in GUI, also the taskbar.
-
-Arguments:
-    -t, --enable-taskbar Enables/Disables classic taskbar (Depending on operation)");
+            Console.Write(Properties.Resources.helpMessage);
         }
         [DllImport("kernel32.dll")]
         static extern bool AttachConsole(int dwProcessId);
