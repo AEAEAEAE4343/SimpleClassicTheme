@@ -1,13 +1,9 @@
 ﻿using Microsoft.Win32;
 using NtApiDotNet;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
+using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace SimpleClassicTheme
 {
@@ -36,17 +32,53 @@ namespace SimpleClassicTheme
         {
             Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "Enabled", true.ToString());
-            //Windows 8.1 with taskbar
-            if (taskbar && Environment.OSVersion.Version.Major != 10)
+            //Windows 8.1
+            if (Environment.OSVersion.Version.Major != 10)
             {
+                //Enable the theme
                 Enable();
-                File.WriteAllBytes("C:\\SCT\\fixstrips.exe", Properties.Resources.fixstrips);
-                Process.Start("C:\\SCT\\fixstrips.exe").WaitForExit();
 
-                Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "EnableStartButton", 1);
-                Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "CustomTaskbar", 1);
-                Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "WinKey", "ClassicMenu");
-                Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "MouseClick", "ClassicMenu");
+                //Make explorer apply theme
+                Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
+                Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
+                Thread.Sleep((int)Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme").GetValue("TaskbarDelay", 5000));
+
+                /*
+                 Remove taskbar blur
+                 */
+
+                //Get a handle to the taskbar
+                IntPtr taskBarHandle = User32.FindWindowExW(IntPtr.Zero, IntPtr.Zero, "Shell_TrayWnd", "");
+                //Create an ACCENTPOLICY instance which describe to disable any sort of transparency or blur
+                User32.ACCENTPOLICY accentPolicy = new User32.ACCENTPOLICY { nAccentState = 0 };
+                //Get the size of the ACCENTPOLICY instance
+                int accentPolicySize = Marshal.SizeOf(accentPolicy);
+                //Get the pointer to the ACCENTPOLICY instance
+                IntPtr accentPolicyPtr = Marshal.AllocHGlobal(accentPolicySize);
+                //Copy the struct to unmanaged memory so that Win32 can read it
+                Marshal.StructureToPtr(accentPolicy, accentPolicyPtr, false);
+                //Create a WINCOMPATTRDATA instance which sets the WindowCompositionAttribute (19) to the ACCENTPOLICY instance
+                var winCompatData = new User32.WINCOMPATTRDATA
+                {
+                    nAttribute = 19,
+                    ulDataSize = accentPolicySize,
+                    pData = accentPolicyPtr
+                };
+                //Tell Windows to apply the attribute
+                User32.SetWindowCompositionAttribute(taskBarHandle, ref winCompatData);
+                //Free the pointer to the ACCENTPOLICY instance
+                Marshal.FreeHGlobal(accentPolicyPtr);
+
+                /*
+                 Remove taskbar borders
+                 */
+
+                //Get the current taskbar WindowStyle
+                IntPtr p = User32.GetWindowLongPtrW(taskBarHandle, -16);
+                //Set the taskbar WindowStyle to the original plus an offset of 0x400000
+                User32.SetWindowLongPtrW(taskBarHandle, -16, new IntPtr(p.ToInt64() + 0x400000));
+                //Set the taskbar WindowStyle back to the original
+                User32.SetWindowLongPtrW(taskBarHandle, -16, p);
             }
             //Windows 10 with taskbar
             else if (taskbar)
@@ -66,11 +98,20 @@ namespace SimpleClassicTheme
         {
             Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "Enabled", false.ToString());
-            if (taskbar)
+            //Windows 8.1
+            if(Environment.OSVersion.Version.Major != 10)
+            {
+                Disable();
+                Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
+                Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
+            }
+            //Windows 10 with taskbar
+            else if (taskbar)
             {
                 Disable();
                 ClassicTaskbar.Disable();
             }
+            //Just disable
             else
             {
                 Disable();

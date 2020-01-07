@@ -14,11 +14,6 @@ namespace SimpleClassicTheme
     {
         public static void Enable()
         {
-            if (Environment.OSVersion.Version.Major < 10)
-            {
-
-                return;
-            }
             //Start settings app in order to increase chances of metro working
             Process.Start("ms-settings:");
             //Set registry so that SIB and OS will load

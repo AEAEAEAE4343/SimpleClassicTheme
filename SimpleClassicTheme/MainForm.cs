@@ -236,6 +236,13 @@ namespace SimpleClassicTheme
             numericUpDown1.Enabled = checkBox1.Checked;
             if (Directory.Exists("C:\\SCT\\T-Clock\\"))
                 button10.Text = "Open T-Clock";
+            if (Environment.OSVersion.Version.Major < 10)
+            {
+                button3.Hide();
+                label1.Enabled = true; ;
+                checkBox1.Hide();
+                numericUpDown1.Enabled = true;
+            }
         }
 
         //Enables all controls

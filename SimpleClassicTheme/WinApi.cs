@@ -19,6 +19,38 @@ namespace SimpleClassicTheme
         public static extern bool FreeConsole();
     }
 
+    static class User32
+    {
+        [StructLayout(LayoutKind.Sequential)]
+        public struct ACCENTPOLICY
+        {
+            public int nAccentState;
+            public int nFlags;
+            public uint nColor;
+            public int nAnimationId;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct WINCOMPATTRDATA
+        {
+            public int nAttribute;
+            public IntPtr pData;
+            public int ulDataSize;
+        }
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        public static extern IntPtr GetWindowLongPtrW(IntPtr hWndParent, int index);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        public static extern IntPtr SetWindowLongPtrW(IntPtr hWndParent, int index, IntPtr dwNewLong);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        public static extern IntPtr FindWindowExW(IntPtr hWndParent, IntPtr hWndChildAfter, string lpszClass, string lpszWindow);
+
+        [DllImport("user32.dll")]
+        public static extern bool SetWindowCompositionAttribute(IntPtr hWnd, ref WINCOMPATTRDATA pAttrData);
+    }
+
     static class UxTheme
     {
         //Sets the theme of a window. if pszSubAppName and pszSubIdList are both a space, the window will be themed Classic
