@@ -72,9 +72,19 @@ namespace SimpleClassicTheme.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] Classic3 {
+        internal static byte[] classicStartIsBackTheme {
             get {
-                object obj = ResourceManager.GetObject("Classic3", resourceCulture);
+                object obj = ResourceManager.GetObject("classicStartIsBackTheme", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] classicTaskManager {
+            get {
+                object obj = ResourceManager.GetObject("classicTaskManager", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -101,19 +111,9 @@ namespace SimpleClassicTheme.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] ctm {
+        internal static byte[] desktopControlPanelCPL {
             get {
-                object obj = ResourceManager.GetObject("ctm", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] deskn {
-            get {
-                object obj = ResourceManager.GetObject("deskn", resourceCulture);
+                object obj = ResourceManager.GetObject("desktopControlPanelCPL", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -131,9 +131,19 @@ namespace SimpleClassicTheme.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] fox {
+        internal static byte[] fixstrips {
             get {
-                object obj = ResourceManager.GetObject("fox", resourceCulture);
+                object obj = ResourceManager.GetObject("fixstrips", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] folderOptionsX {
+            get {
+                object obj = ResourceManager.GetObject("folderOptionsX", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -180,9 +190,19 @@ namespace SimpleClassicTheme.Properties {
         ///  00,00,00,55,00,53,00,45,00,52,00,5f,00,4e,00,41,00,4d,00,45,00,3d,00,30,00,\
         ///  00,00,43,00,45,00,4e,00,54,00,45,00,52,00,5f,00,4e,00,41,00,4d,00,45,00,3d [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ossettings {
+        internal static string openShellSettings {
             get {
-                return ResourceManager.GetString("ossettings", resourceCulture);
+                return ResourceManager.GetString("openShellSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] openShellSetup {
+            get {
+                object obj = ResourceManager.GetObject("openShellSetup", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -201,18 +221,18 @@ namespace SimpleClassicTheme.Properties {
         ///&quot;ScrollHeight&quot;=&quot;-255&quot;
         ///&quot;PaddedBord [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string restoreMetrics {
+        internal static string restoreWindowMetrics {
             get {
-                return ResourceManager.GetString("restoreMetrics", resourceCulture);
+                return ResourceManager.GetString("restoreWindowMetrics", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] RibbonDisabler {
+        internal static byte[] ribbonDisabler {
             get {
-                object obj = ResourceManager.GetObject("RibbonDisabler", resourceCulture);
+                object obj = ResourceManager.GetObject("ribbonDisabler", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -244,9 +264,9 @@ namespace SimpleClassicTheme.Properties {
         ///&quot;Start_AskCortana&quot;=dword:00000000
         ///&quot;Start_RightPaneIcons&quot;=d [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string sibsettings {
+        internal static string startIsBackSettings {
             get {
-                return ResourceManager.GetString("sibsettings", resourceCulture);
+                return ResourceManager.GetString("startIsBackSettings", resourceCulture);
             }
         }
         
@@ -271,14 +291,32 @@ namespace SimpleClassicTheme.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @echo off
+        ///title Installing SimpleClassicTheme v%1 
+        ///echo Installing...
+        ///timeout 5 &gt; nul
+        ///taskkill /im %2 /f &gt; nul 2&gt;&amp;1
+        ///del %2 &gt; nul
+        ///copy %3 %2 &gt; nul
+        ///del %3 &gt; nul
+        ///%2
+        ///(goto) 2&gt;nul &amp; del &quot;%~f0&quot;.
+        /// </summary>
+        internal static string updateString {
+            get {
+                return ResourceManager.GetString("updateString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Windows Registry Editor Version 5.00
         ///
         ///[HKEY_CURRENT_USER\Control Panel\Desktop]
         ///&quot;UserPreferencesMask&quot;=hex:be,1e,05,80,12,00,00,00.
         /// </summary>
-        internal static string upm {
+        internal static string upmReg {
             get {
-                return ResourceManager.GetString("upm", resourceCulture);
+                return ResourceManager.GetString("upmReg", resourceCulture);
             }
         }
         
@@ -288,6 +326,26 @@ namespace SimpleClassicTheme.Properties {
         internal static System.Drawing.Bitmap win7 {
             get {
                 object obj = ResourceManager.GetObject("win7", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap win98sct {
+            get {
+                object obj = ResourceManager.GetObject("win98sct", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap win98sctbanner {
+            get {
+                object obj = ResourceManager.GetObject("win98sctbanner", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

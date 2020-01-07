@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -16,6 +17,29 @@ namespace SimpleClassicTheme
     //Helper Class: Contains all longish functions that make code unreadable
     static class ExtraFunctions
     {
+        //Check if there's a network connection
+        public static bool CheckForInternetConnection()
+        {
+            try
+            {
+                using (var client = new WebClient())
+                using (client.OpenRead("http://google.com/generate_204"))
+                    return true;
+            }
+            catch { return false; }
+        }
+
+        //Updates the application
+        internal static void Update()
+        {
+            //Check if there is an internet connection
+            if (CheckForInternetConnection())
+            {
+                Application.Run(new Updater());
+            }
+        }
+
+        //Updates the startup executable
         internal static void UpdateStartupExecutable(bool createIfNot)
         {
             if (File.Exists(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe"))
@@ -109,10 +133,6 @@ namespace SimpleClassicTheme
                 shortcut.Save();
             }
         }
-
-        //Sets the theme of a window. if pszSubAppName and pszSubIdList are both a space, the window will be themed Classic
-        [DllImport("uxtheme.dll", CharSet = CharSet.Unicode)]
-        public static extern int SetWindowTheme(IntPtr hWnd, string pszSubAppName, string pszSubIdList);
 
         //Renames a subkey
         public static bool RenameSubKey(RegistryKey parentKey,

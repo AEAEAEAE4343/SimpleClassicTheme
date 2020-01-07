@@ -15,7 +15,7 @@ namespace SimpleClassicTheme
         public static bool CheckDependencies(bool Taskbar)
         {
             bool osInstalled = Directory.Exists("C:\\Program Files\\Open-Shell\\");
-            bool sibInstalled = Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
+            bool sibInstalled = Environment.OSVersion.Version.Major < 10 || Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
             if ((!osInstalled || !sibInstalled) && Taskbar)
             {
                 return false;
@@ -49,7 +49,7 @@ namespace SimpleClassicTheme
         //Make the window itself use Classic Theme regardless of the current theme
         private void Form1_Shown(object sender, EventArgs e)
         {
-            ExtraFunctions.SetWindowTheme(Handle, " ", " ");
+            UxTheme.SetWindowTheme(Handle, " ", " ");
         }
 
         //Enable
@@ -67,42 +67,81 @@ namespace SimpleClassicTheme
         //Install dependencies
         private void Button3_Click(object sender, EventArgs e)
         {
+            //Win 8.1 doesn't require anything
+            if (Environment.OSVersion.Version.Major < 10)
+                return;
+
+            //Check what's installed
             bool osInstalled = Directory.Exists("C:\\Program Files\\Open-Shell\\");
             bool sibInstalled = Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
+            
+            //Open-Shell installation
             if (!osInstalled && checkBox1.Checked)
             {
-                MessageBox.Show("To continue installing dependencies you have to manually install Open-Shell\r\nThe page with the latest release will be opened.\r\nPlease download and install the file \"Open-Shell_X_X_X.exe\".\r\nAfter that reopen this program to continue", "Open-Shell");
-                Process.Start("https://github.com/Open-Shell/Open-Shell-Menu/releases/latest");
-                Environment.Exit(0);
-            }
-            if (!sibInstalled && checkBox1.Checked)
-            {
-                bool b = MessageBox.Show("To continue StartIsBack++ is required. Would you like Simple Classic Theme to install this for you?", "Open-Shell", MessageBoxButtons.YesNo) == DialogResult.Yes;
-                if (b)
+                //Open-Shell installation
+                if (MessageBox.Show("To continue Open-Shell is required. Would you like Simple Classic Theme to install this for you?", "SimpleClassicTheme", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
+                    //Install Open-Shell
+                    File.WriteAllBytes("C:\\SCT\\openShellSetup.exe", Properties.Resources.openShellSetup);
+                    Process.Start("C:\\SCT\\openShellSetup.exe", "/qn").WaitForExit();
+
+                    //Get user folder
                     string path = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).FullName;
                     if (Environment.OSVersion.Version.Major >= 6)
                         path = Directory.GetParent(path).ToString();
-                    string orbname;
-                    if (MessageBox.Show("YES: Windows 9x classic start orb\r\nNO: Windows 7 classic start orb", "Simple Classic Theme", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        orbname = "win9x.png";
-                    else
-                        orbname = "win7.png";
+
+                    //Prepare files for Open-Shell
+                    Directory.CreateDirectory(path + "\\AppData\\Local\\StartIsBack\\Orbs");
+                    Properties.Resources.win7.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\win7.png");
+                    Properties.Resources.win9x.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\win9x.png");
+
+                    //Find out what start orb the user wants
+                    string orbname = MessageBox.Show("Do you want to use a Win95 style start orb (If not a Windows 7 style orb will be used)?", "Simple Classic Theme", MessageBoxButtons.YesNo) == DialogResult.Yes ? "win9x.png" : "win7.png";
+
+                    //Setup Open-Shell registry
+                    File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\ossettings.reg"), Properties.Resources.openShellSettings);
+                    Process.Start(Path.Combine(Path.GetTempPath(), "\\ossettings.reg")).WaitForExit();
+                    Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\OpenShell\\StartMenu\\Settings", "StartButtonPath", @"%USERPROFILE%\AppData\Local\StartIsBack\Orbs\" + orbname);
+                }
+                else
+                {
+                    MessageBox.Show("Using taskbar without OpenShell is not possible!", "Simple Classic Theme");
+                    checkBox1.Checked = false;
+                }
+            }
+
+            //StartIsBack installation
+            if (!sibInstalled && checkBox1.Checked)
+            {
+                bool b = MessageBox.Show("To continue StartIsBack++ is required. Would you like Simple Classic Theme to install this for you?", "Simple Classic Theme", MessageBoxButtons.YesNo) == DialogResult.Yes;
+                if (b)
+                {
+                    //Get user folder
+                    string path = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).FullName;
+                    if (Environment.OSVersion.Version.Major >= 6)
+                        path = Directory.GetParent(path).ToString();
+                    
+                    //Prepare files for StartIsBack
                     Directory.CreateDirectory(path + "\\AppData\\Local\\StartIsBack\\Orbs");
                     Directory.CreateDirectory(path + "\\AppData\\Local\\StartIsBack\\Styles");
                     Properties.Resources.win7.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\win7.png");
                     Properties.Resources.win9x.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\win9x.png");
                     Properties.Resources.taskbar.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\taskbar.png");
                     Properties.Resources.null_classic3small.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\null_classic3big.bmp");
-                    File.WriteAllBytes(path + "\\AppData\\Local\\StartIsBack\\Styles\\Classic3.msstyles", Properties.Resources.Classic3);
-                    File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\ossettings.reg"), Properties.Resources.ossettings);
-                    Process.Start(Path.Combine(Path.GetTempPath(), "\\ossettings.reg")).WaitForExit();
-                    Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\OpenShell\\StartMenu\\Settings", "StartButtonPath", @"%USERPROFILE%\AppData\Local\StartIsBack\Orbs\" + orbname);
-                    string f = Properties.Resources.sibsettings.Replace("C:\\\\Users\\\\{Username}", $"{path.Replace("\\", "\\\\")}");
-                    File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\sib.reg"), f);
+                    File.WriteAllBytes(path + "\\AppData\\Local\\StartIsBack\\Styles\\Classic3.msstyles", Properties.Resources.classicStartIsBackTheme);
+                    
+                    //Setup StartIsBack registry
+                    string f = Properties.Resources.startIsBackSettings.Replace("C:\\\\Users\\\\{Username}", $"{path.Replace("\\", "\\\\")}");
+                    File.WriteAllText("C:\\sib.reg", f);
                     Process.Start(Path.Combine(Path.GetTempPath(), "\\sib.reg")).WaitForExit();
+
+                    //Disable StartIsBack
                     Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\StartIsBack", "Disabled", 1);
-                    using (WebClient c = new WebClient()) c.DownloadFile("https://s3.amazonaws.com/startisback/StartIsBackPlusPlus_setup.exe", Path.Combine(Path.GetTempPath(), "\\sib.exe"));
+                    
+                    using (WebClient c = new WebClient()) 
+                        c.DownloadFile("https://s3.amazonaws.com/startisback/StartIsBackPlusPlus_setup.exe", Path.Combine(Path.GetTempPath(), "\\sib.exe"));
+                    
+                    //Install StartIsBack++
                     Process p = new Process() { StartInfo = { FileName = Path.Combine(Path.GetTempPath(), "\\sib.exe"), Arguments = "/silent" } };
                     p.Start();
                     p.WaitForExit();
@@ -117,7 +156,10 @@ namespace SimpleClassicTheme
                     checkBox1.Checked = false;
                 }
             }
+            //Make sure EVERYTHING is disabled before continuing
             Button2_Click(sender, e);
+
+            //Inform the user and update controls
             MessageBox.Show("All requirements are installed! Enjoy!!!!");
             CheckDependenciesAndSetControls();
         }
@@ -125,7 +167,7 @@ namespace SimpleClassicTheme
         //Open Classic Theme CPL
         private void Button4_Click(object sender, EventArgs e)
         {
-            File.WriteAllBytes(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl", Properties.Resources.deskn);
+            File.WriteAllBytes(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl", Properties.Resources.desktopControlPanelCPL);
             Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl");
         }
 
@@ -138,23 +180,13 @@ namespace SimpleClassicTheme
             }
         }
 
-        //Switch between menu's
-        private void Button6_Click(object sender, EventArgs e)
-        {
-            utilMenu++;
-            if (utilMenu == 3) utilMenu = 0;
-            button6.Text = utilMenu == 0 ? "Utilities" : utilMenu == 1 ? "Next" : "Back";
-            panel1.Visible = utilMenu == 1;
-            panel2.Visible = utilMenu == 2;
-        }
-
         //Install Classic Task Manager
         private void Button7_Click(object sender, EventArgs e)
         {
-            File.WriteAllBytes("C:\\ctm.exe", Properties.Resources.ctm);
-            Process.Start("C:\\ctm.exe", "/silent").WaitForExit();
+            File.WriteAllBytes("C:\\SCT\\ctm.exe", Properties.Resources.classicTaskManager);
+            Process.Start("C:\\SCT\\ctm.exe", "/silent").WaitForExit();
             MessageBox.Show("Classic Task Manager has been installed on your system");
-            File.Delete("C:\\ctm.exe");
+            File.Delete("C:\\SCT\\ctm.exe");
         }
 
         //Install 7+ Taskbar Tweaker
@@ -162,11 +194,11 @@ namespace SimpleClassicTheme
         {
             using (WebClient c = new WebClient())
             {
-                c.DownloadFile("https://rammichael.com/downloads/7tt_setup.exe", "\\7tt.exe");
+                c.DownloadFile("https://rammichael.com/downloads/7tt_setup.exe", "C:\\SCT\\7tt.exe");
             }
-            Process.Start("C:\\7tt.exe", "/S").WaitForExit();
+            Process.Start("C:\\SCT\\7tt.exe", "/S").WaitForExit();
             MessageBox.Show("7+ Taskbar Tweaker has been installed on your system");
-            File.Delete("C:\\7tt.exe");
+            File.Delete("C:\\SCT\\7tt.exe");
         }
 
         //Install ExplorerContextMenuTweaker
@@ -201,10 +233,8 @@ namespace SimpleClassicTheme
                 checkBox1.Enabled = true;
                 numericUpDown1.Enabled = true;
             }
-            label1.Visible = checkBox1.Checked;
-            numericUpDown1.Visible = checkBox1.Checked;
-            Height = checkBox1.Checked ? 293 : 254;
-            if (Directory.Exists("C:\\T-Clock\\"))
+            numericUpDown1.Enabled = checkBox1.Checked;
+            if (Directory.Exists("C:\\SCT\\T-Clock\\"))
                 button10.Text = "Open T-Clock";
         }
 
@@ -229,45 +259,45 @@ namespace SimpleClassicTheme
             {
                 using (WebClient c = new WebClient())
                 {
-                    c.DownloadFile("https://github.com/White-Tiger/T-Clock/releases/download/v2.4.4%23492-rc/T-Clock.zip", "C:\\t-clock.zip");
+                    c.DownloadFile("https://github.com/White-Tiger/T-Clock/releases/download/v2.4.4%23492-rc/T-Clock.zip", "C:\\SCT\\t-clock.zip");
                 }
-                Directory.CreateDirectory("C:\\T-Clock\\");
-                ZipFile.ExtractToDirectory("C:\\t-clock.zip", "C:\\T-Clock\\");
-                File.Delete("C:\\t-clock.zip");
+                Directory.CreateDirectory("C:\\SCT\\T-Clock\\");
+                ZipFile.ExtractToDirectory("C:\\SCT\\t-clock.zip", "C:\\SCT\\T-Clock\\");
+                File.Delete("C:\\SCT\\t-clock.zip");
                 MessageBox.Show("T-Clock has been installed on your system");
                 button10.Text = "Open T-Clock";
             }
             else
             {
-                Process.Start("C:\\T-Clock\\Clock64.exe");
+                Process.Start("C:\\SCT\\T-Clock\\Clock64.exe");
             }
         }
 
         //Install Folder Options X
         private void Button11_Click(object sender, EventArgs e)
         {
-            File.WriteAllBytes("C:\\fox.exe", Properties.Resources.fox);
-            Process.Start("C:\\fox.exe", "/silent").WaitForExit();
+            File.WriteAllBytes("C:\\SCT\\fox.exe", Properties.Resources.folderOptionsX);
+            Process.Start("C:\\SCT\\fox.exe", "/silent").WaitForExit();
             MessageBox.Show("Folder Options X has been installed on your system");
-            File.Delete("C:\\fox.exe");
+            File.Delete("C:\\SCT\\fox.exe");
         }
 
         //Open RibbonDisabler 4.0
         private void Button12_Click(object sender, EventArgs e)
         {
-            if (!File.Exists("C:\\RibbonDisabler.exe"))
+            if (!File.Exists("C:\\SCT\\RibbonDisabler.exe"))
             {
-                File.WriteAllBytes("C:\\RibbonDisabler.exe", Properties.Resources.RibbonDisabler);
+                File.WriteAllBytes("C:\\SCT\\RibbonDisabler.exe", Properties.Resources.ribbonDisabler);
             }
-            Process.Start("C:\\RibbonDisabler.exe");
+            Process.Start("C:\\SCT\\RibbonDisabler.exe");
         }
 
         //Make borders 3D by changing UPM
         private void Button13_Click(object sender, EventArgs e)
         {
-            File.WriteAllText("C:\\upm.reg", Properties.Resources.upm);
-            Process.Start("C:\\upm.reg").WaitForExit();
-            File.Delete("C:\\upm.reg");
+            File.WriteAllText("C:\\SCT\\upm.reg", Properties.Resources.upmReg);
+            Process.Start("C:\\SCT\\upm.reg").WaitForExit();
+            File.Delete("C:\\SCT\\upm.reg");
         }
 
         //Restore WindowMetrics
@@ -275,17 +305,41 @@ namespace SimpleClassicTheme
         {
             if (MessageBox.Show("This restores the default WindowMetrics for Windows 10. Restore guide:\r\n1. Set Classic Theme to \"Windows Aero\"\r\n2. Disable Classic Theme\r\n3. Use this option\r\nWould you like to continue?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                File.WriteAllText("C:\\restoreMetrics.reg", Properties.Resources.restoreMetrics);
-                Process.Start("C:\\restoreMetrics.reg").WaitForExit();
-                File.Delete("C:\\restoreMetrics.reg");
+                File.WriteAllText("C:\\SCT\\restoreMetrics.reg", Properties.Resources.restoreWindowMetrics);
+                Process.Start("C:\\SCT\\restoreMetrics.reg").WaitForExit();
+                File.Delete("C:\\SCT\\restoreMetrics.reg");
             }
         }
 
-        //UpdateDelay
+        //Update Delay
         private void NumericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "TaskbarDelay", (int)numericUpDown1.Value, RegistryValueKind.DWord);
+        }
+
+        //Exit
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        //Open guide
+        private void guideToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://docs.google.com/document/d/1wsu2tkdB2TIR1fy7lp2HuQ9JeuVG713syzz9RGl2cV0/");
+        }
+
+        //Open github issues page
+        private void reportBugsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/AEAEAEAE4343/SimpleClassicTheme/issues");
+        }
+
+        //Show about dialog
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new About().ShowDialog(this);
         }
     }
 }

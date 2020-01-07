@@ -15,10 +15,7 @@ namespace SimpleClassicTheme
     {
         //Enables Classic Theme
         public static void Enable()
-        {
-            File.WriteAllText("\\windowmetrics.reg", Properties.Resources.WindowMetrics);
-            Process.Start("C:\\Windows\\regedit.exe", "/s C:\\windowmetrics.reg").WaitForExit();
-            File.Delete("C:\\windowmetrics.reg");
+        {   
             NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
             g.SetSecurityDescriptor(new SecurityDescriptor("O:BAG:SYD:(A;;RC;;;IU)(A;;DCSWRPSDRCWDWO;;;SY)"), SecurityInformation.Dacl);
             g.Close();
@@ -34,47 +31,49 @@ namespace SimpleClassicTheme
             g.Close();
         }
 
-        //Enables Classic Theme and if specified Classic Taskbar. Also makes sure ExplorerContextMenuTweaker can load.
+        //Enables Classic Theme and if specified Classic Taskbar.
         public static void MasterEnable(bool taskbar)
         {
             Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "Enabled", true.ToString());
-            if (taskbar)
+            //Windows 8.1 with taskbar
+            if (taskbar && Environment.OSVersion.Version.Major != 10)
+            {
+                Enable();
+                File.WriteAllBytes("C:\\SCT\\fixstrips.exe", Properties.Resources.fixstrips);
+                Process.Start("C:\\SCT\\fixstrips.exe").WaitForExit();
+
+                Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "EnableStartButton", 1);
+                Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "CustomTaskbar", 1);
+                Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "WinKey", "ClassicMenu");
+                Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "MouseClick", "ClassicMenu");
+            }
+            //Windows 10 with taskbar
+            else if (taskbar)
             {
                 ClassicTaskbar.Enable();
-                ClassicTheme.Enable();
+                Enable();
             }
+            //Just enable
             else
             {
-                ClassicTheme.Enable();
-                if (File.Exists("C:/Windows/System32/ExplorerContextMenuTweaker.dll"))
-                {
-                    Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-                    Process.Start("cmd", "/c taskkill /im sihost.exe /f").WaitForExit();
-                    //Give Windows Explorer, StartIsBack and Classic Shell the time to load
-                    Thread.Sleep((int)Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme").GetValue("TaskbarDelay", 5000));
-                }
+                Enable();
             }
         }
 
-        //Disables Classic Theme and if specified Classic Taskbar. Also makes sure ExplorerContextMenuTweaker can unload.
+        //Disables Classic Theme and if specified Classic Taskbar.
         public static void MasterDisable(bool taskbar)
         {
             Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "Enabled", false.ToString());
             if (taskbar)
             {
-                ClassicTheme.Disable();
+                Disable();
                 ClassicTaskbar.Disable();
             }
             else
             {
-                ClassicTheme.Disable();
-                if (File.Exists("C:/Windows/System32/ExplorerContextMenuTweaker.dll"))
-                {
-                    Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-                    Process.Start("cmd", "/c taskkill /im sihost.exe /f").WaitForExit();
-                }
+                Disable();
             }
         }
     }

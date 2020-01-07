@@ -51,7 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>SimpleClassicTheme.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -101,6 +101,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
     <Compile Include="ClassicTaskbar.cs" />
     <Compile Include="ClassicTheme.cs" />
     <Compile Include="ExtraFunctions.cs" />
@@ -112,6 +118,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Updater.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Updater.Designer.cs">
+      <DependentUpon>Updater.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApi.cs" />
+    <EmbeddedResource Include="About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -125,6 +141,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Updater.resx">
+      <DependentUpon>Updater.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -184,8 +203,12 @@
     <None Include="Resources\ExplorerContextMenuTweaker.dll" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="win98sctbanner.png" />
+    <None Include="win98sct.png" />
     <None Include="Resources\fox.exe" />
     <None Include="Resources\RibbonDisabler.exe" />
+    <None Include="Resources\OpenShellSetup_4_4_142.exe" />
+    <None Include="Resources\fixstrips.exe" />
     <Content Include="win98.ico" />
   </ItemGroup>
   <ItemGroup>

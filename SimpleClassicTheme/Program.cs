@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Principal;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.Reflection;
 using System.IO;
-using System.Runtime.InteropServices;
 
 namespace SimpleClassicTheme
 {
@@ -18,19 +14,13 @@ namespace SimpleClassicTheme
         {
             Console.Write(Properties.Resources.helpMessage);
         }
-        [DllImport("kernel32.dll")]
-        static extern bool AttachConsole(int dwProcessId);
-        private const int ATTACH_PARENT_PROCESS = -1;
-        [DllImport("kernel32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool FreeConsole();
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main(string[] args)
         {
-            AttachConsole(ATTACH_PARENT_PROCESS);
+            Application.SetCompatibleTextRenderingDefault(false);
 
             bool windows = Environment.OSVersion.Platform == PlatformID.Win32NT;
             bool windows10 = Environment.OSVersion.Version.Major == 10 && Int32.Parse(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId", "").ToString()) >= 1803;
@@ -39,6 +29,7 @@ namespace SimpleClassicTheme
             //Check if the OS is compatible
             if (!(windows && (windows10 || windows8)))
             {
+                Kernel32.AttachConsole(Kernel32.ATTACH_PARENT_PROCESS);
                 //If not, display a cool looking error message
                 string t = Console.Title;
                 Console.Title = "Simple Compatibilty Error";
@@ -58,13 +49,16 @@ namespace SimpleClassicTheme
                 Console.SetWindowSize(width, height);
                 Console.SetCursorPosition(0, 11);
                 Console.Title = t;
-                return;
+                Kernel32.FreeConsole();
+                //return;
             }
+
+            //If for some odd reason the application hasn't started with administrative privileges, restart with them
             WindowsPrincipal pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
             bool hasAdministrativeRight = pricipal.IsInRole(WindowsBuiltInRole.Administrator);
             if (!hasAdministrativeRight)
             {
-                if ((Assembly.GetExecutingAssembly().Location.ToLower() == @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe".ToLower()) || MessageBox.Show("This application requires admin privilages.\nClick Ok to elevate or Cancel to exit.", "Elevate?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                if (MessageBox.Show("This application requires admin privilages.\nClick Ok to elevate or Cancel to exit.", "Simple Classic Theme - Elevation required", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                 {
                     ProcessStartInfo processInfo = new ProcessStartInfo
                     {
@@ -76,8 +70,22 @@ namespace SimpleClassicTheme
                 }
                 return;
             }
+
+            Directory.CreateDirectory("C:\\SCT\\");
+
+            //Start update checking
+            ExtraFunctions.Update();
             
+            if (!(windows && (windows10 || windows8)))
+            {
+                return;
+            }
+        
+            //Get a console window
+            Kernel32.AttachConsole(Kernel32.ATTACH_PARENT_PROCESS);
+
             //Clean up any files that might have been left over on the root of the C: drive
+            Console.WriteLine("Cleaning up...");
             File.Delete("C:\\upm.reg");
             File.Delete("C:\\restoreMetrics.reg");
             File.Delete("C:\\fox.exe");
@@ -139,7 +147,7 @@ namespace SimpleClassicTheme
                         Console.ResetColor();
                         break;
                     case "/configure":
-                        File.WriteAllBytes(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl", Properties.Resources.deskn);
+                        File.WriteAllBytes(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl", Properties.Resources.desktopControlPanelCPL);
                         Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl");
                         break;
                     case "/boot":
@@ -209,10 +217,7 @@ namespace SimpleClassicTheme
             }
             else
             {
-                FreeConsole();
-                //this line is for non-classic normies
-                //Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
+                Kernel32.FreeConsole();
                 Application.Run(new MainForm());
             }
         }
