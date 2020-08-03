@@ -178,7 +178,7 @@ namespace SimpleClassicTheme
         //Enable install mode
         private void Button5_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("This launches the program in auto mode every time the pc starts up (after explorer.exe is loaded). Continue?", "Auto-launch Simple Clasic Theme", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("This launches the program in auto mode every time the pc starts up (after userinit.exe is loaded). Continue?", "Auto-launch Simple Clasic Theme", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 ExtraFunctions.UpdateStartupExecutable(true);
             }
