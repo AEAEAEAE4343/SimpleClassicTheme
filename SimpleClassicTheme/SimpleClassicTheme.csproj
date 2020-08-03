@@ -209,6 +209,7 @@
     <None Include="Resources\RibbonDisabler.exe" />
     <None Include="Resources\OpenShellSetup_4_4_142.exe" />
     <None Include="Resources\fixstrips.exe" />
+    <None Include="Resources\scttask.xml" />
     <Content Include="win98.ico" />
   </ItemGroup>
   <ItemGroup>

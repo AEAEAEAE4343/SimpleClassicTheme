@@ -1,5 +1,7 @@
 ﻿using Microsoft.Win32;
+using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -38,80 +40,23 @@ namespace SimpleClassicTheme
         internal static void UpdateStartupExecutable(bool createIfNot)
         {
             if (File.Exists(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe"))
-            {
-                if (CheckMD5(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe") != CheckMD5(Assembly.GetExecutingAssembly().Location))
-                {
-                    if (MessageBox.Show("You have an old startup executable installed. Would you like to update it?", "Installation Detection", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    {
-                        if (File.Exists(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\sct.cmd"))
-                            File.Delete(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\sct.cmd");
-                        Directory.CreateDirectory("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\1337ftw\\");
-                        File.Delete(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe");
-                        File.Copy(Assembly.GetExecutingAssembly().Location, @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe", true);
-                        File.WriteAllText("C:\\TaskSchedule.cmd", Properties.Resources.taskScheduleCommands);
-                        Process task = new Process()
-                        {
-                            StartInfo =  new ProcessStartInfo()
-                            {
-                                FileName = "C:\\TaskSchedule.cmd",
-                                Verb = "runas",
-                                UseShellExecute = false,
-                                CreateNoWindow = true
-                            }
-                        };
-                        task.Start();
-                        task.WaitForExit();
-                        File.Delete("C:\\TaskSchedule.cmd");
-                        File.SetAttributes(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe", File.GetAttributes(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe") | FileAttributes.Hidden);
-                        IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
-                        IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\1337ftw\\Simple Classic Theme.lnk");
-                        shortcut.Description = "SCT";
-                        shortcut.TargetPath = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe";
-                        shortcut.Save();
-                    }
-                }
-            }
-            else if (File.Exists(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe"))
-            {
-                if (MessageBox.Show("You have an old startup executable installed. Would you like to update it?", "Installation Detection", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    Directory.CreateDirectory("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\1337ftw\\");
-                    File.Delete(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe");
-                    File.Delete(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe");
-                    File.Copy(Assembly.GetExecutingAssembly().Location, @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe", true);
-                    File.WriteAllText("C:\\TaskSchedule.cmd", Properties.Resources.taskScheduleCommands);
-                    Process task = new Process()
-                    {
-                        StartInfo = new ProcessStartInfo()
-                        {
-                            FileName = "C:\\TaskSchedule.cmd",
-                            Verb = "runas",
-                            UseShellExecute = false,
-                            CreateNoWindow = true
-                        }
-                    };
-                    task.Start();
-                    task.WaitForExit();
-                    File.Delete("C:\\TaskSchedule.cmd");
-                    File.SetAttributes(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe", File.GetAttributes(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe") | FileAttributes.Hidden);
-                    IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
-                    IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\1337ftw\\Simple Classic Theme.lnk");
-                    shortcut.Description = "SCT";
-                    shortcut.TargetPath = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe";
-                    shortcut.Save();
-                }
-            }
-            else if (createIfNot)
-            {
-                Directory.CreateDirectory("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\1337ftw\\");
                 File.Delete(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe");
-                File.Copy(Assembly.GetExecutingAssembly().Location, @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe", true);
-                File.WriteAllText("C:\\TaskSchedule.cmd", Properties.Resources.taskScheduleCommands);
+            if (File.Exists(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe"))
+                File.Delete(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe");
+            if (createIfNot)
+            {
+                if (Assembly.GetExecutingAssembly().Location != @"C:\SCT\SCT.exe")
+                {
+                    File.Delete(@"C:\SCT\SCT.exe");
+                    File.Copy(Assembly.GetExecutingAssembly().Location, @"C:\SCT\SCT.exe");
+                }
+                File.WriteAllText("C:\\SCT\\SCTTask.xml", Properties.Resources.scttask);
+                File.WriteAllText("C:\\SCT\\TaskSchedule.cmd", Properties.Resources.taskScheduleCommands);
                 Process task = new Process()
                 {
                     StartInfo = new ProcessStartInfo()
                     {
-                        FileName = "C:\\TaskSchedule.cmd",
+                        FileName = "C:\\SCT\\TaskSchedule.cmd",
                         Verb = "runas",
                         UseShellExecute = false,
                         CreateNoWindow = true
@@ -119,13 +64,18 @@ namespace SimpleClassicTheme
                 };
                 task.Start();
                 task.WaitForExit();
-                File.Delete("C:\\TaskSchedule.cmd");
-                File.SetAttributes(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe", File.GetAttributes(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe") | FileAttributes.Hidden);
+                File.SetAttributes(@"C:\SCT\SCT.exe", File.GetAttributes(Assembly.GetExecutingAssembly().Location) | FileAttributes.Hidden);
                 IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
-                IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\1337ftw\\Simple Classic Theme.lnk");
+                Directory.CreateDirectory(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\");
+                IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.lnk");
                 shortcut.Description = "SCT";
-                shortcut.TargetPath = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe";
+                shortcut.TargetPath = @"C:\SCT\SCT.exe";
                 shortcut.Save();
+            }
+            else if (Assembly.GetExecutingAssembly().Location != @"C:\SCT\SCT.exe" && CheckMD5(@"C:\SCT\SCT.exe") != CheckMD5(Assembly.GetExecutingAssembly().Location))
+			{
+                File.Delete(@"C:\SCT\SCT.exe");
+                File.Copy(Assembly.GetExecutingAssembly().Location, @"C:\SCT\SCT.exe");
             }
         }
 
@@ -174,6 +124,57 @@ namespace SimpleClassicTheme
                 {
                     return Encoding.Default.GetString(md5.ComputeHash(stream));
                 }
+            }
+        }
+
+        public static void ReConfigureOS(bool os, bool sib)
+		{
+            if (os)
+            {
+                //Get user folder
+                string path = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).FullName;
+                if (Environment.OSVersion.Version.Major >= 6)
+                    path = Directory.GetParent(path).ToString();
+
+                //Prepare files for Open-Shell
+                Directory.CreateDirectory(path + "\\AppData\\Local\\StartIsBack\\Orbs");
+                Properties.Resources.win7.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\win7.png");
+                Properties.Resources.win9x.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\win9x.png");
+
+                //Find out what start orb the user wants
+                string orbname = MessageBox.Show("Do you want to use a Win95 style start orb (If not a Windows 7 style orb will be used)?", "Simple Classic Theme", MessageBoxButtons.YesNo) == DialogResult.Yes ? "win9x.png" : "win7.png";
+
+                //Setup Open-Shell registry
+                File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\ossettings.reg"), Properties.Resources.openShellSettings);
+                Process.Start(Path.Combine(Path.GetTempPath(), "\\ossettings.reg")).WaitForExit();
+                Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\OpenShell\\StartMenu\\Settings", "StartButtonPath", @"%USERPROFILE%\AppData\Local\StartIsBack\Orbs\" + orbname);
+            }
+            if (sib)
+			{
+                //Get user folder
+                string path = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).FullName;
+                if (Environment.OSVersion.Version.Major >= 6)
+                    path = Directory.GetParent(path).ToString();
+
+                //Prepare files for StartIsBack
+                Directory.CreateDirectory(path + "\\AppData\\Local\\StartIsBack\\Orbs");
+                Directory.CreateDirectory(path + "\\AppData\\Local\\StartIsBack\\Styles");
+                Properties.Resources.win7.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\win7.png");
+                Properties.Resources.win9x.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\win9x.png");
+                Properties.Resources.taskbar.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\taskbar.png");
+                Properties.Resources.null_classic3small.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\null_classic3big.bmp");
+                File.WriteAllBytes(path + "\\AppData\\Local\\StartIsBack\\Styles\\Classic3.msstyles", Properties.Resources.classicStartIsBackTheme);
+
+                //Setup StartIsBack registry
+                string f = Properties.Resources.startIsBackSettings.Replace("C:\\\\Users\\\\{Username}", $"{path.Replace("\\", "\\\\")}");
+                File.WriteAllText("C:\\sib.reg", f);
+                Process.Start(Path.Combine(Path.GetTempPath(), "\\sib.reg")).WaitForExit();
+
+                //Disable StartIsBack
+                Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\StartIsBack", "Disabled", 1);
+                File.Delete("C:\\ossettings.reg");
+                File.Delete("C:\\sib.reg");
+                File.Delete("C:\\sib.exe");
             }
         }
     }

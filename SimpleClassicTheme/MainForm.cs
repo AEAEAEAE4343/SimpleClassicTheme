@@ -23,8 +23,6 @@ namespace SimpleClassicTheme
             return true;
         }
 
-        int utilMenu = 0;
-
         //Main code: Construct and initialize all controls
         public MainForm()
         {
@@ -74,7 +72,13 @@ namespace SimpleClassicTheme
             //Check what's installed
             bool osInstalled = Directory.Exists("C:\\Program Files\\Open-Shell\\");
             bool sibInstalled = Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
-            
+
+            if (button3.Text == "Reconfigure SCT+OS")
+			{
+                ExtraFunctions.ReConfigureOS(osInstalled, sibInstalled);
+                return;
+			}
+
             //Open-Shell installation
             if (!osInstalled && checkBox1.Checked)
             {

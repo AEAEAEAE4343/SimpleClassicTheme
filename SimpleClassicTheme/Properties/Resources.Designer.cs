@@ -100,7 +100,7 @@ namespace SimpleClassicTheme.Properties {
         ///|         | Press any key to continue...  | |
         ///|         +-------------------------------+ |
         ///|                                           |
-        ///+----------------------------------------- [rest of string was truncated]&quot;;.
+        ///+-------------------------------------------+.
         /// </summary>
         internal static string compatibiltyError {
             get {
@@ -159,7 +159,7 @@ namespace SimpleClassicTheme.Properties {
         ///    /enableauto This enables/disables (depending on current state) the classic theme, and if enabled in GUI, also the taskbar.
         ///
         ///Arguments:
-        ///    -t, --enable-taskbar Enables/Disables classic taskbar (Dep [rest of string was truncated]&quot;;.
+        ///    -t, --enable-taskbar Enables/Disables classic taskbar (Depending on  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string helpMessage {
             get {
@@ -219,7 +219,7 @@ namespace SimpleClassicTheme.Properties {
         ///  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
         ///&quot;ScrollWidth&quot;=&quot;-255&quot;
         ///&quot;ScrollHeight&quot;=&quot;-255&quot;
-        ///&quot;PaddedBord [rest of string was truncated]&quot;;.
+        ///&quot;PaddedBorderWidth&quot;=&quot;-6 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string restoreWindowMetrics {
             get {
@@ -234,6 +234,30 @@ namespace SimpleClassicTheme.Properties {
             get {
                 object obj = ResourceManager.GetObject("ribbonDisabler", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-16&quot;?&gt;
+        ///&lt;Task version=&quot;1.2&quot; xmlns=&quot;http://schemas.microsoft.com/windows/2004/02/mit/task&quot;&gt;
+        ///  &lt;RegistrationInfo&gt;
+        ///    &lt;Date&gt;2020-08-03T20:43:25&lt;/Date&gt;
+        ///    &lt;Author&gt;Anis&lt;/Author&gt;
+        ///  &lt;/RegistrationInfo&gt;
+        ///  &lt;Triggers&gt;
+        ///    &lt;LogonTrigger&gt;
+        ///      &lt;StartBoundary&gt;2020-08-03T20:43:00&lt;/StartBoundary&gt;
+        ///      &lt;Enabled&gt;true&lt;/Enabled&gt;
+        ///    &lt;/LogonTrigger&gt;
+        ///  &lt;/Triggers&gt;
+        ///  &lt;Principals&gt;
+        ///    &lt;Principal id=&quot;Author&quot;&gt;
+        ///      &lt;UserId&gt;Anis-PC\Anis&lt;/UserId&gt;
+        ///      &lt;LogonType&gt;InteractiveToken&lt;/L [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string scttask {
+            get {
+                return ResourceManager.GetString("scttask", resourceCulture);
             }
         }
         
@@ -282,7 +306,7 @@ namespace SimpleClassicTheme.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to schtasks /Delete /TN &quot;Simple Classic Theme&quot; /F
-        ///schtasks /Create /TN &quot;Simple Classic Theme&quot; /SC ONLOGON /TR &quot;C:\ProgramData\Microsoft\Windows\Start Menu\\Programs\1337ftw\Simple Classic Theme.exe&quot;.
+        ///schtasks /Create /TN &quot;Simple Classic Theme&quot; /XML &quot;C:\SCT\SCTTask.xml&quot;.
         /// </summary>
         internal static string taskScheduleCommands {
             get {

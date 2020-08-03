@@ -172,7 +172,7 @@ del %3 &gt; nul
   </data>
   <data name="taskScheduleCommands" xml:space="preserve">
     <value>schtasks /Delete /TN "Simple Classic Theme" /F
-schtasks /Create /TN "Simple Classic Theme" /SC ONLOGON /TR "C:\ProgramData\Microsoft\Windows\Start Menu\\Programs\1337ftw\Simple Classic Theme.exe"</value>
+schtasks /Create /TN "Simple Classic Theme" /XML "C:\SCT\SCTTask.xml"</value>
   </data>
   <data name="desktopControlPanelCPL" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\deskn.cpl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -222,5 +222,8 @@ schtasks /Create /TN "Simple Classic Theme" /SC ONLOGON /TR "C:\ProgramData\Micr
   </data>
   <data name="win98sctbanner" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\win98sctbanner.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="scttask" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\scttask.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
   </data>
 </root>

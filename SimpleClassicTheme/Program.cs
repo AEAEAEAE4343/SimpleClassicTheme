@@ -49,9 +49,9 @@ namespace SimpleClassicTheme
                 Console.SetWindowSize(width, height);
                 Console.SetCursorPosition(0, 11);
                 Console.Title = t;
-                Kernel32.FreeConsole();
-                //return;
-            }
+				Kernel32.FreeConsole();
+				return;
+			}
 
             //If for some odd reason the application hasn't started with administrative privileges, restart with them
             WindowsPrincipal pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
@@ -75,14 +75,10 @@ namespace SimpleClassicTheme
 
             //Start update checking
             ExtraFunctions.Update();
-            
-            if (!(windows && (windows10 || windows8)))
-            {
-                return;
-            }
         
             //Get a console window
             Kernel32.AttachConsole(Kernel32.ATTACH_PARENT_PROCESS);
+            Console.WriteLine("SCT Version {0}\nCopyright 2020 Anis Errais");
 
             //Clean up any files that might have been left over on the root of the C: drive
             Console.WriteLine("Cleaning up...");
