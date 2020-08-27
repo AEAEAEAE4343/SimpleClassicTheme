@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using Microsoft.Win32;
 using System.Net;
 using System.IO.Compression;
@@ -171,8 +170,9 @@ namespace SimpleClassicTheme
         //Open Classic Theme CPL
         private void Button4_Click(object sender, EventArgs e)
         {
-            File.WriteAllBytes(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl", Properties.Resources.desktopControlPanelCPL);
-            Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\deskn.cpl");
+            Directory.CreateDirectory("C:\\SCT\\");
+            File.WriteAllBytes("C:\\SCT\\deskn.cpl", Properties.Resources.desktopControlPanelCPL);
+            Process.Start("C:\\SCT\\deskn.cpl");
         }
 
         //Enable install mode
@@ -352,5 +352,10 @@ namespace SimpleClassicTheme
         {
             new About().ShowDialog(this);
         }
-    }
+
+		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+            Process.Start("https://github.com/AEAEAEAE4343/SimpleClassicTheme/issues");
+		}
+	}
 }

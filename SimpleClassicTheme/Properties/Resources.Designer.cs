@@ -90,25 +90,6 @@ namespace SimpleClassicTheme.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to +-------------------------------------------+
-        ///|                                           |
-        ///| This application is only compatible with  |
-        ///| Windows 10 v1803 and up or                |
-        ///| Windows 8 and 8.1                         |
-        ///|                                           |
-        ///|         +-------------------------------+ |
-        ///|         | Press any key to continue...  | |
-        ///|         +-------------------------------+ |
-        ///|                                           |
-        ///+-------------------------------------------+.
-        /// </summary>
-        internal static string compatibiltyError {
-            get {
-                return ResourceManager.GetString("compatibiltyError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] desktopControlPanelCPL {
@@ -159,7 +140,7 @@ namespace SimpleClassicTheme.Properties {
         ///    /enableauto This enables/disables (depending on current state) the classic theme, and if enabled in GUI, also the taskbar.
         ///
         ///Arguments:
-        ///    -t, --enable-taskbar Enables/Disables classic taskbar (Depending on  [rest of string was truncated]&quot;;.
+        ///    -t, --enable-taskbar Enables/Disables classic taskbar (Dep [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string helpMessage {
             get {
@@ -219,7 +200,7 @@ namespace SimpleClassicTheme.Properties {
         ///  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
         ///&quot;ScrollWidth&quot;=&quot;-255&quot;
         ///&quot;ScrollHeight&quot;=&quot;-255&quot;
-        ///&quot;PaddedBorderWidth&quot;=&quot;-6 [rest of string was truncated]&quot;;.
+        ///&quot;PaddedBord [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string restoreWindowMetrics {
             get {
@@ -252,8 +233,8 @@ namespace SimpleClassicTheme.Properties {
         ///  &lt;/Triggers&gt;
         ///  &lt;Principals&gt;
         ///    &lt;Principal id=&quot;Author&quot;&gt;
-        ///      &lt;UserId&gt;Anis-PC\Anis&lt;/UserId&gt;
-        ///      &lt;LogonType&gt;InteractiveToken&lt;/L [rest of string was truncated]&quot;;.
+        ///      &lt;LogonType&gt;InteractiveToken&lt;/LogonType&gt;
+        ///      &lt;RunLevel&gt;HighestAva [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string scttask {
             get {

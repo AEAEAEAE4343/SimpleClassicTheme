@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>SimpleClassicTheme</RootNamespace>
     <AssemblyName>SimpleClassicTheme</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -30,6 +30,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -51,10 +52,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>SimpleClassicTheme.Program</StartupObject>
+    <StartupObject>SimpleClassicTheme.ApplicationEntryPoint</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationManifest>Other Files\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -77,7 +78,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>win98.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\win98.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Costura, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
@@ -101,34 +102,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="About.cs">
+    <Compile Include="Forms\About.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="About.Designer.cs">
+    <Compile Include="Forms\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="ClassicTaskbar.cs" />
-    <Compile Include="ClassicTheme.cs" />
-    <Compile Include="ExtraFunctions.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Function Classes\ClassicTaskbar.cs" />
+    <Compile Include="Function Classes\ClassicTheme.cs" />
+    <Compile Include="Function Classes\ExtraFunctions.cs" />
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="ApplicationEntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Updater.cs">
+    <Compile Include="Forms\Updater.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Updater.Designer.cs">
+    <Compile Include="Forms\Updater.Designer.cs">
       <DependentUpon>Updater.cs</DependentUpon>
     </Compile>
-    <Compile Include="WinApi.cs" />
-    <EmbeddedResource Include="About.resx">
+    <Compile Include="Function Classes\WinApi.cs" />
+    <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -141,11 +142,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Updater.resx">
+    <EmbeddedResource Include="Forms\Updater.resx">
       <DependentUpon>Updater.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="app.manifest" />
-    <None Include="packages.config" />
+    <None Include="Other Files\app.manifest" />
+    <None Include="Other Files\packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -155,7 +156,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="README.md" />
+    <EmbeddedResource Include="Other Files\README.md" />
     <None Include="Resources\addSchemes.bat" />
     <None Include="Resources\addSchemes.sbat" />
     <None Include="Resources\Classic3.msstyles" />
@@ -167,7 +168,7 @@
     <None Include="Resources\WindowMetrics.reg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="Other Files\App.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\null_classic3small.bmp" />
@@ -203,14 +204,14 @@
     <None Include="Resources\ExplorerContextMenuTweaker.dll" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="win98sctbanner.png" />
-    <None Include="win98sct.png" />
+    <None Include="Resources\win98sctbanner.png" />
+    <None Include="Resources\win98sct.png" />
     <None Include="Resources\fox.exe" />
     <None Include="Resources\RibbonDisabler.exe" />
     <None Include="Resources\OpenShellSetup_4_4_142.exe" />
     <None Include="Resources\fixstrips.exe" />
     <None Include="Resources\scttask.xml" />
-    <Content Include="win98.ico" />
+    <Content Include="Resources\win98.ico" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">
