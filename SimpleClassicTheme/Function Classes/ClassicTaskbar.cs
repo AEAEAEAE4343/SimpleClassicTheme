@@ -1,8 +1,10 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace SimpleClassicTheme
 {
@@ -23,7 +25,7 @@ namespace SimpleClassicTheme
             Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
             Process.Start("cmd", "/c taskkill /im sihost.exe /f").WaitForExit();
             //Give Windows Explorer, StartIsBack and Classic Shell the time to load
-            Thread.Sleep((int)Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme").GetValue("TaskbarDelay", 5000));
+            Thread.Sleep((int)Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme").GetValue("TaskbarDelay", 5000));
         }
 
         public static void Disable()
@@ -78,5 +80,32 @@ namespace SimpleClassicTheme
             //Set the taskbar WindowStyle back to the original
             User32.SetWindowLongPtrW(taskBarHandle, -16, p);
         }
+
+        public static void InstallSCTT(Form parent)
+		{
+            if (MessageBox.Show(parent, "Would you like to install SCTT?\n\nPlease note that SCTT is far from finished and may contain bugs/lack some features.", "Simple Classic Theme Taskbar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+			{
+                SCTTDownload download = new SCTTDownload();
+                download.FormClosed += delegate
+                {
+
+                };
+                download.ShowDialog(parent);
+			}
+		}
+
+        public static void EnableSCTT()
+		{
+            if (Process.GetProcessesByName("SCT_Taskbar").Length == 0)
+                Process.Start("C:\\SCT\\Taskbar\\SCT_Taskbar.exe", "--sct");
+		}
+
+        public static void DisableSCTT()
+		{
+            IntPtr window = Process.GetProcessesByName("SCT_Taskbar")[0].MainWindowHandle;
+            int wParam = 0x5354; //ST
+            int lParam = 0x4F50; //OP
+            User32.SendMessage(window, User32.WM_NULL, wParam, lParam);
+		}
     }
 }

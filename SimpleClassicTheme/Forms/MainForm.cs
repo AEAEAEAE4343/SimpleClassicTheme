@@ -5,6 +5,8 @@ using System.IO;
 using Microsoft.Win32;
 using System.Net;
 using System.IO.Compression;
+using SimpleClassicTheme.Forms;
+using System.Runtime.CompilerServices;
 
 namespace SimpleClassicTheme
 {
@@ -13,6 +15,8 @@ namespace SimpleClassicTheme
         //Check installation of Open Shell and StartIsBack++
         public static bool CheckDependencies(bool Taskbar)
         {
+            if (Taskbar && (string)Configuration.GetItem("TaskbarType", "SiB and OS") == "SCT Taskbar (beta)" && File.Exists("C:\\SCT\\Taskbar\\SCT_Taskbar.exe"))
+                return true;
             bool osInstalled = Directory.Exists("C:\\Program Files\\Open-Shell\\");
             bool sibInstalled = Environment.OSVersion.Version.Major < 10 || Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
             if ((!osInstalled || !sibInstalled) && Taskbar)
@@ -33,12 +37,12 @@ namespace SimpleClassicTheme
         {
             numericUpDown1.Maximum = Int32.MaxValue;
             ExtraFunctions.UpdateStartupExecutable(false);
-            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
-            checkBox1.Checked = bool.Parse(Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", false.ToString()).ToString());
+            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme");
+            checkBox1.Checked = bool.Parse(Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\SimpleClassicTheme", "EnableTaskbar", false.ToString()).ToString());
             File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\addSchemes.bat"), Properties.Resources.addSchemes);
             Process.Start(new ProcessStartInfo() { FileName = Path.Combine(Path.GetTempPath(), "\\addSchemes.bat"), Verb = "runas", UseShellExecute = false, CreateNoWindow = true });
             Shown += Form1_Shown;
-            var lol = Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme").GetValue("TaskbarDelay", 5000);
+            var lol = Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme").GetValue("TaskbarDelay", 5000);
             numericUpDown1.Value = (int)lol;
             CheckDependenciesAndSetControls(); 
         }
@@ -217,8 +221,8 @@ namespace SimpleClassicTheme
         //Turn on/off taskbar
         private void CheckBox1_CheckedChanged(object sender, EventArgs e)
         {
-            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "EnableTaskbar", checkBox1.Checked.ToString());
+            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme");
+            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\SimpleClassicTheme", "EnableTaskbar", checkBox1.Checked.ToString());
             CheckDependenciesAndSetControls();
         }
 
@@ -325,8 +329,8 @@ namespace SimpleClassicTheme
         //Update Delay
         private void NumericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "TaskbarDelay", (int)numericUpDown1.Value, RegistryValueKind.DWord);
+            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme");
+            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\SimpleClassicTheme", "TaskbarDelay", (int)numericUpDown1.Value, RegistryValueKind.DWord);
         }
 
         //Exit
@@ -356,6 +360,11 @@ namespace SimpleClassicTheme
 		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
             Process.Start("https://github.com/AEAEAEAE4343/SimpleClassicTheme/issues");
+		}
+
+		private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+            new OptionsForm().ShowDialog(this);
 		}
 	}
 }
