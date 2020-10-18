@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -10,19 +11,26 @@ using System.Windows.Forms;
 
 namespace SimpleClassicTheme
 {
-    //Helper Class: Contains all longish functions that make code unreadable
+    /// <summary>
+    /// Helper Class: Contains all longish functions that make code unreadable
+    /// </summary>
     static class ExtraFunctions
     {
-        //Check if there's a network connection
+        /// <summary>
+        /// Check if there's a network connectionX
+        /// </summary>
+        /// <returns>Whether a valid network connection is present</returns>
         public static bool CheckForInternetConnection()
         {
             try
             {
-                using (var client = new WebClient())
-                using (client.OpenRead("http://google.com/generate_204"))
-                    return true;
+                HttpWebRequest r = (HttpWebRequest)WebRequest.Create("https://google.com/generate_204");
+                using (HttpWebResponse response = (HttpWebResponse)r.GetResponse())
+                    if (response.StatusCode == HttpStatusCode.NoContent)
+                        return true;
             }
             catch { return false; }
+            return false;
         }
 
         //Updates the application
@@ -71,7 +79,7 @@ namespace SimpleClassicTheme
                 shortcut.TargetPath = @"C:\SCT\SCT.exe";
                 shortcut.Save();
             }
-            else if (Assembly.GetExecutingAssembly().Location != @"C:\SCT\SCT.exe" && CheckMD5(@"C:\SCT\SCT.exe") != CheckMD5(Assembly.GetExecutingAssembly().Location))
+            else if (File.Exists("C:\\SCT\\SCT.exe") && Assembly.GetExecutingAssembly().Location != @"C:\SCT\SCT.exe" && CheckMD5(@"C:\SCT\SCT.exe") != CheckMD5(Assembly.GetExecutingAssembly().Location))
 			{
                 File.Delete(@"C:\SCT\SCT.exe");
                 File.Copy(Assembly.GetExecutingAssembly().Location, @"C:\SCT\SCT.exe");
@@ -98,7 +106,7 @@ namespace SimpleClassicTheme
         }
 
         //Recursively copies a key
-        private static void RecurseCopyKey(RegistryKey sourceKey, RegistryKey destinationKey)
+        public static void RecurseCopyKey(RegistryKey sourceKey, RegistryKey destinationKey)
         {
             foreach (string valueName in sourceKey.GetValueNames())
             {

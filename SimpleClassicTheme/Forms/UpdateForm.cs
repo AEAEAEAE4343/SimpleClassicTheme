@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SimpleClassicTheme
@@ -55,19 +48,17 @@ namespace SimpleClassicTheme
                 //Check if newestVersion is bigger then currentVersion
                 if (currentVersion.CompareTo(newestVersion) < 0)
                 {
-                    label1.Text = "Downloading update " + newestVersion.ToString(3) + "...";
-                    ver = newestVersion;
-                    DownloadNewestVersion();
-                }
-                else
-                {
-                    Close();
+                    if ((string)Configuration.GetItem("UpdateMode", "Automatic") == "Ask on startup" && MessageBox.Show($"SCT version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
+                        Close();
+                    else
+                    {
+                        label1.Text = "Downloading update " + newestVersion.ToString(3) + "...";
+                        ver = newestVersion;
+                        DownloadNewestVersion();
+                    }
                 }
             }
-            else
-            {
-                Close();
-            }
+            Close();
         }
 
         private void DownloadNewestVersion()

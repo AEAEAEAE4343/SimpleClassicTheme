@@ -2,7 +2,9 @@
 using NtApiDotNet;
 using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace SimpleClassicTheme
 {
@@ -29,10 +31,27 @@ namespace SimpleClassicTheme
         //Enables Classic Theme and if specified Classic Taskbar.
         public static void MasterEnable(bool taskbar)
         {
+            Process.Start("C:\\SCT\\EnableThemeScript.bat", "pre").WaitForExit();
             Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "Enabled", true.ToString());
+            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337SimpleClassicTheme", "Enabled", true.ToString());
+            //SCTT
+            if ((string)Configuration.GetItem("TaskbarType", "SiB+OS") == "SCTT")
+            {
+#if DEBUG
+#else
+                if (Assembly.GetExecutingAssembly().Location != "C:\\SCT\\SCT.exe")
+                {
+                    MessageBox.Show("This action requires SCT to be installed");
+                }
+                else
+#endif
+                {
+                    ClassicTaskbar.EnableSCTT();
+                    Enable();
+                }
+			}
             //Windows 8.1
-            if (Environment.OSVersion.Version.Major != 10)
+            else if (Environment.OSVersion.Version.Major != 10)
             {
                 //Enable the theme
                 Enable();
@@ -40,7 +59,7 @@ namespace SimpleClassicTheme
                 //Make explorer apply theme
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
-                Thread.Sleep((int)Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme").GetValue("TaskbarDelay", 5000));
+                Thread.Sleep((int)Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme").GetValue("TaskbarDelay", 5000));
 
                 ClassicTaskbar.FixWin8_1();
             }
@@ -55,15 +74,23 @@ namespace SimpleClassicTheme
             {
                 Enable();
             }
+            Process.Start("C:\\SCT\\EnableThemeScript.bat", "post").WaitForExit();
         }
 
         //Disables Classic Theme and if specified Classic Taskbar.
         public static void MasterDisable(bool taskbar)
         {
-            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\SimpleClassicTheme", "Enabled", false.ToString());
+            Process.Start("C:\\SCT\\DisableThemeScript.bat", "pre").WaitForExit();
+            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme");
+            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\SimpleClassicTheme", "Enabled", false.ToString());
+            //SCTT
+            if ((string)Configuration.GetItem("TaskbarType", "SiB+OS") == "SCTT")
+            {
+                ClassicTaskbar.DisableSCTT();
+                Disable();
+            }
             //Windows 8.1
-            if(Environment.OSVersion.Version.Major != 10)
+            else if (Environment.OSVersion.Version.Major != 10)
             {
                 Disable();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
@@ -80,6 +107,7 @@ namespace SimpleClassicTheme
             {
                 Disable();
             }
+            Process.Start("C:\\SCT\\DisableThemeScript.bat", "post").WaitForExit();
         }
     }
 }

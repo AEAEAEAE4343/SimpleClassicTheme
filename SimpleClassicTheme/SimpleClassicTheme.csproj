@@ -102,14 +102,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\About.cs">
+    <Compile Include="Forms\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\About.Designer.cs">
-      <DependentUpon>About.cs</DependentUpon>
+    <Compile Include="Forms\AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\OptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\OptionsForm.Designer.cs">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SCTTDownload.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SCTTDownload.Designer.cs">
+      <DependentUpon>SCTTDownload.cs</DependentUpon>
     </Compile>
     <Compile Include="Function Classes\ClassicTaskbar.cs" />
     <Compile Include="Function Classes\ClassicTheme.cs" />
+    <Compile Include="Function Classes\Configuration.cs" />
     <Compile Include="Function Classes\ExtraFunctions.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
@@ -119,18 +132,24 @@
     </Compile>
     <Compile Include="ApplicationEntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Forms\Updater.cs">
+    <Compile Include="Forms\UpdateForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Updater.Designer.cs">
-      <DependentUpon>Updater.cs</DependentUpon>
+    <Compile Include="Forms\UpdateForm.Designer.cs">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Function Classes\WinApi.cs" />
-    <EmbeddedResource Include="Forms\About.resx">
-      <DependentUpon>About.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\OptionsForm.resx">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SCTTDownload.resx">
+      <DependentUpon>SCTTDownload.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -142,8 +161,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Forms\Updater.resx">
-      <DependentUpon>Updater.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\UpdateForm.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Other Files\app.manifest" />
     <None Include="Other Files\packages.config" />
@@ -161,6 +180,8 @@
     <None Include="Resources\addSchemes.sbat" />
     <None Include="Resources\Classic3.msstyles" />
     <None Include="Resources\deskn.cpl" />
+    <None Include="Resources\DisableThemeScript.bat" />
+    <None Include="Resources\EnableThemeScript.bat" />
     <None Include="Resources\ossettings.reg" />
     <None Include="Resources\restoreMetrics.reg" />
     <None Include="Resources\sibsettings.reg" />
