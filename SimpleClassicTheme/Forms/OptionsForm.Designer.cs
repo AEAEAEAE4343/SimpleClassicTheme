@@ -63,9 +63,6 @@
 			// 
 			this.comboBoxTaskbar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxTaskbar.FormattingEnabled = true;
-			this.comboBoxTaskbar.Items.AddRange(new object[] {
-            "SiB and OS",
-            "SCT Taskbar (beta)"});
 			this.comboBoxTaskbar.Location = new System.Drawing.Point(114, 39);
 			this.comboBoxTaskbar.Name = "comboBoxTaskbar";
 			this.comboBoxTaskbar.Size = new System.Drawing.Size(160, 21);

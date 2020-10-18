@@ -213,4 +213,10 @@ schtasks /Create /TN "Simple Classic Theme" /XML "C:\SCT\SCTTask.xml"</value>
   <data name="scttask" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\scttask.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
   </data>
+  <data name="DisableThemeScript" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DisableThemeScript.bat;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="EnableThemeScript" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnableThemeScript.bat;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

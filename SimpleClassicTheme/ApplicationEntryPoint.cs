@@ -5,6 +5,7 @@ using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using System.Reflection;
 
 namespace SimpleClassicTheme
 {
@@ -81,6 +82,12 @@ namespace SimpleClassicTheme
 
             Directory.CreateDirectory("C:\\SCT\\");
 
+            //Write loading scripts
+            if (!File.Exists("C:\\SCT\\EnableThemeScript.bat"))
+                File.WriteAllText("C:\\SCT\\EnableThemeScript.bat", Properties.Resources.EnableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+            if (!File.Exists("C:\\SCT\\DisableThemeScript.bat"))
+                File.WriteAllText("C:\\SCT\\DisableThemeScript.bat", Properties.Resources.DisableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+
             //Start update checking
             string updateMode = (string)Configuration.GetItem("UpdateMode", "Automatic");
             if (updateMode == "Automatic" || updateMode == "Ask on startup")
@@ -88,7 +95,7 @@ namespace SimpleClassicTheme
         
             //Get a console window
             Kernel32.AttachConsole(Kernel32.ATTACH_PARENT_PROCESS);
-            Console.WriteLine("SCT Version {0}\nCopyright 2020 Anis Errais");
+            Console.WriteLine("SCT Version {0}\nCopyright 2020 Anis Errais", Assembly.GetExecutingAssembly().GetName().Version);
             Thread.Sleep(250);
 
             //Clean up any files that might have been left over on the root of the C: drive

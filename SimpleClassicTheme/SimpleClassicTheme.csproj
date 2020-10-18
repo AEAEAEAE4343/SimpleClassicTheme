@@ -180,6 +180,8 @@
     <None Include="Resources\addSchemes.sbat" />
     <None Include="Resources\Classic3.msstyles" />
     <None Include="Resources\deskn.cpl" />
+    <None Include="Resources\DisableThemeScript.bat" />
+    <None Include="Resources\EnableThemeScript.bat" />
     <None Include="Resources\ossettings.reg" />
     <None Include="Resources\restoreMetrics.reg" />
     <None Include="Resources\sibsettings.reg" />

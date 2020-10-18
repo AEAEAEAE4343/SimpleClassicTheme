@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
+using NtApiDotNet;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -44,8 +46,8 @@ namespace SimpleClassicTheme
         public static void FixWin8_1()
         {
             /*
-                 Remove taskbar blur
-                 */
+             Remove taskbar blur
+             */
 
             //Get a handle to the taskbar
             IntPtr taskBarHandle = User32.FindWindowExW(IntPtr.Zero, IntPtr.Zero, "Shell_TrayWnd", "");
@@ -102,10 +104,10 @@ namespace SimpleClassicTheme
 
         public static void DisableSCTT()
 		{
-            IntPtr window = Process.GetProcessesByName("SCT_Taskbar")[0].MainWindowHandle;
-            int wParam = 0x5354; //ST
-            int lParam = 0x4F50; //OP
-            User32.SendMessage(window, User32.WM_NULL, wParam, lParam);
+            IntPtr window = File.Exists("C:\\SCT\\Taskbar\\MainWindow.txt") ? new IntPtr(Int32.Parse(File.ReadAllText("C:\\SCT\\Taskbar\\MainWindow.txt"))) : new IntPtr(0);
+            IntPtr wParam = new IntPtr(0x5354); //ST
+            IntPtr lParam = new IntPtr(0x4F50); //OP
+            User32.SendMessage(window, User32.WM_EXITTASKBAR, wParam, lParam);
 		}
     }
 }

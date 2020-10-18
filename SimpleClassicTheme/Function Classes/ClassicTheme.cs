@@ -31,16 +31,20 @@ namespace SimpleClassicTheme
         //Enables Classic Theme and if specified Classic Taskbar.
         public static void MasterEnable(bool taskbar)
         {
+            Process.Start("C:\\SCT\\EnableThemeScript.bat", "pre").WaitForExit();
             Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337SimpleClassicTheme", "Enabled", true.ToString());
             //SCTT
-            if ((string)Configuration.GetItem("TaskbarType", "SiB and OS") == "SCT Taskbar (beta)")
+            if ((string)Configuration.GetItem("TaskbarType", "SiB+OS") == "SCTT")
             {
+#if DEBUG
+#else
                 if (Assembly.GetExecutingAssembly().Location != "C:\\SCT\\SCT.exe")
                 {
                     MessageBox.Show("This action requires SCT to be installed");
                 }
                 else
+#endif
                 {
                     ClassicTaskbar.EnableSCTT();
                     Enable();
@@ -70,15 +74,17 @@ namespace SimpleClassicTheme
             {
                 Enable();
             }
+            Process.Start("C:\\SCT\\EnableThemeScript.bat", "post").WaitForExit();
         }
 
         //Disables Classic Theme and if specified Classic Taskbar.
         public static void MasterDisable(bool taskbar)
         {
+            Process.Start("C:\\SCT\\DisableThemeScript.bat", "pre").WaitForExit();
             Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme");
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\SimpleClassicTheme", "Enabled", false.ToString());
             //SCTT
-            if ((string)Configuration.GetItem("TaskbarType", "SiB and OS") == "SCT Taskbar (beta)")
+            if ((string)Configuration.GetItem("TaskbarType", "SiB+OS") == "SCTT")
             {
                 ClassicTaskbar.DisableSCTT();
                 Disable();
@@ -101,6 +107,7 @@ namespace SimpleClassicTheme
             {
                 Disable();
             }
+            Process.Start("C:\\SCT\\DisableThemeScript.bat", "post").WaitForExit();
         }
     }
 }
