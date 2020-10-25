@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
@@ -25,7 +26,7 @@ namespace SimpleClassicTheme.Forms
 		private void OptionsForm_Load(object sender, EventArgs e)
 		{
 			comboBoxUpdates.SelectedItem = Configuration.GetItem("UpdateMode", "Automatic");
-			comboBoxTaskbar.SelectedItem = TaskbarTypeDisplay[(string)Configuration.GetItem("TaskbarType", "SiB+OS")];
+			comboBoxTaskbar.SelectedItem = TaskbarTypeDisplay[TaskbarTypeDisplay.ContainsKey((string)Configuration.GetItem("TaskbarType", "SiB+OS")) ? (string)Configuration.GetItem("TaskbarType", "SiB+OS") : "SiB+OS"];
 		}
 
 		private void button3_Click(object sender, EventArgs e)
@@ -36,7 +37,7 @@ namespace SimpleClassicTheme.Forms
 		private void button2_Click(object sender, EventArgs e)
 		{
 			Configuration.SetItem("UpdateMode", comboBoxUpdates.SelectedItem, RegistryValueKind.String);
-			Configuration.SetItem("TaskbarType", comboBoxTaskbar.SelectedItem, RegistryValueKind.String);
+			Configuration.SetItem("TaskbarType", TaskbarTypeDisplay.FirstOrDefault(x => x.Value == (string)comboBoxTaskbar.SelectedItem).Key, RegistryValueKind.String);
 		}
 
 		private void comboBoxTaskbar_SelectedIndexChanged(object sender, EventArgs e)
@@ -49,7 +50,15 @@ namespace SimpleClassicTheme.Forms
 				else
 					return;
 			}
+			else if (Directory.Exists("C:\\SCT\\Taskbar\\") && File.Exists("C:\\SCT\\Taskbar\\SCT_Taskbar.exe"))
+				return;
 			comboBoxTaskbar.SelectedItem = TaskbarTypeDisplay["SiB+OS"];
+		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			button2_Click(sender, e);
+			Close();
 		}
 	}
 }

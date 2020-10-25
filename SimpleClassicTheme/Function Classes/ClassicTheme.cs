@@ -41,7 +41,7 @@ namespace SimpleClassicTheme
 #else
                 if (Assembly.GetExecutingAssembly().Location != "C:\\SCT\\SCT.exe")
                 {
-                    MessageBox.Show("This action requires SCT to be installed");
+                    MessageBox.Show("This action requires SCT to be installed and SCT to be ran from the Start Menu");
                 }
                 else
 #endif

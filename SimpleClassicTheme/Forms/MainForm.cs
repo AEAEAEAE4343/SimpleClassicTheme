@@ -6,7 +6,6 @@ using Microsoft.Win32;
 using System.Net;
 using System.IO.Compression;
 using SimpleClassicTheme.Forms;
-using System.Runtime.CompilerServices;
 
 namespace SimpleClassicTheme
 {
@@ -15,7 +14,7 @@ namespace SimpleClassicTheme
         //Check installation of Open Shell and StartIsBack++
         public static bool CheckDependencies(bool Taskbar)
         {
-            if (Taskbar && (string)Configuration.GetItem("TaskbarType", "SiB and OS") == "SCT Taskbar (beta)" && File.Exists("C:\\SCT\\Taskbar\\SCT_Taskbar.exe"))
+            if (Taskbar && (string)Configuration.GetItem("TaskbarType", "SiB+OS") == "SCTT" && File.Exists("C:\\SCT\\Taskbar\\SCT_Taskbar.exe"))
                 return true;
             bool osInstalled = Directory.Exists("C:\\Program Files\\Open-Shell\\");
             bool sibInstalled = Environment.OSVersion.Version.Major < 10 || Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
@@ -236,10 +235,8 @@ namespace SimpleClassicTheme
             }
             else
             {
-                DisableAllControls();
-                button3.Enabled = true;
-                checkBox1.Enabled = true;
-                numericUpDown1.Enabled = true;
+                button1.Enabled = false;
+                button2.Enabled = false;
             }
             numericUpDown1.Enabled = checkBox1.Checked;
             if (Directory.Exists("C:\\SCT\\T-Clock\\"))
@@ -257,14 +254,16 @@ namespace SimpleClassicTheme
         private void EnableAllControls()
         {
             foreach (Control c in Controls)
-                c.Enabled = true;
+                if (c != menuStrip1 && !(c is GroupBox))
+                    c.Enabled = true;
         }
 
         //Disables all controls
         private void DisableAllControls()
         {
             foreach (Control c in Controls)
-                c.Enabled = false;
+                if (c != menuStrip1 && !(c is GroupBox))
+                    c.Enabled = false;
         }
 
         //Install T-Clock

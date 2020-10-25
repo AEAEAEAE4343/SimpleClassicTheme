@@ -83,9 +83,9 @@ namespace SimpleClassicTheme
             User32.SetWindowLongPtrW(taskBarHandle, -16, p);
         }
 
-        public static void InstallSCTT(Form parent)
+        public static void InstallSCTT(Form parent, bool ask = true)
 		{
-            if (MessageBox.Show(parent, "Would you like to install SCTT?\n\nPlease note that SCTT is far from finished and may contain bugs/lack some features.", "Simple Classic Theme Taskbar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (!ask || MessageBox.Show(parent, "Would you like to install SCTT?\n\nPlease note that SCTT is far from finished and may contain bugs/lack some features.", "Simple Classic Theme Taskbar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 			{
                 SCTTDownload download = new SCTTDownload();
                 download.FormClosed += delegate
