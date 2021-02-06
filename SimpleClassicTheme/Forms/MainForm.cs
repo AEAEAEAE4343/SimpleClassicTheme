@@ -57,12 +57,39 @@ namespace SimpleClassicTheme
             ExtraFunctions.UpdateStartupExecutable(false);
             Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme");
             checkBox1.Checked = bool.Parse(Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\SimpleClassicTheme", "EnableTaskbar", false.ToString()).ToString());
-            File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\addSchemes.bat"), Properties.Resources.addSchemes);
+            File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\addSchemes.bat"), Properties.Resources.reg_classicschemes_add);
             Process.Start(new ProcessStartInfo() { FileName = Path.Combine(Path.GetTempPath(), "\\addSchemes.bat"), Verb = "runas", UseShellExecute = false, CreateNoWindow = true });
             Shown += Form1_Shown;
             var lol = Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme").GetValue("TaskbarDelay", 5000);
             numericUpDown1.Value = (int)lol;
-            CheckDependenciesAndSetControls(); 
+            CheckDependenciesAndSetControls();
+
+            MainMenu menu = new MainMenu() 
+            { 
+                MenuItems = 
+                {
+                    new MenuItem("File")
+                    {
+                        MenuItems =
+                        {
+                            new MenuItem("Options", optionsToolStripMenuItem_Click),
+                            new MenuItem("Exit", exitToolStripMenuItem_Click)
+                        }
+                    },
+
+                    new MenuItem("Help")
+                    {
+                        MenuItems =
+                        {
+                            new MenuItem("Guide", guideToolStripMenuItem_Click),
+                            new MenuItem("Report bugs", reportBugsToolStripMenuItem_Click),
+                            new MenuItem("About", aboutToolStripMenuItem_Click)
+                        }
+                    }
+                } 
+            };
+
+            //Menu = menu;
         }
 
         //Make the window itself use Classic Theme regardless of the current theme
@@ -95,10 +122,10 @@ namespace SimpleClassicTheme
             bool sibInstalled = Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
 
             if (button3.Text == "Reconfigure SCT+OS")
-			{
+            {
                 ExtraFunctions.ReConfigureOS(osInstalled, sibInstalled);
                 return;
-			}
+            }
 
             //Open-Shell installation
             if (!osInstalled && checkBox1.Checked)
@@ -124,7 +151,7 @@ namespace SimpleClassicTheme
                     string orbname = MessageBox.Show("Do you want to use a Win95 style start orb (If not a Windows 7 style orb will be used)?", "Simple Classic Theme", MessageBoxButtons.YesNo) == DialogResult.Yes ? "win9x.png" : "win7.png";
 
                     //Setup Open-Shell registry
-                    File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\ossettings.reg"), Properties.Resources.openShellSettings);
+                    File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\ossettings.reg"), Properties.Resources.reg_os_settings);
                     Process.Start(Path.Combine(Path.GetTempPath(), "\\ossettings.reg")).WaitForExit();
                     Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\OpenShell\\StartMenu\\Settings", "StartButtonPath", @"%USERPROFILE%\AppData\Local\StartIsBack\Orbs\" + orbname);
                 }
@@ -156,7 +183,7 @@ namespace SimpleClassicTheme
                     File.WriteAllBytes(path + "\\AppData\\Local\\StartIsBack\\Styles\\Classic3.msstyles", Properties.Resources.classicStartIsBackTheme);
                     
                     //Setup StartIsBack registry
-                    string f = Properties.Resources.startIsBackSettings.Replace("C:\\\\Users\\\\{Username}", $"{path.Replace("\\", "\\\\")}");
+                    string f = Properties.Resources.reg_sib_settings.Replace("C:\\\\Users\\\\{Username}", $"{path.Replace("\\", "\\\\")}");
                     File.WriteAllText("C:\\sib.reg", f);
                     Process.Start(Path.Combine(Path.GetTempPath(), "\\sib.reg")).WaitForExit();
 
@@ -206,27 +233,6 @@ namespace SimpleClassicTheme
             }
         }
 
-        //Install Classic Task Manager
-        private void Button7_Click(object sender, EventArgs e)
-        {
-            File.WriteAllBytes("C:\\SCT\\ctm.exe", Properties.Resources.classicTaskManager);
-            Process.Start("C:\\SCT\\ctm.exe", "/silent").WaitForExit();
-            MessageBox.Show("Classic Task Manager has been installed on your system");
-            File.Delete("C:\\SCT\\ctm.exe");
-        }
-
-        //Install 7+ Taskbar Tweaker
-        private void Button8_Click(object sender, EventArgs e)
-        {
-            using (WebClient c = new WebClient())
-            {
-                c.DownloadFile("https://rammichael.com/downloads/7tt_setup.exe", "C:\\SCT\\7tt.exe");
-            }
-            Process.Start("C:\\SCT\\7tt.exe", "/S").WaitForExit();
-            MessageBox.Show("7+ Taskbar Tweaker has been installed on your system");
-            File.Delete("C:\\SCT\\7tt.exe");
-        }
-
         //Install ExplorerContextMenuTweaker
         private void Button9_Click(object sender, EventArgs e)
         {
@@ -267,13 +273,26 @@ namespace SimpleClassicTheme
                 checkBox1.Hide();
                 numericUpDown1.Enabled = true;
             }
+
+            Version OSVersion = Environment.OSVersion.Version;
+            int Architecture = IntPtr.Size == 8 ? 64 : 32;
+            string TaskbarType = (string)Configuration.GetItem("TaskbarType", "SiB+OS");
+
+            button9.Enabled = OSVersion.Major == 10 && Architecture == 64;
+
+            if (!checkBox1.Checked)
+                return;
+
+            //button8.Enabled = TaskbarType == "SiB+OS";
+            button10.Enabled = TaskbarType == "SiB+OS";
+
         }
 
         //Enables all controls
         private void EnableAllControls()
         {
             foreach (Control c in Controls)
-                if (c != menuStrip1 && !(c is GroupBox))
+                if (!(c is GroupBox))
                     c.Enabled = true;
         }
 
@@ -281,7 +300,7 @@ namespace SimpleClassicTheme
         private void DisableAllControls()
         {
             foreach (Control c in Controls)
-                if (c != menuStrip1 && !(c is GroupBox))
+                if (!(c is GroupBox))
                     c.Enabled = false;
         }
 
@@ -306,15 +325,6 @@ namespace SimpleClassicTheme
             }
         }
 
-        //Install Folder Options X
-        private void Button11_Click(object sender, EventArgs e)
-        {
-            File.WriteAllBytes("C:\\SCT\\fox.exe", Properties.Resources.folderOptionsX);
-            Process.Start("C:\\SCT\\fox.exe", "/silent").WaitForExit();
-            MessageBox.Show("Folder Options X has been installed on your system");
-            File.Delete("C:\\SCT\\fox.exe");
-        }
-
         //Open RibbonDisabler 4.0
         private void Button12_Click(object sender, EventArgs e)
         {
@@ -328,19 +338,17 @@ namespace SimpleClassicTheme
         //Make borders 3D by changing UPM
         private void Button13_Click(object sender, EventArgs e)
         {
-            File.WriteAllText("C:\\SCT\\upm.reg", Properties.Resources.upmReg);
-            Process.Start("C:\\SCT\\upm.reg").WaitForExit();
-            File.Delete("C:\\SCT\\upm.reg");
+            File.WriteAllText("C:\\SCT\\reg_upm_enable3d.reg", Properties.Resources.reg_upm_enable3d);
+            Process.Start("C:\\SCT\\reg_upm_enable3d.reg").WaitForExit();
+            File.Delete("C:\\SCT\\reg_upm_enable3d.reg");
         }
 
         //Restore WindowMetrics
         private void Button14_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("This restores the default WindowMetrics for Windows 10. Restore guide:\r\n1. Set Classic Theme to \"Windows Aero\"\r\n2. Disable Classic Theme\r\n3. Use this option\r\nWould you like to continue?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("This restores all default theme settings and restart you PC.\nContinue?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                File.WriteAllText("C:\\SCT\\restoreMetrics.reg", Properties.Resources.restoreWindowMetrics);
-                Process.Start("C:\\SCT\\restoreMetrics.reg").WaitForExit();
-                File.Delete("C:\\SCT\\restoreMetrics.reg");
+                ClassicTheme.RemoveSCT();
             }
         }
 
@@ -375,14 +383,36 @@ namespace SimpleClassicTheme
             new About().ShowDialog(this);
         }
 
-		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
             Process.Start("https://github.com/AEAEAEAE4343/SimpleClassicTheme/issues");
-		}
+        }
 
-		private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             new OptionsForm().ShowDialog(this);
-		}
+            CheckDependenciesAndSetControls();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            new UtilityManagerForm().ShowDialog();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            new AHKScriptManager().ShowDialog();
+        }
+
+		private void button8_Click(object sender, EventArgs e)
+		{
+            //Restore WindowMetrics
+            File.WriteAllText("C:\\SCT\\reg_windowmetrics_restore.reg", Environment.OSVersion.Version.Major == 10 ? Properties.Resources.reg_windowmetrics_restore : Properties.Resources.reg_windowmetrics_81);
+            Process.Start("C:\\SCT\\reg_windowmetrics_restore.reg").WaitForExit();
+
+            //Restore Aero
+
+
+        }
 	}
 }

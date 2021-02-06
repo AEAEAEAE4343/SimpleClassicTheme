@@ -21,6 +21,7 @@ using Microsoft.Win32;
 using NtApiDotNet;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
@@ -32,6 +33,7 @@ namespace SimpleClassicTheme
         //Enables Classic Theme
         public static void Enable()
         {   
+            if (Environment.OSVersion.Version.Major == 10) Process.Start("explorer.exe", "ApplicationFrameHost");
             NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
             g.SetSecurityDescriptor(new SecurityDescriptor("O:BAG:SYD:(A;;RC;;;IU)(A;;DCSWRPSDRCWDWO;;;SY)"), SecurityInformation.Dacl);
             g.Close();
@@ -52,7 +54,7 @@ namespace SimpleClassicTheme
         {
             Process.Start("C:\\SCT\\EnableThemeScript.bat", "pre").WaitForExit();
             Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337SimpleClassicTheme", "Enabled", true.ToString());
+            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\SimpleClassicTheme", "Enabled", true.ToString());
             //SCTT
             if ((string)Configuration.GetItem("TaskbarType", "SiB+OS") == "SCTT")
             {
@@ -65,10 +67,12 @@ namespace SimpleClassicTheme
                 else
 #endif
                 {
-                    ClassicTaskbar.EnableSCTT();
                     Enable();
+                    Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
+                    Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
+                    ClassicTaskbar.EnableSCTT();
                 }
-			}
+            }
             //Windows 8.1
             else if (Environment.OSVersion.Version.Major != 10)
             {
@@ -127,6 +131,93 @@ namespace SimpleClassicTheme
                 Disable();
             }
             Process.Start("C:\\SCT\\DisableThemeScript.bat", "post").WaitForExit();
+        }
+
+        //Full SCT uninstall
+        public static void RemoveSCT()
+        {
+            Directory.CreateDirectory("C:\\SCT");
+
+            //Stop classic theme
+            MasterDisable(false);
+
+            //Prepare local appdata path for uninstallation of certain utilities
+            string path = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).FullName;
+            if (Environment.OSVersion.Version.Major >= 6)
+                path = Directory.GetParent(path).ToString();
+
+            //Optionally also uninstall OS, SiB, Classic Task Manager, Folder Options X, 7+TT and ExplorerContextMenuTweaker
+            if (Directory.Exists("C:\\Program Files\\Open-Shell") && MessageBox.Show("Open-Shell has been found on the system.\nWould you like SCT to remove it?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Process.Start("C:\\Windows\\System32\\msiexec.exe", "/X{FD722BB1-4960-455F-89C6-EFAEB79527EF}").WaitForExit();
+            }
+            if (Directory.Exists(path + "\\AppData\\Local\\StartIsBack") && MessageBox.Show("StartIsBack++ has been found on the system.\nWould you like SCT to remove it?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Process.Start(path + "\\AppData\\Local\\StartIsBack\\StartIsBackCfg.exe", "/uninstall").WaitForExit();
+            }
+            if (Directory.Exists("C:\\Program Files\\ClassicTaskmgr") && MessageBox.Show("Classic Task Manager has been found on the system.\nWould you like SCT to remove it?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Process.Start("C:\\Program Files\\ClassicTaskmgr\\unins000.exe").WaitForExit();
+            }
+            if (Directory.Exists("C:\\Program Files\\T800 Productions\\Folder Options X") && MessageBox.Show("Folder Options X has been found on the system.\nWould you like SCT to remove it?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Process.Start("C:\\Program Files\\T800 Productions\\Folder Options X\\unins000.exe").WaitForExit();
+            }
+            if (Directory.Exists(path + "\\AppData\\Roaming\\7+ Taskbar Tweaker") && MessageBox.Show("7+ Taskbar Tweaker has been found on the system.\nWould you like SCT to remove it?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Process.Start(path + "\\AppData\\Roaming\\7+ Taskbar Tweaker\\uninstall.exe").WaitForExit();
+            }
+            if (File.Exists("C:\\Windows\\System32\\ExplorerContextMenuTweaker.dll") && MessageBox.Show("ExplorerContextMenuTweaker has been found on the system.\nWould you like SCT to remove it?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Process.Start("C:\\Windows\\System32\\regsvr32.exe", "/u C:\\Windows\\System32\\ExplorerContextMenuTweaker.dll").WaitForExit();
+                Process.Start("C:\\Windows\\System32\\taskkill.exe", "/im explorer.exe /f").WaitForExit();
+                File.Delete("C:\\Windows\\System32\\ExplorerContextMenuTweaker.dll");
+                File.Delete("C:\\Windows\\System32\\ShellPayload.dll");
+            }
+
+            //Ask user if they want to disable Ribbon now
+            if (MessageBox.Show("Would you like to run RibbonDisabler to enable the ribbon before removing SCT?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                if (!File.Exists("C:\\SCT\\RibbonDisabler.exe"))
+                {
+                    File.WriteAllBytes("C:\\SCT\\RibbonDisabler.exe", Properties.Resources.ribbonDisabler);
+                }
+                Process.Start("C:\\SCT\\RibbonDisabler.exe").WaitForExit();
+            }
+
+            //Delete SCT, SCTT and T-Clock
+            MessageBox.Show("SCT Pre-removal has finished succesfully.\nSCT will now be uninstalled.", "SCT Uninstallation");
+
+            MessageBox.Show("Several registry imports will be done to restore settings.\nPlease click yes on all of them.", "SCT Uninstallation");
+
+            //Put Windows Aero scheme on
+            File.WriteAllText("C:\\SCT\\reg_windowcolors_restore.reg", Properties.Resources.reg_windowcolors_restore);
+            Process.Start("C:\\SCT\\reg_windowcolors_restore.reg").WaitForExit();
+            Process.Start("C:\\Windows\\Resources\\Themes\\aero.theme").WaitForExit();
+
+            //Restore WindowMetrics
+            File.WriteAllText("C:\\SCT\\reg_windowmetrics_restore.reg", Environment.OSVersion.Version.Major == 10 ? Properties.Resources.reg_windowmetrics_restore : Properties.Resources.reg_windowmetrics_81);
+            Process.Start("C:\\SCT\\reg_windowmetrics_restore.reg").WaitForExit();
+
+            //Make borders 2D
+            File.WriteAllText("C:\\SCT\\reg_upm_disable3d.reg", Properties.Resources.reg_upm_disable3d);
+            Process.Start("C:\\SCT\\reg_upm_disable3d.reg").WaitForExit();
+
+            //Remove SCT Task
+            Process.Start("C:\\Windows\\System32\\schtasks.exe", "/Delete /TN \"Simple Classic Theme\" /F").WaitForExit();
+
+            //Remove registry for both SCT and SCTT
+            Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme");
+            Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").CreateSubKey("SimpleClassicThemeTaskbar");
+            Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").DeleteSubKeyTree("SimpleClassicTheme");
+            Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").DeleteSubKeyTree("SimpleClassicThemeTaskbar");
+            if (Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").SubKeyCount == 0)
+                Registry.CurrentUser.CreateSubKey("SOFTWARE").DeleteSubKeyTree("1337ftw");
+
+            //File removal
+            File.WriteAllText("C:\\RemoveSCT.bat", Properties.Resources.removalString);
+            Process.Start("C:\\RemoveSCT.bat");
+            Environment.Exit(0);
         }
     }
 }

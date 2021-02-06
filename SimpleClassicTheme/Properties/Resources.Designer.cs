@@ -61,15 +61,6 @@ namespace SimpleClassicTheme.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to reg ADD &quot;HKCU\Control Panel\Appearance\Schemes&quot; /v &quot;Windows Modern&quot; /t REG_BINARY /d &quot;0200000034e439000100000010000000100000001200000012000000f5ffffff000000000000000000000000bc02000000000001000005005300650067006f0065002000550049000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f0000000f000000f5ffffff000000000000000000000000bc02000000000001000005005300650067006f0065002000550049000000000000000000000000000000000000000000000000000000000000000000000000000000000000 [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string addSchemes {
-            get {
-                return ResourceManager.GetString("addSchemes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] classicStartIsBackTheme {
@@ -86,6 +77,30 @@ namespace SimpleClassicTheme.Properties {
             get {
                 object obj = ResourceManager.GetObject("classicTaskManager", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-16&quot;?&gt;
+        ///&lt;Task version=&quot;1.2&quot; xmlns=&quot;http://schemas.microsoft.com/windows/2004/02/mit/task&quot;&gt;
+        ///  &lt;RegistrationInfo&gt;
+        ///    &lt;Date&gt;2020-08-03T20:43:25&lt;/Date&gt;
+        ///    &lt;Author&gt;Anis&lt;/Author&gt;
+        ///  &lt;/RegistrationInfo&gt;
+        ///  &lt;Triggers&gt;
+        ///    &lt;LogonTrigger&gt;
+        ///      &lt;StartBoundary&gt;2020-08-03T20:43:00&lt;/StartBoundary&gt;
+        ///      &lt;Enabled&gt;true&lt;/Enabled&gt;
+        ///    &lt;/LogonTrigger&gt;
+        ///  &lt;/Triggers&gt;
+        ///  &lt;Principals&gt;
+        ///    &lt;Principal id=&quot;Author&quot;&gt;
+        ///      &lt;LogonType&gt;InteractiveToken&lt;/LogonType&gt;
+        ///      &lt;RunLevel&gt;HighestAva [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string cmd_create_task {
+            get {
+                return ResourceManager.GetString("cmd_create_task", resourceCulture);
             }
         }
         
@@ -213,10 +228,39 @@ namespace SimpleClassicTheme.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap logo_sct {
+            get {
+                object obj = ResourceManager.GetObject("logo_sct", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap null_classic3small {
             get {
                 object obj = ResourceManager.GetObject("null_classic3small", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] openShellSetup {
+            get {
+                object obj = ResourceManager.GetObject("openShellSetup", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to reg ADD &quot;HKCU\Control Panel\Appearance\Schemes&quot; /v &quot;Windows Modern&quot; /t REG_BINARY /d &quot;0200000034e439000100000010000000100000001200000012000000f5ffffff000000000000000000000000bc02000000000001000005005300650067006f0065002000550049000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f0000000f000000f5ffffff000000000000000000000000bc02000000000001000005005300650067006f0065002000550049000000000000000000000000000000000000000000000000000000000000000000000000000000000000 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string reg_classicschemes_add {
+            get {
+                return ResourceManager.GetString("reg_classicschemes_add", resourceCulture);
             }
         }
         
@@ -233,84 +277,9 @@ namespace SimpleClassicTheme.Properties {
         ///  00,00,00,55,00,53,00,45,00,52,00,5f,00,4e,00,41,00,4d,00,45,00,3d,00,30,00,\
         ///  00,00,43,00,45,00,4e,00,54,00,45,00,52,00,5f,00,4e,00,41,00,4d,00,45,00,3d [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string openShellSettings {
+        internal static string reg_os_settings {
             get {
-                return ResourceManager.GetString("openShellSettings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] openShellSetup {
-            get {
-                object obj = ResourceManager.GetObject("openShellSetup", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Windows Registry Editor Version 5.00
-        ///
-        ///[HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics]
-        ///
-        ///&quot;CaptionHeight&quot;=&quot;-330&quot;
-        ///&quot;CaptionWidth&quot;=&quot;-330&quot;
-        ///&quot;CaptionFont&quot;=hex:f4,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,00,\
-        ///  00,00,00,01,00,00,05,00,53,00,65,00,67,00,6f,00,65,00,20,00,55,00,49,00,00,\
-        ///  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\
-        ///  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
-        ///&quot;ScrollWidth&quot;=&quot;-255&quot;
-        ///&quot;ScrollHeight&quot;=&quot;-255&quot;
-        ///&quot;PaddedBord [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string restoreWindowMetrics {
-            get {
-                return ResourceManager.GetString("restoreWindowMetrics", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] ribbonDisabler {
-            get {
-                object obj = ResourceManager.GetObject("ribbonDisabler", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-16&quot;?&gt;
-        ///&lt;Task version=&quot;1.2&quot; xmlns=&quot;http://schemas.microsoft.com/windows/2004/02/mit/task&quot;&gt;
-        ///  &lt;RegistrationInfo&gt;
-        ///    &lt;Date&gt;2020-08-03T20:43:25&lt;/Date&gt;
-        ///    &lt;Author&gt;Anis&lt;/Author&gt;
-        ///  &lt;/RegistrationInfo&gt;
-        ///  &lt;Triggers&gt;
-        ///    &lt;LogonTrigger&gt;
-        ///      &lt;StartBoundary&gt;2020-08-03T20:43:00&lt;/StartBoundary&gt;
-        ///      &lt;Enabled&gt;true&lt;/Enabled&gt;
-        ///    &lt;/LogonTrigger&gt;
-        ///  &lt;/Triggers&gt;
-        ///  &lt;Principals&gt;
-        ///    &lt;Principal id=&quot;Author&quot;&gt;
-        ///      &lt;LogonType&gt;InteractiveToken&lt;/LogonType&gt;
-        ///      &lt;RunLevel&gt;HighestAva [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string scttask {
-            get {
-                return ResourceManager.GetString("scttask", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] ShellPayload {
-            get {
-                object obj = ResourceManager.GetObject("ShellPayload", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("reg_os_settings", resourceCulture);
             }
         }
         
@@ -331,9 +300,128 @@ namespace SimpleClassicTheme.Properties {
         ///&quot;Start_AskCortana&quot;=dword:00000000
         ///&quot;Start_RightPaneIcons&quot;=d [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string startIsBackSettings {
+        internal static string reg_sib_settings {
             get {
-                return ResourceManager.GetString("startIsBackSettings", resourceCulture);
+                return ResourceManager.GetString("reg_sib_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows Registry Editor Version 5.00
+        ///
+        ///[HKEY_CURRENT_USER\Control Panel\Desktop]
+        ///&quot;UserPreferencesMask&quot;=hex:9e,3e,07,80,12,00,00,00.
+        /// </summary>
+        internal static string reg_upm_disable3d {
+            get {
+                return ResourceManager.GetString("reg_upm_disable3d", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows Registry Editor Version 5.00
+        ///
+        ///[HKEY_CURRENT_USER\Control Panel\Desktop]
+        ///&quot;UserPreferencesMask&quot;=hex:be,1e,05,80,12,00,00,00.
+        /// </summary>
+        internal static string reg_upm_enable3d {
+            get {
+                return ResourceManager.GetString("reg_upm_enable3d", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows Registry Editor Version 5.00
+        ///
+        ///[HKEY_CURRENT_USER\Control Panel\Appearance]
+        ///&quot;CustomColors&quot;=hex:3a,6e,a5,00,ff,ff,ff,00,ff,ff,ff,00,ff,ff,ff,00,ff,ff,ff,00,\
+        ///  ff,ff,ff,00,ff,ff,ff,00,ff,ff,ff,00,ff,ff,ff,00,ff,ff,ff,00,ff,ff,ff,00,ff,\
+        ///  ff,ff,00,ff,ff,ff,00,ff,ff,ff,00,ff,ff,ff,00,ff,ff,ff,00
+        ///&quot;Current&quot;=&quot;Windows Aero&quot;
+        ///.
+        /// </summary>
+        internal static string reg_windowcolors_restore {
+            get {
+                return ResourceManager.GetString("reg_windowcolors_restore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows Registry Editor Version 5.00
+        ///
+        ///[HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics]
+        ///&quot;BorderWidth&quot;=&quot;-15&quot;
+        ///&quot;ScrollWidth&quot;=&quot;-255&quot;
+        ///&quot;ScrollHeight&quot;=&quot;-255&quot;
+        ///&quot;CaptionWidth&quot;=&quot;-330&quot;
+        ///&quot;CaptionHeight&quot;=&quot;-330&quot;
+        ///&quot;SmCaptionWidth&quot;=&quot;-330&quot;
+        ///&quot;SmCaptionHeight&quot;=&quot;-330&quot;
+        ///&quot;MenuWidth&quot;=&quot;-285&quot;
+        ///&quot;MenuHeight&quot;=&quot;-285&quot;
+        ///&quot;CaptionFont&quot;=hex:f1,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,00,\
+        ///  00,00,00,01,00,00,05,00,53,00,65,00,67,00,6f,00,65,00,20,00,55,00,49,00,00,\
+        ///  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string reg_windowmetrics_81 {
+            get {
+                return ResourceManager.GetString("reg_windowmetrics_81", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows Registry Editor Version 5.00
+        ///
+        ///[HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics]
+        ///
+        ///&quot;CaptionHeight&quot;=&quot;-330&quot;
+        ///&quot;CaptionWidth&quot;=&quot;-330&quot;
+        ///&quot;CaptionFont&quot;=hex:f4,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,00,\
+        ///  00,00,00,01,00,00,05,00,53,00,65,00,67,00,6f,00,65,00,20,00,55,00,49,00,00,\
+        ///  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\
+        ///  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+        ///&quot;ScrollWidth&quot;=&quot;-255&quot;
+        ///&quot;ScrollHeight&quot;=&quot;-255&quot;
+        ///&quot;PaddedBord [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string reg_windowmetrics_restore {
+            get {
+                return ResourceManager.GetString("reg_windowmetrics_restore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @echo off
+        ///title SCT Uninstallation
+        ///echo Removing final SCT files
+        ///timeout 5 &gt; nul
+        ///rmdir /S /Q C:\SCT
+        ///shutdown.exe -r -t 2
+        ///(goto) 2&gt;nul &amp; del &quot;%~f0&quot;.
+        /// </summary>
+        internal static string removalString {
+            get {
+                return ResourceManager.GetString("removalString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ribbonDisabler {
+            get {
+                object obj = ResourceManager.GetObject("ribbonDisabler", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ShellPayload {
+            get {
+                object obj = ResourceManager.GetObject("ShellPayload", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -376,18 +464,6 @@ namespace SimpleClassicTheme.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Windows Registry Editor Version 5.00
-        ///
-        ///[HKEY_CURRENT_USER\Control Panel\Desktop]
-        ///&quot;UserPreferencesMask&quot;=hex:be,1e,05,80,12,00,00,00.
-        /// </summary>
-        internal static string upmReg {
-            get {
-                return ResourceManager.GetString("upmReg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap win7 {
@@ -410,37 +486,10 @@ namespace SimpleClassicTheme.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap win98sctbanner {
-            get {
-                object obj = ResourceManager.GetObject("win98sctbanner", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap win9x {
             get {
                 object obj = ResourceManager.GetObject("win9x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Windows Registry Editor Version 5.00
-        ///
-        ///[HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics]
-        ///&quot;CaptionFont&quot;=hex:f5,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,bc,02,00,00,\
-        ///  00,00,00,00,00,00,00,00,54,00,61,00,68,00,6f,00,6d,00,61,00,00,00,00,00,00,\
-        ///  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\
-        ///  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
-        ///&quot;IconFont&quot;=hex:f5,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,00,00,\
-        ///  00,00,00,00,00,00,00,5 [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string WindowMetrics {
-            get {
-                return ResourceManager.GetString("WindowMetrics", resourceCulture);
             }
         }
     }

@@ -46,6 +46,23 @@ namespace SimpleClassicTheme
 
             string sctVer = Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
             label2.Text = label2.Text.Replace("%ver%", sctVer);
+
+            Color A = SystemColors.ActiveCaption;
+            Color B = SystemColors.GradientActiveCaption;
+            Bitmap bitmap = new Bitmap(400, 5);
+            for (int i = 0; i < 200; i++)
+            {
+                int r = A.R + ((B.R - A.R) * i / 200);
+                int g = A.G + ((B.G - A.G) * i / 200);
+                int b = A.B + ((B.B - A.B) * i / 200);
+
+                for (int y = 0; y < 5; y++)
+                    bitmap.SetPixel(i, y, Color.FromArgb(r, g, b));
+
+                for (int y = 0; y < 5; y++)
+                    bitmap.SetPixel(399 - i, y, Color.FromArgb(r, g, b));
+            }
+            pictureBox2.Image = bitmap;
         }
 
         private void About_Shown(object sender, EventArgs e)

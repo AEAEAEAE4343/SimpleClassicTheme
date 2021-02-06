@@ -104,10 +104,12 @@ namespace SimpleClassicTheme
                 if (tagName != "")
                 {
                     Version newestVersion = Version.Parse(tagName);
-                    Version currentVersion = Assembly.LoadFrom("C:\\SCT\\Taskbar\\SCT_Taskbar.exe").GetName().Version;
+                    FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo("C:\\SCT\\Taskbar\\SCT_Taskbar.exe");
+                    Version currentVersion;
+                    Version.TryParse(versionInfo.ProductVersion, out currentVersion);
 
                     //Check if newestVersion is bigger then currentVersion
-                    if (currentVersion.CompareTo(newestVersion) < 0)
+                    if (currentVersion != null && currentVersion.CompareTo(newestVersion) < 0)
                     {
                         if ((string)Configuration.GetItem("UpdateMode", "Automatic") == "Ask on startup" && MessageBox.Show($"SCT Taskbar version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
                             Close();
@@ -115,7 +117,7 @@ namespace SimpleClassicTheme
                         {
                             label1.Text = "Downloading update " + newestVersion.ToString(3) + "...";
                             ver = newestVersion;
-                            DownloadNewestVersion();
+                            DownloadNewestTaskbarVersion();
                         }
                     }
                 }

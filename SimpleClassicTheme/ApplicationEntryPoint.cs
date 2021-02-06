@@ -25,6 +25,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Reflection;
+using System.Windows.Forms.VisualStyles;
 
 namespace SimpleClassicTheme
 {
@@ -61,10 +62,12 @@ namespace SimpleClassicTheme
                 return;
             }
 
+            Application.EnableVisualStyles();
+            Application.VisualStyleState = VisualStyleState.NoneEnabled;
             Application.SetCompatibleTextRenderingDefault(false);
 
             bool windows = Environment.OSVersion.Platform == PlatformID.Win32NT;
-            bool windows10 = Environment.OSVersion.Version.Major == 10 && Int32.Parse(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId", "").ToString()) >= 1803;
+            bool windows10 = Environment.OSVersion.Version.Major == 10 /*&& Int32.Parse(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId", "").ToString()) >= 1803*/;
             bool windows8 = Environment.OSVersion.Version.Major == 6 && (Environment.OSVersion.Version.Minor == 2 || Environment.OSVersion.Version.Minor == 3);
 
             //Check if the OS is compatible
@@ -129,6 +132,10 @@ namespace SimpleClassicTheme
             File.Delete("C:\\sib.exe");
             File.Delete("C:\\windowmetrics.reg");
             File.Delete("C:\\RibbonDisabler.exe");
+
+            //Clean up any files that might have been left over in the SCT directory
+            File.Delete("C:\\SCT\\upm.reg");
+            File.Delete("C:\\SCT\\restoreMetrics.reg");
 
             if (args.Length > 0)
             {

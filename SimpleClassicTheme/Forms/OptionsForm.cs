@@ -32,7 +32,7 @@ namespace SimpleClassicTheme.Forms
 
 		public OptionsForm()
 		{
-			TaskbarTypeDisplay.Add("SiB+OS", "SiB and OS");
+			TaskbarTypeDisplay.Add("SiB+OS", Environment.OSVersion.Version.Major == 10 ? "SiB and OS" : "Vanilla taskbar");
 			TaskbarTypeDisplay.Add("SCTT", "SCT Taskbar (alpha)");
 
 			InitializeComponent();

@@ -76,7 +76,7 @@ namespace SimpleClassicTheme
                     File.Delete(@"C:\SCT\SCT.exe");
                     File.Copy(Assembly.GetExecutingAssembly().Location, @"C:\SCT\SCT.exe");
                 }
-                File.WriteAllText("C:\\SCT\\SCTTask.xml", Properties.Resources.scttask);
+                File.WriteAllText("C:\\SCT\\SCTTask.xml", Properties.Resources.cmd_create_task);
                 File.WriteAllText("C:\\SCT\\TaskSchedule.cmd", Properties.Resources.taskScheduleCommands);
                 Process task = new Process()
                 {
@@ -171,7 +171,7 @@ namespace SimpleClassicTheme
                 string orbname = MessageBox.Show("Do you want to use a Win95 style start orb (If not a Windows 7 style orb will be used)?", "Simple Classic Theme", MessageBoxButtons.YesNo) == DialogResult.Yes ? "win9x.png" : "win7.png";
 
                 //Setup Open-Shell registry
-                File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\ossettings.reg"), Properties.Resources.openShellSettings);
+                File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\ossettings.reg"), Properties.Resources.reg_os_settings);
                 Process.Start(Path.Combine(Path.GetTempPath(), "\\ossettings.reg")).WaitForExit();
                 Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\OpenShell\\StartMenu\\Settings", "StartButtonPath", @"%USERPROFILE%\AppData\Local\StartIsBack\Orbs\" + orbname);
             }
@@ -192,7 +192,7 @@ namespace SimpleClassicTheme
                 File.WriteAllBytes(path + "\\AppData\\Local\\StartIsBack\\Styles\\Classic3.msstyles", Properties.Resources.classicStartIsBackTheme);
 
                 //Setup StartIsBack registry
-                string f = Properties.Resources.startIsBackSettings.Replace("C:\\\\Users\\\\{Username}", $"{path.Replace("\\", "\\\\")}");
+                string f = Properties.Resources.reg_sib_settings.Replace("C:\\\\Users\\\\{Username}", $"{path.Replace("\\", "\\\\")}");
                 File.WriteAllText("C:\\sib.reg", f);
                 Process.Start(Path.Combine(Path.GetTempPath(), "\\sib.reg")).WaitForExit();
 

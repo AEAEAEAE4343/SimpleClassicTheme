@@ -54,34 +54,36 @@ namespace SimpleClassicTheme
 			this.button4 = new System.Windows.Forms.Button();
 			this.button5 = new System.Windows.Forms.Button();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
-			this.button11 = new System.Windows.Forms.Button();
 			this.button10 = new System.Windows.Forms.Button();
 			this.button9 = new System.Windows.Forms.Button();
-			this.button8 = new System.Windows.Forms.Button();
-			this.button7 = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.button14 = new System.Windows.Forms.Button();
 			this.button13 = new System.Windows.Forms.Button();
 			this.button12 = new System.Windows.Forms.Button();
 			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.reportBugsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.button7 = new System.Windows.Forms.Button();
+			this.button6 = new System.Windows.Forms.Button();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.reportBugsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+			this.button8 = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-			this.menuStrip1.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// button1
@@ -145,19 +147,9 @@ namespace SimpleClassicTheme
 			this.checkBox1.UseVisualStyleBackColor = true;
 			this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
 			// 
-			// button11
-			// 
-			this.button11.Location = new System.Drawing.Point(6, 135);
-			this.button11.Name = "button11";
-			this.button11.Size = new System.Drawing.Size(152, 23);
-			this.button11.TabIndex = 4;
-			this.button11.Text = "Install Folder Options X";
-			this.button11.UseVisualStyleBackColor = true;
-			this.button11.Click += new System.EventHandler(this.Button11_Click);
-			// 
 			// button10
 			// 
-			this.button10.Location = new System.Drawing.Point(6, 106);
+			this.button10.Location = new System.Drawing.Point(6, 19);
 			this.button10.Name = "button10";
 			this.button10.Size = new System.Drawing.Size(152, 23);
 			this.button10.TabIndex = 3;
@@ -168,33 +160,13 @@ namespace SimpleClassicTheme
 			// button9
 			// 
 			this.button9.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.button9.Location = new System.Drawing.Point(6, 77);
+			this.button9.Location = new System.Drawing.Point(6, 48);
 			this.button9.Name = "button9";
 			this.button9.Size = new System.Drawing.Size(152, 23);
 			this.button9.TabIndex = 2;
 			this.button9.Text = "Inst. ExplorerContextMenuTweaker";
 			this.button9.UseVisualStyleBackColor = true;
 			this.button9.Click += new System.EventHandler(this.Button9_Click);
-			// 
-			// button8
-			// 
-			this.button8.Location = new System.Drawing.Point(6, 48);
-			this.button8.Name = "button8";
-			this.button8.Size = new System.Drawing.Size(152, 23);
-			this.button8.TabIndex = 1;
-			this.button8.Text = "Install 7+ Taskbar Tweaker";
-			this.button8.UseVisualStyleBackColor = true;
-			this.button8.Click += new System.EventHandler(this.Button8_Click);
-			// 
-			// button7
-			// 
-			this.button7.Location = new System.Drawing.Point(6, 19);
-			this.button7.Name = "button7";
-			this.button7.Size = new System.Drawing.Size(152, 23);
-			this.button7.TabIndex = 0;
-			this.button7.Text = "Install Classic Task Manager";
-			this.button7.UseVisualStyleBackColor = true;
-			this.button7.Click += new System.EventHandler(this.Button7_Click);
 			// 
 			// label1
 			// 
@@ -207,17 +179,17 @@ namespace SimpleClassicTheme
 			// 
 			// button14
 			// 
-			this.button14.Location = new System.Drawing.Point(6, 222);
+			this.button14.Location = new System.Drawing.Point(6, 226);
 			this.button14.Name = "button14";
 			this.button14.Size = new System.Drawing.Size(152, 23);
 			this.button14.TabIndex = 2;
-			this.button14.Text = "Restore WindowMetrics";
+			this.button14.Text = "Uninstall (restores UI)";
 			this.button14.UseVisualStyleBackColor = true;
 			this.button14.Click += new System.EventHandler(this.Button14_Click);
 			// 
 			// button13
 			// 
-			this.button13.Location = new System.Drawing.Point(6, 193);
+			this.button13.Location = new System.Drawing.Point(6, 106);
 			this.button13.Name = "button13";
 			this.button13.Size = new System.Drawing.Size(152, 23);
 			this.button13.TabIndex = 1;
@@ -227,7 +199,7 @@ namespace SimpleClassicTheme
 			// 
 			// button12
 			// 
-			this.button12.Location = new System.Drawing.Point(6, 164);
+			this.button12.Location = new System.Drawing.Point(6, 77);
 			this.button12.Name = "button12";
 			this.button12.Size = new System.Drawing.Size(152, 23);
 			this.button12.TabIndex = 0;
@@ -243,79 +215,14 @@ namespace SimpleClassicTheme
 			this.numericUpDown1.TabIndex = 9;
 			this.numericUpDown1.ValueChanged += new System.EventHandler(this.NumericUpDown1_ValueChanged);
 			// 
-			// menuStrip1
-			// 
-			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.helpToolStripMenuItem});
-			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(360, 24);
-			this.menuStrip1.TabIndex = 10;
-			this.menuStrip1.Text = "menuStrip1";
-			// 
-			// fileToolStripMenuItem
-			// 
-			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.optionsToolStripMenuItem,
-            this.exitToolStripMenuItem});
-			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-			this.fileToolStripMenuItem.Text = "File";
-			// 
-			// optionsToolStripMenuItem
-			// 
-			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.optionsToolStripMenuItem.Text = "Options";
-			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
-			// 
-			// exitToolStripMenuItem
-			// 
-			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.exitToolStripMenuItem.Text = "Exit";
-			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-			// 
-			// helpToolStripMenuItem
-			// 
-			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.guideToolStripMenuItem,
-            this.reportBugsToolStripMenuItem,
-            this.aboutToolStripMenuItem});
-			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-			this.helpToolStripMenuItem.Text = "Help";
-			// 
-			// guideToolStripMenuItem
-			// 
-			this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-			this.guideToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-			this.guideToolStripMenuItem.Text = "Guide";
-			this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
-			// 
-			// reportBugsToolStripMenuItem
-			// 
-			this.reportBugsToolStripMenuItem.Name = "reportBugsToolStripMenuItem";
-			this.reportBugsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-			this.reportBugsToolStripMenuItem.Text = "Report bugs";
-			this.reportBugsToolStripMenuItem.Click += new System.EventHandler(this.reportBugsToolStripMenuItem_Click);
-			// 
-			// aboutToolStripMenuItem
-			// 
-			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-			this.aboutToolStripMenuItem.Text = "About";
-			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-			// 
 			// groupBox1
 			// 
-			this.groupBox1.Controls.Add(this.button14);
-			this.groupBox1.Controls.Add(this.button11);
+			this.groupBox1.Controls.Add(this.button8);
 			this.groupBox1.Controls.Add(this.button7);
+			this.groupBox1.Controls.Add(this.button6);
+			this.groupBox1.Controls.Add(this.button14);
 			this.groupBox1.Controls.Add(this.button13);
 			this.groupBox1.Controls.Add(this.button10);
-			this.groupBox1.Controls.Add(this.button8);
 			this.groupBox1.Controls.Add(this.button12);
 			this.groupBox1.Controls.Add(this.button9);
 			this.groupBox1.Location = new System.Drawing.Point(182, 27);
@@ -324,6 +231,26 @@ namespace SimpleClassicTheme
 			this.groupBox1.TabIndex = 11;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Extra stuff";
+			// 
+			// button7
+			// 
+			this.button7.Location = new System.Drawing.Point(6, 135);
+			this.button7.Name = "button7";
+			this.button7.Size = new System.Drawing.Size(152, 23);
+			this.button7.TabIndex = 5;
+			this.button7.Text = "Open AHK Script Manager";
+			this.button7.UseVisualStyleBackColor = true;
+			this.button7.Click += new System.EventHandler(this.button7_Click);
+			// 
+			// button6
+			// 
+			this.button6.Location = new System.Drawing.Point(6, 164);
+			this.button6.Name = "button6";
+			this.button6.Size = new System.Drawing.Size(152, 23);
+			this.button6.TabIndex = 4;
+			this.button6.Text = "Open Utility Manager";
+			this.button6.UseVisualStyleBackColor = true;
+			this.button6.Click += new System.EventHandler(this.button6_Click);
 			// 
 			// groupBox2
 			// 
@@ -371,6 +298,98 @@ namespace SimpleClassicTheme
 			this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
 			// 
+			// menuStrip1
+			// 
+			this.menuStrip1.BackColor = System.Drawing.SystemColors.Control;
+			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.helpToolStripMenuItem1});
+			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+			this.menuStrip1.Name = "menuStrip1";
+			this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+			this.menuStrip1.Size = new System.Drawing.Size(360, 24);
+			this.menuStrip1.TabIndex = 16;
+			this.menuStrip1.Text = "menuStrip1";
+			// 
+			// fileToolStripMenuItem
+			// 
+			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.optionsToolStripMenuItem,
+            this.exitToolStripMenuItem});
+			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+			this.fileToolStripMenuItem.Text = "File";
+			// 
+			// optionsToolStripMenuItem
+			// 
+			this.optionsToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
+			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+			this.optionsToolStripMenuItem.Text = "Options";
+			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+			// 
+			// exitToolStripMenuItem
+			// 
+			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+			this.exitToolStripMenuItem.Text = "Exit";
+			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+			// 
+			// helpToolStripMenuItem1
+			// 
+			this.helpToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.guideToolStripMenuItem,
+            this.reportBugsToolStripMenuItem,
+            this.aboutToolStripMenuItem});
+			this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
+			this.helpToolStripMenuItem1.Size = new System.Drawing.Size(44, 20);
+			this.helpToolStripMenuItem1.Text = "Help";
+			// 
+			// guideToolStripMenuItem
+			// 
+			this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
+			this.guideToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+			this.guideToolStripMenuItem.Text = "Guide";
+			this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
+			// 
+			// reportBugsToolStripMenuItem
+			// 
+			this.reportBugsToolStripMenuItem.Name = "reportBugsToolStripMenuItem";
+			this.reportBugsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+			this.reportBugsToolStripMenuItem.Text = "Report bugs";
+			this.reportBugsToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
+			// 
+			// aboutToolStripMenuItem
+			// 
+			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+			this.aboutToolStripMenuItem.Text = "About";
+			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+			// 
+			// helpToolStripMenuItem
+			// 
+			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2});
+			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(122, 20);
+			this.helpToolStripMenuItem.Text = "Help";
+			// 
+			// toolStripMenuItem2
+			// 
+			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(67, 22);
+			// 
+			// button8
+			// 
+			this.button8.Location = new System.Drawing.Point(6, 197);
+			this.button8.Name = "button8";
+			this.button8.Size = new System.Drawing.Size(152, 23);
+			this.button8.TabIndex = 6;
+			this.button8.Text = "Restore window settings";
+			this.button8.UseVisualStyleBackColor = true;
+			this.button8.Visible = false;
+			this.button8.Click += new System.EventHandler(this.button8_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -394,11 +413,11 @@ namespace SimpleClassicTheme
 			this.Text = "Simple Classic Theme";
 			this.Load += new System.EventHandler(this.Form1_Load);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-			this.menuStrip1.ResumeLayout(false);
-			this.menuStrip1.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+			this.menuStrip1.ResumeLayout(false);
+			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -412,29 +431,32 @@ namespace SimpleClassicTheme
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Button button13;
         private System.Windows.Forms.Button button14;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem guideToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem reportBugsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.LinkLabel linkLabel1;
+		private System.Windows.Forms.Button button6;
+		private System.Windows.Forms.MenuStrip menuStrip1;
+		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem guideToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem reportBugsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+		private System.Windows.Forms.Button button7;
+		private System.Windows.Forms.Button button8;
 	}
 }
 
