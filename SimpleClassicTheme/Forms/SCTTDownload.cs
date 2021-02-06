@@ -98,6 +98,7 @@ namespace SimpleClassicTheme
 			{
 				ZipArchiveEntry entry = archive.Entries[i];
 				string destPath = Path.GetFullPath(Path.Combine(destExtract, entry.FullName));
+				Directory.CreateDirectory(destPath);
 				entry.ExtractToFile(destPath);
 				progressExtract = (int)((float)i / archive.Entries.Count * 100);
 				if (i == archive.Entries.Count - 1)
