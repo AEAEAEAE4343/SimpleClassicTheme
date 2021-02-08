@@ -61,15 +61,15 @@ namespace SimpleClassicTheme.Forms
 
 		private void comboBoxTaskbar_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if ((string)comboBoxTaskbar.SelectedItem == TaskbarTypeDisplay["SCTT"] && !Directory.Exists("C:\\SCT\\Taskbar\\") && !File.Exists("C:\\SCT\\Taskbar\\SCT_Taskbar.exe"))
+			if ((string)comboBoxTaskbar.SelectedItem == TaskbarTypeDisplay["SCTT"] && !Directory.Exists("C:\\SCT\\Taskbar\\") && !File.Exists("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe"))
 			{
 				ClassicTaskbar.InstallSCTT(this);
-				if (!File.Exists("C:\\SCT\\Taskbar\\SCT_Taskbar.exe"))
+				if (!File.Exists("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe"))
 					comboBoxTaskbar.SelectedItem = TaskbarTypeDisplay["SiB+OS"];
 				else
 					return;
 			}
-			else if (Directory.Exists("C:\\SCT\\Taskbar\\") && File.Exists("C:\\SCT\\Taskbar\\SCT_Taskbar.exe"))
+			else if (Directory.Exists("C:\\SCT\\Taskbar\\") && File.Exists("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe"))
 				return;
 			comboBoxTaskbar.SelectedItem = TaskbarTypeDisplay["SiB+OS"];
 		}

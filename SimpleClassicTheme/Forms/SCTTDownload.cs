@@ -97,16 +97,16 @@ namespace SimpleClassicTheme
 			for (int i = 0; i < archive.Entries.Count; i++)
 			{
 				ZipArchiveEntry entry = archive.Entries[i];
+				if (entry.Length == 0)
+					continue;
 				string destPath = Path.GetFullPath(Path.Combine(destExtract, entry.FullName));
-				Directory.CreateDirectory(destPath);
+				Directory.CreateDirectory(Path.GetDirectoryName(destPath));
 				entry.ExtractToFile(destPath);
 				progressExtract = (int)((float)i / archive.Entries.Count * 100);
 				if (i == archive.Entries.Count - 1)
 					progressExtract = 100;
 			}
 			archive.Dispose();
-			if (File.Exists("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe"))
-				File.Move("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe", "C:\\SCT\\Taskbar\\SCT_Taskbar.exe");
 		}
 	}
 }

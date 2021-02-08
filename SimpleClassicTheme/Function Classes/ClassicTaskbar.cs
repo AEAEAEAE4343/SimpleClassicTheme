@@ -19,9 +19,12 @@
 
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -115,16 +118,44 @@ namespace SimpleClassicTheme
 
         public static void EnableSCTT()
 		{
-            if (Process.GetProcessesByName("SCT_Taskbar").Length == 0)
-                Process.Start("C:\\SCT\\Taskbar\\SCT_Taskbar.exe", "--sct");
+            Process[] scttInstances = Process.GetProcessesByName("SimpleClassicThemeTaskbar");
+            scttInstances = scttInstances.Where(a =>
+            {
+                foreach (IntPtr handle in User32.EnumerateProcessWindowHandles(a.Id, "SCTT_Shell_TrayWnd"))
+                {
+                    IntPtr returnValue = User32.SendMessage(handle, User32.WM_SCT, new IntPtr(User32.SCTWP_ISSCT), IntPtr.Zero);
+                    if (returnValue != IntPtr.Zero)
+                        return true;
+                }
+                return false;
+            }).ToArray();
+            if (scttInstances.Length == 0)
+                Process.Start("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe", "--sct");
 		}
-
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        static extern int GetClassName (int hWnd, StringBuilder title, int size);
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        static extern int GetWindowText(int hWnd, StringBuilder title, int size);
         public static void DisableSCTT()
 		{
-            IntPtr window = File.Exists("C:\\SCT\\Taskbar\\MainWindow.txt") ? new IntPtr(Int32.Parse(File.ReadAllText("C:\\SCT\\Taskbar\\MainWindow.txt"))) : new IntPtr(0);
-            IntPtr wParam = new IntPtr(0x5354); //ST
-            IntPtr lParam = new IntPtr(0x4F50); //OP
-            User32.SendMessage(window, User32.WM_EXITTASKBAR, wParam, lParam);
-		}
+            Process[] scttInstances = Process.GetProcessesByName("SimpleClassicThemeTaskbar");
+            Array.ForEach(scttInstances, a =>
+            {
+                List<IntPtr> handles = User32.EnumerateProcessWindowHandles(a.Id, "SCTT_Shell_TrayWnd");
+                string s = "";
+                foreach (IntPtr handle in handles)
+                {
+                    StringBuilder builder = new StringBuilder(1000);
+                    GetClassName(handle.ToInt32(), builder, 1000);
+                    if (builder.Length > 0)
+                        s = s + builder.ToString() + "\n";
+                    IntPtr returnValue = User32.SendMessage(handle, User32.WM_SCT, new IntPtr(User32.SCTWP_ISSCT), IntPtr.Zero);
+                    if (returnValue != IntPtr.Zero)
+                    {
+                        User32.SendMessage(handle, User32.WM_SCT, new IntPtr(User32.SCTWP_EXIT), IntPtr.Zero);
+                    }
+                }
+            });
+        }
     }
 }

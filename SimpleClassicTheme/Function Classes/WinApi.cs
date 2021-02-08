@@ -18,7 +18,10 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace SimpleClassicTheme
 {
@@ -68,8 +71,39 @@ namespace SimpleClassicTheme
         [DllImport("user32.dll")]
         public static extern bool SetWindowCompositionAttribute(IntPtr hWnd, ref WINCOMPATTRDATA pAttrData);
 
-        public const int WM_NULL = 0x0000; 
-        public const int WM_EXITTASKBAR = 0x0420;
+        public const int WM_NULL = 0x0000;
+        public const int WM_GETTEXT = 0x000D;
+
+        public const int WM_SCT = 0x0420;
+        public const int SCTWP_EXIT = 0x0001;
+        public const int SCTWP_ISMANAGED = 0x0002;
+        public const int SCTWP_ISSCT = 0x0003;
+        public const int SCTLP_FORCE = 0x0001;
+
+        public delegate bool EnumThreadDelegate(IntPtr hWnd, IntPtr lParam);
+        [DllImport("user32.dll")]
+        public static extern bool EnumThreadWindows(int dwThreadId, EnumThreadDelegate lpfn, IntPtr lParam);
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+        //[DllImport("user32.dll", EntryPoint = "GetWindowLongPtr")]
+        //public static extern IntPtr GetWindowLongPtr(IntPtr hWnd, int nIndex);
+
+        //public const int GWL_EXSTYLE = -20;
+
+        public static List<IntPtr> EnumerateProcessWindowHandles(int processId, string name)
+        {
+            List<IntPtr> handles = new List<IntPtr>();
+
+            foreach (ProcessThread thread in Process.GetProcessById(processId).Threads)
+            {
+                EnumThreadWindows(thread.Id, (hWnd, lParam) =>
+                {
+                    handles.Add(hWnd);
+                    return true;
+                }, IntPtr.Zero);
+            }
+            return handles;
+        }
     }
 
     static class UxTheme

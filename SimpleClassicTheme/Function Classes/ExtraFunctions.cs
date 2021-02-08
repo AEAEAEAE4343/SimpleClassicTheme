@@ -100,8 +100,15 @@ namespace SimpleClassicTheme
             }
             else if (File.Exists("C:\\SCT\\SCT.exe") && Assembly.GetExecutingAssembly().Location != @"C:\SCT\SCT.exe" && CheckMD5(@"C:\SCT\SCT.exe") != CheckMD5(Assembly.GetExecutingAssembly().Location))
 			{
-                File.Delete(@"C:\SCT\SCT.exe");
-                File.Copy(Assembly.GetExecutingAssembly().Location, @"C:\SCT\SCT.exe");
+                try
+                {
+                    File.Delete(@"C:\SCT\SCT.exe");
+                    File.Copy(Assembly.GetExecutingAssembly().Location, @"C:\SCT\SCT.exe");
+                }
+                catch (UnauthorizedAccessException)
+				{
+
+				}
             }
         }
 

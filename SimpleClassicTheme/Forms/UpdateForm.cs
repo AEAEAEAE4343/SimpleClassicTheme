@@ -78,7 +78,7 @@ namespace SimpleClassicTheme
                 }
             }
 
-            if (File.Exists("C:\\SCT\\Taskbar\\SCT_Taskbar.exe") && (string)Configuration.GetItem("TaskbarType", "SiB+OS") == "SCTT")
+            if (File.Exists("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe") && (string)Configuration.GetItem("TaskbarType", "SiB+OS") == "SCTT")
 			{
                 //Get latest release info
                 f = "";
@@ -104,7 +104,7 @@ namespace SimpleClassicTheme
                 if (tagName != "")
                 {
                     Version newestVersion = Version.Parse(tagName);
-                    FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo("C:\\SCT\\Taskbar\\SCT_Taskbar.exe");
+                    FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe");
                     Version currentVersion;
                     Version.TryParse(versionInfo.ProductVersion, out currentVersion);
 

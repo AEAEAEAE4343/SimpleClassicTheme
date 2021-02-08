@@ -33,7 +33,7 @@ namespace SimpleClassicTheme
         //Check installation of Open Shell and StartIsBack++
         public static bool CheckDependencies(bool Taskbar)
         {
-            if (Taskbar && (string)Configuration.GetItem("TaskbarType", "SiB+OS") == "SCTT" && File.Exists("C:\\SCT\\Taskbar\\SCT_Taskbar.exe"))
+            if (Taskbar && (string)Configuration.GetItem("TaskbarType", "SiB+OS") == "SCTT" && File.Exists("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe"))
                 return true;
             bool osInstalled = Directory.Exists("C:\\Program Files\\Open-Shell\\");
             bool sibInstalled = Environment.OSVersion.Version.Major < 10 || Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));

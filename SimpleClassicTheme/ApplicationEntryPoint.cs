@@ -189,6 +189,9 @@ namespace SimpleClassicTheme
                         break;
                     case "/boot":
                         bool Enabled = bool.Parse(Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme").GetValue("Enabled", "False").ToString());
+                        if (Directory.Exists("C:\\SCT"))
+                            foreach (string f in Directory.EnumerateFiles("C:\\SCT\\AHK"))
+                                Process.Start(f);
                         if (Enabled)
                         {
                             arg = "/enable";
