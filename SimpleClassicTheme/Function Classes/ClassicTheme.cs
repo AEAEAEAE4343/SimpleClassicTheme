@@ -191,7 +191,6 @@ namespace SimpleClassicTheme
 
             //Delete SCT, SCTT and T-Clock
             MessageBox.Show("SCT Pre-removal has finished succesfully.\nSCT will now be uninstalled.", "SCT Uninstallation");
-
             MessageBox.Show("Several registry imports will be done to restore settings.\nPlease click yes on all of them.", "SCT Uninstallation");
 
             //Put Windows Aero scheme on
