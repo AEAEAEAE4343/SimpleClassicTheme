@@ -32,8 +32,12 @@ namespace SimpleClassicTheme
     {
         //Enables Classic Theme
         public static void Enable()
-        {   
-            if (Environment.OSVersion.Version.Major == 10) Process.Start("explorer.exe", "ApplicationFrameHost");
+        {
+            if (Environment.OSVersion.Version.Major == 10)
+            { 
+                Process.Start("explorer.exe", "ApplicationFrameHost").WaitForExit();
+                Thread.Sleep(100);
+            }
             NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
             g.SetSecurityDescriptor(new SecurityDescriptor("O:BAG:SYD:(A;;RC;;;IU)(A;;DCSWRPSDRCWDWO;;;SY)"), SecurityInformation.Dacl);
             g.Close();
