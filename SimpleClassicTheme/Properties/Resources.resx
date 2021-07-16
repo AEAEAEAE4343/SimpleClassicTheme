@@ -122,17 +122,62 @@
     <value>..\Resources\win7.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="helpMessage" xml:space="preserve">
-    <value>USAGE: SimpleClassicTheme.exe [OPERATION] {ARGS..}
+    <value>========================================================================================================================
+Usage: SimpleClassicTheme.exe (arguments...) 
+You can add as many from the arguments listed down here as you want
 
-Operations:
-    /enable This enables the classic theme
-    /disable This disables the classic theme
-    /configure This opens the classic theme control panel
-    /boot This runs the boot circuitry of the utility. Do not use. Use /enableauto instead
-    /enableauto This enables/disables (depending on current state) the classic theme, and if enabled in GUI, also the taskbar.
+--boot                                                      Running this command will make SCT set Classic Theme up 
+                                                            the way it was before logging out. This is used for 
+                                                            auto-launch. Do not run this yourself. 
+										                    
+--configure                                                 Opens the Classic Theme configuration menu, where you can
+-c                                                          set your color schemes.
+										                    
+--disable                                                   Disables Classic Theme. Behaviour is the same as the 
+-d                                                          button in the GUI. 
+										                    
+--enable                                                    Enables Classic Theme. Behaviour is the same as the 
+-e                                                          button in the GUI. 
+										                    
+--gui                                                       Runs the GUI of Simple Classic Theme. Any arguments passed
+-g                                                          after this one will be ignored. 
+										                    
+--help -h /help /h /?                                       Displays this help menu. 
+										                    
+--install                                                   Installs SCT to your C:\ drive and configures it to
+-i                                                          automatically run on boot. 
+										                    
+--install-dependencies                                      Installs all dependencies required for the set 
+-r                                                          configuration. This can be any combination, all or none
+                                                            of: SCT Taskbar, Open-Shell, StartlsBack++.
+										                    
+--set [setting name] [value]                                Sets the specified setting to the given value. Value must 
+-s [setting name] [value]                                   be of correct type. Possibilities:
+                                                               Boolean EnableTaskbar 
+                                                                  Sets whether SCT should also enable and disable a 
+                                                                  Classic Taskbar 
+                                                               Int32   TaskbarDelay	 
+                                                                  Sets the delay between enabling the Classic Taskbar 
+                                                                  and enabling Classic Theme. Only applicable for 
+                                                                  TaskbarType == OS+SiB 
+                                                               String  UpdateMode
+                                                                  Sets the way SCT should handle auto updating. 
+                                                                  Possible values: 'Automatic', 'Ask on startup' 
+                                                                  and 'Manual. 
+                                                               String  TaskbarType
+                                                                  Sets the Classic Taskbar to be used when SCT is 
+                                                                  enabling and disabling. Possible Values: OS+SiB 
+                                                                  or SCTT. 
+										                    
+--wizard                                                    Launches the Simple Classic Theme Install Wizard. This is
+-w                                                          a GUI tool that helps you install and configure SCT.
 
-Arguments:
-    -t, --enable-taskbar Enables/Disables classic taskbar (Depending on operation)</value>
+
+For compatibility purposes, all arguments supplied starting with '/' will have / replaced with --
+
+This command line system allows for some pretty cool commands. For example:
+SCT.exe --set EnableTaskbar True --set TaskbarType SCTT --install-dependencies -install --enable 
+(Sets up SCT to use SCTT, installs dependencies, makes it auto-launch and enables it)</value>
   </data>
   <data name="reg_classicschemes_add" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\addSchemes.sbat;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>

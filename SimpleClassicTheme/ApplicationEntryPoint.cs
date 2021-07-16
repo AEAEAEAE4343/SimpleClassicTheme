@@ -32,21 +32,6 @@ namespace SimpleClassicTheme
 {
     static class ApplicationEntryPoint
     {
-        static void ShowError(string f)
-        {
-            ConsoleColor ccForeColor = Console.ForegroundColor;
-            ConsoleColor ccBackColor = Console.BackgroundColor;
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.Write("ERROR: ");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(f);
-
-            Console.ForegroundColor = ccForeColor;
-            Console.BackgroundColor = ccBackColor;
-        }
-
         static void ShowHelp()
         {
             Console.Write(Properties.Resources.helpMessage);
@@ -60,8 +45,11 @@ namespace SimpleClassicTheme
         {
             if (IntPtr.Size != 8)
             {
-                ShowError("This binary is incorrectly compiled and cannot run. Please compile SCT as an x64 binary");
+                MessageBox.Show("This binary is incorrectly compiled and cannot run. Please compile SCT as an x64 binary");
+#if DEBUG
+#else
                 return;
+#endif
             }
 
             Application.EnableVisualStyles();
@@ -76,8 +64,8 @@ namespace SimpleClassicTheme
             if (!(windows && (windows10 || windows8)))
             {
                 Kernel32.FreeConsole();
-                Kernel32.AttachConsole(Kernel32.ATTACH_PARENT_PROCESS);
-                ShowError("");
+                Kernel32.AllocConsole();
+                Console.WriteLine("Incompatible operating system");
                 Kernel32.FreeConsole();
 #if DEBUG
 #else
@@ -155,7 +143,12 @@ namespace SimpleClassicTheme
                 List<(string, object[])> arguments = new List<(string, object[])>();
                 for (int i = 0; i < args.Length; i++)
 				{
-                    switch (args[i])
+                    string parseableArgument;
+                    if (args[i].StartsWith("/"))
+                        parseableArgument = "--" + args[i].Substring(1);
+                    else
+                        parseableArgument = args[i];
+                    switch (parseableArgument)
                     {
                         case "--boot":
                             arguments.Add(("--boot", null));
@@ -244,6 +237,7 @@ namespace SimpleClassicTheme
                         case "-h":
                         case "/help":
                         case "/h":
+                        case "/?":
                             arguments.Add(("--help", null));
                             goto exit;
                         default:
@@ -304,6 +298,7 @@ namespace SimpleClassicTheme
                             Console.WriteLine("Enabled SCT succesfully");
                             break;
                         case "--gui":
+                            Console.WriteLine("Starting GUI interface");
                             Kernel32.FreeConsole();
                             goto run_gui;
                         case "--help":
