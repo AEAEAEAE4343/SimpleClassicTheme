@@ -60,7 +60,7 @@ namespace SimpleClassicTheme
 
 		private void ThreadFunction()
 		{
-			foreach (Process p in Process.GetProcessesByName("SCT_Taskbar"))
+			foreach (Process p in Process.GetProcessesByName("SimpleClassicThemeTaskbar"))
 				p.Kill();
 
 			string dlUrl = "https://github.com/WinClassic/SimpleClassicThemeTaskbar/releases/latest/download/SimpleClassicThemeTaskbar_x64.zip";
