@@ -44,7 +44,7 @@ namespace SimpleClassicTheme
             {
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
                 c.Headers.Set(HttpRequestHeader.UserAgent, "SimpleClasicTheme");
-                f = c.DownloadString("https://api.github.com/repos/AEAEAEAE4343/SimpleClassicTheme/releases/latest");
+                f = c.DownloadString("https://api.github.com/repos/WinClassic/SimpleClassicTheme/releases/latest");
             }
 
             //Resond to messages
@@ -86,7 +86,7 @@ namespace SimpleClassicTheme
                 {
                     ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
                     c.Headers.Set(HttpRequestHeader.UserAgent, "SimpleClasicTheme");
-                    f = c.DownloadString("https://api.github.com/repos/AEAEAEAE4343/SimpleClassicThemeTaskbar/releases/latest");
+                    f = c.DownloadString("https://api.github.com/repos/WinClassic/SimpleClassicThemeTaskbar/releases/latest");
                 }
 
                 //Resond to messages
@@ -146,7 +146,7 @@ namespace SimpleClassicTheme
 			};
 
 			c.Headers.Set(HttpRequestHeader.UserAgent, "SimpleClasicTheme");
-			c.DownloadFileAsync(new Uri("https://github.com/AEAEAEAE4343/SimpleClassicTheme/releases/latest/download/SimpleClassicTheme.exe"), "___SCT.exe");
+			c.DownloadFileAsync(new Uri("https://github.com/WinClassic/SimpleClassicTheme/releases/latest/download/SimpleClassicTheme.exe"), "___SCT.exe");
 		}
 
         private void DownloadNewestTaskbarVersion()

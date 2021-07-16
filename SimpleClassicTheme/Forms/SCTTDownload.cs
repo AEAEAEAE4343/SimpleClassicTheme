@@ -63,7 +63,7 @@ namespace SimpleClassicTheme
 			foreach (Process p in Process.GetProcessesByName("SCT_Taskbar"))
 				p.Kill();
 
-			string dlUrl = "https://github.com/AEAEAEAE4343/SimpleClassicThemeTaskbar/releases/latest/download/SimpleClassicThemeTaskbar_x64.zip";
+			string dlUrl = "https://github.com/WinClassic/SimpleClassicThemeTaskbar/releases/latest/download/SimpleClassicThemeTaskbar_x64.zip";
 			string destDl = "C:\\SCT\\sctt.zip";
 			string destExtract = "C:\\SCT\\Taskbar\\";
 
