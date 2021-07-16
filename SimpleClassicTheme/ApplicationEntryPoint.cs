@@ -34,7 +34,7 @@ namespace SimpleClassicTheme
     {
         static void ShowHelp()
         {
-            Console.Write(Properties.Resources.helpMessage);
+            Console.WriteLine(Properties.Resources.helpMessage);
         }
 
         /// <summary>
@@ -151,7 +151,6 @@ namespace SimpleClassicTheme
                     switch (parseableArgument)
                     {
                         case "--boot":
-                            arguments.Add(("--boot", null));
                             if (args.Length > 1)
                                 Console.WriteLine("Warning: Any arguments beside --boot will be ignored");
                             arguments.Clear();
@@ -238,8 +237,9 @@ namespace SimpleClassicTheme
                         case "/help":
                         case "/h":
                         case "/?":
+                            arguments.Clear();
                             arguments.Add(("--help", null));
-                            goto exit;
+                            goto execute_arguments;
                         default:
                             Console.WriteLine("Error: Invalid argument '{0}'", args[i]);
                             goto exit;
