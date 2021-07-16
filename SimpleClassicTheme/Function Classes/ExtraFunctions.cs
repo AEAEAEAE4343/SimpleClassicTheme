@@ -1,6 +1,6 @@
-﻿/*
- *  SimpleClassicTheme, a basic utility to bring back classic theme to newer version of the Windows operating system.
- *  Copyright (C) 2020 Anis Errais
+/*
+ *  SimpleClassicTheme, a basic utility to bring back classic theme to newer versions of the Windows operating system.
+ *  Copyright (C) 2021 Anis Errais
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -51,6 +51,27 @@ namespace SimpleClassicTheme
             catch { return false; }
             return false;
         }
+
+        /// <summary>
+        /// Checks if .NET 5.0 or higher is installed
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsDotNetRuntimeInstalled()
+		{
+            ProcessStartInfo psi = new ProcessStartInfo("C:\\Windows\\System32\\cmd.exe", "/c dotnet --list-runtimes");
+            psi.UseShellExecute = false;
+            psi.RedirectStandardOutput = true;
+            Process process = Process.Start(psi);
+            process.WaitForExit();
+
+            foreach (string line in process.StandardOutput.ReadToEnd().Replace("\r\n", "\n").Split('\n'))
+                if (line.StartsWith("Microsoft.WindowsDesktop.App "))
+                    if (Version.TryParse(line.Remove(line.IndexOf(" [")).Substring(29), out Version result))
+                        if (result.CompareTo(new Version(5, 0, 0)) >= 0)
+                            return true;
+
+            return false;
+		}
 
         //Updates the application
         internal static void Update()

@@ -1,6 +1,6 @@
-﻿/*
- *  SimpleClassicTheme, a basic utility to bring back classic theme to newer version of the Windows operating system.
- *  Copyright (C) 2020 Anis Errais
+/*
+ *  SimpleClassicTheme, a basic utility to bring back classic theme to newer versions of the Windows operating system.
+ *  Copyright (C) 2021 Anis Errais
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -100,6 +100,11 @@ namespace SimpleClassicTheme
                 return;
             }
 
+            //If it's the first time running SCT, start the wizard.
+            if ("NO" == (string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\SimpleClassicTheme", "EnableTaskbar", "NO") && 
+                MessageBox.Show("It seems to be the first time you are running SCT.\nWould you like to run the automated setup tool?", "First run", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                SetupWizard.SetupHandler.ShowWizard(SetupWizard.SetupHandler.CreateWizard());
+
             Configuration.MigrateOldSCTRegistry();
 
             Directory.CreateDirectory("C:\\SCT\\");
@@ -115,11 +120,6 @@ namespace SimpleClassicTheme
             if (updateMode == "Automatic" || updateMode == "Ask on startup")
             ExtraFunctions.Update();
         
-            //Get a console window
-            Kernel32.AttachConsole(Kernel32.ATTACH_PARENT_PROCESS);
-            Console.WriteLine("SCT Version {0}\nCopyright 2020 Anis Errais", Assembly.GetExecutingAssembly().GetName().Version);
-            Thread.Sleep(250);
-
             //Clean up any files that might have been left over on the root of the C: drive
             Console.WriteLine("Cleaning up...");
             File.Delete("C:\\upm.reg");
@@ -138,6 +138,10 @@ namespace SimpleClassicTheme
             File.Delete("C:\\SCT\\restoreMetrics.reg");
 
             if (args.Length > 0)
+			{
+
+			}
+            else if (args.Length > 0)
             {
                 bool withTaskbar = false;
                 for (int i = 1; i < args.Length; i++)
@@ -205,6 +209,9 @@ namespace SimpleClassicTheme
                         else
                             arg = "/enable";
                         goto doArg;
+                    case "/wizard":
+                        SetupWizard.SetupHandler.ShowWizard(SetupWizard.SetupHandler.CreateWizard());
+                        break;
                     case "--help":
                     case "-h":
                     case "/help":
@@ -218,7 +225,6 @@ namespace SimpleClassicTheme
             }
             else
             {
-                Kernel32.FreeConsole();
                 Application.Run(new MainForm());
             }
         }

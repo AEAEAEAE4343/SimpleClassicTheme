@@ -118,29 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="classicStartIsBackTheme" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Classic3.msstyles;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="reg_windowmetrics_restore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\restoreMetrics.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;iso-8859-1</value>
-  </data>
-  <data name="folderOptionsX" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fox.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="reg_os_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ossettings.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
-  </data>
-  <data name="ShellPayload" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ShellPayload.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="win98sct" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\win98sct.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="win7" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\win7.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="reg_classicschemes_add" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\addSchemes.sbat;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="helpMessage" xml:space="preserve">
     <value>USAGE: SimpleClassicTheme.exe [OPERATION] {ARGS..}
@@ -155,6 +134,70 @@ Operations:
 Arguments:
     -t, --enable-taskbar Enables/Disables classic taskbar (Depending on operation)</value>
   </data>
+  <data name="reg_classicschemes_add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\addSchemes.sbat;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="fixstrips" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fixstrips.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="reg_os_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ossettings.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="classicStartIsBackTheme" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Classic3.msstyles;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cmd_create_task" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\scttask.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="setup_folder-options-x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fox.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="setup_classic-taskmgr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ctm.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="reg_upm_disable3d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\reg disable upm.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="removalString" xml:space="preserve">
+    <value>@echo off
+title SCT Uninstallation
+echo Removing final SCT files
+timeout 5 &gt; nul
+rmdir /S /Q C:\SCT
+shutdown.exe -r -t 2
+(goto) 2&gt;nul &amp; del "%~f0"</value>
+  </data>
+  <data name="icon_application" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\SimpleClassicTheme.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="winxp_wizard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\winxp_wizard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="reg_upm_enable3d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\upm.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="taskbar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\taskbar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="logo_sct" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SCT Banner 400x81.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="reg_windowcolors_restore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RestoreColors.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="win9x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\win9x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="null_classic3small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\null_classic3small.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DisableThemeScript" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DisableThemeScript.bat;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="taskScheduleCommands" xml:space="preserve">
+    <value>schtasks /Delete /TN "Simple Classic Theme" /F
+schtasks /Create /TN "Simple Classic Theme" /XML "C:\SCT\SCTTask.xml"</value>
+  </data>
   <data name="updateString" xml:space="preserve">
     <value>@echo off
 title Installing SimpleClassicTheme v%1 
@@ -167,71 +210,43 @@ del %3 &gt; nul
 %2
 (goto) 2&gt;nul &amp; del "%~f0"</value>
   </data>
-  <data name="reg_sib_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sibsettings.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
-  </data>
-  <data name="taskScheduleCommands" xml:space="preserve">
-    <value>schtasks /Delete /TN "Simple Classic Theme" /F
-schtasks /Create /TN "Simple Classic Theme" /XML "C:\SCT\SCTTask.xml"</value>
-  </data>
-  <data name="desktopControlPanelCPL" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\deskn.cpl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="fixstrips" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fixstrips.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="taskbar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\taskbar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="openShellSetup" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\OpenShellSetup_4_4_142.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ribbonDisabler" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RibbonDisabler.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="reg_upm_enable3d" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\upm.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
-  </data>
-  <data name="win9x" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\win9x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="classicTaskManager" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ctm.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="null_classic3small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\null_classic3small.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ExplorerContextMenuTweaker" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ExplorerContextMenuTweaker.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="cmd_create_task" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\scttask.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
-  </data>
-  <data name="DisableThemeScript" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DisableThemeScript.bat;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="reg_windowmetrics_restore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\restoreMetrics.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;iso-8859-1</value>
   </data>
   <data name="EnableThemeScript" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EnableThemeScript.bat;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="logo_sct" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SCT Banner 400x81.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="reg_upm_disable3d" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\reg disable upm.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
-  </data>
-  <data name="reg_windowcolors_restore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RestoreColors.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
-  </data>
-  <data name="removalString" xml:space="preserve">
-    <value>@echo off
-title SCT Uninstallation
-echo Removing final SCT files
-timeout 5 &gt; nul
-rmdir /S /Q C:\SCT
-shutdown.exe -r -t 2
-(goto) 2&gt;nul &amp; del "%~f0"</value>
+  <data name="ShellPayload" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ShellPayload.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="reg_windowmetrics_81" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\reg_windowmetrics_81.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="desktopControlPanelCPL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\deskn.cpl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ribbonDisabler" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RibbonDisabler.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="win98sct" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\win98sct.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="msiexec" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\msiexec.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="reg_os_sm_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ossmsettings.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="reg_os_tb_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ostbsettings.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="reg_sib_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sibsettings.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="setup_open-shell" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OpenShellSetup_4_4_166.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

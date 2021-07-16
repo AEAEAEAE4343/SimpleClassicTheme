@@ -1,6 +1,6 @@
-﻿/*
- *  SimpleClassicTheme, a basic utility to bring back classic theme to newer version of the Windows operating system.
- *  Copyright (C) 2020 Anis Errais
+/*
+ *  SimpleClassicTheme, a basic utility to bring back classic theme to newer versions of the Windows operating system.
+ *  Copyright (C) 2021 Anis Errais
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ namespace SimpleClassicTheme
         {
             if (Environment.OSVersion.Version.Major == 10)
             { 
-                Process.Start("explorer.exe", "ApplicationFrameHost").WaitForExit();
+                Process.Start("explorer.exe", "C:\\Windows\\System32\\ApplicationFrameHost.exe").WaitForExit();
                 Thread.Sleep(100);
             }
             NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
@@ -54,7 +54,7 @@ namespace SimpleClassicTheme
         }
 
         //Enables Classic Theme and if specified Classic Taskbar.
-        public static void MasterEnable(bool taskbar)
+        public static void MasterEnable(bool taskbar, bool force = false)
         {
             Process.Start("C:\\SCT\\EnableThemeScript.bat", "pre").WaitForExit();
             Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
@@ -64,7 +64,7 @@ namespace SimpleClassicTheme
             {
 #if DEBUG
 #else
-                if (Assembly.GetExecutingAssembly().Location != "C:\\SCT\\SCT.exe")
+                if (!force && Assembly.GetExecutingAssembly().Location != "C:\\SCT\\SCT.exe")
                 {
                     MessageBox.Show("This action requires SCT to be installed and SCT to be ran from the Start Menu");
                 }
@@ -115,6 +115,8 @@ namespace SimpleClassicTheme
             {
                 ClassicTaskbar.DisableSCTT();
                 Disable();
+                Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
+                Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
             }
             //Windows 8.1
             else if (Environment.OSVersion.Version.Major != 10)

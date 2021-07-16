@@ -1,6 +1,6 @@
-﻿/*
- *  SimpleClassicTheme, a basic utility to bring back classic theme to newer version of the Windows operating system.
- *  Copyright (C) 2020 Anis Errais
+/*
+ *  SimpleClassicTheme, a basic utility to bring back classic theme to newer versions of the Windows operating system.
+ *  Copyright (C) 2021 Anis Errais
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -134,18 +134,18 @@ namespace SimpleClassicTheme
                 if (MessageBox.Show("To continue Open-Shell is required. Would you like Simple Classic Theme to install this for you?", "SimpleClassicTheme", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     //Install Open-Shell
-                    File.WriteAllBytes("C:\\SCT\\openShellSetup.exe", Properties.Resources.openShellSetup);
+                    File.WriteAllBytes("C:\\SCT\\openShellSetup.exe", Properties.Resources.setup_open_shell);
                     Process.Start("C:\\SCT\\openShellSetup.exe", "/qn").WaitForExit();
 
                     //Get user folder
-                    string path = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).FullName;
+                    string userFolder = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).FullName;
                     if (Environment.OSVersion.Version.Major >= 6)
-                        path = Directory.GetParent(path).ToString();
+                        userFolder = Directory.GetParent(userFolder).ToString();
 
                     //Prepare files for Open-Shell
-                    Directory.CreateDirectory(path + "\\AppData\\Local\\StartIsBack\\Orbs");
-                    Properties.Resources.win7.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\win7.png");
-                    Properties.Resources.win9x.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\win9x.png");
+                    Directory.CreateDirectory(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs");
+                    Properties.Resources.win7.Save(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs\\win7.png");
+                    Properties.Resources.win9x.Save(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs\\win9x.png");
 
                     //Find out what start orb the user wants
                     string orbname = MessageBox.Show("Do you want to use a Win95 style start orb (If not a Windows 7 style orb will be used)?", "Simple Classic Theme", MessageBoxButtons.YesNo) == DialogResult.Yes ? "win9x.png" : "win7.png";
@@ -169,21 +169,21 @@ namespace SimpleClassicTheme
                 if (b)
                 {
                     //Get user folder
-                    string path = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).FullName;
+                    string userFolder = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).FullName;
                     if (Environment.OSVersion.Version.Major >= 6)
-                        path = Directory.GetParent(path).ToString();
+                        userFolder = Directory.GetParent(userFolder).ToString();
                     
                     //Prepare files for StartIsBack
-                    Directory.CreateDirectory(path + "\\AppData\\Local\\StartIsBack\\Orbs");
-                    Directory.CreateDirectory(path + "\\AppData\\Local\\StartIsBack\\Styles");
-                    Properties.Resources.win7.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\win7.png");
-                    Properties.Resources.win9x.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\win9x.png");
-                    Properties.Resources.taskbar.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\taskbar.png");
-                    Properties.Resources.null_classic3small.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\null_classic3big.bmp");
-                    File.WriteAllBytes(path + "\\AppData\\Local\\StartIsBack\\Styles\\Classic3.msstyles", Properties.Resources.classicStartIsBackTheme);
+                    Directory.CreateDirectory(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs");
+                    Directory.CreateDirectory(userFolder + "\\AppData\\Local\\StartIsBack\\Styles");
+                    Properties.Resources.win7.Save(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs\\win7.png");
+                    Properties.Resources.win9x.Save(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs\\win9x.png");
+                    Properties.Resources.taskbar.Save(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs\\taskbar.png");
+                    Properties.Resources.null_classic3small.Save(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs\\null_classic3big.bmp");
+                    File.WriteAllBytes(userFolder + "\\AppData\\Local\\StartIsBack\\Styles\\Classic3.msstyles", Properties.Resources.classicStartIsBackTheme);
                     
                     //Setup StartIsBack registry
-                    string f = Properties.Resources.reg_sib_settings.Replace("C:\\\\Users\\\\{Username}", $"{path.Replace("\\", "\\\\")}");
+                    string f = Properties.Resources.reg_sib_settings.Replace("C:\\\\Users\\\\{Username}", $"{userFolder.Replace("\\", "\\\\")}");
                     File.WriteAllText("C:\\sib.reg", f);
                     Process.Start(Path.Combine(Path.GetTempPath(), "\\sib.reg")).WaitForExit();
 
@@ -283,7 +283,7 @@ namespace SimpleClassicTheme
             if (!checkBox1.Checked)
                 return;
 
-            //button8.Enabled = TaskbarType == "SiB+OS";
+            button8.Enabled = true;
             button10.Enabled = TaskbarType == "SiB+OS";
 
         }
@@ -406,13 +406,22 @@ namespace SimpleClassicTheme
 
 		private void button8_Click(object sender, EventArgs e)
 		{
+            if (MessageBox.Show(this, "This action will log you out. Continue?", "Simple Classic Theme", MessageBoxButtons.YesNo) == DialogResult.No)
+			{
+                return;
+			}
+
+            //Put Windows Aero scheme on
+            File.WriteAllText("C:\\SCT\\reg_windowcolors_restore.reg", Properties.Resources.reg_windowcolors_restore);
+            Process.Start("C:\\Windows\\System32\\reg.exe", "import C:\\SCT\\reg_windowcolors_restore.reg").WaitForExit();
+            Process.Start("C:\\Windows\\Resources\\Themes\\aero.theme").WaitForExit();
+
             //Restore WindowMetrics
             File.WriteAllText("C:\\SCT\\reg_windowmetrics_restore.reg", Environment.OSVersion.Version.Major == 10 ? Properties.Resources.reg_windowmetrics_restore : Properties.Resources.reg_windowmetrics_81);
-            Process.Start("C:\\SCT\\reg_windowmetrics_restore.reg").WaitForExit();
+            Process.Start("C:\\Windows\\System32\\reg.exe", "import C:\\SCT\\reg_windowmetrics_restore.reg").WaitForExit();
 
-            //Restore Aero
-
-
+            System.Threading.Thread.Sleep(2000);
+            User32.ExitWindowsEx(0 | 0x00000004, 0);
         }
 	}
 }

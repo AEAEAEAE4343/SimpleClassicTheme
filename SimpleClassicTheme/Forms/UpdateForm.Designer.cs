@@ -1,6 +1,6 @@
-﻿/*
- *  SimpleClassicTheme, a basic utility to bring back classic theme to newer version of the Windows operating system.
- *  Copyright (C) 2020 Anis Errais
+/*
+ *  SimpleClassicTheme, a basic utility to bring back classic theme to newer versions of the Windows operating system.
+ *  Copyright (C) 2021 Anis Errais
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
+
 namespace SimpleClassicTheme
 {
     partial class Updater

@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>SimpleClassicTheme</RootNamespace>
     <AssemblyName>SimpleClassicTheme</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -104,13 +104,17 @@
     <Reference Include="Costura, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\packages\Costura.Fody.4.1.0\lib\net40\Costura.dll</HintPath>
     </Reference>
+    <Reference Include="Craftplacer.ClassicSuite.Wizards, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Craftplacer.ClassicSuite.Wizards.1.3.0\lib\Craftplacer.ClassicSuite.Wizards.dll</HintPath>
+    </Reference>
     <Reference Include="NtApiDotNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NtApiDotNet.1.1.22\lib\net45\NtApiDotNet.dll</HintPath>
+      <HintPath>..\packages\NtApiDotNet.1.1.31\lib\net45\NtApiDotNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -163,6 +167,26 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ApplicationEntryPoint.cs" />
+    <Compile Include="SetupWizard\FinishedPage.Designer.cs">
+      <DependentUpon>FinishedPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupWizard\InstallationPage.cs" />
+    <Compile Include="SetupWizard\InstallationPage.Designer.cs">
+      <DependentUpon>InstallationPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupWizard\InstallOptionsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SetupWizard\InstallOptionsPage.Designer.cs">
+      <DependentUpon>InstallOptionsPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupWizard\LicensePage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SetupWizard\LicensePage.Designer.cs">
+      <DependentUpon>LicensePage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupWizard\SetupWizard.cs" />
     <Compile Include="Function Classes\Utilities.cs" />
     <Compile Include="Properties\AHKScripts.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -177,6 +201,21 @@
       <DependentUpon>UpdateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Function Classes\WinApi.cs" />
+    <Compile Include="SetupWizard\UtilitiesPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SetupWizard\UtilitiesPage.Designer.cs">
+      <DependentUpon>UtilitiesPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupWizard\FinishedPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SetupWizard\WelcomePage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SetupWizard\WelcomePage.Designer.cs">
+      <DependentUpon>WelcomePage.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -212,9 +251,28 @@
     <EmbeddedResource Include="Forms\UpdateForm.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SetupWizard\FinishedPage.resx">
+      <DependentUpon>FinishedPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupWizard\InstallationPage.resx">
+      <DependentUpon>InstallationPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupWizard\InstallOptionsPage.resx">
+      <DependentUpon>InstallOptionsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupWizard\LicensePage.resx">
+      <DependentUpon>LicensePage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupWizard\UtilitiesPage.resx">
+      <DependentUpon>UtilitiesPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupWizard\WelcomePage.resx">
+      <DependentUpon>WelcomePage.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Other Files\app.manifest" />
     <None Include="Other Files\packages.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -232,6 +290,8 @@
     <None Include="Resources\DisableThemeScript.bat" />
     <None Include="Resources\EnableThemeScript.bat" />
     <None Include="Resources\ossettings.reg" />
+    <None Include="Resources\ossmsettings.reg" />
+    <None Include="Resources\ostbsettings.reg" />
     <None Include="Resources\reg disable upm.reg" />
     <None Include="Resources\reg_windowmetrics_81.reg" />
     <None Include="Resources\RestoreColors.reg" />
@@ -278,6 +338,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SCT Banner 400x81.png" />
+    <None Include="Resources\winxp_wizard.png" />
+    <None Include="Resources\msiexec.png" />
+    <None Include="Resources\OpenShellSetup_4_4_166.exe" />
     <Content Include="SimpleClassicTheme.ico" />
     <None Include="Resources\win98sctbanner.png" />
     <None Include="Resources\win98sct.png" />

@@ -1,6 +1,6 @@
-﻿/*
- *  SimpleClassicTheme, a basic utility to bring back classic theme to newer version of the Windows operating system.
- *  Copyright (C) 2020 Anis Errais
+/*
+ *  SimpleClassicTheme, a basic utility to bring back classic theme to newer versions of the Windows operating system.
+ *  Copyright (C) 2021 Anis Errais
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -104,6 +104,9 @@ namespace SimpleClassicTheme
             }
             return handles;
         }
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool ExitWindowsEx(uint uFlags, uint dwReason);
     }
 
     static class UxTheme
