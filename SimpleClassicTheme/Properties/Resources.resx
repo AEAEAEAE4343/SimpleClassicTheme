@@ -176,7 +176,7 @@ You can add as many from the arguments listed down here as you want
 For compatibility purposes, all arguments supplied starting with '/' will have / replaced with --
 
 This command line system allows for some pretty cool commands. For example:
-SCT.exe --set EnableTaskbar True --set TaskbarType SCTT --install-dependencies -install --enable 
+SCT.exe --set EnableTaskbar True --set TaskbarType SCTT --install-dependencies --install --enable 
 (Sets up SCT to use SCTT, installs dependencies, makes it auto-launch and enables it)</value>
   </data>
   <data name="reg_classicschemes_add" type="System.Resources.ResXFileRef, System.Windows.Forms">

@@ -257,7 +257,7 @@ namespace SimpleClassicTheme
                     string selector = argument.Item1;
                 run_argument:
                     Console.WriteLine();
-                    switch (argument.Item1)
+                    switch (selector)
 					{
                         case "--boot":
                             Console.WriteLine("Simple Classic Theme is restoring Classic Theme settings");
@@ -303,7 +303,7 @@ namespace SimpleClassicTheme
                             goto run_gui;
                         case "--help":
                             ShowHelp();
-                            break;
+                            goto exit;
                         case "--install":
                             ExtraFunctions.UpdateStartupExecutable(true);
                             Console.WriteLine("Installed SCT succesfully");
