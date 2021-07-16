@@ -181,54 +181,44 @@ namespace SimpleClassicTheme
             }
         }
 
-        public static void ReConfigureOS(bool os, bool sib)
+        public static void ReConfigureOS(bool ossm, bool ostb, bool sib)
 		{
-            if (os)
+            if (ossm)
             {
-                //Get user folder
-                string path = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).FullName;
-                if (Environment.OSVersion.Version.Major >= 6)
-                    path = Directory.GetParent(path).ToString();
+                File.WriteAllText("C:\\SCT\\ossettings.reg", Properties.Resources.reg_os_sm_settings);
+                Process.Start("C:\\Windows\\System32\\reg.exe", "import C:\\SCT\\ossettings.reg").WaitForExit();
+                File.Delete("C:\\SCT\\ossettings.reg");
+            }
+            if (ostb)
+            {
+                Directory.CreateDirectory("C:\\SCT\\OpenShellAssets");
+                Properties.Resources.win7.Save("C:\\SCT\\OpenShellAssets\\win7.png");
+                Properties.Resources.win9x.Save("C:\\SCT\\OpenShellAssets\\win9x.png");
+                Properties.Resources.taskbar.Save("C:\\SCT\\OpenShellAssets\\taskbar.png");
+                Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\OpenShell\\StartMenu\\Settings", "StartButtonPath", "C:\\SCT\\OpenShellAssets\\win9x.png");
+                Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\OpenShell\\StartMenu\\Settings", "TaskbarTexture", "C:\\SCT\\OpenShellAssets\\taskbar.png");
 
-                //Prepare files for Open-Shell
-                Directory.CreateDirectory(path + "\\AppData\\Local\\StartIsBack\\Orbs");
-                Properties.Resources.win7.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\win7.png");
-                Properties.Resources.win9x.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\win9x.png");
-
-                //Find out what start orb the user wants
-                string orbname = MessageBox.Show("Do you want to use a Win95 style start orb (If not a Windows 7 style orb will be used)?", "Simple Classic Theme", MessageBoxButtons.YesNo) == DialogResult.Yes ? "win9x.png" : "win7.png";
-
-                //Setup Open-Shell registry
-                File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\ossettings.reg"), Properties.Resources.reg_os_settings);
-                Process.Start(Path.Combine(Path.GetTempPath(), "\\ossettings.reg")).WaitForExit();
-                Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\OpenShell\\StartMenu\\Settings", "StartButtonPath", @"%USERPROFILE%\AppData\Local\StartIsBack\Orbs\" + orbname);
+                File.WriteAllText("C:\\SCT\\ossettings.reg", Properties.Resources.reg_os_tb_settings);
+                Process.Start("C:\\Windows\\System32\\reg.exe", "import C:\\SCT\\ossettings.reg").WaitForExit();
+                File.Delete("C:\\SCT\\ossettings.reg");
             }
             if (sib)
 			{
-                //Get user folder
-                string path = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).FullName;
+                string userFolder = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).FullName;
                 if (Environment.OSVersion.Version.Major >= 6)
-                    path = Directory.GetParent(path).ToString();
+                    userFolder = Directory.GetParent(userFolder).ToString();
 
-                //Prepare files for StartIsBack
-                Directory.CreateDirectory(path + "\\AppData\\Local\\StartIsBack\\Orbs");
-                Directory.CreateDirectory(path + "\\AppData\\Local\\StartIsBack\\Styles");
-                Properties.Resources.win7.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\win7.png");
-                Properties.Resources.win9x.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\win9x.png");
-                Properties.Resources.taskbar.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\taskbar.png");
-                Properties.Resources.null_classic3small.Save(path + "\\AppData\\Local\\StartIsBack\\Orbs\\null_classic3big.bmp");
-                File.WriteAllBytes(path + "\\AppData\\Local\\StartIsBack\\Styles\\Classic3.msstyles", Properties.Resources.classicStartIsBackTheme);
+                Directory.CreateDirectory(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs");
+                Directory.CreateDirectory(userFolder + "\\AppData\\Local\\StartIsBack\\Styles");
+                Properties.Resources.null_classic3small.Save(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs\\null_classic3big.bmp");
+                File.WriteAllBytes(userFolder + "\\AppData\\Local\\StartIsBack\\Styles\\Classic3.msstyles", Properties.Resources.classicStartIsBackTheme);
 
-                //Setup StartIsBack registry
-                string f = Properties.Resources.reg_sib_settings.Replace("C:\\\\Users\\\\{Username}", $"{path.Replace("\\", "\\\\")}");
-                File.WriteAllText("C:\\sib.reg", f);
-                Process.Start(Path.Combine(Path.GetTempPath(), "\\sib.reg")).WaitForExit();
+                string f = Properties.Resources.reg_sib_settings.Replace("C:\\\\Users\\\\{Username}", $"{userFolder.Replace("\\", "\\\\")}");
+                File.WriteAllText("C:\\SCT\\sib.reg", f);
+                Process.Start("C:\\Windows\\System32\\reg.exe", "import C:\\SCT\\sib.reg").WaitForExit();
 
-                //Disable StartIsBack
                 Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\StartIsBack", "Disabled", 1);
-                File.Delete("C:\\ossettings.reg");
-                File.Delete("C:\\sib.reg");
-                File.Delete("C:\\sib.exe");
+                File.Delete("C:\\SCT\\sib.reg");
             }
         }
     }

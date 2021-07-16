@@ -54,19 +54,22 @@ namespace SimpleClassicTheme
         }
 
         //Enables Classic Theme and if specified Classic Taskbar.
-        public static void MasterEnable(bool taskbar, bool force = false)
+        public static void MasterEnable(bool taskbar, bool force = false, bool commandLineError = false)
         {
             Process.Start("C:\\SCT\\EnableThemeScript.bat", "pre").WaitForExit();
             Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\SimpleClassicTheme", "Enabled", true.ToString());
             //SCTT
-            if ((string)Configuration.GetItem("TaskbarType", "SiB+OS") == "SCTT")
+            if (taskbar && (string)Configuration.GetItem("TaskbarType", "SiB+OS") == "SCTT")
             {
 #if DEBUG
 #else
-                if (!force && Assembly.GetExecutingAssembly().Location != "C:\\SCT\\SCT.exe")
+                if (!force && !File.Exists("C:\\SCT\\SCT.exe"))
                 {
-                    MessageBox.Show("This action requires SCT to be installed and SCT to be ran from the Start Menu");
+                    if (!commandLineError)
+                        MessageBox.Show("This action requires SCT to be installed");
+                    else
+                        Console.WriteLine("This action requires SCT to be installed");
                 }
                 else
 #endif
@@ -111,7 +114,7 @@ namespace SimpleClassicTheme
             Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme");
             Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\SimpleClassicTheme", "Enabled", false.ToString());
             //SCTT
-            if ((string)Configuration.GetItem("TaskbarType", "SiB+OS") == "SCTT")
+            if (taskbar && (string)Configuration.GetItem("TaskbarType", "SiB+OS") == "SCTT")
             {
                 ClassicTaskbar.DisableSCTT();
                 Disable();

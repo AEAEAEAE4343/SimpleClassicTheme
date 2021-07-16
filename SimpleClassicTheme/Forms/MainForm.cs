@@ -121,9 +121,9 @@ namespace SimpleClassicTheme
             bool osInstalled = Directory.Exists("C:\\Program Files\\Open-Shell\\");
             bool sibInstalled = Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
 
-            if (button3.Text == "Reconfigure SCT+OS")
+            if (button3.Text == "Reconfigure OS+SiB")
             {
-                ExtraFunctions.ReConfigureOS(osInstalled, sibInstalled);
+                ExtraFunctions.ReConfigureOS(osInstalled, osInstalled, sibInstalled);
                 return;
             }
 

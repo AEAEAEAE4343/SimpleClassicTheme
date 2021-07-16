@@ -18,14 +18,15 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Security.Principal;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
 using System.Reflection;
 using System.Windows.Forms.VisualStyles;
+using System.Linq;
 
 namespace SimpleClassicTheme
 {
@@ -50,6 +51,7 @@ namespace SimpleClassicTheme
         {
             Console.Write(Properties.Resources.helpMessage);
         }
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -73,11 +75,12 @@ namespace SimpleClassicTheme
             //Check if the OS is compatible
             if (!(windows && (windows10 || windows8)))
             {
+                Kernel32.FreeConsole();
                 Kernel32.AttachConsole(Kernel32.ATTACH_PARENT_PROCESS);
                 ShowError("");
+                Kernel32.FreeConsole();
 #if DEBUG
 #else
-				Kernel32.FreeConsole();
                 return;
 #endif
             }
@@ -121,7 +124,6 @@ namespace SimpleClassicTheme
             ExtraFunctions.Update();
         
             //Clean up any files that might have been left over on the root of the C: drive
-            Console.WriteLine("Cleaning up...");
             File.Delete("C:\\upm.reg");
             File.Delete("C:\\restoreMetrics.reg");
             File.Delete("C:\\fox.exe");
@@ -139,94 +141,241 @@ namespace SimpleClassicTheme
 
             if (args.Length > 0)
 			{
+                // Free the console if by any chance we are still attached to one.
+                Kernel32.FreeConsole();
 
-			}
-            else if (args.Length > 0)
-            {
-                bool withTaskbar = false;
-                for (int i = 1; i < args.Length; i++)
-                {
+                // Allocate a console so we can output information.
+                // TODO: Create a custom screen that will replace the console and display the status in a 'Classic' GUI way
+                Kernel32.AllocConsole();
+
+                // Show copyright header
+                Console.WriteLine("Simple Classic Theme {0}\r\n(C) 2021 LeetFTW\r\n", Assembly.GetExecutingAssembly().GetName().Version);
+
+                // Parse arguments
+                List<(string, object[])> arguments = new List<(string, object[])>();
+                for (int i = 0; i < args.Length; i++)
+				{
                     switch (args[i])
                     {
-                        case "--enable-taskbar":
-                        case "-t":
-                            withTaskbar = true;
+                        case "--boot":
+                            arguments.Add(("--boot", null));
+                            if (args.Length > 1)
+                                Console.WriteLine("Warning: Any arguments beside --boot will be ignored");
+                            arguments.Clear();
+                            arguments.Add(("--boot", null));
+                            goto execute_arguments;
+                        case "--configure":
+                        case "-c":
+                            arguments.Add(("--configure", null));
                             break;
+                        case "--enable":
+                        case "-e":
+                            arguments.Add(("--enable", null));
+                            break;
+                        case "--disable":
+                        case "-d":
+                            arguments.Add(("--disable", null));
+                            break;
+                        case "--install-dependencies":
+                        case "-r":
+                            arguments.Add(("--install-dependencies", null));
+                            break;
+                        case "--install":
+                        case "-i":
+                            arguments.Add(("--install", null));
+                            break;
+                        case "--set":
+                        case "-s":
+                            if (args.Length - 3 >= i)
+							{
+                                List<string> possibleSettingNames = new[] { "EnableTaskbar", "TaskbarDelay", "UpdateMode", "TaskbarType" }.ToList();
+                                string[] possibleSettingTypes = { "Boolean", "Int32", "String", "String" };
+                                if (possibleSettingNames.Contains(args[i + 1]))
+								{
+                                    switch (possibleSettingTypes[possibleSettingNames.IndexOf(args[i + 1])])
+									{
+                                        case "Boolean":
+                                            if (Boolean.TryParse(args[i + 2], out bool boolean))
+                                            {
+                                                arguments.Add(("--set", new object[]{ args[i + 1], boolean.ToString(), RegistryValueKind.String }));
+                                            }
+											else
+                                            {
+                                                Console.WriteLine("Error: Could not parse '{0}' to type System.Boolean", args[i + 2]);
+                                                goto exit;
+                                            }
+                                            break;
+                                        case "Int32":
+                                            if (Int32.TryParse(args[i + 2], out int int32))
+                                            {
+                                                arguments.Add(("--set", new object[] { args[i + 1], int32, RegistryValueKind.DWord }));
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Error: Could not parse '{0}' to type System.Int32", args[i + 2]);
+                                                goto exit;
+                                            }
+                                            break;
+                                        case "String":
+                                            arguments.Add(("--set", new object[] { args[i + 1], args[i + 2], RegistryValueKind.String }));
+                                            break;
+									}
+								}
+                                else
+								{
+                                    Console.WriteLine("Error: Invalid setting name '{0}'\r\nPossible values: {1}", args[i + 1]);
+                                    goto exit;
+                                }
+                            }
+							else
+							{
+                                Console.WriteLine("Error: Insufficient information supplied for argument {0}", args[i]);
+                                goto exit;
+                            }
+                            i += 2;
+                            break;
+                        case "--gui":
+                        case "-g":
+                            arguments.Add(("--gui", null));
+                            if (i < args.Length - 1)
+                                Console.WriteLine("Warning: Arguments after {0} will be ingnored\r\nIgnored arguments: {1}", args[i], string.Join(", ", args.Skip(i + 1)));
+                            goto execute_arguments;
                         case "--help":
                         case "-h":
                         case "/help":
-                        case "/?":
+                        case "/h":
+                            arguments.Add(("--help", null));
+                            goto exit;
+                        default:
+                            Console.WriteLine("Error: Invalid argument '{0}'", args[i]);
+                            goto exit;
+                        case "--wizard":
+                        case "-w":
+                            arguments.Add(("--wizard", null));
+                            break;
+                    }
+				}
+            execute_arguments:
+                Console.WriteLine("Succesfully parsed {0} argument{1}", arguments.Count, arguments.Count > 1 ? "s" : "");
+                bool enableTaskbar = (string)Configuration.GetItem("EnableTaskbar", "False") == "True";
+                foreach ((string, object[]) argument in arguments)
+                {
+                    string selector = argument.Item1;
+                run_argument:
+                    Console.WriteLine();
+                    switch (argument.Item1)
+					{
+                        case "--boot":
+                            Console.WriteLine("Simple Classic Theme is restoring Classic Theme settings");
+                            bool Enabled = bool.Parse(Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme").GetValue("Enabled", "False").ToString());
+                            if (Directory.Exists("C:\\SCT") && Directory.Exists("C:\\SCT\\AHK"))
+                                foreach (string f in Directory.EnumerateFiles("C:\\SCT\\AHK"))
+                                    Process.Start(f);
+                            if (Enabled)
+                            {
+                                selector = "--enable";
+                                goto run_argument;
+                            }
+                            break;
+                        case "--configure":
+                            Directory.CreateDirectory("C:\\SCT\\");
+                            File.WriteAllBytes("C:\\SCT\\deskn.cpl", Properties.Resources.desktopControlPanelCPL);
+                            Process.Start("C:\\SCT\\deskn.cpl");
+                            Console.WriteLine("Launched Clasic Theme configuration dialog");
+                            break;
+                        case "--disable":
+                            if (!MainForm.CheckDependencies(enableTaskbar))
+                            {
+                                Console.WriteLine("Error: Not all dependencies are installed\r\nPlease use the GUI or --install-dependencies to install the dependencies");
+                                goto exit;
+                            }
+                            Console.Write($"Disabling classic theme{(enableTaskbar ? " and taskbar" : "")}...");
+                            ClassicTheme.MasterDisable(enableTaskbar); Console.WriteLine();
+                            Console.WriteLine("Disabled SCT succesfully");
+                            break;
+                        case "--enable":
+                            if (!MainForm.CheckDependencies(enableTaskbar))
+                            {
+                                Console.WriteLine("Error: Not all dependencies are installed\r\nPlease use the GUI or --install-dependencies to install the dependencies");
+                                goto exit;
+                            }
+                            Console.Write($"Enabling classic theme{(enableTaskbar ? " and taskbar" : "")}...");
+                            ClassicTheme.MasterEnable(enableTaskbar, false, true); Console.WriteLine();
+                            Console.WriteLine("Enabled SCT succesfully");
+                            break;
+                        case "--gui":
+                            Kernel32.FreeConsole();
+                            goto run_gui;
+                        case "--help":
                             ShowHelp();
                             break;
-                        default:
+                        case "--install":
+                            ExtraFunctions.UpdateStartupExecutable(true);
+                            Console.WriteLine("Installed SCT succesfully");
+                            break;
+                        case "--install-dependencies":
+                            if (!enableTaskbar)
+							{
+                                Console.WriteLine("Warning: Taskbar is not enabled so no dependencies will be installed");
+                                break;
+                            }
+                            switch ((string)Configuration.GetItem("TaskbarType", "None"))
+							{
+                                case "None":
+                                    Console.WriteLine("Error: TaskbarType is not set so no dependencies can be installed. Please set the Taskbar Type in the GUI or with --set");
+                                    goto exit;
+                                case "SCTT":
+                                    if (!ExtraFunctions.IsDotNetRuntimeInstalled())
+									{
+                                        Console.WriteLine("Error: .NET 5.0 is not installed and is required for SCTT to be installed");
+                                        goto exit;
+									}
+                                    ClassicTaskbar.InstallSCTT(null, false);
+                                    Console.WriteLine("Installed SCTT succesfully");
+                                    break;
+                                case "OS+SiB":
+                                    ExtraFunctions.ReConfigureOS(true, true, true);
+                                    Console.WriteLine("Configured Open-Shell and StartIsBack++");
+                                    int returnCode = InstallableUtility.OpenShell.Install();
+                                    if (returnCode != 0)
+									{
+                                        Console.WriteLine("Error: Open-Shell installer returned error code {0}", returnCode);
+                                        goto exit;
+									}
+                                    Console.WriteLine("Installed Open-Shell succesfully");
+                                    returnCode = InstallableUtility.StartIsBackPlusPlus.Install();
+                                    if (returnCode != 0)
+                                    {
+                                        Console.WriteLine("Error: StartIsBack++ installer returned error code {0}", returnCode);
+                                        goto exit;
+                                    }
+                                    Console.WriteLine("Installed StartIsBack++ succesfully");
+                                    break;
+							}
+                            Console.WriteLine("Dependencies installed succesfully");
+                            break;
+                        case "--set":
+                            if ((string)argument.Item2[0] == "EnableTaskbar")
+                                enableTaskbar = Boolean.Parse((string)argument.Item2[1]);
+                            Configuration.SetItem((string)argument.Item2[0], argument.Item2[1], (RegistryValueKind)argument.Item2[2]);
+                            Console.WriteLine("Set configuration item '{0}' to '{1}'", argument.Item2[0], argument.Item2[1]);
+                            break;
+                        case "--wizard":
+                            Console.WriteLine("Running SCT wizard... (Note that this console will stay open)");
+                            SetupWizard.SetupHandler.ShowWizard(SetupWizard.SetupHandler.CreateWizard());
+                            Console.WriteLine("SCT Wizard finished");
                             break;
                     }
                 }
-                string arg = args[0];
-                doArg:
-                switch (arg)
-                {
-                    case "/enable":
-                        if (!MainForm.CheckDependencies(withTaskbar))
-                        {
-                            ShowError("Not all dependencies are installed. Please run the GUI and install the dependencies.");
-                        }
-                        Console.Write($"INFO: Enabling classic theme{(withTaskbar ? " and taskbar" : "")}...");
-                        ClassicTheme.MasterEnable(withTaskbar); Console.WriteLine();
-                        Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("SUCCES");
-                        Console.ResetColor();
-                        break;
-                    case "/disable":
-                        if (!MainForm.CheckDependencies(withTaskbar))
-                        {
-                            ShowError("Not all dependencies are installed. Please run the GUI and install the dependencies.");
-                        }
-                        Console.Write($"INFO: Disabling classic theme{(withTaskbar ? " and taskbar" : "")}...");
-                        ClassicTheme.MasterDisable(withTaskbar); Console.WriteLine();
-                        Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("SUCCES");
-                        Console.ResetColor();
-                        break;
-                    case "/configure":
-                        Directory.CreateDirectory("C:\\SCT\\");
-                        File.WriteAllBytes("C:\\SCT\\deskn.cpl", Properties.Resources.desktopControlPanelCPL);
-                        Process.Start("C:\\SCT\\deskn.cpl");
-                        break;
-                    case "/boot":
-                        bool Enabled = bool.Parse(Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme").GetValue("Enabled", "False").ToString());
-                        if (Directory.Exists("C:\\SCT"))
-                            foreach (string f in Directory.EnumerateFiles("C:\\SCT\\AHK"))
-                                Process.Start(f);
-                        if (Enabled)
-                        {
-                            arg = "/enable";
-                            goto doArg;
-                        }
-                        break;
-                    case "/enableauto":
-                        Enabled = bool.Parse(Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme").GetValue("Enabled", "False").ToString());
-                        if (Enabled)
-                            arg = "/disable";
-                        else
-                            arg = "/enable";
-                        goto doArg;
-                    case "/wizard":
-                        SetupWizard.SetupHandler.ShowWizard(SetupWizard.SetupHandler.CreateWizard());
-                        break;
-                    case "--help":
-                    case "-h":
-                    case "/help":
-                    case "/?":
-                        ShowHelp();
-                        break;
-                    default:
-                        break;
-                }
+                Kernel32.FreeConsole();
+                return;
+            exit:
+                Console.Write("Press any key to exit..."); Console.ReadKey(); Console.WriteLine();
+                Kernel32.FreeConsole();
                 return;
             }
-            else
-            {
-                Application.Run(new MainForm());
-            }
+        run_gui:
+            Application.Run(new MainForm());
         }
     }
 }

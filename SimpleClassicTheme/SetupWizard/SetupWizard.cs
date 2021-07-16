@@ -174,21 +174,7 @@ namespace SimpleClassicTheme.SetupWizard
                 progressDisplay.progressText = "Configuring StartIsBack++ before installing...";
                 progressDisplay.progressWorker.ReportProgress(20);
 
-                string userFolder = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).FullName;
-                if (Environment.OSVersion.Version.Major >= 6)
-                    userFolder = Directory.GetParent(userFolder).ToString();
-
-                Directory.CreateDirectory(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs");
-                Directory.CreateDirectory(userFolder + "\\AppData\\Local\\StartIsBack\\Styles");
-                Properties.Resources.null_classic3small.Save(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs\\null_classic3big.bmp");
-                File.WriteAllBytes(userFolder + "\\AppData\\Local\\StartIsBack\\Styles\\Classic3.msstyles", Properties.Resources.classicStartIsBackTheme);
-
-                string f = Properties.Resources.reg_sib_settings.Replace("C:\\\\Users\\\\{Username}", $"{userFolder.Replace("\\", "\\\\")}");
-                File.WriteAllText("C:\\SCT\\sib.reg", f);
-                Process.Start("C:\\Windows\\System32\\reg.exe", "import C:\\SCT\\sib.reg").WaitForExit();
-
-                Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\StartIsBack", "Disabled", 1);
-                File.Delete("C:\\SCT\\sib.reg");
+                ExtraFunctions.ReConfigureOS(false, false, true);
             }
 
             // Configure Open-Shell Start Menu if OS+SiB or for manual selection
@@ -197,9 +183,7 @@ namespace SimpleClassicTheme.SetupWizard
                 progressDisplay.progressText = "Configuring Open-Shell Menu's Start Menu before installing...";
                 progressDisplay.progressWorker.ReportProgress(30);
 
-                File.WriteAllText("C:\\SCT\\ossettings.reg", Properties.Resources.reg_os_sm_settings);
-                Process.Start("C:\\Windows\\System32\\reg.exe", "import C:\\SCT\\ossettings.reg").WaitForExit();
-                File.Delete("C:\\SCT\\ossettings.reg");
+                ExtraFunctions.ReConfigureOS(true, false, false);
             }
 
             // Configure Open-Shell Taskbar if OS+SiB or for manual selection
@@ -208,16 +192,7 @@ namespace SimpleClassicTheme.SetupWizard
                 progressDisplay.progressText = "Configuring Open-Shell Menu's Taskbar before installing...";
                 progressDisplay.progressWorker.ReportProgress(40);
 
-                Directory.CreateDirectory("C:\\SCT\\OpenShellAssets");
-                Properties.Resources.win7.Save("C:\\SCT\\OpenShellAssets\\win7.png");
-                Properties.Resources.win9x.Save("C:\\SCT\\OpenShellAssets\\win9x.png");
-                Properties.Resources.taskbar.Save("C:\\SCT\\OpenShellAssets\\taskbar.png");
-                Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\OpenShell\\StartMenu\\Settings", "StartButtonPath", "C:\\SCT\\OpenShellAssets\\win9x.png");
-                Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\OpenShell\\StartMenu\\Settings", "TaskbarTexture", "C:\\SCT\\OpenShellAssets\\taskbar.png");
-
-                File.WriteAllText("C:\\SCT\\ossettings.reg", Properties.Resources.reg_os_tb_settings);
-                Process.Start("C:\\Windows\\System32\\reg.exe", "import C:\\SCT\\ossettings.reg").WaitForExit();
-                File.Delete("C:\\SCT\\ossettings.reg");
+                ExtraFunctions.ReConfigureOS(false, true, false);
             }
 
             // Install StartIsBack++ if OS+SiB or for manual selection
