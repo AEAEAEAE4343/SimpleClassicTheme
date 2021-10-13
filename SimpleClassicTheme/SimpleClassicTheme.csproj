@@ -50,6 +50,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>SimpleClassicTheme.ApplicationEntryPoint</StartupObject>
@@ -78,7 +79,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>SimpleClassicTheme.ico</ApplicationIcon>
+    <ApplicationIcon>SCT Logo.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -110,7 +111,9 @@
     <Reference Include="NtApiDotNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NtApiDotNet.1.1.31\lib\net45\NtApiDotNet.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
@@ -341,6 +344,14 @@
     <None Include="Resources\winxp_wizard.png" />
     <None Include="Resources\msiexec.png" />
     <None Include="Resources\OpenShellSetup_4_4_166.exe" />
+    <None Include="Resources\SCT Banner 400x73.png" />
+    <None Include="Resources\SCT Banner Dark 400x73.png" />
+    <None Include="Resources\SCT Logo x164.png" />
+    <None Include="Resources\SCT Logo Dark x164.png" />
+    <None Include="Resources\SCT Logo.ico" />
+    <None Include="Resources\SCT Logo x275.png" />
+    <None Include="Resources\SCT Logo Dark x275.png" />
+    <Content Include="SCT Logo.ico" />
     <Content Include="SimpleClassicTheme.ico" />
     <None Include="Resources\win98sctbanner.png" />
     <None Include="Resources\win98sct.png" />

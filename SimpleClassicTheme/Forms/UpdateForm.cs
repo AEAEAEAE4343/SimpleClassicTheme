@@ -19,6 +19,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -153,5 +154,13 @@ namespace SimpleClassicTheme
         {
             ClassicTaskbar.InstallSCTT(this, false);
         }
-    }
+
+		private void Updater_Load_1(object sender, EventArgs e)
+		{
+            if (ExtraFunctions.ShouldDrawLight(SystemColors.Control))
+                pictureBox1.Image = Properties.Resources.sct_light_275;
+            else
+                pictureBox1.Image = Properties.Resources.sct_dark_275;
+        }
+	}
 }

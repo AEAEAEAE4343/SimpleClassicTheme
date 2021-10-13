@@ -83,7 +83,7 @@ namespace SimpleClassicTheme.SetupWizard
             WizardForm form = WizardForm.FromList(pages);
 
             form.Text = "Simple Classic Theme Setup Wizard";
-            form.Icon = Properties.Resources.icon_application;
+            form.Icon = Properties.Resources.sct_logo;
             form.Shown += delegate { UxTheme.SetWindowTheme(form.Handle, " ", " "); };
 
             return form;

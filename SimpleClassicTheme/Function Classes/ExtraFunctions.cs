@@ -20,6 +20,7 @@
 using Microsoft.Win32;
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -50,6 +51,16 @@ namespace SimpleClassicTheme
             }
             catch { return false; }
             return false;
+        }
+
+        public static bool ShouldDrawLight(Color back)
+		{
+            double r = (back.R / 100D) <= 0.03928D ? (back.R / 100D) / 12.92D : Math.Pow(((back.R / 100D) + 0.055D) / 1.055D, 2.4D);
+            double g = (back.G / 100D) <= 0.03928D ? (back.G / 100D) / 12.92D : Math.Pow(((back.G / 100D) + 0.055D) / 1.055D, 2.4D);
+            double b = (back.B / 100D) <= 0.03928D ? (back.B / 100D) / 12.92D : Math.Pow(((back.B / 100D) + 0.055D) / 1.055D, 2.4D);
+            double l = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+
+            return l > Math.Sqrt(1.05 * 0.05) - 0.05;
         }
 
         /// <summary>

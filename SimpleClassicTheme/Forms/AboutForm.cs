@@ -30,7 +30,12 @@ namespace SimpleClassicTheme
         public About()
         {
             InitializeComponent();
-            ClientSize = new Size(400, 420);
+            ClientSize = new Size(400, 440);
+
+            if (ExtraFunctions.ShouldDrawLight(SystemColors.Window))
+                pictureBox1.Image = Properties.Resources.sct_banner_light_400x73;
+            else
+                pictureBox1.Image = Properties.Resources.sct_banner_dark_400x73;
         }
 
         private void About_Load(object sender, EventArgs e)

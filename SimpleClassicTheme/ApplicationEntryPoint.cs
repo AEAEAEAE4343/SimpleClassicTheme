@@ -43,14 +43,14 @@ namespace SimpleClassicTheme
         [STAThread]
         static void Main(string[] args)
         {
-            if (IntPtr.Size != 8)
+            /*if (IntPtr.Size != 8)
             {
                 MessageBox.Show("This binary is incorrectly compiled and cannot run. Please compile SCT as an x64 binary");
 #if DEBUG
 #else
                 return;
 #endif
-            }
+            }*/
 
             Application.EnableVisualStyles();
             Application.VisualStyleState = VisualStyleState.NoneEnabled;

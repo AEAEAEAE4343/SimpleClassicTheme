@@ -19,7 +19,7 @@ namespace SimpleClassicTheme.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -199,26 +199,6 @@ namespace SimpleClassicTheme.Properties {
         internal static string helpMessage {
             get {
                 return ResourceManager.GetString("helpMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon icon_application {
-            get {
-                object obj = ResourceManager.GetObject("icon_application", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap logo_sct {
-            get {
-                object obj = ResourceManager.GetObject("logo_sct", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -440,6 +420,76 @@ namespace SimpleClassicTheme.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sct_banner_dark_400x73 {
+            get {
+                object obj = ResourceManager.GetObject("sct_banner_dark_400x73", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sct_banner_light_400x73 {
+            get {
+                object obj = ResourceManager.GetObject("sct_banner_light_400x73", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sct_dark_164 {
+            get {
+                object obj = ResourceManager.GetObject("sct_dark_164", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sct_dark_275 {
+            get {
+                object obj = ResourceManager.GetObject("sct_dark_275", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sct_light_164 {
+            get {
+                object obj = ResourceManager.GetObject("sct_light_164", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sct_light_275 {
+            get {
+                object obj = ResourceManager.GetObject("sct_light_275", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon sct_logo {
+            get {
+                object obj = ResourceManager.GetObject("sct_logo", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] setup_classic_taskmgr {
@@ -501,14 +551,19 @@ namespace SimpleClassicTheme.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to @echo off
-        ///title Installing SimpleClassicTheme v%1 
-        ///echo Installing...
-        ///timeout 5 &gt; nul
-        ///taskkill /im %2 /f &gt; nul 2&gt;&amp;1
-        ///del %2 &gt; nul
-        ///copy %3 %2 &gt; nul
-        ///del %3 &gt; nul
+        ///title SCT Update
+        ///echo Starting installation...
+        ///timeout 2 &gt; nul
+        ///echo Killing SCT...
+        ///taskkill /im %2 /f
+        ///echo Removing old files...
+        ///del %2
+        ///echo Installing SCT v%1...
+        ///copy %3 %2
+        ///echo Starting SCT...
         ///%2
+        ///echo Removing temporary files...
+        ///del %3
         ///(goto) 2&gt;nul &amp; del &quot;%~f0&quot;.
         /// </summary>
         internal static string updateString {
@@ -523,16 +578,6 @@ namespace SimpleClassicTheme.Properties {
         internal static System.Drawing.Bitmap win7 {
             get {
                 object obj = ResourceManager.GetObject("win7", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap win98sct {
-            get {
-                object obj = ResourceManager.GetObject("win98sct", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

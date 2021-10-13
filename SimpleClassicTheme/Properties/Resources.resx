@@ -212,9 +212,6 @@ rmdir /S /Q C:\SCT
 shutdown.exe -r -t 2
 (goto) 2&gt;nul &amp; del "%~f0"</value>
   </data>
-  <data name="icon_application" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\SimpleClassicTheme.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="winxp_wizard" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\winxp_wizard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -223,9 +220,6 @@ shutdown.exe -r -t 2
   </data>
   <data name="taskbar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\taskbar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="logo_sct" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SCT Banner 400x81.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="reg_windowcolors_restore" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RestoreColors.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
@@ -245,14 +239,19 @@ schtasks /Create /TN "Simple Classic Theme" /XML "C:\SCT\SCTTask.xml"</value>
   </data>
   <data name="updateString" xml:space="preserve">
     <value>@echo off
-title Installing SimpleClassicTheme v%1 
-echo Installing...
-timeout 5 &gt; nul
-taskkill /im %2 /f &gt; nul 2&gt;&amp;1
-del %2 &gt; nul
-copy %3 %2 &gt; nul
-del %3 &gt; nul
+title SCT Update
+echo Starting installation...
+timeout 2 &gt; nul
+echo Killing SCT...
+taskkill /im %2 /f
+echo Removing old files...
+del %2
+echo Installing SCT v%1...
+copy %3 %2
+echo Starting SCT...
 %2
+echo Removing temporary files...
+del %3
 (goto) 2&gt;nul &amp; del "%~f0"</value>
   </data>
   <data name="ExplorerContextMenuTweaker" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -276,9 +275,6 @@ del %3 &gt; nul
   <data name="ribbonDisabler" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RibbonDisabler.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="win98sct" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\win98sct.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="msiexec" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\msiexec.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -293,5 +289,26 @@ del %3 &gt; nul
   </data>
   <data name="setup_open-shell" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\OpenShellSetup_4_4_166.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="sct_light_164" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SCT Logo x164.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sct_banner_dark_400x73" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SCT Banner Dark 400x73.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sct_banner_light_400x73" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SCT Banner 400x73.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sct_dark_164" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SCT Logo Dark x164.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sct_dark_275" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SCT Logo Dark x275.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sct_light_275" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SCT Logo x275.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sct_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SCT Logo.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

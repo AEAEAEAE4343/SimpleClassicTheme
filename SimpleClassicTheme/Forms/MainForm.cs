@@ -25,6 +25,7 @@ using Microsoft.Win32;
 using System.Net;
 using System.IO.Compression;
 using SimpleClassicTheme.Forms;
+using System.Drawing;
 
 namespace SimpleClassicTheme
 {
@@ -64,30 +65,35 @@ namespace SimpleClassicTheme
             numericUpDown1.Value = (int)lol;
             CheckDependenciesAndSetControls();
 
-            MainMenu menu = new MainMenu() 
-            { 
-                MenuItems = 
-                {
-                    new MenuItem("File")
-                    {
-                        MenuItems =
-                        {
-                            new MenuItem("Options", optionsToolStripMenuItem_Click),
-                            new MenuItem("Exit", exitToolStripMenuItem_Click)
-                        }
-                    },
+            if (ExtraFunctions.ShouldDrawLight(SystemColors.Control))
+                pictureBox1.Image = Properties.Resources.sct_light_164;
+            else
+                pictureBox1.Image = Properties.Resources.sct_dark_164;
 
-                    new MenuItem("Help")
-                    {
-                        MenuItems =
-                        {
-                            new MenuItem("Guide", guideToolStripMenuItem_Click),
-                            new MenuItem("Report bugs", reportBugsToolStripMenuItem_Click),
-                            new MenuItem("About", aboutToolStripMenuItem_Click)
-                        }
-                    }
-                } 
-            };
+            //MainMenu menu = new MainMenu() 
+            //{ 
+            //    MenuItems = 
+            //    {
+            //        new MenuItem("File")
+            //        {
+            //            MenuItems =
+            //            {
+            //                new MenuItem("Options", optionsToolStripMenuItem_Click),
+            //                new MenuItem("Exit", exitToolStripMenuItem_Click)
+            //            }
+            //        },
+
+            //        new MenuItem("Help")
+            //        {
+            //            MenuItems =
+            //            {
+            //                new MenuItem("Guide", guideToolStripMenuItem_Click),
+            //                new MenuItem("Report bugs", reportBugsToolStripMenuItem_Click),
+            //                new MenuItem("About", aboutToolStripMenuItem_Click)
+            //            }
+            //        }
+            //    } 
+            //};
 
             //Menu = menu;
         }
@@ -237,6 +243,10 @@ namespace SimpleClassicTheme
         private void Button9_Click(object sender, EventArgs e)
         {
             button9.Enabled = false;
+            if (IntPtr.Size != 8)
+			{
+                MessageBox.Show("ExplorerContextMenuTweaker is only supported on 64-bit systems");
+			}
             File.WriteAllBytes("C:\\Windows\\System32\\ExplorerContextMenuTweaker.dll", Properties.Resources.ExplorerContextMenuTweaker);
             File.WriteAllBytes("C:\\Windows\\System32\\ShellPayload.dll", Properties.Resources.ShellPayload);
             Process.Start(new ProcessStartInfo() { FileName = "C:\\Windows\\System32\\regsvr32.exe", Arguments = "ExplorerContextMenuTweaker.dll", Verb = "runas" }).WaitForExit();
@@ -368,13 +378,13 @@ namespace SimpleClassicTheme
         //Open guide
         private void guideToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start("https://docs.google.com/document/d/1wsu2tkdB2TIR1fy7lp2HuQ9JeuVG713syzz9RGl2cV0/");
+            Process.Start("https://winclassic.github.io/sctguide");
         }
 
         //Open github issues page
         private void reportBugsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start("https://github.com/AEAEAEAE4343/SimpleClassicTheme/issues");
+            Process.Start("https://github.com/WinClassic/SimpleClassicTheme/issues");
         }
 
         //Show about dialog
@@ -385,7 +395,7 @@ namespace SimpleClassicTheme
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("https://github.com/AEAEAEAE4343/SimpleClassicTheme/issues");
+            Process.Start("https://github.com/WinClassic/SimpleClassicTheme/issues");
         }
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)

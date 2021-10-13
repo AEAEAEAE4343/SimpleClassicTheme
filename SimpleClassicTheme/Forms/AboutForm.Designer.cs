@@ -58,12 +58,11 @@ namespace SimpleClassicTheme
 			// 
 			// pictureBox1
 			// 
-			this.pictureBox1.BackColor = System.Drawing.Color.White;
+			this.pictureBox1.BackColor = System.Drawing.SystemColors.Window;
 			this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
 			this.pictureBox1.Location = new System.Drawing.Point(0, 0);
 			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(400, 81);
+			this.pictureBox1.Size = new System.Drawing.Size(400, 73);
 			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox1.TabIndex = 0;
 			this.pictureBox1.TabStop = false;
@@ -71,25 +70,26 @@ namespace SimpleClassicTheme
 			// label1
 			// 
 			this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.label1.Location = new System.Drawing.Point(12, 124);
+			this.label1.Location = new System.Drawing.Point(12, 89);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(376, 2);
 			this.label1.TabIndex = 1;
 			// 
 			// label2
 			// 
-			this.label2.AutoSize = true;
+			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.label2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.Location = new System.Drawing.Point(12, 136);
+			this.label2.Location = new System.Drawing.Point(12, 101);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(359, 325);
+			this.label2.Size = new System.Drawing.Size(376, 381);
 			this.label2.TabIndex = 2;
 			this.label2.Text = resources.GetString("label2.Text");
 			// 
 			// pictureBox2
 			// 
 			this.pictureBox2.BackColor = System.Drawing.SystemColors.ActiveCaption;
-			this.pictureBox2.Location = new System.Drawing.Point(0, 81);
+			this.pictureBox2.Location = new System.Drawing.Point(0, 73);
 			this.pictureBox2.Name = "pictureBox2";
 			this.pictureBox2.Size = new System.Drawing.Size(400, 5);
 			this.pictureBox2.TabIndex = 3;
@@ -117,7 +117,6 @@ namespace SimpleClassicTheme
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
         }
 
