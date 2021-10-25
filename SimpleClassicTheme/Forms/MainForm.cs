@@ -34,15 +34,23 @@ namespace SimpleClassicTheme
         //Check installation of Open Shell and StartIsBack++
         public static bool CheckDependencies(bool Taskbar)
         {
-            if (Taskbar && (string)Configuration.GetItem("TaskbarType", "SiB+OS") == "SCTT" && File.Exists("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe"))
+            if (!Taskbar)
                 return true;
-            bool osInstalled = Directory.Exists("C:\\Program Files\\Open-Shell\\");
-            bool sibInstalled = Environment.OSVersion.Version.Major < 10 || Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
-            if ((!osInstalled || !sibInstalled) && Taskbar)
-            {
-                return false;
+
+            switch (Configuration.TaskbarType)
+			{
+                case TaskbarType.SimpleClassicThemeTaskbar:
+                    return File.Exists("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe");
+                case TaskbarType.StartIsBackOpenShell:
+                    bool osInstalled = Directory.Exists("C:\\Program Files\\Open-Shell\\");
+                    bool sibInstalled = Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
+                    return !((!osInstalled || !sibInstalled) && Taskbar);
+                case TaskbarType.RetroBar:
+                    return File.Exists("C:\\SCT\\RetroBar\\RetroBar.exe");
+                case TaskbarType.Windows81Vanilla:
+                default:
+                    return true;
             }
-            return true;
         }
 
         //Main code: Construct and initialize all controls
@@ -54,171 +62,66 @@ namespace SimpleClassicTheme
         //Main code: loads the UI
         private void Form1_Load(object sender, EventArgs e)
         {
-            numericUpDown1.Maximum = Int32.MaxValue;
             ExtraFunctions.UpdateStartupExecutable(false);
-            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme");
-            checkBox1.Checked = bool.Parse(Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\SimpleClassicTheme", "EnableTaskbar", false.ToString()).ToString());
             File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\addSchemes.bat"), Properties.Resources.reg_classicschemes_add);
             Process.Start(new ProcessStartInfo() { FileName = Path.Combine(Path.GetTempPath(), "\\addSchemes.bat"), Verb = "runas", UseShellExecute = false, CreateNoWindow = true });
+
             Shown += Form1_Shown;
-            var lol = Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme").GetValue("TaskbarDelay", 5000);
-            numericUpDown1.Value = (int)lol;
+
+            checkBox1.Checked = Configuration.EnableTaskbar;
+            numericUpDown1.Maximum = Int32.MaxValue;
+            numericUpDown1.Value = Configuration.TaskbarDelay;
             CheckDependenciesAndSetControls();
 
             if (ExtraFunctions.ShouldDrawLight(SystemColors.Control))
                 pictureBox1.Image = Properties.Resources.sct_light_164;
             else
                 pictureBox1.Image = Properties.Resources.sct_dark_164;
-
-            //MainMenu menu = new MainMenu() 
-            //{ 
-            //    MenuItems = 
-            //    {
-            //        new MenuItem("File")
-            //        {
-            //            MenuItems =
-            //            {
-            //                new MenuItem("Options", optionsToolStripMenuItem_Click),
-            //                new MenuItem("Exit", exitToolStripMenuItem_Click)
-            //            }
-            //        },
-
-            //        new MenuItem("Help")
-            //        {
-            //            MenuItems =
-            //            {
-            //                new MenuItem("Guide", guideToolStripMenuItem_Click),
-            //                new MenuItem("Report bugs", reportBugsToolStripMenuItem_Click),
-            //                new MenuItem("About", aboutToolStripMenuItem_Click)
-            //            }
-            //        }
-            //    } 
-            //};
-
-            //Menu = menu;
         }
 
         //Make the window itself use Classic Theme regardless of the current theme
         private void Form1_Shown(object sender, EventArgs e)
         {
-            UxTheme.SetWindowTheme(Handle, " ", " ");
+            //UxTheme.SetWindowTheme(Handle, " ", " ");
         }
 
         //Enable
         private void Button1_Click(object sender, EventArgs e)
         {
+            bool oldEnableValue = Configuration.Enabled;
             ClassicTheme.MasterEnable(checkBox1.Checked);
+            if (oldEnableValue != Configuration.Enabled)
+            {
+                ApplicationEntryPoint.LoadGUI = true; Close();
+            }
         }
 
         //Disable
         private void Button2_Click(object sender, EventArgs e)
         {
+            bool oldEnableValue = Configuration.Enabled;
             ClassicTheme.MasterDisable(checkBox1.Checked);
+            if (oldEnableValue != Configuration.Enabled)
+            {
+                ApplicationEntryPoint.LoadGUI = true; Close();
+            }
         }
 
         //Install dependencies
         private void Button3_Click(object sender, EventArgs e)
         {
-            //Win 8.1 doesn't require anything
-            if (Environment.OSVersion.Version.Major < 10)
-                return;
-
-            //Check what's installed
             bool osInstalled = Directory.Exists("C:\\Program Files\\Open-Shell\\");
             bool sibInstalled = Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
-
             if (button3.Text == "Reconfigure OS+SiB")
             {
                 ExtraFunctions.ReConfigureOS(osInstalled, osInstalled, sibInstalled);
                 return;
             }
 
-            //Open-Shell installation
-            if (!osInstalled && checkBox1.Checked)
-            {
-                //Open-Shell installation
-                if (MessageBox.Show("To continue Open-Shell is required. Would you like Simple Classic Theme to install this for you?", "SimpleClassicTheme", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    //Install Open-Shell
-                    File.WriteAllBytes("C:\\SCT\\openShellSetup.exe", Properties.Resources.setup_open_shell);
-                    Process.Start("C:\\SCT\\openShellSetup.exe", "/qn").WaitForExit();
-
-                    //Get user folder
-                    string userFolder = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).FullName;
-                    if (Environment.OSVersion.Version.Major >= 6)
-                        userFolder = Directory.GetParent(userFolder).ToString();
-
-                    //Prepare files for Open-Shell
-                    Directory.CreateDirectory(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs");
-                    Properties.Resources.win7.Save(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs\\win7.png");
-                    Properties.Resources.win9x.Save(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs\\win9x.png");
-
-                    //Find out what start orb the user wants
-                    string orbname = MessageBox.Show("Do you want to use a Win95 style start orb (If not a Windows 7 style orb will be used)?", "Simple Classic Theme", MessageBoxButtons.YesNo) == DialogResult.Yes ? "win9x.png" : "win7.png";
-
-                    //Setup Open-Shell registry
-                    File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\ossettings.reg"), Properties.Resources.reg_os_settings);
-                    Process.Start(Path.Combine(Path.GetTempPath(), "\\ossettings.reg")).WaitForExit();
-                    Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\OpenShell\\StartMenu\\Settings", "StartButtonPath", @"%USERPROFILE%\AppData\Local\StartIsBack\Orbs\" + orbname);
-                }
-                else
-                {
-                    MessageBox.Show("Using taskbar without OpenShell is not possible!", "Simple Classic Theme");
-                    checkBox1.Checked = false;
-                }
-            }
-
-            //StartIsBack installation
-            if (!sibInstalled && checkBox1.Checked)
-            {
-                bool b = MessageBox.Show("To continue StartIsBack++ is required. Would you like Simple Classic Theme to install this for you?", "Simple Classic Theme", MessageBoxButtons.YesNo) == DialogResult.Yes;
-                if (b)
-                {
-                    //Get user folder
-                    string userFolder = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).FullName;
-                    if (Environment.OSVersion.Version.Major >= 6)
-                        userFolder = Directory.GetParent(userFolder).ToString();
-                    
-                    //Prepare files for StartIsBack
-                    Directory.CreateDirectory(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs");
-                    Directory.CreateDirectory(userFolder + "\\AppData\\Local\\StartIsBack\\Styles");
-                    Properties.Resources.win7.Save(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs\\win7.png");
-                    Properties.Resources.win9x.Save(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs\\win9x.png");
-                    Properties.Resources.taskbar.Save(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs\\taskbar.png");
-                    Properties.Resources.null_classic3small.Save(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs\\null_classic3big.bmp");
-                    File.WriteAllBytes(userFolder + "\\AppData\\Local\\StartIsBack\\Styles\\Classic3.msstyles", Properties.Resources.classicStartIsBackTheme);
-                    
-                    //Setup StartIsBack registry
-                    string f = Properties.Resources.reg_sib_settings.Replace("C:\\\\Users\\\\{Username}", $"{userFolder.Replace("\\", "\\\\")}");
-                    File.WriteAllText("C:\\sib.reg", f);
-                    Process.Start(Path.Combine(Path.GetTempPath(), "\\sib.reg")).WaitForExit();
-
-                    //Disable StartIsBack
-                    Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\StartIsBack", "Disabled", 1);
-                    
-                    using (WebClient c = new WebClient()) 
-                        c.DownloadFile("https://s3.amazonaws.com/startisback/StartIsBackPlusPlus_setup.exe", Path.Combine(Path.GetTempPath(), "\\sib.exe"));
-                    
-                    //Install StartIsBack++
-                    Process p = new Process() { StartInfo = { FileName = Path.Combine(Path.GetTempPath(), "\\sib.exe"), Arguments = "/silent" } };
-                    p.Start();
-                    p.WaitForExit();
-                    p.Dispose();
-                    File.Delete("C:\\ossettings.reg");
-                    File.Delete("C:\\sib.reg");
-                    File.Delete("C:\\sib.exe");
-                }
-                else
-                {
-                    MessageBox.Show("Using taskbar without StartIsBack++ is not possible!", "Simple Classic Theme");
-                    checkBox1.Checked = false;
-                }
-            }
+            ExtraFunctions.InstallDependencies();
+            
             //Make sure EVERYTHING is disabled before continuing
             Button2_Click(sender, e);
-
-            //Inform the user and update controls
-            MessageBox.Show("All requirements are installed! Enjoy!!!!");
             CheckDependenciesAndSetControls();
         }
 
@@ -233,7 +136,7 @@ namespace SimpleClassicTheme
         //Enable install mode
         private void Button5_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("This launches the program in auto mode every time the pc starts up (after userinit.exe is loaded). Continue?", "Auto-launch Simple Clasic Theme", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("This makes SCT automatically launch when you log onto your PC. You can use the boot scripts in C:\\SCT\\ to configure things to load before Classic Theme gets enabled. Continue?", "Run Simple Clasic Theme on boot", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 ExtraFunctions.UpdateStartupExecutable(true);
             }
@@ -255,8 +158,7 @@ namespace SimpleClassicTheme
         //Turn on/off taskbar
         private void CheckBox1_CheckedChanged(object sender, EventArgs e)
         {
-            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme");
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\SimpleClassicTheme", "EnableTaskbar", checkBox1.Checked.ToString());
+            Configuration.EnableTaskbar = checkBox1.Checked;
             CheckDependenciesAndSetControls();
         }
 
@@ -264,6 +166,7 @@ namespace SimpleClassicTheme
         private void CheckDependenciesAndSetControls()
         {
             EnableAllControls();
+
             if (CheckDependencies(checkBox1.Checked))
             {
                 button3.Enabled = false;
@@ -273,7 +176,7 @@ namespace SimpleClassicTheme
                 button1.Enabled = false;
                 button2.Enabled = false;
             }
-            numericUpDown1.Enabled = checkBox1.Checked;
+            
             if (Directory.Exists("C:\\SCT\\T-Clock\\"))
                 button10.Text = "Open T-Clock";
             if (Environment.OSVersion.Version.Major < 10)
@@ -286,23 +189,24 @@ namespace SimpleClassicTheme
 
             Version OSVersion = Environment.OSVersion.Version;
             int Architecture = IntPtr.Size == 8 ? 64 : 32;
-            string TaskbarType = (string)Configuration.GetItem("TaskbarType", "SiB+OS");
 
-            button9.Enabled = OSVersion.Major == 10 && Architecture == 64;
-
-            if (!checkBox1.Checked)
-                return;
-
-            button8.Enabled = true;
-            button10.Enabled = TaskbarType == "SiB+OS";
-
+            button9.Enabled = OSVersion.CompareString("10.0.22000") < 0 && IntPtr.Size == 8;
+            numericUpDown1.Enabled = checkBox1.Checked;
+            
+            // T-Clock
+            button10.Enabled = Configuration.EnableTaskbar ||
+                               Configuration.TaskbarType == TaskbarType.StartIsBackOpenShell ||
+                               Configuration.TaskbarType == TaskbarType.Windows81Vanilla;
         }
 
         //Enables all controls
         private void EnableAllControls()
         {
             foreach (Control c in Controls)
-                if (!(c is GroupBox))
+                if (c is GroupBox g)
+                    foreach (Control c2 in g.Controls)
+                        c2.Enabled = true;
+                else
                     c.Enabled = true;
         }
 
@@ -365,8 +269,7 @@ namespace SimpleClassicTheme
         //Update Delay
         private void NumericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme");
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\SimpleClassicTheme", "TaskbarDelay", (int)numericUpDown1.Value, RegistryValueKind.DWord);
+            Configuration.TaskbarDelay = (int)numericUpDown1.Value;
         }
 
         //Exit

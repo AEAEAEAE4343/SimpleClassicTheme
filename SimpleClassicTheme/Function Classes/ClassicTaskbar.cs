@@ -46,8 +46,6 @@ namespace SimpleClassicTheme
             //Restart explorer
             Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
             Process.Start("cmd", "/c taskkill /im sihost.exe /f").WaitForExit();
-            //Give Windows Explorer, StartIsBack and Classic Shell the time to load
-            Thread.Sleep((int)Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme").GetValue("TaskbarDelay", 5000));
         }
 
         public static void Disable()
@@ -105,13 +103,9 @@ namespace SimpleClassicTheme
 
         public static void InstallSCTT(Form parent, bool ask = true)
 		{
-            if (!ask || MessageBox.Show(parent, "Would you like to install SCTT?\n\nPlease note that SCTT is far from finished and may contain bugs/lack some features.", "Simple Classic Theme Taskbar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (!ask || MessageBox.Show(parent, "Would you like to install Simple Classic Theme Taskbar? Please note that SCTT is still in beta and may contain bugs.", "Simple Classic Theme Taskbar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 			{
-                SCTTDownload download = new SCTTDownload();
-                download.FormClosed += delegate
-                {
-
-                };
+                GithubDownloader download = new GithubDownloader(GithubDownloader.DownloadableGithubProject.SimpleClassicThemeTaskbar);
                 download.ShowDialog(parent);
 			}
 		}

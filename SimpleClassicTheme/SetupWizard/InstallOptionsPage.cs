@@ -59,7 +59,7 @@ namespace SimpleClassicTheme.SetupWizard
 
         private void InstallOptionsPage_EnterPage(object sender, EventArgs e)
         {
-            SetupHandler.SelectedTaskbarType = SetupHandler.TaskbarType.OS_SiB;
+            SetupHandler.SelectedTaskbarType = TaskbarType.SimpleClassicThemeTaskbar;
             SetupHandler.ConfigureOSSM = false;
             SetupHandler.ConfigureOSTB = false;
             SetupHandler.ConfigureSiB = false;
@@ -69,20 +69,30 @@ namespace SimpleClassicTheme.SetupWizard
 
         private void InstallOptionsPage_LeavePage(object sender, EventArgs e)
         {
-            if (radioButton1.Checked)
-            {
-                SetupHandler.SelectedTaskbarType = SetupHandler.TaskbarType.OS_SiB;
-                SetupHandler.ConfigureOSSM = true;
-                SetupHandler.ConfigureOSTB = true;
-                SetupHandler.ConfigureSiB =  true;
-                SetupHandler.UtilitiesToBeInstalled.AddRange(new InstallableUtility[] { InstallableUtility.OpenShell, InstallableUtility.StartIsBackPlusPlus });
+            if (checkBox4.Checked)
+            { 
+                SetupHandler.SelectedTaskbarType = taskbarTypeSelector1.SelectedItem; 
+                if (SetupHandler.SelectedTaskbarType == TaskbarType.StartIsBackOpenShell)
+                {
+                    SetupHandler.ConfigureOSSM = true;
+                    SetupHandler.ConfigureOSTB = true;
+                    SetupHandler.ConfigureSiB = true;
+                    SetupHandler.UtilitiesToBeInstalled.AddRange(new InstallableUtility[] { InstallableUtility.OpenShell, InstallableUtility.StartIsBackPlusPlus });
+                }
             }
-            if (radioButton2.Checked)
-                SetupHandler.SelectedTaskbarType = SetupHandler.TaskbarType.SCTTaskbar;
-            if (radioButton3.Checked)
-                SetupHandler.SelectedTaskbarType = SetupHandler.TaskbarType.None;
+            else SetupHandler.SelectedTaskbarType = TaskbarType.None;
 
             SetupHandler.EnableOnBoot = checkBox2.Checked;
         }
+
+		private void checkBox4_CheckedChanged(object sender, EventArgs e)
+		{
+            taskbarTypeSelector1.Enabled = checkBox4.Checked;
+		}
+
+		private void taskbarTypeSelector1_SelectedItemChanged(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

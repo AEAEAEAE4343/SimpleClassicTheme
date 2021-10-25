@@ -36,7 +36,7 @@ namespace SimpleClassicTheme
             if (Environment.OSVersion.Version.Major == 10)
             { 
                 Process.Start("explorer.exe", "C:\\Windows\\System32\\ApplicationFrameHost.exe").WaitForExit();
-                Thread.Sleep(100);
+                Thread.Sleep(200);
             }
             NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
             g.SetSecurityDescriptor(new SecurityDescriptor("O:BAG:SYD:(A;;RC;;;IU)(A;;DCSWRPSDRCWDWO;;;SY)"), SecurityInformation.Dacl);
@@ -54,55 +54,87 @@ namespace SimpleClassicTheme
         }
 
         //Enables Classic Theme and if specified Classic Taskbar.
-        public static void MasterEnable(bool taskbar, bool force = false, bool commandLineError = false)
+        public static void MasterEnable(bool taskbar, bool commandLineError = false)
         {
             Process.Start("C:\\SCT\\EnableThemeScript.bat", "pre").WaitForExit();
-            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("SimpleClassicTheme");
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\SimpleClassicTheme", "Enabled", true.ToString());
-            //SCTT
-            if (taskbar && (string)Configuration.GetItem("TaskbarType", "SiB+OS") == "SCTT")
+            Configuration.Enabled = true;
+            if (!taskbar)
             {
-#if DEBUG
-#else
-                if (!force && !File.Exists("C:\\SCT\\SCT.exe"))
+                // No taskbar
+                Enable();
+            }
+            else if (Assembly.GetExecutingAssembly().Location != "C:\\SCT\\SCT.exe")
+			{
+                if (!commandLineError)
+                    MessageBox.Show("You need to run Simple Classic Theme from the start menu in order to enable it with classic taskbar enabled.", "Unsupported action");
+                else
+                    Console.WriteLine("Enabling SCT with a taskbar requires SCT to be ran from \"C:\\SCT\\SCT.exe\".");
+                Configuration.Enabled = false;
+                return;
+            }
+            else if (Configuration.TaskbarType == TaskbarType.StartIsBackOpenShell)
+            {
+                if (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 3)
                 {
+                    // StartIsBack+ and Open-Shell
+                    // Unsupported for now
                     if (!commandLineError)
-                        MessageBox.Show("This action requires SCT to be installed");
+                        MessageBox.Show("StartIsBack+ is still unsupported. Please select another taskbar method through the options menu or with the --set commandline option.", "Unsupported action");
                     else
-                        Console.WriteLine("This action requires SCT to be installed");
+                        Console.WriteLine("StartIsBack+ is still unsupported. Please select another taskbar method.");
+                    Configuration.Enabled = false;
+                }
+                else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build < 22000)
+                {
+                    // StartIsBack++ and Open-Shell
+                    ClassicTaskbar.Enable();
+                    Thread.Sleep(Configuration.TaskbarDelay);
+                    Enable();
+                }
+                else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build >= 22000)
+                {
+                    // StartAllBack and Open-Shell
+                    // Unsupported for now
+                    if (!commandLineError)
+                        MessageBox.Show("StartAllBack is still unsupported. Please select another taskbar method through the options menu or with the --set commandline option.", "Unsupported action");
+                    else
+                        Console.WriteLine("StartAllBack is still unsupported. Please select another taskbar method.");
+                    Configuration.Enabled = false;
                 }
                 else
-#endif
                 {
-                    Enable();
-                    Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-                    Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
-                    ClassicTaskbar.EnableSCTT();
+                    // Unsupported operating system
+                    if (!commandLineError)
+                        MessageBox.Show("There's no version of StartIsBack for your version of Windows. Please select another taskbar method through the options menu or with the --set commandline option.", "Unsupported action");
+                    else
+                        Console.WriteLine("There's no version of StartIsBack for your version of Windows. Please select another taskbar method.");
+                    Configuration.Enabled = false;
                 }
             }
-            //Windows 8.1
-            else if (Environment.OSVersion.Version.Major != 10)
+            else if (Configuration.TaskbarType == TaskbarType.SimpleClassicThemeTaskbar)
             {
-                //Enable the theme
+                // Simple Classic Theme Taskbar
                 Enable();
-
-                //Make explorer apply theme
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
-                Thread.Sleep((int)Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme").GetValue("TaskbarDelay", 5000));
-
+                ClassicTaskbar.EnableSCTT();
+            }
+            else if (Configuration.TaskbarType == TaskbarType.Windows81Vanilla)
+			{
+                // Windows 8.1 Vanilla taskbar with post-load patches
+                Enable();
+                Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
+                Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
+                Thread.Sleep(Configuration.TaskbarDelay);
                 ClassicTaskbar.FixWin8_1();
             }
-            //Windows 10 with taskbar
-            else if (taskbar)
-            {
-                ClassicTaskbar.Enable();
+            else if (Configuration.TaskbarType == TaskbarType.RetroBar)
+			{
                 Enable();
-            }
-            //Just enable
-            else
-            {
-                Enable();
+                Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
+                Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
+                Thread.Sleep(Configuration.TaskbarDelay);
+                Process.Start("C:\\SCT\\RetroBar\\RetroBar.exe");
             }
             Process.Start("C:\\SCT\\EnableThemeScript.bat", "post").WaitForExit();
         }
@@ -111,33 +143,42 @@ namespace SimpleClassicTheme
         public static void MasterDisable(bool taskbar)
         {
             Process.Start("C:\\SCT\\DisableThemeScript.bat", "pre").WaitForExit();
-            Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme");
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\SimpleClassicTheme", "Enabled", false.ToString());
-            //SCTT
-            if (taskbar && (string)Configuration.GetItem("TaskbarType", "SiB+OS") == "SCTT")
+            Configuration.Enabled = false;
+            if (!taskbar)
+            {
+                // No taskbar
+                Disable();
+            }
+            else if (Configuration.TaskbarType == TaskbarType.StartIsBackOpenShell)
+            {
+                if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build < 22000)
+                {
+                    // StartIsBack++ and Open-Shell
+                    Disable();
+                    ClassicTaskbar.Disable();
+                }
+            }
+            else if (Configuration.TaskbarType == TaskbarType.SimpleClassicThemeTaskbar)
             {
                 ClassicTaskbar.DisableSCTT();
                 Disable();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
             }
-            //Windows 8.1
-            else if (Environment.OSVersion.Version.Major != 10)
+            else if (Configuration.TaskbarType == TaskbarType.Windows81Vanilla)
             {
                 Disable();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
             }
-            //Windows 10 with taskbar
-            else if (taskbar)
+            else if (Configuration.TaskbarType == TaskbarType.RetroBar)
             {
+                foreach (Process p in Process.GetProcessesByName("RetroBar"))
+                    p.Kill();
+
                 Disable();
-                ClassicTaskbar.Disable();
-            }
-            //Just disable
-            else
-            {
-                Disable();
+                Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
+                Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
             }
             Process.Start("C:\\SCT\\DisableThemeScript.bat", "post").WaitForExit();
         }
@@ -160,7 +201,7 @@ namespace SimpleClassicTheme
             {
                 Process.Start("C:\\Windows\\System32\\msiexec.exe", "/X{FD722BB1-4960-455F-89C6-EFAEB79527EF}").WaitForExit();
             }
-            if (Directory.Exists(path + "\\AppData\\Local\\StartIsBack") && MessageBox.Show("StartIsBack++ has been found on the system.\nWould you like SCT to remove it?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (Directory.Exists(path + "\\AppData\\Local\\StartIsBack") && MessageBox.Show("StartIsBack(+(+)) has been found on the system.\nWould you like SCT to remove it?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 Process.Start(path + "\\AppData\\Local\\StartIsBack\\StartIsBackCfg.exe", "/uninstall").WaitForExit();
             }
@@ -215,11 +256,12 @@ namespace SimpleClassicTheme
             Process.Start("C:\\Windows\\System32\\schtasks.exe", "/Delete /TN \"Simple Classic Theme\" /F").WaitForExit();
 
             //Remove registry for both SCT and SCTT
-            Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme");
-            Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").CreateSubKey("SimpleClassicThemeTaskbar");
-            Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").DeleteSubKeyTree("SimpleClassicTheme");
-            Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").DeleteSubKeyTree("SimpleClassicThemeTaskbar");
-            if (Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").SubKeyCount == 0)
+            Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").CreateSubKey("Simple Classic Theme").CreateSubKey("Base");
+            Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").CreateSubKey("Simple Classic Theme").CreateSubKey("Taskbar");
+            Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").CreateSubKey("Simple Classic Theme").DeleteSubKeyTree("Base");
+            Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").CreateSubKey("Simple Classic Theme").DeleteSubKeyTree("Taskbar");
+            Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").CreateSubKey("Simple Classic Theme").CreateSubKey("Common");
+            if (Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").CreateSubKey("Simple Classic Theme").SubKeyCount <= 1)
                 Registry.CurrentUser.CreateSubKey("SOFTWARE").DeleteSubKeyTree("1337ftw");
 
             //File removal

@@ -32,20 +32,13 @@ namespace SimpleClassicTheme.Forms
 
 		public OptionsForm()
 		{
-			TaskbarTypeDisplay.Add("SiB+OS", Environment.OSVersion.Version.Major == 10 ? "SiB and OS" : "Vanilla taskbar");
-			TaskbarTypeDisplay.Add("SCTT", "SCT Taskbar (alpha)");
-
 			InitializeComponent();
 			Load += OptionsForm_Load;
-
-			foreach (KeyValuePair<string, string> f in TaskbarTypeDisplay)
-				comboBoxTaskbar.Items.Add(f.Value);
 		}
 
 		private void OptionsForm_Load(object sender, EventArgs e)
 		{
-			comboBoxUpdates.SelectedItem = Configuration.GetItem("UpdateMode", "Automatic");
-			comboBoxTaskbar.SelectedItem = TaskbarTypeDisplay[TaskbarTypeDisplay.ContainsKey((string)Configuration.GetItem("TaskbarType", "SiB+OS")) ? (string)Configuration.GetItem("TaskbarType", "SiB+OS") : "SiB+OS"];
+			comboBoxUpdates.SelectedItem = Configuration.UpdateMode;
 		}
 
 		private void button3_Click(object sender, EventArgs e)
@@ -55,29 +48,25 @@ namespace SimpleClassicTheme.Forms
 
 		private void button2_Click(object sender, EventArgs e)
 		{
-			Configuration.SetItem("UpdateMode", comboBoxUpdates.SelectedItem, RegistryValueKind.String);
-			Configuration.SetItem("TaskbarType", TaskbarTypeDisplay.FirstOrDefault(x => x.Value == (string)comboBoxTaskbar.SelectedItem).Key, RegistryValueKind.String);
-		}
-
-		private void comboBoxTaskbar_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if ((string)comboBoxTaskbar.SelectedItem == TaskbarTypeDisplay["SCTT"] && !Directory.Exists("C:\\SCT\\Taskbar\\") && !File.Exists("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe"))
-			{
-				ClassicTaskbar.InstallSCTT(this);
-				if (!File.Exists("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe"))
-					comboBoxTaskbar.SelectedItem = TaskbarTypeDisplay["SiB+OS"];
-				else
-					return;
-			}
-			else if (Directory.Exists("C:\\SCT\\Taskbar\\") && File.Exists("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe"))
-				return;
-			comboBoxTaskbar.SelectedItem = TaskbarTypeDisplay["SiB+OS"];
+			Configuration.UpdateMode = (string)comboBoxUpdates.SelectedItem;
+			Configuration.TaskbarType = taskbarTypeSelector1.SelectedItem;
+			button2.Enabled = false;
 		}
 
 		private void button1_Click(object sender, EventArgs e)
 		{
 			button2_Click(sender, e);
 			Close();
+		}
+
+		private void comboBoxUpdates_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			button2.Enabled = true;
+		}
+
+		private void taskbarTypeSelector1_SelectedItemChanged(object sender, EventArgs e)
+		{
+			button2.Enabled = true;
 		}
 	}
 }

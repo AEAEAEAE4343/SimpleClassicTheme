@@ -35,7 +35,7 @@ namespace SimpleClassicTheme.SetupWizard
     class SetupHandlerObject
 	{
         //Properties
-        public SetupHandler.TaskbarType SelectedTaskbarType { get => SetupHandler.SelectedTaskbarType; }
+        public TaskbarType SelectedTaskbarType { get => SetupHandler.SelectedTaskbarType; }
         public bool EnableOnBoot { get => SetupHandler.EnableOnBoot; }
         public List<InstallableUtility> UtilitiesToBeInstalled { get => SetupHandler.UtilitiesToBeInstalled; }
         public bool ConfigureOSSM { get => SetupHandler.ConfigureOSSM; }
@@ -45,18 +45,13 @@ namespace SimpleClassicTheme.SetupWizard
 
     static class SetupHandler
     {
-        public enum TaskbarType
-        {
-            OS_SiB = 0,
-            SCTTaskbar = 1,
-            None = 2
-        }
+        
 
         // Wizard stuff
         public static WizardForm Installer;
 
         // Install options page results
-        public static TaskbarType SelectedTaskbarType = TaskbarType.SCTTaskbar;
+        public static TaskbarType SelectedTaskbarType = TaskbarType.SimpleClassicThemeTaskbar;
         public static bool EnableOnBoot = true;
 
         // Utilities page results
@@ -126,7 +121,7 @@ namespace SimpleClassicTheme.SetupWizard
         /// <param name="progressDisplay"></param>
         public static void InstallSCT(InstallationPage progressDisplay)
         {
-            if (SelectedTaskbarType == TaskbarType.SCTTaskbar && !ExtraFunctions.IsDotNetRuntimeInstalled())
+            if (SelectedTaskbarType == TaskbarType.SimpleClassicThemeTaskbar && !ExtraFunctions.IsDotNetRuntimeInstalled())
             {
                 progressDisplay.progressWorker.ReportProgress(5);
                 progressDisplay.Invoke(new Action(() =>
@@ -234,17 +229,14 @@ namespace SimpleClassicTheme.SetupWizard
             // Install SCT Taskbar
             progressDisplay.progressText = "Installing Simple Classic Theme Taskbar...";
             progressDisplay.progressWorker.ReportProgress(70);
-            progressDisplay.Invoke(new Action(() => new SCTTDownload().ShowDialog()));
-
-            // Configure SCT Taskbar
-            // Not possible as we haven't asked yet
+            progressDisplay.Invoke(new Action(() => new GithubDownloader().ShowDialog()));
 
             // Configure SCT
             progressDisplay.progressText = "Configuring Simple Classic Theme...";
             progressDisplay.progressWorker.ReportProgress(80);
-            Configuration.SetItem("EnableTaskbar", (SelectedTaskbarType != TaskbarType.None).ToString(), Microsoft.Win32.RegistryValueKind.String);
-            Configuration.SetItem("TaskbarType", SelectedTaskbarType == TaskbarType.SCTTaskbar ? "SCTT" : "SiB+OS", Microsoft.Win32.RegistryValueKind.String);
-            Configuration.SetItem("UpdateMode", "Automatic", Microsoft.Win32.RegistryValueKind.String);
+            Configuration.EnableTaskbar = SelectedTaskbarType != TaskbarType.None;
+            Configuration.TaskbarType = SelectedTaskbarType != TaskbarType.None ? SelectedTaskbarType : TaskbarType.SimpleClassicThemeTaskbar;
+            Configuration.UpdateMode = "Automatic";
 
             // Finalize installation and record data for uninstall
             progressDisplay.progressText = "Finalizing installation and enabling Classic Theme...";

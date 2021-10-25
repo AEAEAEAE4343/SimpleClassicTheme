@@ -55,9 +55,11 @@ namespace SimpleClassicTheme.SetupWizard
 			this.label1 = new System.Windows.Forms.Label();
 			this.radioButton1 = new System.Windows.Forms.RadioButton();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.checkBox4 = new System.Windows.Forms.CheckBox();
 			this.checkBox3 = new System.Windows.Forms.CheckBox();
 			this.checkBox2 = new System.Windows.Forms.CheckBox();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
+			this.taskbarTypeSelector1 = new SimpleClassicTheme.Forms.TaskbarTypeSelector();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
@@ -70,7 +72,7 @@ namespace SimpleClassicTheme.SetupWizard
 			this.groupBox1.Controls.Add(this.radioButton2);
 			this.groupBox1.Controls.Add(this.label1);
 			this.groupBox1.Controls.Add(this.radioButton1);
-			this.groupBox1.Location = new System.Drawing.Point(11, 109);
+			this.groupBox1.Location = new System.Drawing.Point(493, 148);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(476, 132);
 			this.groupBox1.TabIndex = 0;
@@ -141,15 +143,27 @@ namespace SimpleClassicTheme.SetupWizard
 			// 
 			// groupBox2
 			// 
+			this.groupBox2.Controls.Add(this.checkBox4);
 			this.groupBox2.Controls.Add(this.checkBox3);
 			this.groupBox2.Controls.Add(this.checkBox2);
 			this.groupBox2.Controls.Add(this.checkBox1);
 			this.groupBox2.Location = new System.Drawing.Point(11, 5);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(476, 98);
+			this.groupBox2.Size = new System.Drawing.Size(476, 116);
 			this.groupBox2.TabIndex = 1;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Classic Theme options";
+			// 
+			// checkBox4
+			// 
+			this.checkBox4.AutoSize = true;
+			this.checkBox4.Location = new System.Drawing.Point(9, 88);
+			this.checkBox4.Name = "checkBox4";
+			this.checkBox4.Size = new System.Drawing.Size(140, 17);
+			this.checkBox4.TabIndex = 3;
+			this.checkBox4.Text = "Install a Classic Taskbar";
+			this.checkBox4.UseVisualStyleBackColor = true;
+			this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
 			// 
 			// checkBox3
 			// 
@@ -188,10 +202,19 @@ namespace SimpleClassicTheme.SetupWizard
 			this.checkBox1.Text = "Install Simple Classic Theme onto your harddrive.";
 			this.checkBox1.UseVisualStyleBackColor = true;
 			// 
+			// taskbarTypeSelector1
+			// 
+			this.taskbarTypeSelector1.Location = new System.Drawing.Point(11, 127);
+			this.taskbarTypeSelector1.Name = "taskbarTypeSelector1";
+			this.taskbarTypeSelector1.Size = new System.Drawing.Size(476, 123);
+			this.taskbarTypeSelector1.TabIndex = 2;
+			this.taskbarTypeSelector1.SelectedItemChanged += new System.EventHandler(this.taskbarTypeSelector1_SelectedItemChanged);
+			// 
 			// InstallOptionsPage
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.taskbarTypeSelector1);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -224,5 +247,7 @@ namespace SimpleClassicTheme.SetupWizard
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox2;
-    }
+		private Forms.TaskbarTypeSelector taskbarTypeSelector1;
+		private System.Windows.Forms.CheckBox checkBox4;
+	}
 }

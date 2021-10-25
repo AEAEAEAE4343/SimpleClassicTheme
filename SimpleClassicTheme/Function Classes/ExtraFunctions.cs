@@ -19,6 +19,7 @@
 
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -32,7 +33,19 @@ using System.Windows.Forms;
 namespace SimpleClassicTheme
 {
     /// <summary>
-    /// Helper Class: Contains all longish functions that make code unreadable
+    /// Encapsulates the different taskbars compatible with SCT
+    /// </summary>
+    public enum TaskbarType
+    {
+        None = 0,
+        StartIsBackOpenShell = 1,
+        Windows81Vanilla = 2,
+        SimpleClassicThemeTaskbar = 3,
+        RetroBar = 4
+    }
+
+    /// <summary>
+    /// Helper class: Contains all longish functions that make code unreadable
     /// </summary>
     static class ExtraFunctions
     {
@@ -231,6 +244,112 @@ namespace SimpleClassicTheme
                 Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\StartIsBack", "Disabled", 1);
                 File.Delete("C:\\SCT\\sib.reg");
             }
+        }
+
+        public static bool InstallDependencies(bool commandLineOutput = false)
+		{
+            switch (Configuration.TaskbarType)
+            {
+                case TaskbarType.RetroBar:
+                    GithubDownloader download = new GithubDownloader(GithubDownloader.DownloadableGithubProject.RetroBar);
+                    download.ShowDialog();
+                    break;
+                case TaskbarType.SimpleClassicThemeTaskbar:
+                    if (!ExtraFunctions.IsDotNetRuntimeInstalled())
+                    {
+                        if (commandLineOutput) Console.WriteLine("Error: .NET 5.0 is not installed and is required for SCTT to be installed");
+                        else MessageBox.Show(".NET 5.0 is not installed and is required for SCTT to be installed", "Error installing dependencies", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                    ClassicTaskbar.InstallSCTT(null, !commandLineOutput);
+                    if (commandLineOutput) Console.WriteLine("Installed SCTT succesfully");
+                    break;
+                case TaskbarType.StartIsBackOpenShell:
+                    ExtraFunctions.ReConfigureOS(true, true, true);
+                    if (commandLineOutput) Console.WriteLine("Configured Open-Shell and StartIsBack++");
+                    int returnCode = InstallableUtility.OpenShell.Install();
+                    if (returnCode != 0)
+                    {
+                        if (commandLineOutput) Console.WriteLine("Error: Open-Shell installer returned error code {0}", returnCode);
+                        else MessageBox.Show($"Open-Shell installer returned error code {returnCode}", "Error installing dependencies", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                    if (commandLineOutput) Console.WriteLine("Installed Open-Shell succesfully");
+                    returnCode = InstallableUtility.StartIsBackPlusPlus.Install();
+                    if (returnCode != 0)
+                    {
+                        if (commandLineOutput) Console.WriteLine("Error: StartIsBack++ installer returned error code {0}", returnCode);
+                        else MessageBox.Show($"StartIsBack++ installer returned error code {returnCode}", "Error installing dependencies", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                    if (commandLineOutput) Console.WriteLine("Installed StartIsBack++ succesfully");
+                    break;
+                default:
+                    if (commandLineOutput) Console.WriteLine("Warning: TaskbarType is not SCTT or OS+SiB. No dependencies will be installed.");
+                    else MessageBox.Show("Taskbar type is not SimpleClassicThemeTaskbar or Open-Shell with StartIsBack. No dependencies will be installed", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
+            }
+            if (commandLineOutput) Console.WriteLine("Dependencies installed succesfully");
+            else MessageBox.Show("Dependencies installed succesfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return true;
+        }
+    }
+
+    /// <summary>
+    /// Helper class: Allows comparing version numbers while specifying significance
+    /// </summary>
+    public static class Extensions
+    {
+        public static List<int> AllIndexesOf(this string str, char searchstring)
+        {
+            List<int> indexes = new List<int>();
+            int minIndex = str.IndexOf(searchstring);
+            while (minIndex != -1)
+            {
+                indexes.Add(minIndex);
+                minIndex = str.IndexOf(searchstring, minIndex + 1);
+            }
+            return indexes;
+        }
+
+        public static int CompareString(this Version version, string otherVersionString)
+        {
+            if (version == null)
+            {
+                throw new ArgumentNullException("version");
+            }
+            if (otherVersionString == null || otherVersionString == string.Empty)
+            {
+                return 1;
+            }
+            int significantParts = otherVersionString.AllIndexesOf('.').Count;
+            Version otherVersion = new Version(otherVersionString);
+
+            if (version.Major != otherVersion.Major && significantParts >= 1)
+                if (version.Major > otherVersion.Major)
+                    return 1;
+                else
+                    return -1;
+
+            if (version.Minor != otherVersion.Minor && significantParts >= 2)
+                if (version.Minor > otherVersion.Minor)
+                    return 1;
+                else
+                    return -1;
+
+            if (version.Build != otherVersion.Build && significantParts >= 3)
+                if (version.Build > otherVersion.Build)
+                    return 1;
+                else
+                    return -1;
+
+            if (version.Revision != otherVersion.Revision && significantParts >= 4)
+                if (version.Revision > otherVersion.Revision)
+                    return 1;
+                else
+                    return -1;
+
+            return 0;
         }
     }
 }

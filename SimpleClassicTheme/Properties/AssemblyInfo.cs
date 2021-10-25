@@ -25,7 +25,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Simple Classic Theme")]
-[assembly: AssemblyDescription("Simple tool for enabling Classic Theme after Windows 7")]
+[assembly: AssemblyDescription("Simple tool for enabling Classic Theme postWindows 7")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Anis Errais")]
 [assembly: AssemblyProduct("Simple Classic Theme")]
@@ -51,5 +51,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.4.0")]
-[assembly: AssemblyFileVersion("1.4.0")]
+[assembly: AssemblyVersion("1.5.0")]
+[assembly: AssemblyFileVersion("1.5.0")]

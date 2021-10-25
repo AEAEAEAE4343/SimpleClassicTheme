@@ -21,6 +21,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,9 +30,51 @@ namespace SimpleClassicTheme
 {
 	static class Configuration
 	{
-		public static RegistryKey GetRegistryKey() => Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme");
+		public static bool Enabled
+		{
+			get => bool.Parse((string)GetItem("Enabled", false.ToString()));
+			set => SetItem("Enabled", value.ToString());
+		}
 
-		public static object GetItem(string itemName, object defaultValue)
+		public static bool EnableTaskbar
+		{
+			get => bool.Parse((string)GetItem("EnableTaskbar", false.ToString()));
+			set => SetItem("EnableTaskbar", value.ToString());
+		}
+
+		public static int TaskbarDelay
+		{
+			get => (int)GetItem("TaskbarDelay", 5000);
+			set => SetItem("TaskbarDelay", value, RegistryValueKind.DWord);
+		}
+
+		/*public static string TaskbarType
+		{
+			get => (string)GetItem("TaskbarType", "OS+SiB");
+			set => SetItem("TaskbarType", value);
+		}*/
+
+		public static TaskbarType TaskbarType
+		{
+			get => (TaskbarType)Enum.Parse(typeof(TaskbarType), (string)GetItem("TaskbarType", "SimpleClassicThemeTaskbar"));
+			set => SetItem("TaskbarType", value.ToString());
+		}
+
+		public static string UpdateMode
+		{
+			get => (string)GetItem("UpdateMode", "Automatic");
+			set => SetItem("UpdateMode", value);
+		}
+
+		public static Version ConfigVersion
+		{
+			get => Version.Parse((string)GetItem("ConfigVersion", "1.0.0"));
+			set => SetItem("ConfigVersion", value.ToString());
+		}
+
+		public static RegistryKey GetRegistryKey() => Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").CreateSubKey("Simple Classic Theme").CreateSubKey("Base");
+
+		private static object GetItem(string itemName, object defaultValue)
 		{
 			RegistryKey key = GetRegistryKey();
 			object returnValue = key.GetValue(itemName, defaultValue);
@@ -39,7 +82,9 @@ namespace SimpleClassicTheme
 			return returnValue;
 		}
 
-		public static void SetItem(string itemName, object newValue, RegistryValueKind valueKind)
+		public static void SetItemManually(string itemName, object newValue, RegistryValueKind valueKind = RegistryValueKind.String)
+			=> SetItem(itemName, newValue, valueKind);
+		private static void SetItem(string itemName, object newValue, RegistryValueKind valueKind = RegistryValueKind.String)
 		{
 			RegistryKey key = GetRegistryKey();
 			key.SetValue(itemName, newValue, valueKind);
@@ -48,14 +93,50 @@ namespace SimpleClassicTheme
 
 		public static void MigrateOldSCTRegistry()
 		{
-			RegistryKey source = Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("SimpleClassicTheme");
-			RegistryKey dest = GetRegistryKey();
-			ExtraFunctions.RecurseCopyKey(source, dest);
-			source.Close();
-			dest.Close();
-			RegistryKey software = Registry.CurrentUser.CreateSubKey("SOFTWARE");
-			software.DeleteSubKey("SimpleClassicTheme", false);
-			software.Close();
+			if (Registry.CurrentUser.CreateSubKey("SOFTWARE").GetSubKeyNames().Contains("SimpleClassicTheme"))
+			{
+				RegistryKey source = Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("SimpleClassicTheme");
+				RegistryKey dest = GetRegistryKey();
+				ExtraFunctions.RecurseCopyKey(source, dest);
+				RegistryKey software = Registry.CurrentUser.CreateSubKey("SOFTWARE");
+				software.DeleteSubKey("SimpleClassicTheme", false);
+			}
+			else if (Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme").GetValueNames().Length > 0)
+			{
+				RegistryKey source = Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("SimpleClassicTheme");
+				RegistryKey dest = GetRegistryKey();
+				ExtraFunctions.RecurseCopyKey(source, dest);
+				foreach (string value in source.GetValueNames())
+					source.DeleteValue(value);
+				Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").DeleteSubKey("SimpleClassicTheme");
+			} 
+
+			// Starting from 1.5.0, SCT will track a config version. If any critical changes have been made to the config
+			// SCT will automatically apply those changes starting from changes past the original config version.
+			// Eg. When updating from 1.4 to 1.6 the config will be changed like this: 1.4.0 -> 1.5.0 -> 1.6.0
+
+			// 1.4.0 or lower -> 1.5.0
+			if (ConfigVersion.CompareString("1.5") < 0)
+			{
+				// TaskbarType was changed in to an enum
+				string oldValue = (string)GetItem("TaskbarType", "NoValue");
+				if (oldValue != "NoValue")
+				{
+					switch (oldValue)
+					{
+						case "SiB+OS":
+							TaskbarType = Environment.OSVersion.Version.CompareTo("6.3") > 0 ? TaskbarType.StartIsBackOpenShell : TaskbarType.Windows81Vanilla;
+							break;
+						case "SCTT":
+							TaskbarType = TaskbarType.SimpleClassicThemeTaskbar;
+							break;
+					}
+				}
+
+				ConfigVersion = new Version(1, 5, 0);
+			}
+
+			ConfigVersion = Assembly.GetExecutingAssembly().GetName().Version;
 		}
 	}
 }

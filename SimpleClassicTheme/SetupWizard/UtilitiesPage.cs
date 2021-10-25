@@ -49,7 +49,7 @@ namespace SimpleClassicTheme.SetupWizard
             foreach (InstallableUtility utility in tempUtilities)
                 utilities.Add(((utility.IsInstalled ? "(Installed) " : "") + utility.Name, utility));
 
-            if (SetupHandler.SelectedTaskbarType == SetupHandler.TaskbarType.OS_SiB)
+            if (SetupHandler.SelectedTaskbarType == TaskbarType.StartIsBackOpenShell)
             {
                 label2.Visible = true;
                 label3.Visible = true;
@@ -83,7 +83,7 @@ namespace SimpleClassicTheme.SetupWizard
             foreach (string s in listBox1.SelectedItems)
                 SetupHandler.UtilitiesToBeInstalled.Add(utilities.Where((a) => a.Item1 == s).FirstOrDefault().Item2);
 
-            if (SetupHandler.SelectedTaskbarType != SetupHandler.TaskbarType.OS_SiB)
+            if (SetupHandler.SelectedTaskbarType != TaskbarType.StartIsBackOpenShell)
             {
                 if (checkBox1.Checked)
                     SetupHandler.UtilitiesToBeInstalled.Add(InstallableUtility.OpenShell);

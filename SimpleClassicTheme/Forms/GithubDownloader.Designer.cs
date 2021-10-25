@@ -19,7 +19,7 @@
 
 namespace SimpleClassicTheme
 {
-	partial class SCTTDownload
+	partial class GithubDownloader
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -92,7 +92,7 @@ namespace SimpleClassicTheme
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "SCTTDownload";
 			this.Text = "SCTTDownload";
-			this.Load += new System.EventHandler(this.SCTTDownload_Load);
+			this.Load += new System.EventHandler(this.GithubDownloader_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

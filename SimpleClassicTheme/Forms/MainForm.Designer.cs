@@ -73,12 +73,12 @@ namespace SimpleClassicTheme
 			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.reportBugsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
@@ -122,7 +122,7 @@ namespace SimpleClassicTheme
 			this.button4.Name = "button4";
 			this.button4.Size = new System.Drawing.Size(152, 23);
 			this.button4.TabIndex = 3;
-			this.button4.Text = "Configure";
+			this.button4.Text = "Configure colors";
 			this.button4.UseVisualStyleBackColor = true;
 			this.button4.Click += new System.EventHandler(this.Button4_Click);
 			// 
@@ -132,14 +132,14 @@ namespace SimpleClassicTheme
 			this.button5.Name = "button5";
 			this.button5.Size = new System.Drawing.Size(152, 23);
 			this.button5.TabIndex = 4;
-			this.button5.Text = "\"Install\" (auto-launch)";
+			this.button5.Text = "Run on boot";
 			this.button5.UseVisualStyleBackColor = true;
 			this.button5.Click += new System.EventHandler(this.Button5_Click);
 			// 
 			// checkBox1
 			// 
 			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(188, 300);
+			this.checkBox1.Location = new System.Drawing.Point(192, 300);
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.Size = new System.Drawing.Size(101, 17);
 			this.checkBox1.TabIndex = 5;
@@ -211,7 +211,7 @@ namespace SimpleClassicTheme
 			// 
 			this.numericUpDown1.Location = new System.Drawing.Point(182, 349);
 			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(164, 20);
+			this.numericUpDown1.Size = new System.Drawing.Size(166, 20);
 			this.numericUpDown1.TabIndex = 9;
 			this.numericUpDown1.ValueChanged += new System.EventHandler(this.NumericUpDown1_ValueChanged);
 			// 
@@ -225,7 +225,7 @@ namespace SimpleClassicTheme
 			this.groupBox1.Controls.Add(this.button10);
 			this.groupBox1.Controls.Add(this.button12);
 			this.groupBox1.Controls.Add(this.button9);
-			this.groupBox1.Location = new System.Drawing.Point(182, 39);
+			this.groupBox1.Location = new System.Drawing.Point(184, 39);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(164, 255);
 			this.groupBox1.TabIndex = 11;
@@ -288,20 +288,19 @@ namespace SimpleClassicTheme
 			// 
 			// label2
 			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(38, 374);
+			this.label2.Location = new System.Drawing.Point(12, 374);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(285, 13);
+			this.label2.Size = new System.Drawing.Size(336, 13);
 			this.label2.TabIndex = 14;
-			this.label2.Text = "Experiencing issues? Don\'t react to the WinClassic thread. ";
+			this.label2.Text = "Experiencing issues? Don\'t reply to the WinClassic thread. ";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// linkLabel1
 			// 
-			this.linkLabel1.AutoSize = true;
-			this.linkLabel1.Location = new System.Drawing.Point(105, 387);
+			this.linkLabel1.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.linkLabel1.Location = new System.Drawing.Point(12, 387);
 			this.linkLabel1.Name = "linkLabel1";
-			this.linkLabel1.Size = new System.Drawing.Size(135, 13);
+			this.linkLabel1.Size = new System.Drawing.Size(336, 13);
 			this.linkLabel1.TabIndex = 15;
 			this.linkLabel1.TabStop = true;
 			this.linkLabel1.Text = "Report it on GitHub instead";
@@ -338,8 +337,22 @@ namespace SimpleClassicTheme
             this.optionsToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "&File";
+			// 
+			// optionsToolStripMenuItem
+			// 
+			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+			this.optionsToolStripMenuItem.Text = "&Options";
+			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+			// 
+			// exitToolStripMenuItem
+			// 
+			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+			this.exitToolStripMenuItem.Text = "E&xit";
+			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
 			// helpToolStripMenuItem1
 			// 
@@ -348,7 +361,7 @@ namespace SimpleClassicTheme
             this.reportBugsToolStripMenuItem,
             this.aboutToolStripMenuItem});
 			this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-			this.helpToolStripMenuItem1.Size = new System.Drawing.Size(40, 20);
+			this.helpToolStripMenuItem1.Size = new System.Drawing.Size(44, 20);
 			this.helpToolStripMenuItem1.Text = "&Help";
 			// 
 			// guideToolStripMenuItem
@@ -358,33 +371,19 @@ namespace SimpleClassicTheme
 			this.guideToolStripMenuItem.Text = "&Guide";
 			this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
 			// 
-			// aboutToolStripMenuItem
-			// 
-			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.aboutToolStripMenuItem.Text = "&About";
-			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-			// 
-			// optionsToolStripMenuItem
-			// 
-			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.optionsToolStripMenuItem.Text = "&Options";
-			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
-			// 
-			// exitToolStripMenuItem
-			// 
-			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.exitToolStripMenuItem.Text = "E&xit";
-			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-			// 
 			// reportBugsToolStripMenuItem
 			// 
 			this.reportBugsToolStripMenuItem.Name = "reportBugsToolStripMenuItem";
 			this.reportBugsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.reportBugsToolStripMenuItem.Text = "Report bugs";
 			this.reportBugsToolStripMenuItem.Click += new System.EventHandler(this.reportBugsToolStripMenuItem_Click);
+			// 
+			// aboutToolStripMenuItem
+			// 
+			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.aboutToolStripMenuItem.Text = "&About";
+			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 

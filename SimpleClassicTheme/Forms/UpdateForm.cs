@@ -68,7 +68,7 @@ namespace SimpleClassicTheme
                 //Check if newestVersion is bigger then currentVersion
                 if (currentVersion.CompareTo(newestVersion) < 0)
                 {
-                    if ((string)Configuration.GetItem("UpdateMode", "Automatic") == "Ask on startup" && MessageBox.Show($"SCT version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
+                    if (Configuration.UpdateMode == "Ask on startup" && MessageBox.Show($"SCT version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
                         Close();
                     else
                     {
@@ -79,7 +79,7 @@ namespace SimpleClassicTheme
                 }
             }
 
-            if (File.Exists("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe") && (string)Configuration.GetItem("TaskbarType", "SiB+OS") == "SCTT")
+            if (File.Exists("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe") && Configuration.TaskbarType == TaskbarType.SimpleClassicThemeTaskbar)
 			{
                 //Get latest release info
                 f = "";
@@ -87,7 +87,7 @@ namespace SimpleClassicTheme
                 {
                     ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
                     c.Headers.Set(HttpRequestHeader.UserAgent, "SimpleClasicTheme");
-                    f = c.DownloadString("https://api.github.com/repos/WinClassic/SimpleClassicThemeTaskbar/releases/latest");
+                    f = c.DownloadString("https://api.github.com/repos/WinClassic/SimpleClassicTheme.Taskbar/releases/latest");
                 }
 
                 //Resond to messages
@@ -112,7 +112,7 @@ namespace SimpleClassicTheme
                     //Check if newestVersion is bigger then currentVersion
                     if (currentVersion != null && currentVersion.CompareTo(newestVersion) < 0)
                     {
-                        if ((string)Configuration.GetItem("UpdateMode", "Automatic") == "Ask on startup" && MessageBox.Show($"SCT Taskbar version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
+                        if (Configuration.UpdateMode == "Ask on startup" && MessageBox.Show($"SCT Taskbar version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
                             Close();
                         else
                         {
@@ -124,6 +124,51 @@ namespace SimpleClassicTheme
                 }
             }
 
+            if (File.Exists("C:\\SCT\\RetroBar\\RetroBar.exe") && Configuration.TaskbarType == TaskbarType.RetroBar)
+			{
+                //Get latest release info
+                f = "";
+                using (WebClient c = new WebClient())
+                {
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
+                    c.Headers.Set(HttpRequestHeader.UserAgent, "SimpleClasicTheme");
+                    f = c.DownloadString("https://api.github.com/repos/dremin/RetroBar/releases/latest");
+                }
+
+                //Resond to messages
+                Application.DoEvents(); Application.DoEvents(); Application.DoEvents();
+
+                //Get version string
+                s = f.Substring(f.IndexOf("\"tag_name\""));
+                tagName = s.Remove(s.IndexOf("\","));
+                tagName = tagName.Substring(tagName.LastIndexOf('"') + 1);
+                tagName = tagName.Replace("v", "");
+
+                //Resond to messages
+                Application.DoEvents(); Application.DoEvents(); Application.DoEvents();
+
+                //Make sure we got version string
+                if (tagName != "")
+                {
+                    Version newestVersion = Version.Parse(tagName);
+                    FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo("C:\\SCT\\RetroBar\\RetroBar.exe");
+                    Version currentVersion;
+                    Version.TryParse(versionInfo.ProductVersion, out currentVersion);
+
+                    //Check if newestVersion is bigger then currentVersion
+                    if (currentVersion != null && currentVersion.CompareString(tagName.Remove(tagName.LastIndexOf('.'))) < 0)
+                    {
+                        if (Configuration.UpdateMode == "Ask on startup" && MessageBox.Show($"RetroBar version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
+                            Close();
+                        else
+                        {
+                            label1.Text = "Downloading update " + newestVersion.ToString(3) + "...";
+                            ver = newestVersion;
+                            DownloadNewestRetroBarVersion();
+                        }
+                    }
+                }
+            }
             Close();
         }
 
@@ -155,7 +200,13 @@ namespace SimpleClassicTheme
             ClassicTaskbar.InstallSCTT(this, false);
         }
 
-		private void Updater_Load_1(object sender, EventArgs e)
+        private void DownloadNewestRetroBarVersion()
+        {
+            GithubDownloader download = new GithubDownloader(GithubDownloader.DownloadableGithubProject.RetroBar);
+            download.ShowDialog();
+        }
+
+        private void Updater_Load_1(object sender, EventArgs e)
 		{
             if (ExtraFunctions.ShouldDrawLight(SystemColors.Control))
                 pictureBox1.Image = Properties.Resources.sct_light_275;

@@ -32,7 +32,9 @@ namespace SimpleClassicTheme
 {
     static class ApplicationEntryPoint
     {
-        static void ShowHelp()
+		public static bool LoadGUI { get; set; }
+
+		static void ShowHelp()
         {
             Console.WriteLine(Properties.Resources.helpMessage);
         }
@@ -91,12 +93,13 @@ namespace SimpleClassicTheme
                 return;
             }
 
+            Configuration.MigrateOldSCTRegistry();
+            Application.VisualStyleState = Configuration.Enabled ? VisualStyleState.NoneEnabled : VisualStyleState.ClientAndNonClientAreasEnabled;
+
             //If it's the first time running SCT, start the wizard.
-            if ("NO" == (string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\SimpleClassicTheme", "EnableTaskbar", "NO") && 
+            if ("NO" == (string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\Simple Classic Theme\Base", "EnableTaskbar", "NO") && 
                 MessageBox.Show("It seems to be the first time you are running SCT.\nWould you like to run the automated setup tool?", "First run", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 SetupWizard.SetupHandler.ShowWizard(SetupWizard.SetupHandler.CreateWizard());
-
-            Configuration.MigrateOldSCTRegistry();
 
             Directory.CreateDirectory("C:\\SCT\\");
 
@@ -107,7 +110,7 @@ namespace SimpleClassicTheme
                 File.WriteAllText("C:\\SCT\\DisableThemeScript.bat", Properties.Resources.DisableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
             //Start update checking
-            string updateMode = (string)Configuration.GetItem("UpdateMode", "Automatic");
+            string updateMode = Configuration.UpdateMode;
             if (updateMode == "Automatic" || updateMode == "Ask on startup")
             ExtraFunctions.Update();
         
@@ -251,7 +254,7 @@ namespace SimpleClassicTheme
 				}
             execute_arguments:
                 Console.WriteLine("Succesfully parsed {0} argument{1}", arguments.Count, arguments.Count > 1 ? "s" : "");
-                bool enableTaskbar = (string)Configuration.GetItem("EnableTaskbar", "False") == "True";
+                bool enableTaskbar = Configuration.EnableTaskbar;
                 foreach ((string, object[]) argument in arguments)
                 {
                     string selector = argument.Item1;
@@ -261,7 +264,7 @@ namespace SimpleClassicTheme
 					{
                         case "--boot":
                             Console.WriteLine("Simple Classic Theme is restoring Classic Theme settings");
-                            bool Enabled = bool.Parse(Registry.CurrentUser.OpenSubKey("SOFTWARE", true).CreateSubKey("1337ftw").CreateSubKey("SimpleClassicTheme").GetValue("Enabled", "False").ToString());
+                            bool Enabled = Configuration.Enabled;
                             if (Directory.Exists("C:\\SCT") && Directory.Exists("C:\\SCT\\AHK"))
                                 foreach (string f in Directory.EnumerateFiles("C:\\SCT\\AHK"))
                                     Process.Start(f);
@@ -294,7 +297,7 @@ namespace SimpleClassicTheme
                                 goto exit;
                             }
                             Console.Write($"Enabling classic theme{(enableTaskbar ? " and taskbar" : "")}...");
-                            ClassicTheme.MasterEnable(enableTaskbar, false, true); Console.WriteLine();
+                            ClassicTheme.MasterEnable(enableTaskbar, true); Console.WriteLine();
                             Console.WriteLine("Enabled SCT succesfully");
                             break;
                         case "--gui":
@@ -309,50 +312,13 @@ namespace SimpleClassicTheme
                             Console.WriteLine("Installed SCT succesfully");
                             break;
                         case "--install-dependencies":
-                            if (!enableTaskbar)
-							{
-                                Console.WriteLine("Warning: Taskbar is not enabled so no dependencies will be installed");
-                                break;
-                            }
-                            switch ((string)Configuration.GetItem("TaskbarType", "None"))
-							{
-                                case "None":
-                                    Console.WriteLine("Error: TaskbarType is not set so no dependencies can be installed. Please set the Taskbar Type in the GUI or with --set");
-                                    goto exit;
-                                case "SCTT":
-                                    if (!ExtraFunctions.IsDotNetRuntimeInstalled())
-									{
-                                        Console.WriteLine("Error: .NET 5.0 is not installed and is required for SCTT to be installed");
-                                        goto exit;
-									}
-                                    ClassicTaskbar.InstallSCTT(null, false);
-                                    Console.WriteLine("Installed SCTT succesfully");
-                                    break;
-                                case "OS+SiB":
-                                    ExtraFunctions.ReConfigureOS(true, true, true);
-                                    Console.WriteLine("Configured Open-Shell and StartIsBack++");
-                                    int returnCode = InstallableUtility.OpenShell.Install();
-                                    if (returnCode != 0)
-									{
-                                        Console.WriteLine("Error: Open-Shell installer returned error code {0}", returnCode);
-                                        goto exit;
-									}
-                                    Console.WriteLine("Installed Open-Shell succesfully");
-                                    returnCode = InstallableUtility.StartIsBackPlusPlus.Install();
-                                    if (returnCode != 0)
-                                    {
-                                        Console.WriteLine("Error: StartIsBack++ installer returned error code {0}", returnCode);
-                                        goto exit;
-                                    }
-                                    Console.WriteLine("Installed StartIsBack++ succesfully");
-                                    break;
-							}
-                            Console.WriteLine("Dependencies installed succesfully");
+                            if (!ExtraFunctions.InstallDependencies())
+                                goto exit;
                             break;
                         case "--set":
                             if ((string)argument.Item2[0] == "EnableTaskbar")
                                 enableTaskbar = Boolean.Parse((string)argument.Item2[1]);
-                            Configuration.SetItem((string)argument.Item2[0], argument.Item2[1], (RegistryValueKind)argument.Item2[2]);
+                            Configuration.SetItemManually((string)argument.Item2[0], argument.Item2[1], (RegistryValueKind)argument.Item2[2]);
                             Console.WriteLine("Set configuration item '{0}' to '{1}'", argument.Item2[0], argument.Item2[1]);
                             break;
                         case "--wizard":
@@ -370,7 +336,13 @@ namespace SimpleClassicTheme
                 return;
             }
         run_gui:
-            Application.Run(new MainForm());
+            LoadGUI = true;
+            while (LoadGUI)
+            {
+                LoadGUI = false;
+                Application.VisualStyleState = Configuration.Enabled ? VisualStyleState.NoneEnabled : VisualStyleState.ClientAndNonClientAreasEnabled;
+                Application.Run(new MainForm());
+            }
         }
     }
 }

@@ -46,7 +46,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\SCT\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -147,11 +147,17 @@
     <Compile Include="Forms\OptionsForm.Designer.cs">
       <DependentUpon>OptionsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SCTTDownload.cs">
+    <Compile Include="Forms\GithubDownloader.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\SCTTDownload.Designer.cs">
-      <DependentUpon>SCTTDownload.cs</DependentUpon>
+    <Compile Include="Forms\GithubDownloader.Designer.cs">
+      <DependentUpon>GithubDownloader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TaskbarTypeSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\TaskbarTypeSelector.Designer.cs">
+      <DependentUpon>TaskbarTypeSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\UtilityManagerForm.cs">
       <SubType>Form</SubType>
@@ -231,8 +237,11 @@
     <EmbeddedResource Include="Forms\OptionsForm.resx">
       <DependentUpon>OptionsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SCTTDownload.resx">
-      <DependentUpon>SCTTDownload.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\GithubDownloader.resx">
+      <DependentUpon>GithubDownloader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TaskbarTypeSelector.resx">
+      <DependentUpon>TaskbarTypeSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UtilityManagerForm.resx">
       <DependentUpon>UtilityManagerForm.cs</DependentUpon>
