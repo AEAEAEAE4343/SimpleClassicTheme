@@ -16,10 +16,10 @@ namespace SimpleClassicTheme.Forms
 		{
 			InitializeComponent();
 
-			linkLabel1.Links.Clear();
-			linkLabel1.Links.Add(8, 31);
-			linkLabel1.Links.Add(49, 10);
-			linkLabel1.Links.Add(64, 21);
+			linkLabel2.Links.Clear();
+			linkLabel2.Links.Add(8, 31);
+			linkLabel2.Links.Add(49, 10);
+			linkLabel2.Links.Add(64, 21);
 
 			LoadConfig();
 		}
@@ -27,6 +27,8 @@ namespace SimpleClassicTheme.Forms
 		public void LoadConfig()
 		{
 			ExplorerPatcher.Configuration.ConfigurationWhileEnabledOrDisabled = radioButton1.Checked;
+
+			checkBox7.Checked = ExplorerPatcher.Configuration.Enabled;
 
 			checkBox1.Checked = ExplorerPatcher.Configuration.FileExplorerLegacyContextMenu;
 			checkBox3.Checked = ExplorerPatcher.Configuration.FileExplorerLegacyRibbon;
@@ -37,6 +39,18 @@ namespace SimpleClassicTheme.Forms
 			checkBox5.Checked = ExplorerPatcher.Configuration.TaskbarLegacyClockFlyout;
 			checkBox6.Checked = ExplorerPatcher.Configuration.TaskbarLegacyVolumeFlyout;
 			buttonApply.Enabled = false;
+
+			if (radioButton1.Checked)
+			{
+				checkBox4.Enabled = Configuration.TaskbarType != TaskbarType.ExplorerPatcher;
+				if (!checkBox4.Enabled)
+					checkBox4.Text = "Restore Windows 10 taskbar (settings is controlled by Taskbar Type)";
+			}
+			else
+			{
+				checkBox4.Enabled = true;
+				checkBox4.Text = "Restore Windows 10 taskbar";
+			}
 
 			button1.Enabled = groupBox1.Enabled = groupBox2.Enabled = ExplorerPatcher.IsInstalled;
 			buttonInstallUninstall.Text = ExplorerPatcher.IsInstalled ? "Uninstall ExplorerPatcher" : "Install ExplorerPatcher";
@@ -52,6 +66,7 @@ namespace SimpleClassicTheme.Forms
 			ExplorerPatcher.Configuration.TaskbarWindows10Taskbar = checkBox4.Checked;
 			ExplorerPatcher.Configuration.TaskbarLegacyClockFlyout = checkBox5.Checked;
 			ExplorerPatcher.Configuration.TaskbarLegacyVolumeFlyout = checkBox6.Checked;
+			ExplorerPatcher.Configuration.Enabled = checkBox7.Checked;
 		}
 
 		private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -128,6 +143,8 @@ namespace SimpleClassicTheme.Forms
 			ExplorerPatcher.Configuration.TaskbarWindows10Taskbar = false;
 			ExplorerPatcher.Configuration.TaskbarLegacyClockFlyout = false;
 			ExplorerPatcher.Configuration.TaskbarLegacyVolumeFlyout = false;
+
+			ExplorerPatcher.Configuration.Enabled = true;
 
 			LoadConfig();
 			buttonApply_Click(sender, e);

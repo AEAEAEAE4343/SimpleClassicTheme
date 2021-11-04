@@ -53,6 +53,7 @@ namespace SimpleClassicTheme.Forms
 			this.button1 = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
 			this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+			this.checkBox7 = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -85,7 +86,7 @@ namespace SimpleClassicTheme.Forms
 			this.groupBox1.Controls.Add(this.label2);
 			this.groupBox1.Controls.Add(this.comboBox1);
 			this.groupBox1.Controls.Add(this.checkBox1);
-			this.groupBox1.Location = new System.Drawing.Point(15, 182);
+			this.groupBox1.Location = new System.Drawing.Point(15, 211);
 			this.groupBox1.Margin = new System.Windows.Forms.Padding(6);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Padding = new System.Windows.Forms.Padding(6);
@@ -155,7 +156,7 @@ namespace SimpleClassicTheme.Forms
 			// buttonCancel
 			// 
 			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonCancel.Location = new System.Drawing.Point(346, 534);
+			this.buttonCancel.Location = new System.Drawing.Point(346, 563);
 			this.buttonCancel.Margin = new System.Windows.Forms.Padding(6);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
@@ -168,7 +169,7 @@ namespace SimpleClassicTheme.Forms
 			// 
 			this.buttonApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonApply.Enabled = false;
-			this.buttonApply.Location = new System.Drawing.Point(433, 534);
+			this.buttonApply.Location = new System.Drawing.Point(433, 563);
 			this.buttonApply.Margin = new System.Windows.Forms.Padding(6);
 			this.buttonApply.Name = "buttonApply";
 			this.buttonApply.Size = new System.Drawing.Size(75, 23);
@@ -180,7 +181,7 @@ namespace SimpleClassicTheme.Forms
 			// buttonOK
 			// 
 			this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonOK.Location = new System.Drawing.Point(259, 534);
+			this.buttonOK.Location = new System.Drawing.Point(259, 563);
 			this.buttonOK.Margin = new System.Windows.Forms.Padding(6);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 23);
@@ -195,11 +196,11 @@ namespace SimpleClassicTheme.Forms
 			this.groupBox2.Controls.Add(this.checkBox6);
 			this.groupBox2.Controls.Add(this.checkBox5);
 			this.groupBox2.Controls.Add(this.checkBox4);
-			this.groupBox2.Location = new System.Drawing.Point(15, 357);
+			this.groupBox2.Location = new System.Drawing.Point(18, 386);
 			this.groupBox2.Margin = new System.Windows.Forms.Padding(6);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Padding = new System.Windows.Forms.Padding(6);
-			this.groupBox2.Size = new System.Drawing.Size(493, 165);
+			this.groupBox2.Size = new System.Drawing.Size(490, 165);
 			this.groupBox2.TabIndex = 10;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Taskbar settings";
@@ -256,7 +257,7 @@ namespace SimpleClassicTheme.Forms
 			this.groupBox3.Controls.Add(this.linkLabel1);
 			this.groupBox3.Controls.Add(this.radioButton2);
 			this.groupBox3.Controls.Add(this.radioButton1);
-			this.groupBox3.Location = new System.Drawing.Point(15, 116);
+			this.groupBox3.Location = new System.Drawing.Point(15, 145);
 			this.groupBox3.Margin = new System.Windows.Forms.Padding(6);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Padding = new System.Windows.Forms.Padding(6);
@@ -303,7 +304,7 @@ namespace SimpleClassicTheme.Forms
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(18, 534);
+			this.button1.Location = new System.Drawing.Point(18, 563);
 			this.button1.Margin = new System.Windows.Forms.Padding(6);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(121, 23);
@@ -333,11 +334,25 @@ namespace SimpleClassicTheme.Forms
 			this.linkLabel2.Text = "Author: Valentin-Gabriel Radu (valinet) Support: Git Issues and SCT\'s Git Issues " +
     "page";
 			// 
+			// checkBox7
+			// 
+			this.checkBox7.AutoSize = true;
+			this.checkBox7.Location = new System.Drawing.Point(18, 116);
+			this.checkBox7.Margin = new System.Windows.Forms.Padding(6);
+			this.checkBox7.Name = "checkBox7";
+			this.checkBox7.Size = new System.Drawing.Size(405, 17);
+			this.checkBox7.TabIndex = 15;
+			this.checkBox7.Text = "Enable ExplorerPatcher (disabling this makes all settings act like they\'re disabl" +
+    "ed)";
+			this.checkBox7.UseVisualStyleBackColor = true;
+			this.checkBox7.CheckedChanged += new System.EventHandler(this.ConfigurationChanged);
+			// 
 			// ExplorerPatcherForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(523, 572);
+			this.ClientSize = new System.Drawing.Size(523, 601);
+			this.Controls.Add(this.checkBox7);
 			this.Controls.Add(this.linkLabel2);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.button1);
@@ -391,5 +406,6 @@ namespace SimpleClassicTheme.Forms
 		private System.Windows.Forms.LinkLabel linkLabel1;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.LinkLabel linkLabel2;
+		private System.Windows.Forms.CheckBox checkBox7;
 	}
 }

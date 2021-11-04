@@ -12,14 +12,14 @@ namespace SimpleClassicTheme
 	internal static class ExplorerPatcher
 	{
 		public static bool Enabled => IsInstalled;
-		public static bool IsInstalled => File.Exists("C:\\Windows\\dxdgi.dll");
+		public static bool IsInstalled => File.Exists("C:\\Windows\\dxgi.dll");
 
 		public static bool Install()
 		{
 			try
 			{
 				new GithubDownloader(GithubDownloader.DownloadableGithubProject.RetroBar).ShowDialog();
-				File.Copy("C:\\SCT\\ExplorerPatcher\\dxgi.dll", "C:\\Windows\\dxdgi.dll");
+				File.Copy("C:\\SCT\\ExplorerPatcher\\dxgi.dll", "C:\\Windows\\dxgi.dll");
 				Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
 				Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
 				return true;
@@ -32,7 +32,7 @@ namespace SimpleClassicTheme
 
 		public static bool Uninstall()
 		{
-			File.Delete("C:\\Windows\\dxdgi.dll");
+			File.Delete("C:\\Windows\\dxgi.dll");
 			return true;
 		}
 
@@ -43,7 +43,13 @@ namespace SimpleClassicTheme
 			var CLSIDReg = Registry.CurrentUser.CreateSubKey("Software").CreateSubKey("Classes").CreateSubKey("CLSID");
 			var CurrentVersionReg = Registry.CurrentUser.CreateSubKey("Software").CreateSubKey("Microsoft").CreateSubKey("Windows").CreateSubKey("CurrentVersion");
 			var ExplorerPatcherReg = CurrentVersionReg.CreateSubKey("Explorer").CreateSubKey("ExplorerPatcher");
-			
+
+			// ClassicThemeMitigations -> SimpleClassicTheme.Configuration.Enabled;
+			// Boolean      True    False
+			// REG_DWORD    0x1     0x0
+			// HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\ExplorerPatcher\ClassicThemeMitigations
+			ExplorerPatcherReg.SetValue("ClassicThemeMitigations", SimpleClassicTheme.Configuration.Enabled ? 1 : 0);
+
 			// FileExplorerLegacyContextMenu
 			// Boolean      True    False
 			// REG_SZ       Blank   Delete InprocServer32
@@ -57,7 +63,7 @@ namespace SimpleClassicTheme
 			}
 			else
 			{
-				CLSIDReg.CreateSubKey("{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}").DeleteSubKeyTree("InprocServer32");
+				CLSIDReg.CreateSubKey("{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}").DeleteSubKeyTree("InprocServer32", false);
 				ExplorerPatcherReg.SetValue("DisableImmersiveContextMenu", 1);
 			}
 
@@ -68,7 +74,7 @@ namespace SimpleClassicTheme
 			if (Configuration.FileExplorerLegacyRibbon)
 				CLSIDReg.CreateSubKey("{d93ed569-3b3e-4bff-8355-3c44f6a52bb5}").CreateSubKey("InprocServer32").SetValue("", "");
 			else
-				CLSIDReg.CreateSubKey("{d93ed569-3b3e-4bff-8355-3c44f6a52bb5}").DeleteSubKeyTree("InprocServer32");
+				CLSIDReg.CreateSubKey("{d93ed569-3b3e-4bff-8355-3c44f6a52bb5}").DeleteSubKeyTree("InprocServer32", false);
 
 			// FileExplorerSearchMode
 			// Int32/Enum   0               1                                       2
@@ -79,7 +85,7 @@ namespace SimpleClassicTheme
 			switch (Configuration.FileExplorerSearchMode)
 			{
 				case Configuration.ExplorerPatcherSearchMode.Disabled:
-					CLSIDReg.CreateSubKey("{1d64637d-31e9-4b06-9124-e83fb178ac6e}").DeleteSubKeyTree("TreatAs");
+					CLSIDReg.CreateSubKey("{1d64637d-31e9-4b06-9124-e83fb178ac6e}").DeleteSubKeyTree("TreatAs", false);
 					ExplorerPatcherReg.SetValue("HideExplorerSearchBar", 0);
 					break;
 				case Configuration.ExplorerPatcherSearchMode.Legacy:
@@ -88,7 +94,7 @@ namespace SimpleClassicTheme
 					break;
 				case Configuration.ExplorerPatcherSearchMode.Normal:
 				default:
-					CLSIDReg.CreateSubKey("{1d64637d-31e9-4b06-9124-e83fb178ac6e}").DeleteSubKeyTree("TreatAs");
+					CLSIDReg.CreateSubKey("{1d64637d-31e9-4b06-9124-e83fb178ac6e}").DeleteSubKeyTree("TreatAs", false);
 					ExplorerPatcherReg.SetValue("HideExplorerSearchBar", 0);
 					break;
 			}
@@ -100,7 +106,7 @@ namespace SimpleClassicTheme
 			if (Configuration.FileExplorerNoNavigationBar)
 				CLSIDReg.CreateSubKey("{056440fd-8568-48e7-a632-72157243b55b}").CreateSubKey("InprocServer32").SetValue("", "");
 			else
-				CLSIDReg.CreateSubKey("{056440fd-8568-48e7-a632-72157243b55b}").DeleteSubKeyTree("InprocServer32");
+				CLSIDReg.CreateSubKey("{056440fd-8568-48e7-a632-72157243b55b}").DeleteSubKeyTree("InprocServer32", false);
 
 			// TaskbarWindows10Taskbar
 			// Boolean      True    False
@@ -120,6 +126,22 @@ namespace SimpleClassicTheme
 			// HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\MTCUVC\EnableMtcUvc
 			CurrentVersionReg.CreateSubKey("MTCUVC").SetValue("EnableMtcUvc", Configuration.TaskbarLegacyVolumeFlyout ? 1 : 0);
 
+			// Disabled override
+			if (!Configuration.Enabled)
+			{
+				ExplorerPatcherReg.SetValue("ClassicThemeMitigations", 0);
+
+				CLSIDReg.CreateSubKey("{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}").DeleteSubKeyTree("InprocServer32", false);
+				ExplorerPatcherReg.SetValue("DisableImmersiveContextMenu", 1);
+				CLSIDReg.CreateSubKey("{d93ed569-3b3e-4bff-8355-3c44f6a52bb5}").DeleteSubKeyTree("InprocServer32", false);
+				CLSIDReg.CreateSubKey("{1d64637d-31e9-4b06-9124-e83fb178ac6e}").DeleteSubKeyTree("TreatAs", false);
+				ExplorerPatcherReg.SetValue("HideExplorerSearchBar", 0);
+				CLSIDReg.CreateSubKey("{056440fd-8568-48e7-a632-72157243b55b}").DeleteSubKeyTree("InprocServer32", false);
+				ExplorerPatcherReg.SetValue("OldTaskbar", 0);
+				CurrentVersionReg.CreateSubKey("ImmersiveShell").SetValue("UseWin32TrayClockExperience", 2);
+				CurrentVersionReg.CreateSubKey("MTCUVC").SetValue("EnableMtcUvc", 0);
+			}
+
 			if (restartExplorer)
 				Process.Start(new ProcessStartInfo() { FileName = "C:\\Windows\\System32\\rundll32.exe", Arguments = "C:\\Windows\\dxgi.dll,ZZRestartExplorer", Verb = "runas" }).WaitForExit();
 		}
@@ -135,6 +157,12 @@ namespace SimpleClassicTheme
 
 			public static bool ConfigurationApplying { get; set; } = true;
 			public static bool ConfigurationWhileEnabledOrDisabled { get; set; } = true;
+
+			public static bool Enabled
+			{
+				get => bool.Parse((string)GetItem("Enabled", true.ToString()));
+				set => SetItem("Enabled", value.ToString());
+			}
 
 			public static bool FileExplorerLegacyContextMenu
 			{
@@ -162,7 +190,13 @@ namespace SimpleClassicTheme
 
 			public static bool TaskbarWindows10Taskbar
 			{
-				get => bool.Parse((string)GetItem("TaskbarWindows10Taskbar", ConfigurationWhileEnabledOrDisabled.ToString()));
+				get 
+				{
+					if (SimpleClassicTheme.Configuration.TaskbarType == TaskbarType.ExplorerPatcher
+						&& ConfigurationWhileEnabledOrDisabled) 
+						return true;
+					return bool.Parse((string)GetItem("TaskbarWindows10Taskbar", ConfigurationWhileEnabledOrDisabled.ToString())); 
+				}
 				set => SetItem("TaskbarWindows10Taskbar", value.ToString());
 			}
 

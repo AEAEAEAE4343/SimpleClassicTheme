@@ -135,11 +135,18 @@ namespace SimpleClassicTheme
             }
             else if (Configuration.TaskbarType == TaskbarType.RetroBar)
 			{
+                // RetroBar
                 Enable();
                 if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
                 Process.Start("C:\\SCT\\RetroBar\\RetroBar.exe");
+            }
+            else if (Configuration.TaskbarType == TaskbarType.ExplorerPatcher)
+			{
+                // Windows 11 Vanilla taskbar with ExplorerPatcher
+                Enable();
+                if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration(true);
             }
             Process.Start("C:\\SCT\\EnableThemeScript.bat", "post").WaitForExit();
         }
@@ -151,7 +158,6 @@ namespace SimpleClassicTheme
             Configuration.Enabled = false;
             if (!taskbar)
             {
-                // No taskbar
                 Disable();
                 if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration(true);
             }
@@ -159,7 +165,6 @@ namespace SimpleClassicTheme
             {
                 if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build < 22000)
                 {
-                    // StartIsBack++ and Open-Shell
                     Disable();
                     ClassicTaskbar.Disable();
                 }

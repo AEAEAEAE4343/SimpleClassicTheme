@@ -41,7 +41,8 @@ namespace SimpleClassicTheme
         StartIsBackOpenShell = 1,
         Windows81Vanilla = 2,
         SimpleClassicThemeTaskbar = 3,
-        RetroBar = 4
+        RetroBar = 4,
+        ExplorerPatcher = 5
     }
 
     /// <summary>
@@ -284,6 +285,9 @@ namespace SimpleClassicTheme
                     }
                     if (commandLineOutput) Console.WriteLine("Installed StartIsBack++ succesfully");
                     break;
+                case TaskbarType.ExplorerPatcher:
+                    MessageBox.Show("You have to install ExplorerPatcher through SCT's 'Patch Explorer' GUI.", "Error installing dependencies");
+                    return false;
                 default:
                     if (commandLineOutput) Console.WriteLine("Warning: TaskbarType is not SCTT or OS+SiB. No dependencies will be installed.");
                     else MessageBox.Show("Taskbar type is not SimpleClassicThemeTaskbar or Open-Shell with StartIsBack. No dependencies will be installed", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);

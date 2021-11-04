@@ -32,11 +32,14 @@ namespace SimpleClassicTheme.Forms
 				TaskbarTypeDisplay.Add(TaskbarType.Windows81Vanilla, "Vanilla taskbar");
 			if (Environment.OSVersion.Version.CompareString("10.0") == 0)
 				TaskbarTypeDisplay.Add(TaskbarType.StartIsBackOpenShell, "StartIsBack with Open-Shell");
+			//if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.CompareString("10.0.22000") >= 0 && IntPtr.Size == 8)
+			//	TaskbarTypeDisplay.Add(TaskbarType.ExplorerPatcher, "ExplorerPatcher");
 
 			TaskbarTypeDescription.Add(TaskbarType.StartIsBackOpenShell, "StartIsBack is a utility that brings back old quirks of the taskbar into newer versions of Windows. When combined with Open-Shell (a tool to bring back classic UI design to windows) you get a very convincing Classic Taskbar.");
 			TaskbarTypeDescription.Add(TaskbarType.Windows81Vanilla, "Takes the default Windows 8.1 taskbar and forces Classic Theme on it. This fails, so SCT also patches it. The end result is a pretty much perfect Windows 7 Classic Taskbar.");
 			TaskbarTypeDescription.Add(TaskbarType.SimpleClassicThemeTaskbar, "Simple Classic Theme Taskbar is a taskbar designed specifically for SCT. From the ground up it is designed to mimic a Win2K Classic Taskbar and it does so extremely good. Features built-in XP .msstyles support. Note that this taskbar requires more power out of your system than similar tools.");
 			TaskbarTypeDescription.Add(TaskbarType.RetroBar, "RetroBar is the most refined taskbar alternative out there. Although it lacks certain functionality that taskbars like SCTT and the Windows taskbar have, it provides with a very stable and smooth taskbar featuring multiple themes to match your style.");
+			TaskbarTypeDescription.Add(TaskbarType.ExplorerPatcher, "ExplorerPatcher is a project that aims to bring back a productive working environment on Windows 11. It does so by restoring certain features and design of the old Explorer Shell present in Windows 10. It can patch Windows 10's taskbar (on Windows 11) to work with Classic Theme.");
 
 			TaskbarTypeAuthor.Add(TaskbarType.StartIsBackOpenShell, "Spitfire_x86");
 			TaskbarTypeAuthorLink.Add(TaskbarType.StartIsBackOpenShell, "https://winclassic.boards.net/thread/280/classic-taskbar-superbar-startisback");
@@ -57,6 +60,11 @@ namespace SimpleClassicTheme.Forms
 			TaskbarTypeAuthorLink.Add(TaskbarType.RetroBar, "https://github.com/dremin/");
 			TaskbarTypeSupport.Add(TaskbarType.RetroBar, "GitHub Issues");
 			TaskbarTypeSupportLink.Add(TaskbarType.RetroBar, "https://github.com/dremin/RetroBar/issues");
+
+			TaskbarTypeAuthor.Add(TaskbarType.ExplorerPatcher, "Valentin-Gabriel Radu (valinet)");
+			TaskbarTypeAuthorLink.Add(TaskbarType.ExplorerPatcher, "https://github.com/valinet/");
+			TaskbarTypeSupport.Add(TaskbarType.ExplorerPatcher, "GitHub Issues");
+			TaskbarTypeSupportLink.Add(TaskbarType.ExplorerPatcher, "https://github.com/valinet/ExplorerPatcher/issues");
 
 			InitializeComponent();
 
