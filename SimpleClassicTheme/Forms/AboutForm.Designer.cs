@@ -110,10 +110,9 @@ namespace SimpleClassicTheme
 			this.Name = "About";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
-			this.Text = "About SimpleClassicTheme";
+			this.Text = "About Simple Classic Theme";
 			this.TopMost = true;
 			this.Load += new System.EventHandler(this.About_Load);
-			this.Shown += new System.EventHandler(this.About_Shown);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
 			this.ResumeLayout(false);

@@ -61,6 +61,7 @@ namespace SimpleClassicTheme
             if (!taskbar)
             {
                 // No taskbar
+                if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration(true);
                 Enable();
             }
             else if (Assembly.GetExecutingAssembly().Location != "C:\\SCT\\SCT.exe")
@@ -87,6 +88,7 @@ namespace SimpleClassicTheme
                 else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build < 22000)
                 {
                     // StartIsBack++ and Open-Shell
+                    if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration();
                     ClassicTaskbar.Enable();
                     Thread.Sleep(Configuration.TaskbarDelay);
                     Enable();
@@ -115,6 +117,7 @@ namespace SimpleClassicTheme
             {
                 // Simple Classic Theme Taskbar
                 Enable();
+                if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
                 ClassicTaskbar.EnableSCTT();
@@ -123,6 +126,8 @@ namespace SimpleClassicTheme
 			{
                 // Windows 8.1 Vanilla taskbar with post-load patches
                 Enable();
+
+                if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
                 Thread.Sleep(Configuration.TaskbarDelay);
@@ -131,9 +136,9 @@ namespace SimpleClassicTheme
             else if (Configuration.TaskbarType == TaskbarType.RetroBar)
 			{
                 Enable();
+                if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
-                Thread.Sleep(Configuration.TaskbarDelay);
                 Process.Start("C:\\SCT\\RetroBar\\RetroBar.exe");
             }
             Process.Start("C:\\SCT\\EnableThemeScript.bat", "post").WaitForExit();
@@ -148,6 +153,7 @@ namespace SimpleClassicTheme
             {
                 // No taskbar
                 Disable();
+                if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration(true);
             }
             else if (Configuration.TaskbarType == TaskbarType.StartIsBackOpenShell)
             {
@@ -162,12 +168,14 @@ namespace SimpleClassicTheme
             {
                 ClassicTaskbar.DisableSCTT();
                 Disable();
+                if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
             }
             else if (Configuration.TaskbarType == TaskbarType.Windows81Vanilla)
             {
                 Disable();
+                if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
             }
@@ -177,6 +185,7 @@ namespace SimpleClassicTheme
                     p.Kill();
 
                 Disable();
+                if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
             }

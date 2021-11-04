@@ -28,7 +28,7 @@ using System.Threading.Tasks;
 
 namespace SimpleClassicTheme
 {
-	static class Configuration
+	internal static class Configuration
 	{
 		public static bool Enabled
 		{
@@ -116,7 +116,7 @@ namespace SimpleClassicTheme
 			// Eg. When updating from 1.4 to 1.6 the config will be changed like this: 1.4.0 -> 1.5.0 -> 1.6.0
 
 			// 1.4.0 or lower -> 1.5.0
-			if (ConfigVersion.CompareString("1.5") < 0)
+			if (ConfigVersion.CompareString("1.4.9") < 0)
 			{
 				// TaskbarType was changed in to an enum
 				string oldValue = (string)GetItem("TaskbarType", "NoValue");

@@ -50,6 +50,15 @@ namespace SimpleClassicTheme
 				NeedsExtraction = true
 			};
 
+			public static DownloadableGithubProject ExplorerPatcher = new DownloadableGithubProject()
+			{
+				Name = "valinet/ExplorerPatcher",
+				Filename = "dxgi.dll",
+				ProcessName = "",
+				TargetDirectory = "C:\\SCT\\ExplorerPatcher\\",
+				NeedsExtraction = false
+			};
+
 			public string Name;
 			public string Filename;
 			public string ProcessName;
@@ -72,11 +81,22 @@ namespace SimpleClassicTheme
 			InitializeComponent();
 		}
 
+		protected override CreateParams CreateParams
+		{
+			get
+			{
+				CreateParams param = base.CreateParams;
+				param.ClassStyle ^= 0x200;
+				return param;
+			}
+		}
+
 		private void GithubDownloader_Load(object sender, EventArgs e)
 		{
 			if (project != null)
 			{
 				label1.Text = "Downloading...";
+				label2.Text = $"Retrieving latest release for '{project.Name}'";
 
 				new Thread(ThreadFunction).Start();
 				timer1.Enabled = true;
@@ -102,8 +122,9 @@ namespace SimpleClassicTheme
 
 		private void ThreadFunction()
 		{
-			foreach (Process p in Process.GetProcessesByName("SimpleClassicThemeTaskbar"))
-				p.Kill();
+			if (project.ProcessName != "")
+				foreach (Process p in Process.GetProcessesByName(project.ProcessName))
+					p.Kill();
 
 			string dlUrl = $"https://github.com/{project.Name}/releases/latest/download/{project.Filename}";
 			string dlDest = "C:\\SCT\\ghtemp.tmp";

@@ -33,40 +33,49 @@ namespace SimpleClassicTheme.Forms
 		public OptionsForm()
 		{
 			InitializeComponent();
-			Load += OptionsForm_Load;
 		}
 
 		private void OptionsForm_Load(object sender, EventArgs e)
 		{
 			comboBoxUpdates.SelectedItem = Configuration.UpdateMode;
+			numericUpDownTaskbarDelay.Value = Configuration.TaskbarDelay;
+			checkBox1.Checked = Configuration.EnableTaskbar;
+			taskbarTypeSelector1.Enabled = numericUpDownTaskbarDelay.Enabled = label2.Enabled = checkBox1.Checked;
 		}
 
-		private void button3_Click(object sender, EventArgs e)
+		private void buttonOK_Click(object sender, EventArgs e)
+		{
+			buttonApply.PerformClick();
+			buttonCancel.PerformClick();
+		}
+
+		private void buttonCancel_Click(object sender, EventArgs e)
 		{
 			Close();
 		}
 
-		private void button2_Click(object sender, EventArgs e)
+		private void buttonApply_Click(object sender, EventArgs e)
 		{
 			Configuration.UpdateMode = (string)comboBoxUpdates.SelectedItem;
 			Configuration.TaskbarType = taskbarTypeSelector1.SelectedItem;
-			button2.Enabled = false;
+			Configuration.TaskbarDelay = (int)numericUpDownTaskbarDelay.Value;
+			Configuration.EnableTaskbar = checkBox1.Checked;
+			buttonApply.Enabled = false;
 		}
 
-		private void button1_Click(object sender, EventArgs e)
+		private void valueChangedEvent(object sender, EventArgs e)
 		{
-			button2_Click(sender, e);
-			Close();
+			buttonApply.Enabled = true;
 		}
 
-		private void comboBoxUpdates_SelectedIndexChanged(object sender, EventArgs e)
+		private void numericUpDownTaskbarDelay_ValueChanged(object sender, EventArgs e)
 		{
-			button2.Enabled = true;
+			valueChangedEvent(sender, e);
 		}
 
-		private void taskbarTypeSelector1_SelectedItemChanged(object sender, EventArgs e)
+		private void checkBox1_CheckedChanged(object sender, EventArgs e)
 		{
-			button2.Enabled = true;
+			taskbarTypeSelector1.Enabled = numericUpDownTaskbarDelay.Enabled = label2.Enabled = checkBox1.Checked;
 		}
 	}
 }

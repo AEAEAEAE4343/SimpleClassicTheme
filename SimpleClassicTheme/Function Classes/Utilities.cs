@@ -46,14 +46,14 @@ namespace SimpleClassicTheme
         };
 
         public string Name;
-        public string SafeNameForFile;
         public abstract bool IsInstalled { get; }
         public abstract int Install();
         public abstract int Uninstall();
     }
 
-    public class InstallableUtilityWithInstallerFromResource : InstallableUtility
+	public class InstallableUtilityWithInstallerFromResource : InstallableUtility
     {
+        public string SafeNameForFile;
         public string ResourceName = "";
         public string InstallationDirectory = "";
         public string InstallationFile = "";
@@ -105,6 +105,7 @@ namespace SimpleClassicTheme
 
     public class InstallableUtilityWithInstallerFromWeb : InstallableUtility
     {
+        public string SafeNameForFile;
         public string DownloadURI = "";
         public string InstallationDirectory = "";
         public string InstallationFile = "";

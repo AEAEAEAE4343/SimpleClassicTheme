@@ -69,10 +69,5 @@ namespace SimpleClassicTheme
             }
             pictureBox2.Image = bitmap;
         }
-
-        private void About_Shown(object sender, EventArgs e)
-        {
-            //UxTheme.SetWindowTheme(Handle, " ", " ");
-        }
     }
 }

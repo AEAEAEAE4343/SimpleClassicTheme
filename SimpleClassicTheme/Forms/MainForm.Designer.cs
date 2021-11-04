@@ -48,23 +48,22 @@ namespace SimpleClassicTheme
         private void InitializeComponent()
         {
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-			this.button1 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
-			this.button3 = new System.Windows.Forms.Button();
-			this.button4 = new System.Windows.Forms.Button();
-			this.button5 = new System.Windows.Forms.Button();
-			this.checkBox1 = new System.Windows.Forms.CheckBox();
-			this.button10 = new System.Windows.Forms.Button();
-			this.button9 = new System.Windows.Forms.Button();
-			this.label1 = new System.Windows.Forms.Label();
-			this.button14 = new System.Windows.Forms.Button();
-			this.button13 = new System.Windows.Forms.Button();
-			this.button12 = new System.Windows.Forms.Button();
-			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+			this.buttonEnable = new System.Windows.Forms.Button();
+			this.buttonDisable = new System.Windows.Forms.Button();
+			this.buttonInstallRequirements = new System.Windows.Forms.Button();
+			this.buttonConfigure = new System.Windows.Forms.Button();
+			this.buttonRunOnBoot = new System.Windows.Forms.Button();
+			this.buttonTClock = new System.Windows.Forms.Button();
+			this.buttonECMT = new System.Windows.Forms.Button();
+			this.buttonUninstall = new System.Windows.Forms.Button();
+			this.button3DBorders = new System.Windows.Forms.Button();
+			this.buttonRibbonDisabler = new System.Windows.Forms.Button();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.button8 = new System.Windows.Forms.Button();
-			this.button7 = new System.Windows.Forms.Button();
-			this.button6 = new System.Windows.Forms.Button();
+			this.buttonExplorerPatcher = new System.Windows.Forms.Button();
+			this.buttonAHKScripts = new System.Windows.Forms.Button();
+			this.buttonUtilities = new System.Windows.Forms.Button();
+			this.label1 = new System.Windows.Forms.Label();
+			this.buttonRestoreWindowSettings = new System.Windows.Forms.Button();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.label2 = new System.Windows.Forms.Label();
@@ -79,197 +78,189 @@ namespace SimpleClassicTheme
 			this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.reportBugsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// button1
+			// buttonEnable
 			// 
-			this.button1.Location = new System.Drawing.Point(6, 19);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(152, 23);
-			this.button1.TabIndex = 0;
-			this.button1.Text = "Enable";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.Button1_Click);
+			this.buttonEnable.Location = new System.Drawing.Point(6, 19);
+			this.buttonEnable.Name = "buttonEnable";
+			this.buttonEnable.Size = new System.Drawing.Size(152, 23);
+			this.buttonEnable.TabIndex = 0;
+			this.buttonEnable.Text = "Enable";
+			this.buttonEnable.UseVisualStyleBackColor = true;
+			this.buttonEnable.Click += new System.EventHandler(this.ButtonEnable_Click);
 			// 
-			// button2
+			// buttonDisable
 			// 
-			this.button2.Location = new System.Drawing.Point(6, 48);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(152, 23);
-			this.button2.TabIndex = 1;
-			this.button2.Text = "Disable";
-			this.button2.UseVisualStyleBackColor = true;
-			this.button2.Click += new System.EventHandler(this.Button2_Click);
+			this.buttonDisable.Location = new System.Drawing.Point(6, 48);
+			this.buttonDisable.Name = "buttonDisable";
+			this.buttonDisable.Size = new System.Drawing.Size(152, 23);
+			this.buttonDisable.TabIndex = 1;
+			this.buttonDisable.Text = "Disable";
+			this.buttonDisable.UseVisualStyleBackColor = true;
+			this.buttonDisable.Click += new System.EventHandler(this.ButtonDisable_Click);
 			// 
-			// button3
+			// buttonInstallRequirements
 			// 
-			this.button3.Location = new System.Drawing.Point(6, 77);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(152, 23);
-			this.button3.TabIndex = 2;
-			this.button3.Text = "Install required stuff";
-			this.button3.UseVisualStyleBackColor = true;
-			this.button3.Click += new System.EventHandler(this.Button3_Click);
+			this.buttonInstallRequirements.Location = new System.Drawing.Point(6, 77);
+			this.buttonInstallRequirements.Name = "buttonInstallRequirements";
+			this.buttonInstallRequirements.Size = new System.Drawing.Size(152, 23);
+			this.buttonInstallRequirements.TabIndex = 2;
+			this.buttonInstallRequirements.Text = "Install required stuff";
+			this.buttonInstallRequirements.UseVisualStyleBackColor = true;
+			this.buttonInstallRequirements.Click += new System.EventHandler(this.ButtonInstallRequirements_Click);
 			// 
-			// button4
+			// buttonConfigure
 			// 
-			this.button4.Location = new System.Drawing.Point(6, 106);
-			this.button4.Name = "button4";
-			this.button4.Size = new System.Drawing.Size(152, 23);
-			this.button4.TabIndex = 3;
-			this.button4.Text = "Configure colors";
-			this.button4.UseVisualStyleBackColor = true;
-			this.button4.Click += new System.EventHandler(this.Button4_Click);
+			this.buttonConfigure.Location = new System.Drawing.Point(6, 106);
+			this.buttonConfigure.Name = "buttonConfigure";
+			this.buttonConfigure.Size = new System.Drawing.Size(152, 23);
+			this.buttonConfigure.TabIndex = 3;
+			this.buttonConfigure.Text = "Configure colors";
+			this.buttonConfigure.UseVisualStyleBackColor = true;
+			this.buttonConfigure.Click += new System.EventHandler(this.ButtonConfigure_Click);
 			// 
-			// button5
+			// buttonRunOnBoot
 			// 
-			this.button5.Location = new System.Drawing.Point(6, 135);
-			this.button5.Name = "button5";
-			this.button5.Size = new System.Drawing.Size(152, 23);
-			this.button5.TabIndex = 4;
-			this.button5.Text = "Run on boot";
-			this.button5.UseVisualStyleBackColor = true;
-			this.button5.Click += new System.EventHandler(this.Button5_Click);
+			this.buttonRunOnBoot.Location = new System.Drawing.Point(6, 135);
+			this.buttonRunOnBoot.Name = "buttonRunOnBoot";
+			this.buttonRunOnBoot.Size = new System.Drawing.Size(152, 23);
+			this.buttonRunOnBoot.TabIndex = 4;
+			this.buttonRunOnBoot.Text = "Run SCT on boot";
+			this.buttonRunOnBoot.UseVisualStyleBackColor = true;
+			this.buttonRunOnBoot.Click += new System.EventHandler(this.ButtonRunOnBoot_Click);
 			// 
-			// checkBox1
+			// buttonTClock
 			// 
-			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(192, 300);
-			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(101, 17);
-			this.checkBox1.TabIndex = 5;
-			this.checkBox1.Text = "Classic Taskbar";
-			this.checkBox1.UseVisualStyleBackColor = true;
-			this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
+			this.buttonTClock.Location = new System.Drawing.Point(6, 135);
+			this.buttonTClock.Name = "buttonTClock";
+			this.buttonTClock.Size = new System.Drawing.Size(152, 23);
+			this.buttonTClock.TabIndex = 3;
+			this.buttonTClock.Text = "Install T-Clock";
+			this.buttonTClock.UseVisualStyleBackColor = true;
+			this.buttonTClock.Click += new System.EventHandler(this.ButtonTClock_Click);
 			// 
-			// button10
+			// buttonECMT
 			// 
-			this.button10.Location = new System.Drawing.Point(6, 19);
-			this.button10.Name = "button10";
-			this.button10.Size = new System.Drawing.Size(152, 23);
-			this.button10.TabIndex = 3;
-			this.button10.Text = "Install T-Clock";
-			this.button10.UseVisualStyleBackColor = true;
-			this.button10.Click += new System.EventHandler(this.Button10_Click);
+			this.buttonECMT.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
+			this.buttonECMT.Location = new System.Drawing.Point(6, 19);
+			this.buttonECMT.Name = "buttonECMT";
+			this.buttonECMT.Size = new System.Drawing.Size(152, 23);
+			this.buttonECMT.TabIndex = 2;
+			this.buttonECMT.Text = "Inst. ExplorerContextMenuTweaker";
+			this.buttonECMT.UseVisualStyleBackColor = true;
+			this.buttonECMT.Click += new System.EventHandler(this.ButtonECMT_Click);
 			// 
-			// button9
+			// buttonUninstall
 			// 
-			this.button9.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
-			this.button9.Location = new System.Drawing.Point(6, 48);
-			this.button9.Name = "button9";
-			this.button9.Size = new System.Drawing.Size(152, 23);
-			this.button9.TabIndex = 2;
-			this.button9.Text = "Inst. ExplorerContextMenuTweaker";
-			this.button9.UseVisualStyleBackColor = true;
-			this.button9.Click += new System.EventHandler(this.Button9_Click);
+			this.buttonUninstall.Location = new System.Drawing.Point(6, 283);
+			this.buttonUninstall.Name = "buttonUninstall";
+			this.buttonUninstall.Size = new System.Drawing.Size(152, 23);
+			this.buttonUninstall.TabIndex = 2;
+			this.buttonUninstall.Text = "Uninstall (restores all UI)";
+			this.buttonUninstall.UseVisualStyleBackColor = true;
+			this.buttonUninstall.Click += new System.EventHandler(this.ButtonUninstall_Click);
 			// 
-			// label1
+			// button3DBorders
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(189, 320);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100, 26);
-			this.label1.TabIndex = 8;
-			this.label1.Text = "Taskbar delay:\r\n(increase if bugged)";
+			this.button3DBorders.Location = new System.Drawing.Point(6, 77);
+			this.button3DBorders.Name = "button3DBorders";
+			this.button3DBorders.Size = new System.Drawing.Size(152, 23);
+			this.button3DBorders.TabIndex = 1;
+			this.button3DBorders.Text = "Make borders 3D";
+			this.button3DBorders.UseVisualStyleBackColor = true;
+			this.button3DBorders.Click += new System.EventHandler(this.Button3DBorder_Click);
 			// 
-			// button14
+			// buttonRibbonDisabler
 			// 
-			this.button14.Location = new System.Drawing.Point(6, 226);
-			this.button14.Name = "button14";
-			this.button14.Size = new System.Drawing.Size(152, 23);
-			this.button14.TabIndex = 2;
-			this.button14.Text = "Uninstall (restores UI)";
-			this.button14.UseVisualStyleBackColor = true;
-			this.button14.Click += new System.EventHandler(this.Button14_Click);
-			// 
-			// button13
-			// 
-			this.button13.Location = new System.Drawing.Point(6, 106);
-			this.button13.Name = "button13";
-			this.button13.Size = new System.Drawing.Size(152, 23);
-			this.button13.TabIndex = 1;
-			this.button13.Text = "Make borders 3D";
-			this.button13.UseVisualStyleBackColor = true;
-			this.button13.Click += new System.EventHandler(this.Button13_Click);
-			// 
-			// button12
-			// 
-			this.button12.Location = new System.Drawing.Point(6, 77);
-			this.button12.Name = "button12";
-			this.button12.Size = new System.Drawing.Size(152, 23);
-			this.button12.TabIndex = 0;
-			this.button12.Text = "Run RibbonDisabler 4.0";
-			this.button12.UseVisualStyleBackColor = true;
-			this.button12.Click += new System.EventHandler(this.Button12_Click);
-			// 
-			// numericUpDown1
-			// 
-			this.numericUpDown1.Location = new System.Drawing.Point(182, 349);
-			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(166, 20);
-			this.numericUpDown1.TabIndex = 9;
-			this.numericUpDown1.ValueChanged += new System.EventHandler(this.NumericUpDown1_ValueChanged);
+			this.buttonRibbonDisabler.Location = new System.Drawing.Point(6, 106);
+			this.buttonRibbonDisabler.Name = "buttonRibbonDisabler";
+			this.buttonRibbonDisabler.Size = new System.Drawing.Size(152, 23);
+			this.buttonRibbonDisabler.TabIndex = 0;
+			this.buttonRibbonDisabler.Text = "Run RibbonDisabler 4.0";
+			this.buttonRibbonDisabler.UseVisualStyleBackColor = true;
+			this.buttonRibbonDisabler.Click += new System.EventHandler(this.ButtonRibbonDisabler_Click);
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.Controls.Add(this.button8);
-			this.groupBox1.Controls.Add(this.button7);
-			this.groupBox1.Controls.Add(this.button6);
-			this.groupBox1.Controls.Add(this.button14);
-			this.groupBox1.Controls.Add(this.button13);
-			this.groupBox1.Controls.Add(this.button10);
-			this.groupBox1.Controls.Add(this.button12);
-			this.groupBox1.Controls.Add(this.button9);
+			this.groupBox1.Controls.Add(this.buttonExplorerPatcher);
+			this.groupBox1.Controls.Add(this.buttonAHKScripts);
+			this.groupBox1.Controls.Add(this.buttonUtilities);
+			this.groupBox1.Controls.Add(this.label1);
+			this.groupBox1.Controls.Add(this.button3DBorders);
+			this.groupBox1.Controls.Add(this.buttonTClock);
+			this.groupBox1.Controls.Add(this.buttonRestoreWindowSettings);
+			this.groupBox1.Controls.Add(this.buttonUninstall);
+			this.groupBox1.Controls.Add(this.buttonRibbonDisabler);
+			this.groupBox1.Controls.Add(this.buttonECMT);
 			this.groupBox1.Location = new System.Drawing.Point(184, 39);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(164, 255);
+			this.groupBox1.Size = new System.Drawing.Size(164, 312);
 			this.groupBox1.TabIndex = 11;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Extra stuff";
 			// 
-			// button8
+			// buttonExplorerPatcher
 			// 
-			this.button8.Location = new System.Drawing.Point(6, 197);
-			this.button8.Name = "button8";
-			this.button8.Size = new System.Drawing.Size(152, 23);
-			this.button8.TabIndex = 6;
-			this.button8.Text = "Restore window settings";
-			this.button8.UseVisualStyleBackColor = true;
-			this.button8.Click += new System.EventHandler(this.button8_Click);
+			this.buttonExplorerPatcher.Location = new System.Drawing.Point(6, 48);
+			this.buttonExplorerPatcher.Name = "buttonExplorerPatcher";
+			this.buttonExplorerPatcher.Size = new System.Drawing.Size(152, 23);
+			this.buttonExplorerPatcher.TabIndex = 8;
+			this.buttonExplorerPatcher.Text = "Patch Explorer";
+			this.buttonExplorerPatcher.UseVisualStyleBackColor = true;
+			this.buttonExplorerPatcher.Click += new System.EventHandler(this.ButtonExplorerPatcher_Click);
 			// 
-			// button7
+			// buttonAHKScripts
 			// 
-			this.button7.Location = new System.Drawing.Point(6, 135);
-			this.button7.Name = "button7";
-			this.button7.Size = new System.Drawing.Size(152, 23);
-			this.button7.TabIndex = 5;
-			this.button7.Text = "Open AHK Script Manager";
-			this.button7.UseVisualStyleBackColor = true;
-			this.button7.Click += new System.EventHandler(this.button7_Click);
+			this.buttonAHKScripts.Location = new System.Drawing.Point(6, 164);
+			this.buttonAHKScripts.Name = "buttonAHKScripts";
+			this.buttonAHKScripts.Size = new System.Drawing.Size(152, 23);
+			this.buttonAHKScripts.TabIndex = 5;
+			this.buttonAHKScripts.Text = "Auto-load AHK scripts";
+			this.buttonAHKScripts.UseVisualStyleBackColor = true;
+			this.buttonAHKScripts.Click += new System.EventHandler(this.ButtonAHKScripts_Click);
 			// 
-			// button6
+			// buttonUtilities
 			// 
-			this.button6.Location = new System.Drawing.Point(6, 164);
-			this.button6.Name = "button6";
-			this.button6.Size = new System.Drawing.Size(152, 23);
-			this.button6.TabIndex = 4;
-			this.button6.Text = "Open Utility Manager";
-			this.button6.UseVisualStyleBackColor = true;
-			this.button6.Click += new System.EventHandler(this.button6_Click);
+			this.buttonUtilities.Location = new System.Drawing.Point(6, 193);
+			this.buttonUtilities.Name = "buttonUtilities";
+			this.buttonUtilities.Size = new System.Drawing.Size(152, 23);
+			this.buttonUtilities.TabIndex = 4;
+			this.buttonUtilities.Text = "Install Classic utilities";
+			this.buttonUtilities.UseVisualStyleBackColor = true;
+			this.buttonUtilities.Click += new System.EventHandler(this.ButtonUtilities_Click);
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(6, 238);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(92, 13);
+			this.label1.TabIndex = 7;
+			this.label1.Text = "Restore/Remove:";
+			// 
+			// buttonRestoreWindowSettings
+			// 
+			this.buttonRestoreWindowSettings.Location = new System.Drawing.Point(6, 254);
+			this.buttonRestoreWindowSettings.Name = "buttonRestoreWindowSettings";
+			this.buttonRestoreWindowSettings.Size = new System.Drawing.Size(152, 23);
+			this.buttonRestoreWindowSettings.TabIndex = 6;
+			this.buttonRestoreWindowSettings.Text = "Restore window settings";
+			this.buttonRestoreWindowSettings.UseVisualStyleBackColor = true;
+			this.buttonRestoreWindowSettings.Click += new System.EventHandler(this.ButtonRestoreWindowSettings_Click);
 			// 
 			// groupBox2
 			// 
-			this.groupBox2.Controls.Add(this.button1);
-			this.groupBox2.Controls.Add(this.button2);
-			this.groupBox2.Controls.Add(this.button3);
-			this.groupBox2.Controls.Add(this.button4);
-			this.groupBox2.Controls.Add(this.button5);
-			this.groupBox2.Location = new System.Drawing.Point(12, 39);
+			this.groupBox2.Controls.Add(this.buttonEnable);
+			this.groupBox2.Controls.Add(this.buttonDisable);
+			this.groupBox2.Controls.Add(this.buttonInstallRequirements);
+			this.groupBox2.Controls.Add(this.buttonConfigure);
+			this.groupBox2.Controls.Add(this.buttonRunOnBoot);
+			this.groupBox2.Location = new System.Drawing.Point(14, 39);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(164, 162);
 			this.groupBox2.TabIndex = 12;
@@ -281,14 +272,15 @@ namespace SimpleClassicTheme
 			this.pictureBox1.Image = global::SimpleClassicTheme.Properties.Resources.sct_light_164;
 			this.pictureBox1.Location = new System.Drawing.Point(12, 207);
 			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(164, 164);
-			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox1.Size = new System.Drawing.Size(164, 144);
+			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
 			this.pictureBox1.TabIndex = 13;
 			this.pictureBox1.TabStop = false;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(12, 374);
+			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.label2.Location = new System.Drawing.Point(12, 359);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(336, 13);
 			this.label2.TabIndex = 14;
@@ -297,8 +289,9 @@ namespace SimpleClassicTheme
 			// 
 			// linkLabel1
 			// 
+			this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.linkLabel1.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.linkLabel1.Location = new System.Drawing.Point(12, 387);
+			this.linkLabel1.Location = new System.Drawing.Point(12, 372);
 			this.linkLabel1.Name = "linkLabel1";
 			this.linkLabel1.Size = new System.Drawing.Size(336, 13);
 			this.linkLabel1.TabIndex = 15;
@@ -337,20 +330,20 @@ namespace SimpleClassicTheme
             this.optionsToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
 			this.fileToolStripMenuItem.Text = "&File";
 			// 
 			// optionsToolStripMenuItem
 			// 
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
 			this.optionsToolStripMenuItem.Text = "&Options";
 			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
 			this.exitToolStripMenuItem.Text = "E&xit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
@@ -361,27 +354,27 @@ namespace SimpleClassicTheme
             this.reportBugsToolStripMenuItem,
             this.aboutToolStripMenuItem});
 			this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-			this.helpToolStripMenuItem1.Size = new System.Drawing.Size(44, 20);
+			this.helpToolStripMenuItem1.Size = new System.Drawing.Size(40, 20);
 			this.helpToolStripMenuItem1.Text = "&Help";
 			// 
 			// guideToolStripMenuItem
 			// 
 			this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-			this.guideToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.guideToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
 			this.guideToolStripMenuItem.Text = "&Guide";
 			this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
 			// 
 			// reportBugsToolStripMenuItem
 			// 
 			this.reportBugsToolStripMenuItem.Name = "reportBugsToolStripMenuItem";
-			this.reportBugsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.reportBugsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
 			this.reportBugsToolStripMenuItem.Text = "Report bugs";
 			this.reportBugsToolStripMenuItem.Click += new System.EventHandler(this.reportBugsToolStripMenuItem_Click);
 			// 
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
 			this.aboutToolStripMenuItem.Text = "&About";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
@@ -390,15 +383,12 @@ namespace SimpleClassicTheme
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Control;
-			this.ClientSize = new System.Drawing.Size(360, 404);
+			this.ClientSize = new System.Drawing.Size(360, 395);
 			this.Controls.Add(this.linkLabel1);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
-			this.Controls.Add(this.numericUpDown1);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.checkBox1);
 			this.Controls.Add(this.menuStrip1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -407,9 +397,9 @@ namespace SimpleClassicTheme
 			this.MinimizeBox = false;
 			this.Name = "MainForm";
 			this.Text = "Simple Classic Theme";
-			this.Load += new System.EventHandler(this.Form1_Load);
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.menuStrip1.ResumeLayout(false);
@@ -421,30 +411,27 @@ namespace SimpleClassicTheme
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.Button button12;
-        private System.Windows.Forms.Button button13;
-        private System.Windows.Forms.Button button14;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Button buttonEnable;
+        private System.Windows.Forms.Button buttonDisable;
+        private System.Windows.Forms.Button buttonInstallRequirements;
+        private System.Windows.Forms.Button buttonConfigure;
+        private System.Windows.Forms.Button buttonRunOnBoot;
+        private System.Windows.Forms.Button buttonECMT;
+        private System.Windows.Forms.Button buttonTClock;
+        private System.Windows.Forms.Button buttonRibbonDisabler;
+        private System.Windows.Forms.Button button3DBorders;
+        private System.Windows.Forms.Button buttonUninstall;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.LinkLabel linkLabel1;
-		private System.Windows.Forms.Button button6;
+		private System.Windows.Forms.Button buttonUtilities;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-		private System.Windows.Forms.Button button7;
-		private System.Windows.Forms.Button button8;
+		private System.Windows.Forms.Button buttonAHKScripts;
+		private System.Windows.Forms.Button buttonRestoreWindowSettings;
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
@@ -453,6 +440,8 @@ namespace SimpleClassicTheme
 		private System.Windows.Forms.ToolStripMenuItem guideToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem reportBugsToolStripMenuItem;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Button buttonExplorerPatcher;
 	}
 }
 
