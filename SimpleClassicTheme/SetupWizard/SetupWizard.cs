@@ -227,9 +227,20 @@ namespace SimpleClassicTheme.SetupWizard
             }
 
             // Install SCT Taskbar
-            progressDisplay.progressText = "Installing Simple Classic Theme Taskbar...";
-            progressDisplay.progressWorker.ReportProgress(70);
-            progressDisplay.Invoke(new Action(() => new GithubDownloader().ShowDialog()));
+            if (SelectedTaskbarType == TaskbarType.SimpleClassicThemeTaskbar)
+            {
+                progressDisplay.progressText = "Installing Simple Classic Theme Taskbar...";
+                progressDisplay.progressWorker.ReportProgress(70);
+                progressDisplay.Invoke(new Action(() => new GithubDownloader(GithubDownloader.DownloadableGithubProject.SimpleClassicThemeTaskbar).ShowDialog()));
+            }
+
+            // Install RetroBar
+            else if (SelectedTaskbarType == TaskbarType.RetroBar)
+            {
+                progressDisplay.progressText = "Installing RetroBar...";
+                progressDisplay.progressWorker.ReportProgress(70);
+                progressDisplay.Invoke(new Action(() => new GithubDownloader(GithubDownloader.DownloadableGithubProject.RetroBar).ShowDialog()));
+            }
 
             // Configure SCT
             progressDisplay.progressText = "Configuring Simple Classic Theme...";

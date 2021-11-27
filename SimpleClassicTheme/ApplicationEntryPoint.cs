@@ -59,6 +59,8 @@ namespace SimpleClassicTheme
             Application.VisualStyleState = VisualStyleState.NoneEnabled;
             Application.SetCompatibleTextRenderingDefault(false);
 
+            Application.Run(new Forms.ThemeConfigurationForm()); return;
+
             bool windows = Environment.OSVersion.Platform == PlatformID.Win32NT;
             bool windows10 = Environment.OSVersion.Version.Major == 10 /*&& Int32.Parse(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId", "").ToString()) >= 1803*/;
             bool windows8 = Environment.OSVersion.Version.Major == 6 && (Environment.OSVersion.Version.Minor == 2 || Environment.OSVersion.Version.Minor == 3);
