@@ -99,12 +99,14 @@ namespace SimpleClassicTheme
 		}
 
         //Updates the application
-        internal static void Update()
+        internal static void Update(Form p = null)
         {
             //Check if there is an internet connection
             if (CheckForInternetConnection())
             {
-                Application.Run(new Updater());
+                Updater d = new Updater();
+                if (p != null) d.ShowDialog(p);
+                else d.ShowDialog();
             }
         }
 
