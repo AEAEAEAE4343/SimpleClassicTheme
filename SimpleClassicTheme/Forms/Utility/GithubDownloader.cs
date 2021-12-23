@@ -59,6 +59,15 @@ namespace SimpleClassicTheme
 				NeedsExtraction = false
 			};
 
+			public static DownloadableGithubProject SimpleClassicThemeFEH = new DownloadableGithubProject()
+			{
+				Name = "valinet/ExplorerPatcher",
+				Filename = (IntPtr.Size == 8) ? "SCT.FEH.x64.zip" : "SCT.FEH.x64.zip",
+				ProcessName = "",
+				TargetDirectory = "C:\\SCT\\AHK\\",
+				NeedsExtraction = true
+			};
+
 			public string Name;
 			public string Filename;
 			public string ProcessName;

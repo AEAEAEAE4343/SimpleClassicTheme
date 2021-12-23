@@ -185,5 +185,13 @@ namespace SimpleClassicTheme
 		{
 			Close();
 		}
-	}
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+			if (MessageBox.Show(this, "SCT.FEH is a general purpose hook File Explorer on Windows 10. It replaces the functionality of some popular AHK scripts. Would you like to continue?", "SCT.FEH", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+				new GithubDownloader(GithubDownloader.DownloadableGithubProject.SimpleClassicThemeFEH).ShowDialog(this);
+            }
+        }
+    }
 }

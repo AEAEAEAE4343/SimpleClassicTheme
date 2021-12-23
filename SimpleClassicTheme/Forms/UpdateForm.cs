@@ -205,13 +205,5 @@ namespace SimpleClassicTheme
             GithubDownloader download = new GithubDownloader(GithubDownloader.DownloadableGithubProject.RetroBar);
             download.ShowDialog();
         }
-
-        private void Updater_Load_1(object sender, EventArgs e)
-		{
-            if (ExtraFunctions.ShouldDrawLight(SystemColors.Control))
-                pictureBox1.Image = Properties.Resources.sct_light_275;
-            else
-                pictureBox1.Image = Properties.Resources.sct_dark_275;
-        }
-	}
+    }
 }
