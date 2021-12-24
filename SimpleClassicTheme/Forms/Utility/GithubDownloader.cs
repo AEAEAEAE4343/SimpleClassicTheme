@@ -35,7 +35,7 @@ namespace SimpleClassicTheme
 			public static DownloadableGithubProject SimpleClassicThemeTaskbar = new DownloadableGithubProject() 
 			{ 
 				Name = "WinClassic/SimpleClassicTheme.Taskbar", 
-				Filename = (IntPtr.Size == 8) ? "SimpleClassicThemeTaskbar_x64.exe" : "SimpleClassicThemeTaskbar_x86.exe",
+				Filename = (IntPtr.Size == 8) ? "SimpleClassicThemeTaskbar_x64.zip" : "SimpleClassicThemeTaskbar_x86.zip",
 				ProcessName = "SimpleClassicThemeTaskbar",
 				TargetDirectory = "C:\\SCT\\Taskbar\\",
 				NeedsExtraction = true
