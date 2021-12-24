@@ -81,9 +81,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(9, 132);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(93, 13);
+            this.label3.Size = new System.Drawing.Size(83, 13);
             this.label3.TabIndex = 18;
-            this.label3.Text = "SCT Version 1.5.0";
+            this.label3.Text = "SCT Version %v";
             // 
             // textBox1
             // 
@@ -123,6 +123,7 @@
             this.MinimizeBox = false;
             this.Name = "LoaderForm";
             this.Text = "Simple Classic Theme - Early load";
+            this.Load += new System.EventHandler(this.LoaderForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

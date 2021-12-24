@@ -318,5 +318,10 @@ namespace SimpleClassicTheme.Forms
             label3.Location = new Point(9, 483);
             pictureBox1.Location = new Point(231, 12);
         }
+
+        private void LoaderForm_Load(object sender, EventArgs e)
+        {
+            label3.Text = label3.Text.Replace("%v", Assembly.GetExecutingAssembly().GetName().Version.ToString());
+        }
     }
 }
