@@ -322,7 +322,7 @@ namespace SimpleClassicTheme.Forms
 
         private void LoaderForm_Load(object sender, EventArgs e)
         {
-            label3.Text = label3.Text.Replace("%v", Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            label3.Text = label3.Text.Replace("%v", Assembly.GetExecutingAssembly().GetName().Version.ToString(3));
         }
     }
 }
