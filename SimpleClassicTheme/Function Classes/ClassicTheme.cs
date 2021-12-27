@@ -64,12 +64,12 @@ namespace SimpleClassicTheme
                 if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration(true);
                 Enable();
             }
-            else if (Assembly.GetExecutingAssembly().Location != "C:\\SCT\\SCT.exe")
+            else if (!File.Exists("C:\\SCT\\SCT.exe"))
 			{
                 if (!commandLineError)
-                    MessageBox.Show("You need to run Simple Classic Theme from the start menu in order to enable it with classic taskbar enabled.", "Unsupported action");
+                    MessageBox.Show("You need to install Simple Classic Theme in order to enable it with Classic Taskbar enabled. Either disable Classic Taskbar from the options menu, or install SCT by pressing 'Run SCT on boot' in the main menu.", "Unsupported action");
                 else
-                    Console.WriteLine("Enabling SCT with a taskbar requires SCT to be ran from \"C:\\SCT\\SCT.exe\".");
+                    Console.WriteLine("Enabling SCT with a taskbar requires SCT to be installed to \"C:\\SCT\\SCT.exe\".");
                 Configuration.Enabled = false;
                 return;
             }
