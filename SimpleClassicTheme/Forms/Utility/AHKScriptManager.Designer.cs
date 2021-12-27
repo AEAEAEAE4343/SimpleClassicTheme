@@ -58,7 +58,7 @@ namespace SimpleClassicTheme
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(279, 276);
+            this.button3.Location = new System.Drawing.Point(314, 41);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 7;
@@ -68,7 +68,7 @@ namespace SimpleClassicTheme
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(360, 276);
+            this.button2.Location = new System.Drawing.Point(314, 12);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 6;
@@ -78,7 +78,7 @@ namespace SimpleClassicTheme
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 276);
+            this.button1.Location = new System.Drawing.Point(314, 214);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 5;
@@ -91,21 +91,21 @@ namespace SimpleClassicTheme
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(12, 12);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(423, 251);
+            this.listBox1.Size = new System.Drawing.Size(296, 225);
             this.listBox1.TabIndex = 4;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 312);
+            this.label1.Location = new System.Drawing.Point(12, 240);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(312, 13);
+            this.label1.Size = new System.Drawing.Size(303, 13);
             this.label1.TabIndex = 8;
-            this.label1.Text = "Scripts listed here will automatically run on bootup alongside SCT";
+            this.label1.Text = "Scripts listed here will automatically run on boot alongside SCT.";
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(360, 307);
+            this.button4.Location = new System.Drawing.Point(314, 185);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 9;
@@ -117,7 +117,7 @@ namespace SimpleClassicTheme
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(447, 335);
+            this.ClientSize = new System.Drawing.Size(401, 262);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button3);
@@ -127,7 +127,7 @@ namespace SimpleClassicTheme
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AHKScriptManager";
-            this.Text = "SCT AutoHotKey Script Manager";
+            this.Text = "Simple Classic Theme - AutoHotKey Script Manager";
             this.ResumeLayout(false);
             this.PerformLayout();
 

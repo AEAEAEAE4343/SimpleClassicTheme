@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -91,7 +92,7 @@ namespace SimpleClassicTheme
 				FormBorderStyle = FormBorderStyle.FixedDialog,
 				StartPosition = FormStartPosition.CenterParent,
 				ClientSize = new Size(180, 73),
-				Text = "SCT AutoHotKey Script Manager"
+				Text = "Simple Classic Theme - AutoHotKey Script Manager"
 			};
 			Button ButtonPreloaded = (Button)scriptSourceSelection.Controls.Find("ButtonPreloaded", true).FirstOrDefault();
 			Button ButtonBrowse = (Button)scriptSourceSelection.Controls.Find("ButtonBrowse", true).FirstOrDefault();
@@ -121,15 +122,16 @@ namespace SimpleClassicTheme
 					FormBorderStyle = FormBorderStyle.FixedDialog,
 					StartPosition = FormStartPosition.CenterParent,
 					ClientSize = new Size(453, 340),
-					Text = "SCT AutoHotKey Script Manager"
+					Text = "SCT AutoHotKey Script Manager",
+					Icon = Icon
 				};
 				ListBox ListBoxItems = (ListBox)preloadedScriptSelection.Controls.Find("ListBoxItems", true).FirstOrDefault();
 				Button ButtonSelect = (Button)preloadedScriptSelection.Controls.Find("ButtonSelect", true).FirstOrDefault();
 
 				ListBoxItems.Items.AddRange(new AHKScript[] 
 				{
-					new AHKScript() { Name = "Explorer Clientedge",				Filename = "clientedge.ahk",	ResourceName = "clientedge" },
-					new AHKScript() { Name = "Explorer Remove address bar",		Filename = "noaddressbar.ahk",	ResourceName = "noaddressbar" },
+					new AHKScript() { Name = "Explorer ClientEdge",				Filename = "clientedge.ahk",	ResourceName = "clientedge" },
+					new AHKScript() { Name = "Explorer Remove navigaiton bar",	Filename = "noaddressbar.ahk",	ResourceName = "noaddressbar" },
 					new AHKScript() { Name = "Explorer Quero hotkeys",			Filename = "querohotkeys.ahk",	ResourceName = "querohotkeys" }
 				});
 
@@ -177,8 +179,22 @@ namespace SimpleClassicTheme
 
 		private void button3_Click(object sender, EventArgs e)
 		{
-			File.Delete("C:\\SCT\\AHK\\" + listBox1.SelectedValue);
-			ListScripts();
+			if (listBox1.SelectedIndex == -1)
+				return;
+
+			DateTime time = DateTime.Now;
+			string processName = Path.GetFileNameWithoutExtension((string)listBox1.SelectedItem);
+			while (Process.GetProcessesByName(processName).Length > 0 && DateTime.Now.Subtract(time).TotalSeconds < 5)
+				if (Process.GetProcessesByName(processName)[0].MainModule.FileName == "C:\\SCT\\AHK\\" + listBox1.SelectedItem)
+					Process.GetProcessesByName(processName)[0].Kill();
+
+			if (Process.GetProcessesByName((string)listBox1.SelectedItem).Length > 0)
+				MessageBox.Show($"Could not kill and delete {listBox1.SelectedItem}. Timed out.");
+			else
+			{
+				File.Delete("C:\\SCT\\AHK\\" + listBox1.SelectedItem);
+				ListScripts(); 
+			}
 		}
 
 		private void button1_Click(object sender, EventArgs e)
