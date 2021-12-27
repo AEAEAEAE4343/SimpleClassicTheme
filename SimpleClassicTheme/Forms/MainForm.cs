@@ -92,9 +92,9 @@ namespace SimpleClassicTheme
             Version OSVersion = Environment.OSVersion.Version;
 
             // ECMT: Windows 10 x64
-            buttonECMT.Enabled = OSVersion.Major == 10 && OSVersion.CompareString("10.0.22000") < 0 && IntPtr.Size == 8;
+            buttonECMT.Enabled = OSVersion.Major == 10 && OSVersion.CompareString("10.0.22000.0") < 0 && IntPtr.Size == 8;
             // ExplorerPatcher: Windows 11 x64
-            buttonExplorerPatcher.Enabled = OSVersion.Major == 10 && OSVersion.CompareString("10.0.22000") >= 0 && IntPtr.Size == 8;
+            buttonExplorerPatcher.Enabled = OSVersion.Major == 10 && OSVersion.CompareString("10.0.22000.0") >= 0 && IntPtr.Size == 8;
             // T-Clock: Any version of Windows but only with Taskbar enhancements
             buttonTClock.Enabled = Configuration.EnableTaskbar ||
                                Configuration.TaskbarType == TaskbarType.StartIsBackOpenShell ||
