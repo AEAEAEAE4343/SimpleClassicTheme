@@ -132,8 +132,10 @@ namespace SimpleClassicTheme
 		private void ThreadFunction()
 		{
 			if (project.ProcessName != "")
-				foreach (Process p in Process.GetProcessesByName(project.ProcessName))
-					p.Kill();
+				while (Process.GetProcessesByName(project.ProcessName).Length > 0)
+					foreach (Process p in Process.GetProcessesByName(project.ProcessName))
+						if (!p.HasExited)
+							p.Kill();
 
 			string dlUrl = $"https://github.com/{project.Name}/releases/latest/download/{project.Filename}";
 			string dlDest = "C:\\SCT\\ghtemp.tmp";
