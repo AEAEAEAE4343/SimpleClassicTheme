@@ -149,5 +149,13 @@ namespace SimpleClassicTheme.Forms
 			LoadConfig();
 			buttonApply_Click(sender, e);
 		}
-	}
+
+        private void buttonInstallUninstall_Click(object sender, EventArgs e)
+        {
+			if (!ExplorerPatcher.IsInstalled)
+				ExplorerPatcher.Install();
+			else
+				ExplorerPatcher.Uninstall();
+        }
+    }
 }
