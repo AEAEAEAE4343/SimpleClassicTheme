@@ -60,7 +60,8 @@ namespace SimpleClassicTheme.Forms
             //Start update checking
             string updateMode = Configuration.UpdateMode;
             if (updateMode == "Automatic" || updateMode == "Ask on startup")
-                ExtraFunctions.Update(this);
+                if (ExtraFunctions.Update(this))
+                    return false;
 
             label2.Text = "Status: Cleaning up files";
             Application.DoEvents();

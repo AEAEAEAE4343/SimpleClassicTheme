@@ -36,7 +36,7 @@ namespace SimpleClassicTheme
         }
 
         Version ver;
-
+        public bool HasUpdated = false;
         private void Updater_Load(object sender, EventArgs e)
         {
             //Get latest release info
@@ -74,6 +74,7 @@ namespace SimpleClassicTheme
                     {
                         label1.Text = "Downloading update " + newestVersion.ToString(3) + "...";
                         ver = newestVersion;
+                        HasUpdated = true;
                         DownloadNewestVersion();
                     }
                 }
@@ -188,7 +189,6 @@ namespace SimpleClassicTheme
 			{
 				File.WriteAllText("___UPDATESCT.bat", Properties.Resources.updateString);
 				Process.Start("___UPDATESCT.bat", $"{ver.ToString(3)} {Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName)} ___SCT.exe");
-				Environment.Exit(0);
 			};
 
 			c.Headers.Set(HttpRequestHeader.UserAgent, "SimpleClasicTheme");
