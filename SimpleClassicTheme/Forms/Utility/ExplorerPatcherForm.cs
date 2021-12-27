@@ -152,10 +152,16 @@ namespace SimpleClassicTheme.Forms
 
         private void buttonInstallUninstall_Click(object sender, EventArgs e)
         {
+			foreach (Control c in Controls) c.Enabled = false;
+			bool result;
 			if (!ExplorerPatcher.IsInstalled)
-				ExplorerPatcher.Install();
+				result = ExplorerPatcher.Install();
 			else
-				ExplorerPatcher.Uninstall();
-        }
+				result = ExplorerPatcher.Uninstall();
+			string message = $"SimpleClassicTheme {(result ? "succesfully installed" : "failed to install")} ExplorerPatcher.";
+			MessageBox.Show(message);
+			foreach (Control c in Controls) c.Enabled = true;
+			LoadConfig();
+		}
     }
 }
