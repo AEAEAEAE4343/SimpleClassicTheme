@@ -47,6 +47,12 @@ namespace SimpleClassicTheme
                 pictureBox1.Image = Properties.Resources.sct_light_164;
             else
                 pictureBox1.Image = Properties.Resources.sct_dark_164;
+
+            if (DateTime.Now.Year == 2022 && DateTime.Now.Day == 1 && DateTime.Now.Month == 1)
+            {
+                linkLabel1.Hide();
+                label2.Text = "Happy New Year!";
+            }
         }
 
 		#region Configuration checks
