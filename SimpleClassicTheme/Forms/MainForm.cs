@@ -102,9 +102,11 @@ namespace SimpleClassicTheme
             // ExplorerPatcher: Windows 11 x64
             buttonExplorerPatcher.Enabled = OSVersion.Major == 10 && OSVersion.CompareString("10.0.22000.0") >= 0 && IntPtr.Size == 8;
             // T-Clock: Any version of Windows but only with Taskbar enhancements
-            buttonTClock.Enabled = Configuration.EnableTaskbar ||
-                               Configuration.TaskbarType == TaskbarType.StartIsBackOpenShell ||
-                               Configuration.TaskbarType == TaskbarType.Windows81Vanilla;
+            buttonTClock.Enabled = Configuration.EnableTaskbar &&
+                               (Configuration.TaskbarType == TaskbarType.StartIsBackOpenShell ||
+                               Configuration.TaskbarType == TaskbarType.Windows81Vanilla);
+
+            button3DBorders.Text = UsefulRegistryKeys.Borders3D ? "Disable 3D Borders" : "Enable 3D Borders";
 
             if (Directory.Exists("C:\\SCT\\T-Clock\\"))
                 buttonTClock.Text = "Open T-Clock";
@@ -201,9 +203,10 @@ namespace SimpleClassicTheme
         // Make borders 3D by changing UPM
         private void Button3DBorder_Click(object sender, EventArgs e)
         {
-            File.WriteAllText("C:\\SCT\\reg_upm_enable3d.reg", Properties.Resources.reg_upm_enable3d);
-            Process.Start("C:\\SCT\\reg_upm_enable3d.reg").WaitForExit();
-            File.Delete("C:\\SCT\\reg_upm_enable3d.reg");
+            UsefulRegistryKeys.Borders3D = !UsefulRegistryKeys.Borders3D;
+            CheckDependenciesAndSetControls();
+            MessageBox.Show(this, "Setting changed. You have to log off in order to apply changes.", "Simple Classic Theme");
+            return;
         }
 
         // Open RibbonDisabler 4.0

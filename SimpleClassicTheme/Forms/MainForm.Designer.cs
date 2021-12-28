@@ -171,7 +171,7 @@ namespace SimpleClassicTheme
             this.button3DBorders.Name = "button3DBorders";
             this.button3DBorders.Size = new System.Drawing.Size(152, 23);
             this.button3DBorders.TabIndex = 2;
-            this.button3DBorders.Text = "Make borders 3D";
+            this.button3DBorders.Text = "Enable 3D borders";
             this.button3DBorders.UseVisualStyleBackColor = true;
             this.button3DBorders.Click += new System.EventHandler(this.Button3DBorder_Click);
             // 
