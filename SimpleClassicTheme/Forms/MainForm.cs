@@ -38,8 +38,8 @@ namespace SimpleClassicTheme
         private void MainForm_Load(object sender, EventArgs e)
         {
             ExtraFunctions.UpdateStartupExecutable(false);
-            File.WriteAllText(Path.Combine(Path.GetTempPath(), "\\addSchemes.bat"), Properties.Resources.reg_classicschemes_add);
-            Process.Start(new ProcessStartInfo() { FileName = Path.Combine(Path.GetTempPath(), "\\addSchemes.bat"), Verb = "runas", UseShellExecute = false, CreateNoWindow = true });
+            File.WriteAllText("C:\\SCT\\addSchemes.bat", Properties.Resources.reg_classicschemes_add);
+            Process.Start(new ProcessStartInfo() { FileName = "C:\\SCT\\addSchemes.bat", Verb = "runas", UseShellExecute = false, CreateNoWindow = true });
 
             CheckDependenciesAndSetControls();
 
