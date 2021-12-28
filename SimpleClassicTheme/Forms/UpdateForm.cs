@@ -170,7 +170,8 @@ namespace SimpleClassicTheme
                     }
                 }
             }
-            Close();
+            if (!HasUpdated)
+                Close();
         }
 
 		private void DownloadNewestVersion()
