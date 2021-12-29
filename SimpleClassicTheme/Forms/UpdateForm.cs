@@ -80,7 +80,7 @@ namespace SimpleClassicTheme
                 }
             }
 
-            if (File.Exists("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe") && Configuration.TaskbarType == TaskbarType.SimpleClassicThemeTaskbar)
+            if (File.Exists($"{Configuration.InstallPath}Taskbar\\SimpleClassicThemeTaskbar.exe") && Configuration.TaskbarType == TaskbarType.SimpleClassicThemeTaskbar)
 			{
                 //Get latest release info
                 f = "";
@@ -106,7 +106,7 @@ namespace SimpleClassicTheme
                 if (tagName != "")
                 {
                     Version newestVersion = Version.Parse(tagName);
-                    FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe");
+                    FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo($"{Configuration.InstallPath}Taskbar\\SimpleClassicThemeTaskbar.exe");
                     Version currentVersion;
                     Version.TryParse(versionInfo.ProductVersion, out currentVersion);
 
@@ -125,7 +125,7 @@ namespace SimpleClassicTheme
                 }
             }
 
-            if (File.Exists("C:\\SCT\\RetroBar\\RetroBar.exe") && Configuration.TaskbarType == TaskbarType.RetroBar)
+            if (File.Exists($"{Configuration.InstallPath}RetroBar\\RetroBar.exe") && Configuration.TaskbarType == TaskbarType.RetroBar)
 			{
                 //Get latest release info
                 f = "";
@@ -152,7 +152,7 @@ namespace SimpleClassicTheme
                 if (tagName != "")
                 {
                     Version newestVersion = Version.Parse(tagName);
-                    FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo("C:\\SCT\\RetroBar\\RetroBar.exe");
+                    FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo($"{Configuration.InstallPath}RetroBar\\RetroBar.exe");
                     Version currentVersion;
                     Version.TryParse(versionInfo.ProductVersion, out currentVersion);
 

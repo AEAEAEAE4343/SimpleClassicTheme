@@ -19,7 +19,7 @@ namespace SimpleClassicTheme
 			try
 			{
 				new GithubDownloader(GithubDownloader.DownloadableGithubProject.RetroBar).ShowDialog();
-				File.Copy("C:\\SCT\\ExplorerPatcher\\dxgi.dll", "C:\\Windows\\dxgi.dll");
+				File.Copy($"{SimpleClassicTheme.Configuration.InstallPath}ExplorerPatcher\\dxgi.dll", "C:\\Windows\\dxgi.dll");
 				Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
 				Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
 				return true;

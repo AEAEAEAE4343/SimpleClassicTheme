@@ -86,16 +86,6 @@ namespace SimpleClassicTheme
                 return;
             }
 
-            Configuration.MigrateOldSCTRegistry();
-            Application.VisualStyleState = Configuration.Enabled ? VisualStyleState.NoneEnabled : VisualStyleState.ClientAndNonClientAreasEnabled;
-
-            //If it's the first time running SCT, start the wizard.
-            if ("NO" == (string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\Simple Classic Theme\Base", "EnableTaskbar", "NO") && 
-                MessageBox.Show("It seems to be the first time you are running SCT.\nWould you like to run the automated setup tool?", "First run", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                SetupWizard.SetupHandler.ShowWizard(SetupWizard.SetupHandler.CreateWizard());
-
-            Directory.CreateDirectory("C:\\SCT\\");
-
             Forms.LoaderForm loader = new Forms.LoaderForm();
             loader.Show();
             LoadGUI = loader.LoadSCT(args);

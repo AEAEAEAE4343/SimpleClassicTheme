@@ -37,9 +37,11 @@ namespace SimpleClassicTheme
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            ClientSize = new Size(panel1.Width, panel1.Height + menuStrip1.Height);
+
             ExtraFunctions.UpdateStartupExecutable(false);
-            File.WriteAllText("C:\\SCT\\addSchemes.bat", Properties.Resources.reg_classicschemes_add);
-            Process.Start(new ProcessStartInfo() { FileName = "C:\\SCT\\addSchemes.bat", Verb = "runas", UseShellExecute = false, CreateNoWindow = true });
+            File.WriteAllText($"{Configuration.InstallPath}addSchemes.bat", Properties.Resources.reg_classicschemes_add);
+            Process.Start(new ProcessStartInfo() { FileName = $"{Configuration.InstallPath}addSchemes.bat", Verb = "runas", UseShellExecute = false, CreateNoWindow = true });
 
             CheckDependenciesAndSetControls();
 
@@ -50,8 +52,8 @@ namespace SimpleClassicTheme
 
             if (DateTime.Now.Year == 2022 && DateTime.Now.Day == 1 && DateTime.Now.Month == 1)
             {
-                linkLabel1.Hide();
-                label2.Text = "Happy New Year!";
+                //linkLabel1.Hide();
+                //label2.Text = "Happy New Year!";
             }
         }
 
@@ -66,13 +68,13 @@ namespace SimpleClassicTheme
             switch (Configuration.TaskbarType)
             {
                 case TaskbarType.SimpleClassicThemeTaskbar:
-                    return File.Exists("C:\\SCT\\Taskbar\\SimpleClassicThemeTaskbar.exe");
+                    return File.Exists($"{Configuration.InstallPath}Taskbar\\SimpleClassicThemeTaskbar.exe");
                 case TaskbarType.StartIsBackOpenShell:
                     bool osInstalled = Directory.Exists("C:\\Program Files\\Open-Shell\\");
                     bool sibInstalled = Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
                     return !((!osInstalled || !sibInstalled) && Taskbar);
                 case TaskbarType.RetroBar:
-                    return File.Exists("C:\\SCT\\RetroBar\\RetroBar.exe");
+                    return File.Exists($"{Configuration.InstallPath}RetroBar\\RetroBar.exe");
                 case TaskbarType.Windows81Vanilla:
                 default:
                     return true;
@@ -108,7 +110,7 @@ namespace SimpleClassicTheme
 
             button3DBorders.Text = UsefulRegistryKeys.Borders3D ? "Disable 3D Borders" : "Enable 3D Borders";
 
-            if (Directory.Exists("C:\\SCT\\T-Clock\\"))
+            if (Directory.Exists($"{Configuration.InstallPath}T-Clock\\"))
                 buttonTClock.Text = "Open T-Clock";
         }
 
@@ -170,15 +172,14 @@ namespace SimpleClassicTheme
         // Open Classic Theme CPL
         private void ButtonConfigure_Click(object sender, EventArgs e)
         {
-            Directory.CreateDirectory("C:\\SCT\\");
-            File.WriteAllBytes("C:\\SCT\\deskn.cpl", Properties.Resources.desktopControlPanelCPL);
-            Process.Start("C:\\SCT\\deskn.cpl");
+            File.WriteAllBytes($"{Configuration.InstallPath}deskn.cpl", Properties.Resources.desktopControlPanelCPL);
+            Process.Start($"{Configuration.InstallPath}deskn.cpl");
         }
 
         // Auto-launch SCT on boot
         private void ButtonRunOnBoot_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("This makes SCT automatically launch when you log onto your PC. You can use the boot scripts in C:\\SCT\\ to configure things to load before Classic Theme gets enabled. Continue?", "Run Simple Clasic Theme on boot", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show($"This makes SCT automatically launch when you log onto your PC. You can use the boot scripts in {Configuration.InstallPath} to configure things to load before Classic Theme gets enabled. Continue?", "Run Simple Clasic Theme on boot", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 ExtraFunctions.UpdateStartupExecutable(true);
             }
@@ -201,7 +202,7 @@ namespace SimpleClassicTheme
         }
 
         // Make borders 3D by changing UPM
-        private void Button3DBorder_Click(object sender, EventArgs e)
+        private void Button3DBorders_Click(object sender, EventArgs e)
         {
             UsefulRegistryKeys.Borders3D = !UsefulRegistryKeys.Borders3D;
             CheckDependenciesAndSetControls();
@@ -212,11 +213,11 @@ namespace SimpleClassicTheme
         // Open RibbonDisabler 4.0
         private void ButtonRibbonDisabler_Click(object sender, EventArgs e)
         {
-            if (!File.Exists("C:\\SCT\\RibbonDisabler.exe"))
+            if (!File.Exists($"{Configuration.InstallPath}RibbonDisabler.exe"))
             {
-                File.WriteAllBytes("C:\\SCT\\RibbonDisabler.exe", Properties.Resources.ribbonDisabler);
+                File.WriteAllBytes($"{Configuration.InstallPath}RibbonDisabler.exe", Properties.Resources.ribbonDisabler);
             }
-            Process.Start("C:\\SCT\\RibbonDisabler.exe");
+            Process.Start($"{Configuration.InstallPath}RibbonDisabler.exe");
         }
 
         // Install T-Clock
@@ -226,17 +227,17 @@ namespace SimpleClassicTheme
             {
                 using (WebClient c = new WebClient())
                 {
-                    c.DownloadFile("https://github.com/White-Tiger/T-Clock/releases/download/v2.4.4%23492-rc/T-Clock.zip", "C:\\SCT\\t-clock.zip");
+                    c.DownloadFile("https://github.com/White-Tiger/T-Clock/releases/download/v2.4.4%23492-rc/T-Clock.zip", $"{Configuration.InstallPath}t-clock.zip");
                 }
-                Directory.CreateDirectory("C:\\SCT\\T-Clock\\");
-                ZipFile.ExtractToDirectory("C:\\SCT\\t-clock.zip", "C:\\SCT\\T-Clock\\");
-                File.Delete("C:\\SCT\\t-clock.zip");
+                Directory.CreateDirectory($"{Configuration.InstallPath}T-Clock\\");
+                ZipFile.ExtractToDirectory($"{Configuration.InstallPath}t-clock.zip", $"{Configuration.InstallPath}T-Clock\\");
+                File.Delete($"{Configuration.InstallPath}t-clock.zip");
                 MessageBox.Show("T-Clock has been installed on your system");
                 buttonTClock.Text = "Open T-Clock";
             }
             else
             {
-                Process.Start("C:\\SCT\\T-Clock\\Clock64.exe");
+                Process.Start($"{Configuration.InstallPath}T-Clock\\Clock64.exe");
             }
         }
 
@@ -261,13 +262,13 @@ namespace SimpleClassicTheme
             }
 
             //Put Windows Aero scheme on
-            File.WriteAllText("C:\\SCT\\reg_windowcolors_restore.reg", Properties.Resources.reg_windowcolors_restore);
-            Process.Start("C:\\Windows\\System32\\reg.exe", "import C:\\SCT\\reg_windowcolors_restore.reg").WaitForExit();
+            File.WriteAllText($"{Configuration.InstallPath}reg_windowcolors_restore.reg", Properties.Resources.reg_windowcolors_restore);
+            Process.Start("C:\\Windows\\System32\\reg.exe", $"import {Configuration.InstallPath}reg_windowcolors_restore.reg").WaitForExit();
             Process.Start("C:\\Windows\\Resources\\Themes\\aero.theme").WaitForExit();
 
             //Restore WindowMetrics
-            File.WriteAllText("C:\\SCT\\reg_windowmetrics_restore.reg", Environment.OSVersion.Version.Major == 10 ? Properties.Resources.reg_windowmetrics_restore : Properties.Resources.reg_windowmetrics_81);
-            Process.Start("C:\\Windows\\System32\\reg.exe", "import C:\\SCT\\reg_windowmetrics_restore.reg").WaitForExit();
+            File.WriteAllText($"{Configuration.InstallPath}reg_windowmetrics_restore.reg", Environment.OSVersion.Version.Major == 10 ? Properties.Resources.reg_windowmetrics_restore : Properties.Resources.reg_windowmetrics_81);
+            Process.Start("C:\\Windows\\System32\\reg.exe", $"import {Configuration.InstallPath}reg_windowmetrics_restore.reg").WaitForExit();
 
             System.Threading.Thread.Sleep(2000);
             User32.ExitWindowsEx(0 | 0x00000004, 0);

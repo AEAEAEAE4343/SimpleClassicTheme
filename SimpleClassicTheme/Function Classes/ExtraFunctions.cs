@@ -69,9 +69,9 @@ namespace SimpleClassicTheme
 
         public static bool ShouldDrawLight(Color back)
 		{
-            double r = (back.R / 100D) <= 0.03928D ? (back.R / 100D) / 12.92D : Math.Pow(((back.R / 100D) + 0.055D) / 1.055D, 2.4D);
-            double g = (back.G / 100D) <= 0.03928D ? (back.G / 100D) / 12.92D : Math.Pow(((back.G / 100D) + 0.055D) / 1.055D, 2.4D);
-            double b = (back.B / 100D) <= 0.03928D ? (back.B / 100D) / 12.92D : Math.Pow(((back.B / 100D) + 0.055D) / 1.055D, 2.4D);
+            double r = (back.R / 255D) <= 0.03928D ? (back.R / 255D) / 12.92D : Math.Pow(((back.R / 255D) + 0.055D) / 1.055D, 2.4D);
+            double g = (back.G / 255D) <= 0.03928D ? (back.G / 255D) / 12.92D : Math.Pow(((back.G / 255D) + 0.055D) / 1.055D, 2.4D);
+            double b = (back.B / 255D) <= 0.03928D ? (back.B / 255D) / 12.92D : Math.Pow(((back.B / 255D) + 0.055D) / 1.055D, 2.4D);
             double l = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 
             return l > Math.Sqrt(1.05 * 0.05) - 0.05;
@@ -112,7 +112,7 @@ namespace SimpleClassicTheme
             return false;
         }
 
-        //Updates the startup executable
+        // Updates the startup executable
         internal static void UpdateStartupExecutable(bool createIfNot)
         {
             if (File.Exists(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe"))
@@ -121,18 +121,18 @@ namespace SimpleClassicTheme
                 File.Delete(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe");
             if (createIfNot)
             {
-                if (Assembly.GetExecutingAssembly().Location != @"C:\SCT\SCT.exe")
+                if (Assembly.GetExecutingAssembly().Location != $"{Configuration.InstallPath}SCT.exe")
                 {
-                    File.Delete(@"C:\SCT\SCT.exe");
-                    File.Copy(Assembly.GetExecutingAssembly().Location, @"C:\SCT\SCT.exe");
+                    File.Delete($"{Configuration.InstallPath}SCT.exe");
+                    File.Copy(Assembly.GetExecutingAssembly().Location, $"{Configuration.InstallPath}SCT.exe");
                 }
-                File.WriteAllText("C:\\SCT\\SCTTask.xml", Properties.Resources.cmd_create_task);
-                File.WriteAllText("C:\\SCT\\TaskSchedule.cmd", Properties.Resources.taskScheduleCommands);
+                File.WriteAllText($"{Configuration.InstallPath}SCTTask.xml", Properties.Resources.cmd_create_task);
+                File.WriteAllText($"{Configuration.InstallPath}TaskSchedule.cmd", Properties.Resources.taskScheduleCommands);
                 Process task = new Process()
                 {
                     StartInfo = new ProcessStartInfo()
                     {
-                        FileName = "C:\\SCT\\TaskSchedule.cmd",
+                        FileName = $"{Configuration.InstallPath}TaskSchedule.cmd",
                         Verb = "runas",
                         UseShellExecute = false,
                         CreateNoWindow = true
@@ -140,26 +140,27 @@ namespace SimpleClassicTheme
                 };
                 task.Start();
                 task.WaitForExit();
-                File.SetAttributes(@"C:\SCT\SCT.exe", File.GetAttributes(Assembly.GetExecutingAssembly().Location) | FileAttributes.Hidden);
+                File.SetAttributes($"{Configuration.InstallPath}SCT.exe", File.GetAttributes(Assembly.GetExecutingAssembly().Location) | FileAttributes.Hidden);
                 IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
                 Directory.CreateDirectory(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\");
                 IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.lnk");
-                shortcut.Description = "SCT";
-                shortcut.TargetPath = @"C:\SCT\SCT.exe";
+                shortcut.Description = "Simple Classic Theme";
+                shortcut.TargetPath = $"{Configuration.InstallPath}SCT.exe";
+                shortcut.WorkingDirectory = Configuration.InstallPath;
                 shortcut.Save();
             }
-            else if (File.Exists("C:\\SCT\\SCT.exe") && Assembly.GetExecutingAssembly().Location != @"C:\SCT\SCT.exe" && CheckMD5(@"C:\SCT\SCT.exe") != CheckMD5(Assembly.GetExecutingAssembly().Location))
+            /*else if (File.Exists($"{Configuration.InstallPath}SCT.exe") && Assembly.GetExecutingAssembly().Location != $"{Configuration.InstallPath}SCT.exe" && CheckMD5(@"C:\SCT\SCT.exe") != CheckMD5(Assembly.GetExecutingAssembly().Location))
 			{
                 try
                 {
-                    File.Delete(@"C:\SCT\SCT.exe");
-                    File.Copy(Assembly.GetExecutingAssembly().Location, @"C:\SCT\SCT.exe");
+                    File.Delete($"{Configuration.InstallPath}SCT.exe");
+                    File.Copy(Assembly.GetExecutingAssembly().Location, $"{Configuration.InstallPath}SCT.exe");
                 }
                 catch (UnauthorizedAccessException)
 				{
 
 				}
-            }
+            }*/
         }
 
         //Renames a subkey
@@ -214,22 +215,23 @@ namespace SimpleClassicTheme
 		{
             if (ossm)
             {
-                File.WriteAllText("C:\\SCT\\ossettings.reg", Properties.Resources.reg_os_sm_settings);
-                Process.Start("C:\\Windows\\System32\\reg.exe", "import C:\\SCT\\ossettings.reg").WaitForExit();
-                File.Delete("C:\\SCT\\ossettings.reg");
+                File.WriteAllText($"{Configuration.InstallPath}ossettings.reg", Properties.Resources.reg_os_sm_settings);
+                Process.Start("C:\\Windows\\System32\\reg.exe", $"import {Configuration.InstallPath}ossettings.reg").WaitForExit();
+                File.Delete($"{Configuration.InstallPath}ossettings.reg");
             }
             if (ostb)
             {
-                Directory.CreateDirectory("C:\\SCT\\OpenShellAssets");
-                Properties.Resources.win7.Save("C:\\SCT\\OpenShellAssets\\win7.png");
-                Properties.Resources.win9x.Save("C:\\SCT\\OpenShellAssets\\win9x.png");
-                Properties.Resources.taskbar.Save("C:\\SCT\\OpenShellAssets\\taskbar.png");
-                Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\OpenShell\\StartMenu\\Settings", "StartButtonPath", "C:\\SCT\\OpenShellAssets\\win9x.png");
-                Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\OpenShell\\StartMenu\\Settings", "TaskbarTexture", "C:\\SCT\\OpenShellAssets\\taskbar.png");
+                Directory.CreateDirectory($"{Configuration.InstallPath}OpenShellAssets");
+                Properties.Resources.win7.Save($"{Configuration.InstallPath}OpenShellAssets\\win7.png");
+                Properties.Resources.win9x.Save($"{Configuration.InstallPath}OpenShellAssets\\win9x.png");
+                Properties.Resources.taskbar.Save($"{Configuration.InstallPath}OpenShellAssets\\taskbar.png");
+                
+                File.WriteAllText($"{Configuration.InstallPath}ossettings.reg", Properties.Resources.reg_os_tb_settings);
+                Process.Start("C:\\Windows\\System32\\reg.exe", $"import {Configuration.InstallPath}ossettings.reg").WaitForExit();
+                File.Delete($"{Configuration.InstallPath}ossettings.reg");
 
-                File.WriteAllText("C:\\SCT\\ossettings.reg", Properties.Resources.reg_os_tb_settings);
-                Process.Start("C:\\Windows\\System32\\reg.exe", "import C:\\SCT\\ossettings.reg").WaitForExit();
-                File.Delete("C:\\SCT\\ossettings.reg");
+                Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\OpenShell\\StartMenu\\Settings", "StartButtonPath", $"{Configuration.InstallPath}OpenShellAssets\\win9x.png");
+                Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\OpenShell\\StartMenu\\Settings", "TaskbarTexture", $"{Configuration.InstallPath}OpenShellAssets\\taskbar.png");
             }
             if (sib)
 			{
@@ -243,11 +245,11 @@ namespace SimpleClassicTheme
                 File.WriteAllBytes(userFolder + "\\AppData\\Local\\StartIsBack\\Styles\\Classic3.msstyles", Properties.Resources.classicStartIsBackTheme);
 
                 string f = Properties.Resources.reg_sib_settings.Replace("C:\\\\Users\\\\{Username}", $"{userFolder.Replace("\\", "\\\\")}");
-                File.WriteAllText("C:\\SCT\\sib.reg", f);
-                Process.Start("C:\\Windows\\System32\\reg.exe", "import C:\\SCT\\sib.reg").WaitForExit();
+                File.WriteAllText($"{Configuration.InstallPath}sib.reg", f);
+                Process.Start("C:\\Windows\\System32\\reg.exe", $"import {Configuration.InstallPath}sib.reg").WaitForExit();
 
                 Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\StartIsBack", "Disabled", 1);
-                File.Delete("C:\\SCT\\sib.reg");
+                File.Delete($"{Configuration.InstallPath}sib.reg");
             }
         }
 
@@ -300,6 +302,42 @@ namespace SimpleClassicTheme
             if (commandLineOutput) Console.WriteLine("Dependencies installed succesfully");
             else MessageBox.Show("Dependencies installed succesfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             return true;
+        }
+
+        public static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
+        {
+            // Get the subdirectories for the specified directory.
+            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+
+            if (!dir.Exists)
+            {
+                throw new DirectoryNotFoundException(
+                    "Source directory does not exist or could not be found: "
+                    + sourceDirName);
+            }
+
+            DirectoryInfo[] dirs = dir.GetDirectories();
+
+            // If the destination directory doesn't exist, create it.       
+            Directory.CreateDirectory(destDirName);
+
+            // Get the files in the directory and copy them to the new location.
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                string tempPath = Path.Combine(destDirName, file.Name);
+                file.CopyTo(tempPath, false);
+            }
+
+            // If copying subdirectories, copy them and their contents to new location.
+            if (copySubDirs)
+            {
+                foreach (DirectoryInfo subdir in dirs)
+                {
+                    string tempPath = Path.Combine(destDirName, subdir.Name);
+                    DirectoryCopy(subdir.FullName, tempPath, copySubDirs);
+                }
+            }
         }
     }
 

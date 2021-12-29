@@ -48,12 +48,10 @@ namespace SimpleClassicTheme.SetupWizard
                 nextPage = NextPage;
                 NextPage = page;
                 page.NextPage = nextPage;
-                NextButtonText = "";
             }
             else
             {
                 NextPage = nextPage;
-                NextButtonText = "&Install";
             }
         }
 

@@ -96,5 +96,5 @@ namespace SimpleClassicTheme.SetupWizard
 		{
             listBox1.ClearSelected();
 		}
-	}
+    }
 }

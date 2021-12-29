@@ -218,7 +218,9 @@
     <Compile Include="SetupWizard\FinishedPage.Designer.cs">
       <DependentUpon>FinishedPage.cs</DependentUpon>
     </Compile>
-    <Compile Include="SetupWizard\InstallationPage.cs" />
+    <Compile Include="SetupWizard\InstallationPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="SetupWizard\InstallationPage.Designer.cs">
       <DependentUpon>InstallationPage.cs</DependentUpon>
     </Compile>
@@ -227,6 +229,12 @@
     </Compile>
     <Compile Include="SetupWizard\InstallOptionsPage.Designer.cs">
       <DependentUpon>InstallOptionsPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupWizard\InstallPathPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SetupWizard\InstallPathPage.Designer.cs">
+      <DependentUpon>InstallPathPage.cs</DependentUpon>
     </Compile>
     <Compile Include="SetupWizard\LicensePage.cs">
       <SubType>UserControl</SubType>
@@ -325,6 +333,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SetupWizard\InstallOptionsPage.resx">
       <DependentUpon>InstallOptionsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupWizard\InstallPathPage.resx">
+      <DependentUpon>InstallPathPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SetupWizard\LicensePage.resx">
       <DependentUpon>LicensePage.cs</DependentUpon>

@@ -208,7 +208,7 @@ SCT.exe --set EnableTaskbar True --set TaskbarType SCTT --install-dependencies -
 title SCT Uninstallation
 echo Removing final SCT files
 timeout 5 &gt; nul
-rmdir /S /Q C:\SCT
+rmdir /S /Q {InstallPath}
 shutdown.exe -r -t 2
 (goto) 2&gt;nul &amp; del "%~f0"</value>
   </data>

@@ -1,4 +1,23 @@
-﻿using Microsoft.Win32;
+﻿/*
+ *  SimpleClassicTheme, a basic utility to bring back classic theme to newer versions of the Windows operating system.
+ *  Copyright (C) 2021 Anis Errais
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,6 +30,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace SimpleClassicTheme.Forms
 {
@@ -38,6 +58,17 @@ namespace SimpleClassicTheme.Forms
 
         public bool LoadSCT(string[] args)
         {
+            Configuration.MigrateOldSCTRegistry();
+            Application.VisualStyleState = Configuration.Enabled ? VisualStyleState.NoneEnabled : VisualStyleState.ClientAndNonClientAreasEnabled;
+
+            //If it's the first time running SCT, start the wizard.
+            if (Configuration.ShowWizard && MessageBox.Show("It seems to be the first time you are running SCT.\nWould you like to run the automated setup tool?", "First run", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                SetupWizard.SetupHandler.ShowWizard(SetupWizard.SetupHandler.CreateWizard());
+            else
+                Configuration.ShowWizard = false;
+
+            Directory.CreateDirectory(Configuration.InstallPath);
+
             // Small delay for pressing Details button
             label2.Text = "Status: ";
             DateTime time = DateTime.Now;
@@ -49,10 +80,10 @@ namespace SimpleClassicTheme.Forms
             Application.DoEvents();
 
             //Write loading scripts
-            if (!File.Exists("C:\\SCT\\EnableThemeScript.bat"))
-                File.WriteAllText("C:\\SCT\\EnableThemeScript.bat", Properties.Resources.EnableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
-            if (!File.Exists("C:\\SCT\\DisableThemeScript.bat"))
-                File.WriteAllText("C:\\SCT\\DisableThemeScript.bat", Properties.Resources.DisableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+            if (!File.Exists($"{Configuration.InstallPath}EnableThemeScript.bat"))
+                File.WriteAllText($"{Configuration.InstallPath}EnableThemeScript.bat", Properties.Resources.EnableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+            if (!File.Exists($"{Configuration.InstallPath}DisableThemeScript.bat"))
+                File.WriteAllText($"{Configuration.InstallPath}DisableThemeScript.bat", Properties.Resources.DisableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
             label2.Text = "Status: Checking for updates";
             Application.DoEvents();
@@ -77,10 +108,6 @@ namespace SimpleClassicTheme.Forms
             File.Delete("C:\\sib.exe");
             File.Delete("C:\\windowmetrics.reg");
             File.Delete("C:\\RibbonDisabler.exe");
-
-            //Clean up any files that might have been left over in the SCT directory
-            File.Delete("C:\\SCT\\upm.reg");
-            File.Delete("C:\\SCT\\restoreMetrics.reg");
 
             Application.DoEvents();
             if (args.Length > 0)
@@ -230,8 +257,8 @@ namespace SimpleClassicTheme.Forms
                         case "--boot":
                             WriteLine("Simple Classic Theme is restoring Classic Theme settings");
                             bool Enabled = Configuration.Enabled;
-                            if (Directory.Exists("C:\\SCT") && Directory.Exists("C:\\SCT\\AHK"))
-                                foreach (string f in Directory.EnumerateFiles("C:\\SCT\\AHK"))
+                            if (Directory.Exists($"{Configuration.InstallPath}AHK"))
+                                foreach (string f in Directory.EnumerateFiles($"{Configuration.InstallPath}AHK"))
                                     Process.Start(f);
                             if (Enabled)
                             {
@@ -240,9 +267,8 @@ namespace SimpleClassicTheme.Forms
                             }
                             break;
                         case "--configure":
-                            Directory.CreateDirectory("C:\\SCT\\");
-                            File.WriteAllBytes("C:\\SCT\\deskn.cpl", Properties.Resources.desktopControlPanelCPL);
-                            Process.Start("C:\\SCT\\deskn.cpl");
+                            File.WriteAllBytes($"{Configuration.InstallPath}deskn.cpl", Properties.Resources.desktopControlPanelCPL);
+                            Process.Start($"{Configuration.InstallPath}deskn.cpl");
                             WriteLine("Launched Clasic Theme configuration dialog");
                             break;
                         case "--disable":

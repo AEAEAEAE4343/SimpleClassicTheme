@@ -127,7 +127,7 @@ namespace SimpleClassicTheme.Properties {
         ///REM ===================================
         ///REM        Programs to run after
         ///REM       disabling classic theme
-        ///REM ================================== [rest of string was truncated]&quot;;.
+        ///REM ============ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DisableThemeScript {
             get {
@@ -158,8 +158,7 @@ namespace SimpleClassicTheme.Properties {
         ///REM ===================================
         ///REM        Programs to run after
         ///REM       enabling classic theme
-        ///REM ===================================
-        /// [rest of string was truncated]&quot;;.
+        ///REM ============== [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EnableThemeScript {
             get {
@@ -386,7 +385,7 @@ namespace SimpleClassicTheme.Properties {
         ///  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
         ///&quot;ScrollWidth&quot;=&quot;-255&quot;
         ///&quot;ScrollHeight&quot;=&quot;-255&quot;
-        ///&quot;PaddedBorderWidth&quot;=&quot;-6 [rest of string was truncated]&quot;;.
+        ///&quot;PaddedBord [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string reg_windowmetrics_restore {
             get {
@@ -399,7 +398,7 @@ namespace SimpleClassicTheme.Properties {
         ///title SCT Uninstallation
         ///echo Removing final SCT files
         ///timeout 5 &gt; nul
-        ///rmdir /S /Q C:\SCT
+        ///rmdir /S /Q {InstallPath}
         ///shutdown.exe -r -t 2
         ///(goto) 2&gt;nul &amp; del &quot;%~f0&quot;.
         /// </summary>

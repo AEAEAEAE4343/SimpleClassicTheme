@@ -42,6 +42,12 @@ namespace SimpleClassicTheme
 			set => SetItem("EnableTaskbar", value.ToString());
 		}
 
+		public static bool ShowWizard
+		{
+			get => bool.Parse((string)GetItem("ShowWizard", true.ToString()));
+			set => SetItem("ShowWizard", value.ToString());
+		}
+
 		public static int TaskbarDelay
 		{
 			get => (int)GetItem("TaskbarDelay", 5000);
@@ -68,8 +74,23 @@ namespace SimpleClassicTheme
 
 		public static Version ConfigVersion
 		{
-			get => Version.Parse((string)GetItem("ConfigVersion", "1.0.0"));
+			get => Version.Parse((string)GetItem("ConfigVersion", Assembly.GetExecutingAssembly().GetName().Version));
 			set => SetItem("ConfigVersion", value.ToString());
+		}
+
+		public static string InstallPath
+        {
+			get
+            {
+				string path = (string)GetItem("InstallPath", "C:\\SCT\\");
+				if (!path.EndsWith("\\"))
+                {
+					path += "\\";
+					InstallPath = path;
+                }
+				return path;
+			}
+			set => SetItem("InstallPath", value);
 		}
 
 		public static RegistryKey GetRegistryKey() => Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").CreateSubKey("Simple Classic Theme").CreateSubKey("Base");
@@ -134,6 +155,12 @@ namespace SimpleClassicTheme
 				}
 
 				ConfigVersion = new Version(1, 5, 0);
+			}
+
+			// 1.5.4 or lower -> 1.6.0
+			if (ConfigVersion.CompareString("1.6.0") < 0)
+			{
+				ShowWizard = (string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\Simple Classic Theme\Base", "EnableTaskbar", "NO") == "NO";
 			}
 
 			ConfigVersion = Assembly.GetExecutingAssembly().GetName().Version;

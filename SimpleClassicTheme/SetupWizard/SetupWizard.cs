@@ -45,8 +45,6 @@ namespace SimpleClassicTheme.SetupWizard
 
     static class SetupHandler
     {
-        
-
         // Wizard stuff
         public static WizardForm Installer;
 
@@ -60,6 +58,8 @@ namespace SimpleClassicTheme.SetupWizard
         public static bool ConfigureOSTB = false;
         public static bool ConfigureSiB = false;
 
+        public static string InstallPath = Configuration.InstallPath;
+
         /// <summary>
         /// Constructs a Craftplacer.ClassicSuite.Wizards.Forms.WizardForm and places the required pages for an SCT installation in it.
         /// </summary>
@@ -71,6 +71,7 @@ namespace SimpleClassicTheme.SetupWizard
                 new WelcomePage(),
                 new LicensePage(),
                 new InstallOptionsPage(),
+                new InstallPathPage(),
                 new InstallationPage(),
                 new FinishedPage()
             };
@@ -134,7 +135,17 @@ namespace SimpleClassicTheme.SetupWizard
                 return;
 			}
 
-            // Install SCT to C:\SCT
+            // Move any existing SCT stuff to Configuration.InstallPath
+            if (Configuration.InstallPath != InstallPath)
+            {
+                progressDisplay.progressText = "Moving SCT files to installation directory...";
+                progressDisplay.progressWorker.ReportProgress(0);
+                ExtraFunctions.DirectoryCopy(Configuration.InstallPath, InstallPath, true);
+                Directory.Delete(Configuration.InstallPath, true);
+                Configuration.InstallPath = InstallPath;
+            }
+
+            // Install SCT to Configuration.InstallPath
             // Create a task for SCT
             progressDisplay.progressText = "Installing Simple Classic Theme...";
             progressDisplay.progressWorker.ReportProgress(0);

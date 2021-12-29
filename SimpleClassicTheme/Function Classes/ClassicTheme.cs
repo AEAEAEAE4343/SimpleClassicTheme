@@ -56,7 +56,7 @@ namespace SimpleClassicTheme
         //Enables Classic Theme and if specified Classic Taskbar.
         public static void MasterEnable(bool taskbar, bool commandLineError = false)
         {
-            Process.Start("C:\\SCT\\EnableThemeScript.bat", "pre").WaitForExit();
+            Process.Start($"{Configuration.InstallPath}EnableThemeScript.bat", "pre").WaitForExit();
             Configuration.Enabled = true;
             if (!taskbar)
             {
@@ -64,12 +64,12 @@ namespace SimpleClassicTheme
                 if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration(true);
                 Enable();
             }
-            else if (!File.Exists("C:\\SCT\\SCT.exe"))
+            else if (!File.Exists($"{Configuration.InstallPath}SCT.exe"))
 			{
                 if (!commandLineError)
                     MessageBox.Show("You need to install Simple Classic Theme in order to enable it with Classic Taskbar enabled. Either disable Classic Taskbar from the options menu, or install SCT by pressing 'Run SCT on boot' in the main menu.", "Unsupported action");
                 else
-                    Console.WriteLine("Enabling SCT with a taskbar requires SCT to be installed to \"C:\\SCT\\SCT.exe\".");
+                    Console.WriteLine($"Enabling SCT with a taskbar requires SCT to be installed to \"{Configuration.InstallPath}SCT.exe\".");
                 Configuration.Enabled = false;
                 return;
             }
@@ -140,7 +140,7 @@ namespace SimpleClassicTheme
                 if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
-                Process.Start("C:\\SCT\\RetroBar\\RetroBar.exe");
+                Process.Start($"{Configuration.InstallPath}RetroBar\\RetroBar.exe");
             }
             else if (Configuration.TaskbarType == TaskbarType.ExplorerPatcher)
 			{
@@ -148,13 +148,13 @@ namespace SimpleClassicTheme
                 Enable();
                 if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration(true);
             }
-            Process.Start("C:\\SCT\\EnableThemeScript.bat", "post").WaitForExit();
+            Process.Start($"{Configuration.InstallPath}EnableThemeScript.bat", "post").WaitForExit();
         }
 
         //Disables Classic Theme and if specified Classic Taskbar.
         public static void MasterDisable(bool taskbar)
         {
-            Process.Start("C:\\SCT\\DisableThemeScript.bat", "pre").WaitForExit();
+            Process.Start($"{Configuration.InstallPath}DisableThemeScript.bat", "pre").WaitForExit();
             Configuration.Enabled = false;
             if (!taskbar)
             {
@@ -194,14 +194,12 @@ namespace SimpleClassicTheme
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
             }
-            Process.Start("C:\\SCT\\DisableThemeScript.bat", "post").WaitForExit();
+            Process.Start($"{Configuration.InstallPath}DisableThemeScript.bat", "post").WaitForExit();
         }
 
         //Full SCT uninstall
         public static void RemoveSCT()
         {
-            Directory.CreateDirectory("C:\\SCT");
-
             //Stop classic theme
             MasterDisable(false);
 
@@ -242,11 +240,11 @@ namespace SimpleClassicTheme
             //Ask user if they want to disable Ribbon now
             if (MessageBox.Show("Would you like to run RibbonDisabler to enable the ribbon before removing SCT?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                if (!File.Exists("C:\\SCT\\RibbonDisabler.exe"))
+                if (!File.Exists($"{Configuration.InstallPath}RibbonDisabler.exe"))
                 {
-                    File.WriteAllBytes("C:\\SCT\\RibbonDisabler.exe", Properties.Resources.ribbonDisabler);
+                    File.WriteAllBytes($"{Configuration.InstallPath}RibbonDisabler.exe", Properties.Resources.ribbonDisabler);
                 }
-                Process.Start("C:\\SCT\\RibbonDisabler.exe").WaitForExit();
+                Process.Start($"{Configuration.InstallPath}RibbonDisabler.exe").WaitForExit();
             }
 
             //Delete SCT, SCTT and T-Clock
@@ -254,17 +252,17 @@ namespace SimpleClassicTheme
             MessageBox.Show("Several registry imports will be done to restore settings.\nPlease click yes on all of them.", "SCT Uninstallation");
 
             //Put Windows Aero scheme on
-            File.WriteAllText("C:\\SCT\\reg_windowcolors_restore.reg", Properties.Resources.reg_windowcolors_restore);
-            Process.Start("C:\\SCT\\reg_windowcolors_restore.reg").WaitForExit();
+            File.WriteAllText($"{Configuration.InstallPath}reg_windowcolors_restore.reg", Properties.Resources.reg_windowcolors_restore);
+            Process.Start($"{Configuration.InstallPath}reg_windowcolors_restore.reg").WaitForExit();
             Process.Start("C:\\Windows\\Resources\\Themes\\aero.theme").WaitForExit();
 
             //Restore WindowMetrics
-            File.WriteAllText("C:\\SCT\\reg_windowmetrics_restore.reg", Environment.OSVersion.Version.Major == 10 ? Properties.Resources.reg_windowmetrics_restore : Properties.Resources.reg_windowmetrics_81);
-            Process.Start("C:\\SCT\\reg_windowmetrics_restore.reg").WaitForExit();
+            File.WriteAllText($"{Configuration.InstallPath}reg_windowmetrics_restore.reg", Environment.OSVersion.Version.Major == 10 ? Properties.Resources.reg_windowmetrics_restore : Properties.Resources.reg_windowmetrics_81);
+            Process.Start($"{Configuration.InstallPath}reg_windowmetrics_restore.reg").WaitForExit();
 
             //Make borders 2D
-            File.WriteAllText("C:\\SCT\\reg_upm_disable3d.reg", Properties.Resources.reg_upm_disable3d);
-            Process.Start("C:\\SCT\\reg_upm_disable3d.reg").WaitForExit();
+            File.WriteAllText($"{Configuration.InstallPath}reg_upm_disable3d.reg", Properties.Resources.reg_upm_disable3d);
+            Process.Start($"{Configuration.InstallPath}reg_upm_disable3d.reg").WaitForExit();
 
             //Remove SCT Task
             Process.Start("C:\\Windows\\System32\\schtasks.exe", "/Delete /TN \"Simple Classic Theme\" /F").WaitForExit();
@@ -280,7 +278,7 @@ namespace SimpleClassicTheme
                 Registry.CurrentUser.CreateSubKey("SOFTWARE").DeleteSubKeyTree("1337ftw");
 
             //File removal
-            File.WriteAllText("C:\\RemoveSCT.bat", Properties.Resources.removalString);
+            File.WriteAllText("C:\\RemoveSCT.bat", Properties.Resources.removalString.Replace("{InstallPath}", $"{Configuration.InstallPath}"));
             Process.Start("C:\\RemoveSCT.bat");
             Environment.Exit(0);
         }
