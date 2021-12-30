@@ -28,7 +28,7 @@ using System.Drawing;
 
 namespace SimpleClassicTheme
 {
-    public partial class MainForm : Form
+    public partial class MainForm : SystemMenuForm
     {
         public MainForm()
         {
@@ -37,7 +37,12 @@ namespace SimpleClassicTheme
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            ClientSize = new Size(panel1.Width, panel1.Height + menuStrip1.Height);
+            SystemMenu menu = new SystemMenu();
+            SystemMenu.CopyToolStripToMenu(menuStrip1, menu);
+            Controls.Remove(menuStrip1);
+            SystemMenu = menu;
+            ClientSize = new Size(panel1.Width, panel1.Height + menu.Height);
+            panel1.Location = new Point(0, 0);
 
             ExtraFunctions.UpdateStartupExecutable(false);
             File.WriteAllText($"{Configuration.InstallPath}addSchemes.bat", Properties.Resources.reg_classicschemes_add);

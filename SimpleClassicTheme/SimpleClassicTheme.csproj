@@ -214,6 +214,10 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ApplicationEntryPoint.cs" />
+    <Compile Include="Function Classes\SystemMenu.cs" />
+    <Compile Include="Function Classes\SystemMenuForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Function Classes\UsefulRegistryKeys.cs" />
     <Compile Include="SetupWizard\FinishedPage.Designer.cs">
       <DependentUpon>FinishedPage.cs</DependentUpon>

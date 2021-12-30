@@ -65,6 +65,7 @@ namespace SimpleClassicTheme
             this.buttonDisable = new System.Windows.Forms.Button();
             this.buttonConfigure = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.buttonExplorerPatcher = new System.Windows.Forms.Button();
             this.buttonAHKScripts = new System.Windows.Forms.Button();
@@ -105,7 +106,7 @@ namespace SimpleClassicTheme
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 2, 2, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(388, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(695, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -121,14 +122,14 @@ namespace SimpleClassicTheme
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -137,13 +138,13 @@ namespace SimpleClassicTheme
             this.temporaryToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buttonTClock});
             this.temporaryToolStripMenuItem.Name = "temporaryToolStripMenuItem";
-            this.temporaryToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
+            this.temporaryToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
             this.temporaryToolStripMenuItem.Text = "Temporary";
             // 
             // buttonTClock
             // 
             this.buttonTClock.Name = "buttonTClock";
-            this.buttonTClock.Size = new System.Drawing.Size(180, 22);
+            this.buttonTClock.Size = new System.Drawing.Size(141, 22);
             this.buttonTClock.Text = "Install T-Clock";
             this.buttonTClock.Click += new System.EventHandler(this.ButtonTClock_Click);
             // 
@@ -154,27 +155,27 @@ namespace SimpleClassicTheme
             this.reportBugsToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(40, 20);
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(41, 20);
             this.helpToolStripMenuItem1.Text = "&Help";
             // 
             // guideToolStripMenuItem
             // 
             this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-            this.guideToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.guideToolStripMenuItem.Text = "&Guide";
             this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
             // 
             // reportBugsToolStripMenuItem
             // 
             this.reportBugsToolStripMenuItem.Name = "reportBugsToolStripMenuItem";
-            this.reportBugsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.reportBugsToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.reportBugsToolStripMenuItem.Text = "Report bugs";
             this.reportBugsToolStripMenuItem.Click += new System.EventHandler(this.reportBugsToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -195,7 +196,7 @@ namespace SimpleClassicTheme
             this.buttonEnable.Margin = new System.Windows.Forms.Padding(11, 0, 0, 5);
             this.buttonEnable.Name = "buttonEnable";
             this.buttonEnable.Size = new System.Drawing.Size(82, 23);
-            this.buttonEnable.TabIndex = 16;
+            this.buttonEnable.TabIndex = 0;
             this.buttonEnable.Text = "Enable";
             this.buttonEnable.UseVisualStyleBackColor = true;
             this.buttonEnable.Click += new System.EventHandler(this.ButtonEnable_Click);
@@ -206,7 +207,7 @@ namespace SimpleClassicTheme
             this.buttonDisable.Margin = new System.Windows.Forms.Padding(0, 0, 5, 5);
             this.buttonDisable.Name = "buttonDisable";
             this.buttonDisable.Size = new System.Drawing.Size(82, 23);
-            this.buttonDisable.TabIndex = 17;
+            this.buttonDisable.TabIndex = 1;
             this.buttonDisable.Text = "Disable";
             this.buttonDisable.UseVisualStyleBackColor = true;
             this.buttonDisable.Click += new System.EventHandler(this.ButtonDisable_Click);
@@ -217,7 +218,7 @@ namespace SimpleClassicTheme
             this.buttonConfigure.Margin = new System.Windows.Forms.Padding(11, 6, 5, 5);
             this.buttonConfigure.Name = "buttonConfigure";
             this.buttonConfigure.Size = new System.Drawing.Size(164, 23);
-            this.buttonConfigure.TabIndex = 5;
+            this.buttonConfigure.TabIndex = 2;
             this.buttonConfigure.Text = "Configure colors";
             this.buttonConfigure.UseVisualStyleBackColor = true;
             this.buttonConfigure.Click += new System.EventHandler(this.ButtonConfigure_Click);
@@ -226,7 +227,7 @@ namespace SimpleClassicTheme
             // 
             this.panel1.AutoSize = true;
             this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.buttonExplorerPatcher);
             this.panel1.Controls.Add(this.buttonAHKScripts);
@@ -247,8 +248,19 @@ namespace SimpleClassicTheme
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(11);
-            this.panel1.Size = new System.Drawing.Size(371, 329);
+            this.panel1.Size = new System.Drawing.Size(371, 361);
             this.panel1.TabIndex = 18;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(8, 324);
+            this.label1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(347, 26);
+            this.label1.TabIndex = 30;
+            this.label1.Text = "This is a beta release of SCT. Unexpected issues are more likely to occur with th" +
+    "is version, and support is limited.";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label5
             // 
@@ -276,7 +288,7 @@ namespace SimpleClassicTheme
             this.buttonAHKScripts.Margin = new System.Windows.Forms.Padding(11, 6, 5, 5);
             this.buttonAHKScripts.Name = "buttonAHKScripts";
             this.buttonAHKScripts.Size = new System.Drawing.Size(164, 23);
-            this.buttonAHKScripts.TabIndex = 27;
+            this.buttonAHKScripts.TabIndex = 6;
             this.buttonAHKScripts.Text = "Auto-load AHK scripts";
             this.buttonAHKScripts.UseVisualStyleBackColor = true;
             this.buttonAHKScripts.Click += new System.EventHandler(this.ButtonAHKScripts_Click);
@@ -294,23 +306,23 @@ namespace SimpleClassicTheme
             // 
             // buttonUtilities
             // 
-            this.buttonUtilities.Location = new System.Drawing.Point(191, 256);
+            this.buttonUtilities.Location = new System.Drawing.Point(191, 290);
             this.buttonUtilities.Margin = new System.Windows.Forms.Padding(11, 6, 5, 5);
             this.buttonUtilities.Name = "buttonUtilities";
             this.buttonUtilities.Size = new System.Drawing.Size(164, 23);
-            this.buttonUtilities.TabIndex = 28;
+            this.buttonUtilities.TabIndex = 12;
             this.buttonUtilities.Text = "Install Classic utilities";
             this.buttonUtilities.UseVisualStyleBackColor = true;
             this.buttonUtilities.Click += new System.EventHandler(this.ButtonUtilities_Click);
             // 
             // buttonRibbonDisabler
             // 
-            this.buttonRibbonDisabler.Location = new System.Drawing.Point(191, 290);
+            this.buttonRibbonDisabler.Location = new System.Drawing.Point(191, 256);
             this.buttonRibbonDisabler.Margin = new System.Windows.Forms.Padding(11, 6, 5, 5);
             this.buttonRibbonDisabler.Name = "buttonRibbonDisabler";
             this.buttonRibbonDisabler.Size = new System.Drawing.Size(164, 23);
-            this.buttonRibbonDisabler.TabIndex = 25;
-            this.buttonRibbonDisabler.Text = "Run RibbonDisabler 4.0";
+            this.buttonRibbonDisabler.TabIndex = 11;
+            this.buttonRibbonDisabler.Text = "Run RibbonDisabler";
             this.buttonRibbonDisabler.UseVisualStyleBackColor = true;
             this.buttonRibbonDisabler.Click += new System.EventHandler(this.ButtonRibbonDisabler_Click);
             // 
@@ -320,8 +332,8 @@ namespace SimpleClassicTheme
             this.buttonRunOnBoot.Margin = new System.Windows.Forms.Padding(6, 6, 5, 5);
             this.buttonRunOnBoot.Name = "buttonRunOnBoot";
             this.buttonRunOnBoot.Size = new System.Drawing.Size(164, 23);
-            this.buttonRunOnBoot.TabIndex = 24;
-            this.buttonRunOnBoot.Text = "Run SCT on boot";
+            this.buttonRunOnBoot.TabIndex = 5;
+            this.buttonRunOnBoot.Text = "Install SCT";
             this.buttonRunOnBoot.UseVisualStyleBackColor = true;
             // 
             // buttonRestoreWindowSettings
@@ -330,7 +342,7 @@ namespace SimpleClassicTheme
             this.buttonRestoreWindowSettings.Margin = new System.Windows.Forms.Padding(6, 6, 5, 5);
             this.buttonRestoreWindowSettings.Name = "buttonRestoreWindowSettings";
             this.buttonRestoreWindowSettings.Size = new System.Drawing.Size(164, 23);
-            this.buttonRestoreWindowSettings.TabIndex = 22;
+            this.buttonRestoreWindowSettings.TabIndex = 7;
             this.buttonRestoreWindowSettings.Text = "Restore window settings";
             this.buttonRestoreWindowSettings.UseVisualStyleBackColor = true;
             this.buttonRestoreWindowSettings.Click += new System.EventHandler(this.ButtonRestoreWindowSettings_Click);
@@ -341,7 +353,7 @@ namespace SimpleClassicTheme
             this.buttonUninstall.Margin = new System.Windows.Forms.Padding(6, 6, 5, 5);
             this.buttonUninstall.Name = "buttonUninstall";
             this.buttonUninstall.Size = new System.Drawing.Size(164, 23);
-            this.buttonUninstall.TabIndex = 23;
+            this.buttonUninstall.TabIndex = 8;
             this.buttonUninstall.Text = "Uninstall (restores all UI)";
             this.buttonUninstall.UseVisualStyleBackColor = true;
             this.buttonUninstall.Click += new System.EventHandler(this.ButtonUninstall_Click);
@@ -362,7 +374,7 @@ namespace SimpleClassicTheme
             this.button3DBorders.Margin = new System.Windows.Forms.Padding(11, 6, 5, 5);
             this.button3DBorders.Name = "button3DBorders";
             this.button3DBorders.Size = new System.Drawing.Size(164, 23);
-            this.button3DBorders.TabIndex = 20;
+            this.button3DBorders.TabIndex = 3;
             this.button3DBorders.Text = "Enable 3D borders";
             this.button3DBorders.UseVisualStyleBackColor = true;
             this.button3DBorders.Click += new System.EventHandler(this.Button3DBorders_Click);
@@ -373,7 +385,7 @@ namespace SimpleClassicTheme
             this.buttonInstallRequirements.Margin = new System.Windows.Forms.Padding(11, 6, 5, 5);
             this.buttonInstallRequirements.Name = "buttonInstallRequirements";
             this.buttonInstallRequirements.Size = new System.Drawing.Size(164, 23);
-            this.buttonInstallRequirements.TabIndex = 19;
+            this.buttonInstallRequirements.TabIndex = 4;
             this.buttonInstallRequirements.Text = "Install requirements";
             this.buttonInstallRequirements.UseVisualStyleBackColor = true;
             this.buttonInstallRequirements.Click += new System.EventHandler(this.ButtonInstallRequirements_Click);
@@ -391,8 +403,8 @@ namespace SimpleClassicTheme
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(388, 365);
+            this.BackColor = System.Drawing.SystemColors.Window;
+            this.ClientSize = new System.Drawing.Size(695, 553);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -445,6 +457,7 @@ namespace SimpleClassicTheme
         private System.Windows.Forms.Button buttonRibbonDisabler;
         private System.Windows.Forms.ToolStripMenuItem temporaryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem buttonTClock;
+        private System.Windows.Forms.Label label1;
     }
 }
 
