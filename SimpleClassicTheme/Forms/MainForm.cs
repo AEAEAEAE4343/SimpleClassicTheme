@@ -25,6 +25,7 @@ using System.Net;
 using System.IO.Compression;
 using SimpleClassicTheme.Forms;
 using System.Drawing;
+using System.Reflection;
 
 namespace SimpleClassicTheme
 {
@@ -47,6 +48,9 @@ namespace SimpleClassicTheme
             ExtraFunctions.UpdateStartupExecutable(false);
             File.WriteAllText($"{Configuration.InstallPath}addSchemes.bat", Properties.Resources.reg_classicschemes_add);
             Process.Start(new ProcessStartInfo() { FileName = $"{Configuration.InstallPath}addSchemes.bat", Verb = "runas", UseShellExecute = false, CreateNoWindow = true });
+
+            Version sctVersion = Assembly.GetExecutingAssembly().GetName().Version;
+            label2.Text = label2.Text.Replace("%v", sctVersion.ToString(3)).Replace("%r", sctVersion.Revision.ToString());
 
             CheckDependenciesAndSetControls();
 

@@ -65,6 +65,7 @@ namespace SimpleClassicTheme
             this.buttonDisable = new System.Windows.Forms.Button();
             this.buttonConfigure = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.buttonExplorerPatcher = new System.Windows.Forms.Button();
@@ -106,7 +107,7 @@ namespace SimpleClassicTheme
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 2, 2, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(695, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(424, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -122,14 +123,14 @@ namespace SimpleClassicTheme
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -138,7 +139,7 @@ namespace SimpleClassicTheme
             this.temporaryToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buttonTClock});
             this.temporaryToolStripMenuItem.Name = "temporaryToolStripMenuItem";
-            this.temporaryToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.temporaryToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
             this.temporaryToolStripMenuItem.Text = "Temporary";
             // 
             // buttonTClock
@@ -155,27 +156,27 @@ namespace SimpleClassicTheme
             this.reportBugsToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(41, 20);
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(40, 20);
             this.helpToolStripMenuItem1.Text = "&Help";
             // 
             // guideToolStripMenuItem
             // 
             this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-            this.guideToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.guideToolStripMenuItem.Text = "&Guide";
             this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
             // 
             // reportBugsToolStripMenuItem
             // 
             this.reportBugsToolStripMenuItem.Name = "reportBugsToolStripMenuItem";
-            this.reportBugsToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.reportBugsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.reportBugsToolStripMenuItem.Text = "Report bugs";
             this.reportBugsToolStripMenuItem.Click += new System.EventHandler(this.reportBugsToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -227,6 +228,7 @@ namespace SimpleClassicTheme
             // 
             this.panel1.AutoSize = true;
             this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.buttonExplorerPatcher);
@@ -248,15 +250,28 @@ namespace SimpleClassicTheme
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(11);
-            this.panel1.Size = new System.Drawing.Size(369, 361);
+            this.panel1.Size = new System.Drawing.Size(369, 382);
             this.panel1.TabIndex = 18;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 324);
+            this.label2.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(118, 13);
+            this.label2.TabIndex = 31;
+            this.label2.Text = "Version %v (revision %r)";
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(8, 324);
+            this.label1.BackColor = System.Drawing.SystemColors.Info;
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label1.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.label1.Location = new System.Drawing.Point(11, 343);
             this.label1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(347, 26);
+            this.label1.Size = new System.Drawing.Size(344, 28);
             this.label1.TabIndex = 30;
             this.label1.Text = "This is a beta release of SCT. Unexpected issues are more likely to occur with th" +
     "is version, and support is limited.";
@@ -403,8 +418,8 @@ namespace SimpleClassicTheme
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(695, 553);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(424, 444);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -458,6 +473,7 @@ namespace SimpleClassicTheme
         private System.Windows.Forms.ToolStripMenuItem temporaryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem buttonTClock;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 
