@@ -204,7 +204,7 @@ namespace SimpleClassicTheme
             // buttonDisable
             // 
             this.buttonDisable.Location = new System.Drawing.Point(273, 33);
-            this.buttonDisable.Margin = new System.Windows.Forms.Padding(0, 0, 5, 5);
+            this.buttonDisable.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
             this.buttonDisable.Name = "buttonDisable";
             this.buttonDisable.Size = new System.Drawing.Size(82, 23);
             this.buttonDisable.TabIndex = 1;
@@ -215,7 +215,7 @@ namespace SimpleClassicTheme
             // buttonConfigure
             // 
             this.buttonConfigure.Location = new System.Drawing.Point(191, 67);
-            this.buttonConfigure.Margin = new System.Windows.Forms.Padding(11, 6, 5, 5);
+            this.buttonConfigure.Margin = new System.Windows.Forms.Padding(11, 6, 0, 5);
             this.buttonConfigure.Name = "buttonConfigure";
             this.buttonConfigure.Size = new System.Drawing.Size(164, 23);
             this.buttonConfigure.TabIndex = 2;
@@ -248,7 +248,7 @@ namespace SimpleClassicTheme
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(11);
-            this.panel1.Size = new System.Drawing.Size(371, 361);
+            this.panel1.Size = new System.Drawing.Size(369, 361);
             this.panel1.TabIndex = 18;
             // 
             // label1
@@ -274,7 +274,7 @@ namespace SimpleClassicTheme
             // buttonExplorerPatcher
             // 
             this.buttonExplorerPatcher.Location = new System.Drawing.Point(191, 222);
-            this.buttonExplorerPatcher.Margin = new System.Windows.Forms.Padding(11, 6, 5, 5);
+            this.buttonExplorerPatcher.Margin = new System.Windows.Forms.Padding(11, 6, 0, 5);
             this.buttonExplorerPatcher.Name = "buttonExplorerPatcher";
             this.buttonExplorerPatcher.Size = new System.Drawing.Size(164, 23);
             this.buttonExplorerPatcher.TabIndex = 10;
@@ -296,7 +296,7 @@ namespace SimpleClassicTheme
             // buttonECMT
             // 
             this.buttonECMT.Location = new System.Drawing.Point(191, 188);
-            this.buttonECMT.Margin = new System.Windows.Forms.Padding(11, 6, 5, 5);
+            this.buttonECMT.Margin = new System.Windows.Forms.Padding(11, 6, 0, 5);
             this.buttonECMT.Name = "buttonECMT";
             this.buttonECMT.Size = new System.Drawing.Size(164, 23);
             this.buttonECMT.TabIndex = 9;
@@ -307,7 +307,7 @@ namespace SimpleClassicTheme
             // buttonUtilities
             // 
             this.buttonUtilities.Location = new System.Drawing.Point(191, 290);
-            this.buttonUtilities.Margin = new System.Windows.Forms.Padding(11, 6, 5, 5);
+            this.buttonUtilities.Margin = new System.Windows.Forms.Padding(11, 6, 0, 5);
             this.buttonUtilities.Name = "buttonUtilities";
             this.buttonUtilities.Size = new System.Drawing.Size(164, 23);
             this.buttonUtilities.TabIndex = 12;
@@ -318,7 +318,7 @@ namespace SimpleClassicTheme
             // buttonRibbonDisabler
             // 
             this.buttonRibbonDisabler.Location = new System.Drawing.Point(191, 256);
-            this.buttonRibbonDisabler.Margin = new System.Windows.Forms.Padding(11, 6, 5, 5);
+            this.buttonRibbonDisabler.Margin = new System.Windows.Forms.Padding(11, 6, 0, 5);
             this.buttonRibbonDisabler.Name = "buttonRibbonDisabler";
             this.buttonRibbonDisabler.Size = new System.Drawing.Size(164, 23);
             this.buttonRibbonDisabler.TabIndex = 11;
@@ -371,7 +371,7 @@ namespace SimpleClassicTheme
             // button3DBorders
             // 
             this.button3DBorders.Location = new System.Drawing.Point(191, 101);
-            this.button3DBorders.Margin = new System.Windows.Forms.Padding(11, 6, 5, 5);
+            this.button3DBorders.Margin = new System.Windows.Forms.Padding(11, 6, 0, 5);
             this.button3DBorders.Name = "button3DBorders";
             this.button3DBorders.Size = new System.Drawing.Size(164, 23);
             this.button3DBorders.TabIndex = 3;
@@ -382,7 +382,7 @@ namespace SimpleClassicTheme
             // buttonInstallRequirements
             // 
             this.buttonInstallRequirements.Location = new System.Drawing.Point(191, 135);
-            this.buttonInstallRequirements.Margin = new System.Windows.Forms.Padding(11, 6, 5, 5);
+            this.buttonInstallRequirements.Margin = new System.Windows.Forms.Padding(11, 6, 0, 5);
             this.buttonInstallRequirements.Name = "buttonInstallRequirements";
             this.buttonInstallRequirements.Size = new System.Drawing.Size(164, 23);
             this.buttonInstallRequirements.TabIndex = 4;
