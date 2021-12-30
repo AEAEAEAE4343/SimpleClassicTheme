@@ -93,7 +93,13 @@ namespace SimpleClassicTheme
 
             if (CheckDependencies(Configuration.EnableTaskbar))
             {
-                buttonInstallRequirements.Enabled = false;
+                if (Configuration.EnableTaskbar && Configuration.TaskbarType == TaskbarType.StartIsBackOpenShell)
+                    buttonInstallRequirements.Text = "Reconfigure OS+SiB";
+                else
+                {
+                    buttonInstallRequirements.Text = "Install requirements";
+                    buttonInstallRequirements.Enabled = false;
+                }
             }
             else
             {
