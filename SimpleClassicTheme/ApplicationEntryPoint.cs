@@ -1,6 +1,7 @@
 /*
- *  SimpleClassicTheme, a basic utility to bring back classic theme to newer versions of the Windows operating system.
- *  Copyright (C) 2021 Anis Errais
+ *  Simple Classic Theme, a basic utility to bring back classic theme to 
+ *  newer versions of the Windows operating system.
+ *  Copyright (C) 2022 Anis Errais
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,7 +14,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *  along with this program. If not, see <https://www.gnu.org/licenses/>.
  *
  */
 
@@ -34,11 +35,6 @@ namespace SimpleClassicTheme
     {
 		public static bool LoadGUI { get; set; }
 
-		static void ShowHelp()
-        {
-            Console.WriteLine(Properties.Resources.helpMessage);
-        }
-
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -52,37 +48,24 @@ namespace SimpleClassicTheme
             //Application.Run(new Forms.ThemeConfigurationForm()); return;
 
             bool windows = Environment.OSVersion.Platform == PlatformID.Win32NT;
-            bool windows10 = Environment.OSVersion.Version.Major == 10 /*&& Int32.Parse(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId", "").ToString()) >= 1803*/;
+            bool windows10or11 = Environment.OSVersion.Version.Major == 10 /*&& Int32.Parse(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId", "").ToString()) >= 1803*/;
             bool windows8 = Environment.OSVersion.Version.Major == 6 && (Environment.OSVersion.Version.Minor == 2 || Environment.OSVersion.Version.Minor == 3);
 
-            //Check if the OS is compatible
-            if (!(windows && (windows10 || windows8)))
+            // Check if SCT is running on a compatible operating system.
+            if (!(windows && (windows10or11 || windows8)))
             {
-                Kernel32.FreeConsole();
-                Kernel32.AllocConsole();
-                Console.WriteLine("Incompatible operating system");
-                Kernel32.FreeConsole();
+                MessageBox.Show("SCT is incompatible with this version of Windows.", "Simple Classic Theme");
 #if DEBUG
 #else
                 return;
 #endif
             }
 
-            //If for some odd reason the application hasn't started with administrative privileges, restart with them
-            WindowsPrincipal pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
-            bool hasAdministrativeRight = pricipal.IsInRole(WindowsBuiltInRole.Administrator);
-            if (!hasAdministrativeRight)
+            // Check if SCT is running on a compatible version of .NET (4.8 or higher).
+            int netReleaseVersion = (int)Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\").GetValue("Release"); ;
+            if (netReleaseVersion < 528040)
             {
-                if (MessageBox.Show("This application requires admin privilages.\nClick Ok to elevate or Cancel to exit.", "Simple Classic Theme - Elevation required", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-                {
-                    ProcessStartInfo processInfo = new ProcessStartInfo
-                    {
-                        Verb = "runas",
-                        FileName = Application.ExecutablePath,
-                        Arguments = string.Join(" ", args)
-                    };
-                    Process.Start(processInfo);
-                }
+                MessageBox.Show("SCT requires .NET Framework version 4.8 or higher.", "Simple Classic Theme");
                 return;
             }
 
