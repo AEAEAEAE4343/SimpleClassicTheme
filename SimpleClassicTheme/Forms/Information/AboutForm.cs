@@ -1,6 +1,7 @@
 /*
- *  SimpleClassicTheme, a basic utility to bring back classic theme to newer versions of the Windows operating system.
- *  Copyright (C) 2021 Anis Errais
+ *  Simple Classic Theme, a basic utility to bring back classic theme to 
+ *  newer versions of the Windows operating system.
+ *  Copyright (C) 2022 Anis Errais
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,7 +14,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *  along with this program. If not, see <https://www.gnu.org/licenses/>.
  *
  */
 
@@ -49,8 +50,8 @@ namespace SimpleClassicTheme
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             label2.Text = label2.Text.Replace("%username%", userName);
 
-            string sctVer = Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
-            label2.Text = label2.Text.Replace("%ver%", sctVer);
+            Version sctVersion = Assembly.GetExecutingAssembly().GetName().Version;
+            label2.Text = label2.Text.Replace("%v", sctVersion.ToString(3)).Replace("%r", sctVersion.Revision.ToString());
 
             Color A = SystemColors.ActiveCaption;
             Color B = SystemColors.GradientActiveCaption;

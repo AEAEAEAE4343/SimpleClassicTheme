@@ -119,8 +119,8 @@
   </resheader>
   <data name="label2.Text" xml:space="preserve">
     <value>Simple Classic Theme
-Version %ver%
-© 2021 Leet
+Version %v (revision %r)
+© 2022 Leet
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -134,7 +134,7 @@ GNU General Public License for more details.
 
 Microsoft Windows and its original classic theme
 Build %build%
-© 2021 Microsoft Corporation. All rights reserved.
+© 2022 Microsoft Corporation. All rights reserved.
 
 The %osver% operating system and its user interface are protected by trademark or other pending or existing intellectual property rights in the United States and other countries.
 
