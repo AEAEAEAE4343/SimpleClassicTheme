@@ -1,4 +1,24 @@
-﻿using System;
+﻿/*
+ *  Simple Classic Theme, a basic utility to bring back classic theme to 
+ *  newer versions of the Windows operating system.
+ *  Copyright (C) 2022 Anis Errais
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program. If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -32,8 +52,8 @@ namespace SimpleClassicTheme.Forms
 				TaskbarTypeDisplay.Add(TaskbarType.Windows81Vanilla, "Vanilla taskbar");
 			if (Environment.OSVersion.Version.CompareString("10.0") == 0)
 				TaskbarTypeDisplay.Add(TaskbarType.StartIsBackOpenShell, "StartIsBack with Open-Shell");
-			//if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.CompareString("10.0.22000") >= 0 && IntPtr.Size == 8)
-			//	TaskbarTypeDisplay.Add(TaskbarType.ExplorerPatcher, "ExplorerPatcher");
+			if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.CompareString("10.0.22000") >= 0 && IntPtr.Size == 8)
+				TaskbarTypeDisplay.Add(TaskbarType.ExplorerPatcher, "ExplorerPatcher");
 
 			TaskbarTypeDescription.Add(TaskbarType.StartIsBackOpenShell, "StartIsBack is a utility that brings back old quirks of the taskbar into newer versions of Windows. When combined with Open-Shell (a tool to bring back classic UI design to windows) you get a very convincing Classic Taskbar.");
 			TaskbarTypeDescription.Add(TaskbarType.Windows81Vanilla, "Takes the default Windows 8.1 taskbar and forces Classic Theme on it. This fails, so SCT also patches it. The end result is a pretty much perfect Windows 7 Classic Taskbar.");
