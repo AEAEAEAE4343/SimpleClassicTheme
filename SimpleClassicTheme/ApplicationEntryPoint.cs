@@ -62,7 +62,7 @@ namespace SimpleClassicTheme
             }
 
             // Check if SCT is running on a compatible version of .NET (4.8 or higher).
-            int netReleaseVersion = (int)Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\").GetValue("Release"); ;
+            int netReleaseVersion = (int)Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\").GetValue("Release");
             if (netReleaseVersion < 528040)
             {
                 MessageBox.Show("SCT requires .NET Framework version 4.8 or higher.", "Simple Classic Theme");
