@@ -1,6 +1,7 @@
 /*
- *  SimpleClassicTheme, a basic utility to bring back classic theme to newer versions of the Windows operating system.
- *  Copyright (C) 2021 Anis Errais
+ *  Simple Classic Theme, a basic utility to bring back classic theme to 
+ *  newer versions of the Windows operating system.
+ *  Copyright (C) 2022 Anis Errais
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,7 +14,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *  along with this program. If not, see <https://www.gnu.org/licenses/>.
  *
  */
 
@@ -42,16 +43,22 @@ namespace SimpleClassicTheme
 			set => SetItem("EnableTaskbar", value.ToString());
 		}
 
+		public static int TaskbarDelay
+		{
+			get => (int)GetItem("TaskbarDelay", 5000);
+			set => SetItem("TaskbarDelay", value, RegistryValueKind.DWord);
+		}
+
 		public static bool ShowWizard
 		{
 			get => bool.Parse((string)GetItem("ShowWizard", true.ToString()));
 			set => SetItem("ShowWizard", value.ToString());
 		}
 
-		public static int TaskbarDelay
+		public static bool BetaUpdates
 		{
-			get => (int)GetItem("TaskbarDelay", 5000);
-			set => SetItem("TaskbarDelay", value, RegistryValueKind.DWord);
+			get => bool.Parse((string)GetItem("BetaUpdates", false.ToString()));
+			set => SetItem("BetaUpdates", value.ToString());
 		}
 
 		/*public static string TaskbarType

@@ -1,6 +1,7 @@
 /*
- *  SimpleClassicTheme, a basic utility to bring back classic theme to newer versions of the Windows operating system.
- *  Copyright (C) 2021 Anis Errais
+ *  Simple Classic Theme, a basic utility to bring back classic theme to 
+ *  newer versions of the Windows operating system.
+ *  Copyright (C) 2022 Anis Errais
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,7 +14,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *  along with this program. If not, see <https://www.gnu.org/licenses/>.
  *
  */
 
@@ -45,7 +46,10 @@ namespace SimpleClassicTheme
             {
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
                 c.Headers.Set(HttpRequestHeader.UserAgent, "SimpleClasicTheme");
-                f = c.DownloadString("https://api.github.com/repos/WinClassic/SimpleClassicTheme/releases/latest");
+                if (Configuration.BetaUpdates)
+                    f = c.DownloadString("https://api.github.com/repos/WinClassic/SimpleClassicTheme/releases");
+                else
+                    f = c.DownloadString("https://api.github.com/repos/WinClassic/SimpleClassicTheme/releases/latest");
             }
 
             //Resond to messages

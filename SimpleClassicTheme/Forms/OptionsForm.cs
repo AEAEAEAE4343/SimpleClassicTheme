@@ -1,6 +1,7 @@
 /*
- *  SimpleClassicTheme, a basic utility to bring back classic theme to newer versions of the Windows operating system.
- *  Copyright (C) 2021 Anis Errais
+ *  Simple Classic Theme, a basic utility to bring back classic theme to 
+ *  newer versions of the Windows operating system.
+ *  Copyright (C) 2022 Anis Errais
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,7 +14,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *  along with this program. If not, see <https://www.gnu.org/licenses/>.
  *
  */
 
@@ -40,6 +41,7 @@ namespace SimpleClassicTheme.Forms
 			comboBoxUpdates.SelectedItem = Configuration.UpdateMode;
 			numericUpDownTaskbarDelay.Value = Configuration.TaskbarDelay;
 			checkBox1.Checked = Configuration.EnableTaskbar;
+			checkBox2.Checked = Configuration.BetaUpdates;
 			taskbarTypeSelector1.Enabled = numericUpDownTaskbarDelay.Enabled = label2.Enabled = checkBox1.Checked;
 		}
 
@@ -60,6 +62,7 @@ namespace SimpleClassicTheme.Forms
 			Configuration.TaskbarType = taskbarTypeSelector1.SelectedItem;
 			Configuration.TaskbarDelay = (int)numericUpDownTaskbarDelay.Value;
 			Configuration.EnableTaskbar = checkBox1.Checked;
+			Configuration.BetaUpdates = checkBox2.Checked;
 			buttonApply.Enabled = false;
 		}
 
