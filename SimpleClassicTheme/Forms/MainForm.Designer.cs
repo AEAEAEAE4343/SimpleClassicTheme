@@ -1,6 +1,7 @@
 /*
- *  SimpleClassicTheme, a basic utility to bring back classic theme to newer versions of the Windows operating system.
- *  Copyright (C) 2021 Anis Errais
+ *  Simple Classic Theme, a basic utility to bring back classic theme to 
+ *  newer versions of the Windows operating system.
+ *  Copyright (C) 2022 Anis Errais
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,7 +14,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *  along with this program. If not, see <https://www.gnu.org/licenses/>.
  *
  */
 
@@ -162,21 +163,21 @@ namespace SimpleClassicTheme
             // guideToolStripMenuItem
             // 
             this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-            this.guideToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.guideToolStripMenuItem.Text = "&Guide";
             this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
             // 
             // reportBugsToolStripMenuItem
             // 
             this.reportBugsToolStripMenuItem.Name = "reportBugsToolStripMenuItem";
-            this.reportBugsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.reportBugsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.reportBugsToolStripMenuItem.Text = "Report bugs";
             this.reportBugsToolStripMenuItem.Click += new System.EventHandler(this.reportBugsToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -274,7 +275,7 @@ namespace SimpleClassicTheme
             this.label1.Size = new System.Drawing.Size(344, 28);
             this.label1.TabIndex = 30;
             this.label1.Text = "This is a beta release of SCT. Unexpected issues are more likely to occur with th" +
-    "is version, and support is limited.";
+    "is version and support is limited.";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label5
