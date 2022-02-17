@@ -19,6 +19,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.IO.Compression;
+using System.Net;
 using System.Windows.Forms;
 
 namespace SimpleClassicTheme.Forms
@@ -47,6 +51,14 @@ namespace SimpleClassicTheme.Forms
 
 			foreach ((string, InstallableUtility) utility in utilities)
 				listBox1.Items.Add(utility.Item1);
+
+			buttonOpenTClock.Enabled = Directory.Exists($"{Configuration.InstallPath}T-Clock\\");
+			buttonInstallTClock.Text = buttonOpenTClock.Enabled ? "Uninstall" : "Install";
+
+			// T-Clock: Any version of Windows but only with Taskbar enhancements
+			groupBox1.Enabled = Configuration.EnableTaskbar &&
+							   (Configuration.TaskbarType == TaskbarType.StartIsBackOpenShell ||
+							   Configuration.TaskbarType == TaskbarType.Windows81Vanilla);
 		}
 
 		private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -97,5 +109,30 @@ namespace SimpleClassicTheme.Forms
 		{
 			Close();
 		}
-	}
+
+        private void buttonInstallTClock_Click(object sender, EventArgs e)
+        {
+			if (!buttonOpenTClock.Enabled)
+			{
+				using (WebClient c = new WebClient())
+				{
+					c.DownloadFile("https://github.com/White-Tiger/T-Clock/releases/download/v2.4.4%23492-rc/T-Clock.zip", $"{Configuration.InstallPath}t-clock.zip");
+				}
+				Directory.CreateDirectory($"{Configuration.InstallPath}T-Clock\\");
+				ZipFile.ExtractToDirectory($"{Configuration.InstallPath}t-clock.zip", $"{Configuration.InstallPath}T-Clock\\");
+				File.Delete($"{Configuration.InstallPath}t-clock.zip");
+			}
+			else
+            {
+				Directory.Delete($"{Configuration.InstallPath}T-Clock\\", true);
+            }
+			ListUtilities();
+			BringToFront();
+		}
+
+        private void buttonOpenTClock_Click(object sender, EventArgs e)
+        {
+			Process.Start($"{Configuration.InstallPath}T-Clock\\Clock64.exe");
+		}
+    }
 }

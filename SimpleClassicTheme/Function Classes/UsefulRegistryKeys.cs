@@ -27,14 +27,14 @@ namespace SimpleClassicTheme
         { 
             get
             {
-                RegistryKey hKey = Registry.CurrentUser.OpenSubKey("Control Panel\\Desktop");
+                RegistryKey hKey = Registry.CurrentUser.OpenSubKey("Control Panel\\Desktop", true);
                 byte[] upm = (byte[])hKey.GetValue("UserPreferencesMask");
                 hKey.Close();
                 return (upm[2] & 0b10) == 0;
             }
             set
             {
-                RegistryKey hKey = Registry.CurrentUser.OpenSubKey("Control Panel\\Desktop");
+                RegistryKey hKey = Registry.CurrentUser.OpenSubKey("Control Panel\\Desktop", true);
                 byte[] upm = (byte[])hKey.GetValue("UserPreferencesMask");
                 upm[2] ^= 0b10;
                 hKey.SetValue("UserPreferencesMask", upm);

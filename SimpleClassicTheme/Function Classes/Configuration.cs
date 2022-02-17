@@ -33,13 +33,13 @@ namespace SimpleClassicTheme
 	{
 		public static bool Enabled
 		{
-			get => bool.Parse((string)GetItem("Enabled", false.ToString()));
+			get => bool.Parse(GetItem("Enabled", false).ToString());
 			set => SetItem("Enabled", value.ToString());
 		}
 
 		public static bool EnableTaskbar
 		{
-			get => bool.Parse((string)GetItem("EnableTaskbar", false.ToString()));
+			get => bool.Parse(GetItem("EnableTaskbar", false).ToString());
 			set => SetItem("EnableTaskbar", value.ToString());
 		}
 
@@ -51,13 +51,13 @@ namespace SimpleClassicTheme
 
 		public static bool ShowWizard
 		{
-			get => bool.Parse((string)GetItem("ShowWizard", true.ToString()));
+			get => bool.Parse(GetItem("ShowWizard", true).ToString());
 			set => SetItem("ShowWizard", value.ToString());
 		}
 
 		public static bool BetaUpdates
 		{
-			get => bool.Parse((string)GetItem("BetaUpdates", false.ToString()));
+			get => bool.Parse(GetItem("BetaUpdates", false).ToString());
 			set => SetItem("BetaUpdates", value.ToString());
 		}
 
@@ -69,7 +69,7 @@ namespace SimpleClassicTheme
 
 		public static TaskbarType TaskbarType
 		{
-			get => (TaskbarType)Enum.Parse(typeof(TaskbarType), (string)GetItem("TaskbarType", "SimpleClassicThemeTaskbar"));
+			get => (TaskbarType)Enum.Parse(typeof(TaskbarType), GetItem("TaskbarType", "SimpleClassicThemeTaskbar").ToString());
 			set => SetItem("TaskbarType", value.ToString());
 		}
 
@@ -81,7 +81,7 @@ namespace SimpleClassicTheme
 
 		public static Version ConfigVersion
 		{
-			get => Version.Parse((string)GetItem("ConfigVersion", Assembly.GetExecutingAssembly().GetName().Version));
+			get => Version.Parse(GetItem("ConfigVersion", Assembly.GetExecutingAssembly().GetName().Version).ToString());
 			set => SetItem("ConfigVersion", value.ToString());
 		}
 

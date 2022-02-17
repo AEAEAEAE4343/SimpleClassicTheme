@@ -52,6 +52,10 @@ namespace SimpleClassicTheme.Forms
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.buttonInstallTClock = new System.Windows.Forms.Button();
+            this.buttonOpenTClock = new System.Windows.Forms.Button();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // listBox1
@@ -93,11 +97,43 @@ namespace SimpleClassicTheme.Forms
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.buttonOpenTClock);
+            this.groupBox1.Controls.Add(this.buttonInstallTClock);
+            this.groupBox1.Location = new System.Drawing.Point(12, 256);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(377, 48);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "T-Clock";
+            // 
+            // buttonInstallTClock
+            // 
+            this.buttonInstallTClock.Location = new System.Drawing.Point(6, 19);
+            this.buttonInstallTClock.Name = "buttonInstallTClock";
+            this.buttonInstallTClock.Size = new System.Drawing.Size(75, 23);
+            this.buttonInstallTClock.TabIndex = 0;
+            this.buttonInstallTClock.Text = "Install";
+            this.buttonInstallTClock.UseVisualStyleBackColor = true;
+            this.buttonInstallTClock.Click += new System.EventHandler(this.buttonInstallTClock_Click);
+            // 
+            // buttonOpenTClock
+            // 
+            this.buttonOpenTClock.Location = new System.Drawing.Point(87, 19);
+            this.buttonOpenTClock.Name = "buttonOpenTClock";
+            this.buttonOpenTClock.Size = new System.Drawing.Size(75, 23);
+            this.buttonOpenTClock.TabIndex = 1;
+            this.buttonOpenTClock.Text = "Open";
+            this.buttonOpenTClock.UseVisualStyleBackColor = true;
+            this.buttonOpenTClock.Click += new System.EventHandler(this.buttonOpenTClock_Click);
+            // 
             // UtilityManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(401, 262);
+            this.ClientSize = new System.Drawing.Size(401, 316);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -108,6 +144,7 @@ namespace SimpleClassicTheme.Forms
             this.MinimizeBox = false;
             this.Name = "UtilityManagerForm";
             this.Text = "Simple Classic Theme - Utility Manager";
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
@@ -118,5 +155,8 @@ namespace SimpleClassicTheme.Forms
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.Button button3;
-	}
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button buttonOpenTClock;
+        private System.Windows.Forms.Button buttonInstallTClock;
+    }
 }

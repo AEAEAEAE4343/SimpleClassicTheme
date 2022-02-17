@@ -55,8 +55,6 @@ namespace SimpleClassicTheme
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.temporaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.buttonTClock = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportBugsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,7 +101,6 @@ namespace SimpleClassicTheme
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.temporaryToolStripMenuItem,
             this.helpToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -118,37 +115,22 @@ namespace SimpleClassicTheme
             this.optionsToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
-            // temporaryToolStripMenuItem
-            // 
-            this.temporaryToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.buttonTClock});
-            this.temporaryToolStripMenuItem.Name = "temporaryToolStripMenuItem";
-            this.temporaryToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
-            this.temporaryToolStripMenuItem.Text = "Temporary";
-            // 
-            // buttonTClock
-            // 
-            this.buttonTClock.Name = "buttonTClock";
-            this.buttonTClock.Size = new System.Drawing.Size(141, 22);
-            this.buttonTClock.Text = "Install T-Clock";
-            this.buttonTClock.Click += new System.EventHandler(this.ButtonTClock_Click);
             // 
             // helpToolStripMenuItem1
             // 
@@ -157,27 +139,27 @@ namespace SimpleClassicTheme
             this.reportBugsToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(40, 20);
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem1.Text = "&Help";
             // 
             // guideToolStripMenuItem
             // 
             this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-            this.guideToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.guideToolStripMenuItem.Text = "&Guide";
             this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
             // 
             // reportBugsToolStripMenuItem
             // 
             this.reportBugsToolStripMenuItem.Name = "reportBugsToolStripMenuItem";
-            this.reportBugsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reportBugsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.reportBugsToolStripMenuItem.Text = "Report bugs";
             this.reportBugsToolStripMenuItem.Click += new System.EventHandler(this.reportBugsToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -274,9 +256,10 @@ namespace SimpleClassicTheme
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(344, 28);
             this.label1.TabIndex = 30;
-            this.label1.Text = "This is a beta release of SCT. Unexpected issues are more likely to occur with th" +
-    "is version and support is limited.";
+            this.label1.Text = "This is an RC release of SCT. Unexpected issues are more likely to occur with thi" +
+    "s version and support is limited.";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.label1.Visible = false;
             // 
             // label5
             // 
@@ -351,6 +334,7 @@ namespace SimpleClassicTheme
             this.buttonRunOnBoot.TabIndex = 5;
             this.buttonRunOnBoot.Text = "Install SCT";
             this.buttonRunOnBoot.UseVisualStyleBackColor = true;
+            this.buttonRunOnBoot.Click += new System.EventHandler(this.ButtonRunOnBoot_Click);
             // 
             // buttonRestoreWindowSettings
             // 
@@ -471,8 +455,6 @@ namespace SimpleClassicTheme
         private System.Windows.Forms.Button buttonECMT;
         private System.Windows.Forms.Button buttonUtilities;
         private System.Windows.Forms.Button buttonRibbonDisabler;
-        private System.Windows.Forms.ToolStripMenuItem temporaryToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem buttonTClock;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
     }

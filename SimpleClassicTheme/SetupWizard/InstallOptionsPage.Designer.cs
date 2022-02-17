@@ -204,6 +204,7 @@ namespace SimpleClassicTheme.SetupWizard
             // 
             // taskbarTypeSelector1
             // 
+            this.taskbarTypeSelector1.Enabled = false;
             this.taskbarTypeSelector1.Location = new System.Drawing.Point(11, 127);
             this.taskbarTypeSelector1.Name = "taskbarTypeSelector1";
             this.taskbarTypeSelector1.Size = new System.Drawing.Size(476, 123);

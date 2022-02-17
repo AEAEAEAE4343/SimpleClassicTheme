@@ -34,7 +34,7 @@ namespace SimpleClassicTheme.SetupWizard
     public partial class InstallationPage : WizardPage
     {
         public string progressText = "";
-        public BackgroundWorker progressWorker;
+        public BackgroundWorker progressWorker => bgWork;
 
         public InstallationPage()
         {
@@ -43,7 +43,6 @@ namespace SimpleClassicTheme.SetupWizard
 
         private void InstallationPage_EnterPage(object sender, EventArgs e)
         {
-            progressWorker = bgWork;
             bgWork.RunWorkerAsync();
         }
 
@@ -54,7 +53,14 @@ namespace SimpleClassicTheme.SetupWizard
 
         private void bgWork_DoWork(object sender, DoWorkEventArgs e)
         {
+#if DEBUG
+            progressText = "Installing Simple Classic Theme...";
+            progressWorker.ReportProgress(0);
+            System.Threading.Thread.Sleep(5000);
+            progressWorker.ReportProgress(100);
+#else
             SetupHandler.InstallSCT(this);
+#endif
         }
 
         private void bgWork_ProgressChanged(object sender, ProgressChangedEventArgs e)

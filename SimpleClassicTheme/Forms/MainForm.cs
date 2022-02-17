@@ -42,6 +42,7 @@ namespace SimpleClassicTheme
             SystemMenu.CopyToolStripToMenu(menuStrip1, menu);
             Controls.Remove(menuStrip1);
             SystemMenu = menu;
+            panel1.ClientSize = new Size(panel1.ClientSize.Width, label2.Location.Y + 27);
             ClientSize = new Size(panel1.Width, panel1.Height + menu.Height);
             panel1.Location = new Point(0, 0);
 
@@ -116,17 +117,11 @@ namespace SimpleClassicTheme
 
             // ECMT: Windows 10 x64
             buttonECMT.Enabled = OSVersion.Major == 10 && OSVersion.CompareString("10.0.22000.0") < 0 && IntPtr.Size == 8;
+            buttonECMT.Enabled &= !File.Exists("C:\\Windows\\System32\\ExplorerContextMenuTweaker.dll");
             // ExplorerPatcher: Windows 11 x64
             buttonExplorerPatcher.Enabled = OSVersion.Major == 10 && OSVersion.CompareString("10.0.22000.0") >= 0 && IntPtr.Size == 8;
-            // T-Clock: Any version of Windows but only with Taskbar enhancements
-            buttonTClock.Enabled = Configuration.EnableTaskbar &&
-                               (Configuration.TaskbarType == TaskbarType.StartIsBackOpenShell ||
-                               Configuration.TaskbarType == TaskbarType.Windows81Vanilla);
 
             button3DBorders.Text = UsefulRegistryKeys.Borders3D ? "Disable 3D Borders" : "Enable 3D Borders";
-
-            if (Directory.Exists($"{Configuration.InstallPath}T-Clock\\"))
-                buttonTClock.Text = "Open T-Clock";
         }
 
         // Enables all controls
@@ -235,27 +230,6 @@ namespace SimpleClassicTheme
             Process.Start($"{Configuration.InstallPath}RibbonDisabler.exe");
         }
 
-        // Install T-Clock
-        private void ButtonTClock_Click(object sender, EventArgs e)
-        {
-            if (buttonTClock.Text == "Install T-Clock")
-            {
-                using (WebClient c = new WebClient())
-                {
-                    c.DownloadFile("https://github.com/White-Tiger/T-Clock/releases/download/v2.4.4%23492-rc/T-Clock.zip", $"{Configuration.InstallPath}t-clock.zip");
-                }
-                Directory.CreateDirectory($"{Configuration.InstallPath}T-Clock\\");
-                ZipFile.ExtractToDirectory($"{Configuration.InstallPath}t-clock.zip", $"{Configuration.InstallPath}T-Clock\\");
-                File.Delete($"{Configuration.InstallPath}t-clock.zip");
-                MessageBox.Show("T-Clock has been installed on your system");
-                buttonTClock.Text = "Open T-Clock";
-            }
-            else
-            {
-                Process.Start($"{Configuration.InstallPath}T-Clock\\Clock64.exe");
-            }
-        }
-
         // Run the SCT AHK script manager
         private void ButtonAHKScripts_Click(object sender, EventArgs e)
         {
@@ -337,6 +311,6 @@ namespace SimpleClassicTheme
             CheckDependenciesAndSetControls();
         }
 
-		#endregion
-	}
+        #endregion
+    }
 }

@@ -62,7 +62,7 @@ namespace SimpleClassicTheme.Forms
             Application.VisualStyleState = Configuration.Enabled ? VisualStyleState.NoneEnabled : VisualStyleState.ClientAndNonClientAreasEnabled;
 
             //If it's the first time running SCT, start the wizard.
-            if (Configuration.ShowWizard && MessageBox.Show("It seems to be the first time you are running SCT.\nWould you like to run the automated setup tool?", "First run", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (args.Length == 0 && Configuration.ShowWizard && MessageBox.Show("It seems to be the first time you are running SCT.\nWould you like to run the automated setup tool?", "First run", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 SetupWizard.SetupHandler.ShowWizard(SetupWizard.SetupHandler.CreateWizard());
             else
                 Configuration.ShowWizard = false;
