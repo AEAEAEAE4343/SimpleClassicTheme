@@ -33,6 +33,9 @@ namespace SimpleClassicTheme
 {
     static class ApplicationEntryPoint
     {
+        public static string windir = Environment.GetEnvironmentVariable("windir");
+        public static string ProgramFiles = Environment.GetEnvironmentVariable("ProgramFiles");
+        public static string ProgramData = Environment.GetEnvironmentVariable("ProgramData");
 		public static bool LoadGUI { get; set; }
 
         /// <summary>

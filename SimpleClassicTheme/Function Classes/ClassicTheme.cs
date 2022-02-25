@@ -36,7 +36,7 @@ namespace SimpleClassicTheme
         {
             if (Environment.OSVersion.Version.Major == 10)
             { 
-                Process.Start("explorer.exe", "C:\\Windows\\System32\\ApplicationFrameHost.exe").WaitForExit();
+                Process.Start("explorer.exe", ApplicationEntryPoint.windir + "\\System32\\ApplicationFrameHost.exe").WaitForExit();
                 Thread.Sleep(200);
             }
             NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
@@ -120,7 +120,7 @@ namespace SimpleClassicTheme
                 Enable();
                 if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-                Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
+                Process.Start("explorer.exe", @ApplicationEntryPoint.windir + @"\explorer.exe");
                 ClassicTaskbar.EnableSCTT();
             }
             else if (Configuration.TaskbarType == TaskbarType.Windows81Vanilla)
@@ -130,7 +130,7 @@ namespace SimpleClassicTheme
 
                 if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-                Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
+                Process.Start("explorer.exe", @ApplicationEntryPoint.windir + @"\Windows\explorer.exe");
                 Thread.Sleep(Configuration.TaskbarDelay);
                 ClassicTaskbar.FixWin8_1();
             }
@@ -140,7 +140,7 @@ namespace SimpleClassicTheme
                 Enable();
                 if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-                Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
+                Process.Start("explorer.exe", @ApplicationEntryPoint.windir + @"\Windows\explorer.exe");
                 Process.Start($"{Configuration.InstallPath}RetroBar\\RetroBar.exe");
             }
             else if (Configuration.TaskbarType == TaskbarType.ExplorerPatcher)
@@ -176,14 +176,14 @@ namespace SimpleClassicTheme
                 Disable();
                 if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-                Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
+                Process.Start("explorer.exe", @ApplicationEntryPoint.windir + @"\explorer.exe");
             }
             else if (Configuration.TaskbarType == TaskbarType.Windows81Vanilla)
             {
                 Disable();
                 if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-                Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
+                Process.Start("explorer.exe", @ApplicationEntryPoint.windir + @"\explorer.exe");
             }
             else if (Configuration.TaskbarType == TaskbarType.RetroBar)
             {
@@ -193,7 +193,7 @@ namespace SimpleClassicTheme
                 Disable();
                 if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-                Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
+                Process.Start("explorer.exe", @ApplicationEntryPoint.windir + @"\explorer.exe");
             }
             Process.Start($"{Configuration.InstallPath}DisableThemeScript.bat", "post").WaitForExit();
         }
@@ -210,32 +210,32 @@ namespace SimpleClassicTheme
                 path = Directory.GetParent(path).ToString();
 
             //Optionally also uninstall OS, SiB, Classic Task Manager, Folder Options X, 7+TT and ExplorerContextMenuTweaker
-            if (Directory.Exists("C:\\Program Files\\Open-Shell") && MessageBox.Show("Open-Shell has been found on the system.\nWould you like SCT to remove it?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (Directory.Exists(ApplicationEntryPoint.ProgramFiles + "\\Open-Shell") && MessageBox.Show("Open-Shell has been found on the system.\nWould you like SCT to remove it?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                Process.Start("C:\\Windows\\System32\\msiexec.exe", "/X{FD722BB1-4960-455F-89C6-EFAEB79527EF}").WaitForExit();
+                Process.Start(ApplicationEntryPoint.windir + "\\System32\\msiexec.exe", "/X{FD722BB1-4960-455F-89C6-EFAEB79527EF}").WaitForExit();
             }
             if (Directory.Exists(path + "\\AppData\\Local\\StartIsBack") && MessageBox.Show("StartIsBack(+(+)) has been found on the system.\nWould you like SCT to remove it?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 Process.Start(path + "\\AppData\\Local\\StartIsBack\\StartIsBackCfg.exe", "/uninstall").WaitForExit();
             }
-            if (Directory.Exists("C:\\Program Files\\ClassicTaskmgr") && MessageBox.Show("Classic Task Manager has been found on the system.\nWould you like SCT to remove it?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (Directory.Exists(ApplicationEntryPoint.ProgramFiles + "\\ClassicTaskmgr") && MessageBox.Show("Classic Task Manager has been found on the system.\nWould you like SCT to remove it?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                Process.Start("C:\\Program Files\\ClassicTaskmgr\\unins000.exe").WaitForExit();
+                Process.Start(ApplicationEntryPoint.ProgramFiles + "\\ClassicTaskmgr\\unins000.exe").WaitForExit();
             }
-            if (Directory.Exists("C:\\Program Files\\T800 Productions\\Folder Options X") && MessageBox.Show("Folder Options X has been found on the system.\nWould you like SCT to remove it?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (Directory.Exists(ApplicationEntryPoint.ProgramFiles + "\\T800 Productions\\Folder Options X") && MessageBox.Show("Folder Options X has been found on the system.\nWould you like SCT to remove it?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                Process.Start("C:\\Program Files\\T800 Productions\\Folder Options X\\unins000.exe").WaitForExit();
+                Process.Start(ApplicationEntryPoint.ProgramFiles + "\\T800 Productions\\Folder Options X\\unins000.exe").WaitForExit();
             }
             if (Directory.Exists(path + "\\AppData\\Roaming\\7+ Taskbar Tweaker") && MessageBox.Show("7+ Taskbar Tweaker has been found on the system.\nWould you like SCT to remove it?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 Process.Start(path + "\\AppData\\Roaming\\7+ Taskbar Tweaker\\uninstall.exe").WaitForExit();
             }
-            if (File.Exists("C:\\Windows\\System32\\ExplorerContextMenuTweaker.dll") && MessageBox.Show("ExplorerContextMenuTweaker has been found on the system.\nWould you like SCT to remove it?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (File.Exists(ApplicationEntryPoint.windir + "\\System32\\ExplorerContextMenuTweaker.dll") && MessageBox.Show("ExplorerContextMenuTweaker has been found on the system.\nWould you like SCT to remove it?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                Process.Start("C:\\Windows\\System32\\regsvr32.exe", "/u C:\\Windows\\System32\\ExplorerContextMenuTweaker.dll").WaitForExit();
-                Process.Start("C:\\Windows\\System32\\taskkill.exe", "/im explorer.exe /f").WaitForExit();
-                File.Delete("C:\\Windows\\System32\\ExplorerContextMenuTweaker.dll");
-                File.Delete("C:\\Windows\\System32\\ShellPayload.dll");
+                Process.Start(ApplicationEntryPoint.windir + "\\System32\\regsvr32.exe", "/u " + ApplicationEntryPoint.windir + "\\System32\\ExplorerContextMenuTweaker.dll").WaitForExit();
+                Process.Start(ApplicationEntryPoint.windir + "\\System32\\taskkill.exe", "/im explorer.exe /f").WaitForExit();
+                File.Delete(ApplicationEntryPoint.windir + "\\System32\\ExplorerContextMenuTweaker.dll");
+                File.Delete(ApplicationEntryPoint.windir + "\\System32\\ShellPayload.dll");
             }
 
             //Ask user if they want to disable Ribbon now
@@ -255,7 +255,7 @@ namespace SimpleClassicTheme
             //Put Windows Aero scheme on
             File.WriteAllText($"{Configuration.InstallPath}reg_windowcolors_restore.reg", Properties.Resources.reg_windowcolors_restore);
             Process.Start($"{Configuration.InstallPath}reg_windowcolors_restore.reg").WaitForExit();
-            Process.Start("C:\\Windows\\Resources\\Themes\\aero.theme").WaitForExit();
+            Process.Start(ApplicationEntryPoint.windir + "\\Resources\\Themes\\aero.theme").WaitForExit();
 
             //Restore WindowMetrics
             File.WriteAllText($"{Configuration.InstallPath}reg_windowmetrics_restore.reg", Environment.OSVersion.Version.Major == 10 ? Properties.Resources.reg_windowmetrics_restore : Properties.Resources.reg_windowmetrics_81);
@@ -266,7 +266,7 @@ namespace SimpleClassicTheme
             Process.Start($"{Configuration.InstallPath}reg_upm_disable3d.reg").WaitForExit();
 
             //Remove SCT Task
-            Process.Start("C:\\Windows\\System32\\schtasks.exe", "/Delete /TN \"Simple Classic Theme\" /F").WaitForExit();
+            Process.Start(ApplicationEntryPoint.windir + "\\System32\\schtasks.exe", "/Delete /TN \"Simple Classic Theme\" /F").WaitForExit();
 
             //Remove registry for both SCT and SCTT
             Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").CreateSubKey("Simple Classic Theme").CreateSubKey("Base");

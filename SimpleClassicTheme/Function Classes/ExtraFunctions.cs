@@ -83,7 +83,7 @@ namespace SimpleClassicTheme
         /// <returns></returns>
         public static bool IsDotNetRuntimeInstalled()
 		{
-            ProcessStartInfo psi = new ProcessStartInfo("C:\\Windows\\System32\\cmd.exe", "/c dotnet --list-runtimes");
+            ProcessStartInfo psi = new ProcessStartInfo(ApplicationEntryPoint.windir + "\\System32\\cmd.exe", "/c dotnet --list-runtimes");
             psi.UseShellExecute = false;
             psi.RedirectStandardOutput = true;
             Process process = Process.Start(psi);
@@ -115,10 +115,10 @@ namespace SimpleClassicTheme
         // Updates the startup executable
         internal static void UpdateStartupExecutable(bool createIfNot)
         {
-            if (File.Exists(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe"))
-                File.Delete(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe");
-            if (File.Exists(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe"))
-                File.Delete(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe");
+            if (File.Exists(@ApplicationEntryPoint.ProgramData + @"\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe"))
+                File.Delete(@ApplicationEntryPoint.ProgramData + @"\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.exe");
+            if (File.Exists(@ApplicationEntryPoint.ProgramData + @"\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe"))
+                File.Delete(@ApplicationEntryPoint.ProgramData + @"\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe");
             if (createIfNot)
             {
                 if (Assembly.GetExecutingAssembly().Location != $"{Configuration.InstallPath}SCT.exe")
@@ -142,8 +142,8 @@ namespace SimpleClassicTheme
                 task.WaitForExit();
                 File.SetAttributes($"{Configuration.InstallPath}SCT.exe", File.GetAttributes(Assembly.GetExecutingAssembly().Location) | FileAttributes.Hidden);
                 IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
-                Directory.CreateDirectory(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\");
-                IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.lnk");
+                Directory.CreateDirectory(@ApplicationEntryPoint.ProgramData + @"\Microsoft\Windows\Start Menu\Programs\1337ftw\");
+                IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut(@ApplicationEntryPoint.ProgramData + @"\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.lnk");
                 shortcut.Description = "Simple Classic Theme";
                 shortcut.TargetPath = $"{Configuration.InstallPath}SCT.exe";
                 shortcut.WorkingDirectory = Configuration.InstallPath;
@@ -216,7 +216,7 @@ namespace SimpleClassicTheme
             if (ossm)
             {
                 File.WriteAllText($"{Configuration.InstallPath}ossettings.reg", Properties.Resources.reg_os_sm_settings);
-                Process.Start("C:\\Windows\\System32\\reg.exe", $"import {Configuration.InstallPath}ossettings.reg").WaitForExit();
+                Process.Start(ApplicationEntryPoint.windir + "\\System32\\reg.exe", $"import {Configuration.InstallPath}ossettings.reg").WaitForExit();
                 File.Delete($"{Configuration.InstallPath}ossettings.reg");
             }
             if (ostb)
@@ -227,7 +227,7 @@ namespace SimpleClassicTheme
                 Properties.Resources.taskbar.Save($"{Configuration.InstallPath}OpenShellAssets\\taskbar.png");
                 
                 File.WriteAllText($"{Configuration.InstallPath}ossettings.reg", Properties.Resources.reg_os_tb_settings);
-                Process.Start("C:\\Windows\\System32\\reg.exe", $"import {Configuration.InstallPath}ossettings.reg").WaitForExit();
+                Process.Start(ApplicationEntryPoint.windir + "\\System32\\reg.exe", $"import {Configuration.InstallPath}ossettings.reg").WaitForExit();
                 File.Delete($"{Configuration.InstallPath}ossettings.reg");
 
                 Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\OpenShell\\StartMenu\\Settings", "StartButtonPath", $"{Configuration.InstallPath}OpenShellAssets\\win9x.png");
@@ -246,7 +246,7 @@ namespace SimpleClassicTheme
 
                 string f = Properties.Resources.reg_sib_settings.Replace("C:\\\\Users\\\\{Username}", $"{userFolder.Replace("\\", "\\\\")}");
                 File.WriteAllText($"{Configuration.InstallPath}sib.reg", f);
-                Process.Start("C:\\Windows\\System32\\reg.exe", $"import {Configuration.InstallPath}sib.reg").WaitForExit();
+                Process.Start(ApplicationEntryPoint.windir + "\\System32\\reg.exe", $"import {Configuration.InstallPath}sib.reg").WaitForExit();
 
                 Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\StartIsBack", "Disabled", 1);
                 File.Delete($"{Configuration.InstallPath}sib.reg");

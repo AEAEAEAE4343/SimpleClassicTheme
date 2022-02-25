@@ -80,7 +80,7 @@ namespace SimpleClassicTheme
                 case TaskbarType.SimpleClassicThemeTaskbar:
                     return File.Exists($"{Configuration.InstallPath}Taskbar\\SimpleClassicThemeTaskbar.exe");
                 case TaskbarType.StartIsBackOpenShell:
-                    bool osInstalled = Directory.Exists("C:\\Program Files\\Open-Shell\\");
+                    bool osInstalled = Directory.Exists(ApplicationEntryPoint.ProgramFiles + "\\Open-Shell\\");
                     bool sibInstalled = Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
                     return !((!osInstalled || !sibInstalled) && Taskbar);
                 case TaskbarType.RetroBar:
@@ -117,7 +117,7 @@ namespace SimpleClassicTheme
 
             // ECMT: Windows 10 x64
             buttonECMT.Enabled = OSVersion.Major == 10 && OSVersion.CompareString("10.0.22000.0") < 0 && IntPtr.Size == 8;
-            buttonECMT.Enabled &= !File.Exists("C:\\Windows\\System32\\ExplorerContextMenuTweaker.dll");
+            buttonECMT.Enabled &= !File.Exists(ApplicationEntryPoint.windir + "\\System32\\ExplorerContextMenuTweaker.dll");
             // ExplorerPatcher: Windows 11 x64
             buttonExplorerPatcher.Enabled = OSVersion.Major == 10 && OSVersion.CompareString("10.0.22000.0") >= 0 && IntPtr.Size == 8;
 
@@ -164,7 +164,7 @@ namespace SimpleClassicTheme
         // Install dependencies
         private void ButtonInstallRequirements_Click(object sender, EventArgs e)
         {
-            bool osInstalled = Directory.Exists("C:\\Program Files\\Open-Shell\\");
+            bool osInstalled = Directory.Exists(ApplicationEntryPoint.ProgramFiles + "\\Open-Shell\\");
             bool sibInstalled = Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
             if (buttonInstallRequirements.Text == "Reconfigure OS+SiB")
             {
@@ -200,9 +200,9 @@ namespace SimpleClassicTheme
         {
             buttonECMT.Enabled = false;
 
-            File.WriteAllBytes("C:\\Windows\\System32\\ExplorerContextMenuTweaker.dll", Properties.Resources.ExplorerContextMenuTweaker);
-            File.WriteAllBytes("C:\\Windows\\System32\\ShellPayload.dll", Properties.Resources.ShellPayload);
-            Process.Start(new ProcessStartInfo() { FileName = "C:\\Windows\\System32\\regsvr32.exe", Arguments = "ExplorerContextMenuTweaker.dll", Verb = "runas" }).WaitForExit();
+            File.WriteAllBytes(ApplicationEntryPoint.windir + "\\System32\\ExplorerContextMenuTweaker.dll", Properties.Resources.ExplorerContextMenuTweaker);
+            File.WriteAllBytes(ApplicationEntryPoint.windir + "\\System32\\ShellPayload.dll", Properties.Resources.ShellPayload);
+            Process.Start(new ProcessStartInfo() { FileName = ApplicationEntryPoint.windir + "\\System32\\regsvr32.exe", Arguments = "ExplorerContextMenuTweaker.dll", Verb = "runas" }).WaitForExit();
         }
 
         // Show ExplorerPatcher UI
@@ -252,12 +252,12 @@ namespace SimpleClassicTheme
 
             //Put Windows Aero scheme on
             File.WriteAllText($"{Configuration.InstallPath}reg_windowcolors_restore.reg", Properties.Resources.reg_windowcolors_restore);
-            Process.Start("C:\\Windows\\System32\\reg.exe", $"import {Configuration.InstallPath}reg_windowcolors_restore.reg").WaitForExit();
-            Process.Start("C:\\Windows\\Resources\\Themes\\aero.theme").WaitForExit();
+            Process.Start(ApplicationEntryPoint.windir + "\\System32\\reg.exe", $"import {Configuration.InstallPath}reg_windowcolors_restore.reg").WaitForExit();
+            Process.Start(ApplicationEntryPoint.windir + "\\Resources\\Themes\\aero.theme").WaitForExit();
 
             //Restore WindowMetrics
             File.WriteAllText($"{Configuration.InstallPath}reg_windowmetrics_restore.reg", Environment.OSVersion.Version.Major == 10 ? Properties.Resources.reg_windowmetrics_restore : Properties.Resources.reg_windowmetrics_81);
-            Process.Start("C:\\Windows\\System32\\reg.exe", $"import {Configuration.InstallPath}reg_windowmetrics_restore.reg").WaitForExit();
+            Process.Start(ApplicationEntryPoint.windir + "\\System32\\reg.exe", $"import {Configuration.InstallPath}reg_windowmetrics_restore.reg").WaitForExit();
 
             System.Threading.Thread.Sleep(2000);
             User32.ExitWindowsEx(0 | 0x00000004, 0);

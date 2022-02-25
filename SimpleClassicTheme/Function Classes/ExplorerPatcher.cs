@@ -12,16 +12,16 @@ namespace SimpleClassicTheme
 	internal static class ExplorerPatcher
 	{
 		public static bool Enabled => IsInstalled;
-		public static bool IsInstalled => File.Exists("C:\\Windows\\dxgi.dll");
+		public static bool IsInstalled => File.Exists(ApplicationEntryPoint.windir + "\\dxgi.dll");
 
 		public static bool Install()
 		{
 			try
 			{
 				new GithubDownloader(GithubDownloader.DownloadableGithubProject.RetroBar).ShowDialog();
-				File.Copy($"{SimpleClassicTheme.Configuration.InstallPath}ExplorerPatcher\\dxgi.dll", "C:\\Windows\\dxgi.dll");
+				File.Copy($"{SimpleClassicTheme.Configuration.InstallPath}ExplorerPatcher\\dxgi.dll", ApplicationEntryPoint.windir + "\\dxgi.dll");
 				Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-				Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
+				Process.Start("explorer.exe", @ApplicationEntryPoint.windir + @"\Windows\explorer.exe");
 				return true;
 			}
 			catch
@@ -32,7 +32,7 @@ namespace SimpleClassicTheme
 
 		public static bool Uninstall()
 		{
-			File.Delete("C:\\Windows\\dxgi.dll");
+			File.Delete(ApplicationEntryPoint.windir + "\\dxgi.dll");
 			return true;
 		}
 
@@ -143,7 +143,7 @@ namespace SimpleClassicTheme
 			}
 
 			if (restartExplorer)
-				Process.Start(new ProcessStartInfo() { FileName = "C:\\Windows\\System32\\rundll32.exe", Arguments = "C:\\Windows\\dxgi.dll,ZZRestartExplorer", Verb = "runas" }).WaitForExit();
+				Process.Start(new ProcessStartInfo() { FileName = ApplicationEntryPoint.windir + "\\System32\\rundll32.exe", Arguments = ApplicationEntryPoint.windir + "\\dxgi.dll,ZZRestartExplorer", Verb = "runas" }).WaitForExit();
 		}
 
 		internal static class Configuration
