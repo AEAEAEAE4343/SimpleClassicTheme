@@ -143,7 +143,12 @@ namespace SimpleClassicTheme
 			}
 
 			if (restartExplorer)
-				Process.Start(new ProcessStartInfo() { FileName = "C:\\Windows\\System32\\rundll32.exe", Arguments = "C:\\Windows\\dxgi.dll,ZZRestartExplorer", Verb = "runas" }).WaitForExit();
+			{
+				//Process.Start(new ProcessStartInfo() { FileName = "C:\\Windows\\System32\\rundll32.exe", Arguments = "C:\\Windows\\dxgi.dll,ZZRestartExplorer", Verb = "runas" }).WaitForExit();
+				// ExplorerPatcher doesn't reliably restart explorer
+				Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
+				Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
+			}
 		}
 
 		internal static class Configuration

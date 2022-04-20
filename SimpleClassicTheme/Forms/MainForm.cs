@@ -119,7 +119,7 @@ namespace SimpleClassicTheme
             buttonECMT.Enabled = OSVersion.Major == 10 && OSVersion.CompareString("10.0.22000.0") < 0 && IntPtr.Size == 8;
             buttonECMT.Enabled &= !File.Exists("C:\\Windows\\System32\\ExplorerContextMenuTweaker.dll");
             // ExplorerPatcher: Windows 11 x64
-            buttonExplorerPatcher.Enabled = OSVersion.Major == 10 && OSVersion.CompareString("10.0.22000.0") >= 0 && IntPtr.Size == 8;
+            buttonExplorerPatcher.Enabled = OSVersion.Major == 10 /*&& OSVersion.CompareString("10.0.22000.0") >= 0 */ && IntPtr.Size == 8;
 
             button3DBorders.Text = UsefulRegistryKeys.Borders3D ? "Disable 3D Borders" : "Enable 3D Borders";
         }

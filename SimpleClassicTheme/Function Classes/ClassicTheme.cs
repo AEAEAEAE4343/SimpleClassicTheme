@@ -143,12 +143,6 @@ namespace SimpleClassicTheme
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
                 Process.Start($"{Configuration.InstallPath}RetroBar\\RetroBar.exe");
             }
-            else if (Configuration.TaskbarType == TaskbarType.ExplorerPatcher)
-			{
-                // Windows 11 Vanilla taskbar with ExplorerPatcher
-                Enable();
-                if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration(true);
-            }
             Process.Start($"{Configuration.InstallPath}EnableThemeScript.bat", "post").WaitForExit();
         }
 
@@ -157,7 +151,7 @@ namespace SimpleClassicTheme
         {
             Process.Start($"{Configuration.InstallPath}DisableThemeScript.bat", "pre").WaitForExit();
             Configuration.Enabled = false;
-            if (!taskbar || Configuration.TaskbarType == TaskbarType.ExplorerPatcher)
+            if (!taskbar)
             {
                 Disable();
                 if (ExplorerPatcher.Enabled) ExplorerPatcher.ApplyConfiguration(true);

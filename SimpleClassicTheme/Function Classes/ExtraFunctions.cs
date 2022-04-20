@@ -41,8 +41,7 @@ namespace SimpleClassicTheme
         StartIsBackOpenShell = 1,
         Windows81Vanilla = 2,
         SimpleClassicThemeTaskbar = 3,
-        RetroBar = 4,
-        ExplorerPatcher = 5
+        RetroBar = 4
     }
 
     /// <summary>
