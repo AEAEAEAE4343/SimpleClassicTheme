@@ -153,12 +153,6 @@
     <Compile Include="Forms\Information\CommandLineHelpForm.Designer.cs">
       <DependentUpon>CommandLineHelpForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Utility\ExplorerPatcherForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Utility\ExplorerPatcherForm.Designer.cs">
-      <DependentUpon>ExplorerPatcherForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\LoaderForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -189,12 +183,6 @@
     <Compile Include="Forms\Unfinished\ThemeConfigurationForm.Designer.cs">
       <DependentUpon>ThemeConfigurationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Utility\UtilityManagerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Utility\UtilityManagerForm.Designer.cs">
-      <DependentUpon>UtilityManagerForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\Unfinished\WMITest.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -205,7 +193,6 @@
     <Compile Include="Function Classes\ClassicTaskbar.cs" />
     <Compile Include="Function Classes\ClassicTheme.cs" />
     <Compile Include="Function Classes\Configuration.cs" />
-    <Compile Include="Function Classes\ExplorerPatcher.cs" />
     <Compile Include="Function Classes\ExtraFunctions.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
@@ -219,34 +206,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Function Classes\UsefulRegistryKeys.cs" />
-    <Compile Include="SetupWizard\FinishedPage.Designer.cs">
-      <DependentUpon>FinishedPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SetupWizard\InstallationPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="SetupWizard\InstallationPage.Designer.cs">
-      <DependentUpon>InstallationPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SetupWizard\InstallOptionsPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="SetupWizard\InstallOptionsPage.Designer.cs">
-      <DependentUpon>InstallOptionsPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SetupWizard\InstallPathPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="SetupWizard\InstallPathPage.Designer.cs">
-      <DependentUpon>InstallPathPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SetupWizard\LicensePage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="SetupWizard\LicensePage.Designer.cs">
-      <DependentUpon>LicensePage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SetupWizard\SetupWizard.cs" />
     <Compile Include="Function Classes\Utilities.cs" />
     <Compile Include="Properties\AHKScripts.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -261,21 +220,6 @@
       <DependentUpon>UpdateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Function Classes\WinApi.cs" />
-    <Compile Include="SetupWizard\UtilitiesPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="SetupWizard\UtilitiesPage.Designer.cs">
-      <DependentUpon>UtilitiesPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SetupWizard\FinishedPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="SetupWizard\WelcomePage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="SetupWizard\WelcomePage.Designer.cs">
-      <DependentUpon>WelcomePage.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Forms\Information\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -291,9 +235,6 @@
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Utility\ExplorerPatcherForm.resx">
-      <DependentUpon>ExplorerPatcherForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\OptionsForm.resx">
       <DependentUpon>OptionsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -305,9 +246,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Unfinished\ThemeConfigurationForm.resx">
       <DependentUpon>ThemeConfigurationForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Utility\UtilityManagerForm.resx">
-      <DependentUpon>UtilityManagerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Unfinished\WMITest.resx">
       <DependentUpon>WMITest.cs</DependentUpon>
@@ -328,27 +266,6 @@
     </Compile>
     <EmbeddedResource Include="Forms\UpdateForm.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SetupWizard\FinishedPage.resx">
-      <DependentUpon>FinishedPage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SetupWizard\InstallationPage.resx">
-      <DependentUpon>InstallationPage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SetupWizard\InstallOptionsPage.resx">
-      <DependentUpon>InstallOptionsPage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SetupWizard\InstallPathPage.resx">
-      <DependentUpon>InstallPathPage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SetupWizard\LicensePage.resx">
-      <DependentUpon>LicensePage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SetupWizard\UtilitiesPage.resx">
-      <DependentUpon>UtilitiesPage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SetupWizard\WelcomePage.resx">
-      <DependentUpon>WelcomePage.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Other Files\app.manifest" />

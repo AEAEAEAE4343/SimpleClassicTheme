@@ -38,7 +38,6 @@ namespace SimpleClassicTheme
     public enum TaskbarType
     {
         None = 0,
-        StartIsBackOpenShell = 1,
         Windows81Vanilla = 2,
         SimpleClassicThemeTaskbar = 3,
         RetroBar = 4
@@ -210,48 +209,6 @@ namespace SimpleClassicTheme
             }
         }
 
-        public static void ReConfigureOS(bool ossm, bool ostb, bool sib)
-		{
-            if (ossm)
-            {
-                File.WriteAllText($"{Configuration.InstallPath}ossettings.reg", Properties.Resources.reg_os_sm_settings);
-                Process.Start("C:\\Windows\\System32\\reg.exe", $"import {Configuration.InstallPath}ossettings.reg").WaitForExit();
-                File.Delete($"{Configuration.InstallPath}ossettings.reg");
-            }
-            if (ostb)
-            {
-                Directory.CreateDirectory($"{Configuration.InstallPath}OpenShellAssets");
-                Properties.Resources.win7.Save($"{Configuration.InstallPath}OpenShellAssets\\win7.png");
-                Properties.Resources.win9x.Save($"{Configuration.InstallPath}OpenShellAssets\\win9x.png");
-                Properties.Resources.taskbar.Save($"{Configuration.InstallPath}OpenShellAssets\\taskbar.png");
-                
-                File.WriteAllText($"{Configuration.InstallPath}ossettings.reg", Properties.Resources.reg_os_tb_settings);
-                Process.Start("C:\\Windows\\System32\\reg.exe", $"import {Configuration.InstallPath}ossettings.reg").WaitForExit();
-                File.Delete($"{Configuration.InstallPath}ossettings.reg");
-
-                Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\OpenShell\\StartMenu\\Settings", "StartButtonPath", $"{Configuration.InstallPath}OpenShellAssets\\win9x.png");
-                Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\OpenShell\\StartMenu\\Settings", "TaskbarTexture", $"{Configuration.InstallPath}OpenShellAssets\\taskbar.png");
-            }
-            if (sib)
-			{
-                string userFolder = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).FullName;
-                if (Environment.OSVersion.Version.Major >= 6)
-                    userFolder = Directory.GetParent(userFolder).ToString();
-
-                Directory.CreateDirectory(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs");
-                Directory.CreateDirectory(userFolder + "\\AppData\\Local\\StartIsBack\\Styles");
-                Properties.Resources.null_classic3small.Save(userFolder + "\\AppData\\Local\\StartIsBack\\Orbs\\null_classic3big.bmp");
-                File.WriteAllBytes(userFolder + "\\AppData\\Local\\StartIsBack\\Styles\\Classic3.msstyles", Properties.Resources.classicStartIsBackTheme);
-
-                string f = Properties.Resources.reg_sib_settings.Replace("C:\\\\Users\\\\{Username}", $"{userFolder.Replace("\\", "\\\\")}");
-                File.WriteAllText($"{Configuration.InstallPath}sib.reg", f);
-                Process.Start("C:\\Windows\\System32\\reg.exe", $"import {Configuration.InstallPath}sib.reg").WaitForExit();
-
-                Registry.SetValue("HKEY_CURRENT_USER\\SOFTWARE\\StartIsBack", "Disabled", 1);
-                File.Delete($"{Configuration.InstallPath}sib.reg");
-            }
-        }
-
         public static bool InstallDependencies(bool commandLineOutput = false)
 		{
             switch (Configuration.TaskbarType)
@@ -270,32 +227,9 @@ namespace SimpleClassicTheme
                     ClassicTaskbar.InstallSCTT(null, !commandLineOutput);
                     if (commandLineOutput) Console.WriteLine("Installed SCTT succesfully");
                     break;
-                case TaskbarType.StartIsBackOpenShell:
-                    ExtraFunctions.ReConfigureOS(true, true, true);
-                    if (commandLineOutput) Console.WriteLine("Configured Open-Shell and StartIsBack++");
-                    int returnCode = InstallableUtility.OpenShell.Install();
-                    if (returnCode != 0)
-                    {
-                        if (commandLineOutput) Console.WriteLine("Error: Open-Shell installer returned error code {0}", returnCode);
-                        else MessageBox.Show($"Open-Shell installer returned error code {returnCode}", "Error installing dependencies", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return false;
-                    }
-                    if (commandLineOutput) Console.WriteLine("Installed Open-Shell succesfully");
-                    returnCode = InstallableUtility.StartIsBackPlusPlus.Install();
-                    if (returnCode != 0)
-                    {
-                        if (commandLineOutput) Console.WriteLine("Error: StartIsBack++ installer returned error code {0}", returnCode);
-                        else MessageBox.Show($"StartIsBack++ installer returned error code {returnCode}", "Error installing dependencies", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return false;
-                    }
-                    if (commandLineOutput) Console.WriteLine("Installed StartIsBack++ succesfully");
-                    break;
-                case TaskbarType.ExplorerPatcher:
-                    MessageBox.Show("You have to install ExplorerPatcher through SCT's 'Patch Explorer' GUI.", "Error installing dependencies");
-                    return false;
                 default:
-                    if (commandLineOutput) Console.WriteLine("Warning: TaskbarType is not SCTT or OS+SiB. No dependencies will be installed.");
-                    else MessageBox.Show("Taskbar type is not SimpleClassicThemeTaskbar or Open-Shell with StartIsBack. No dependencies will be installed", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    if (commandLineOutput) Console.WriteLine("Warning: Nothing needed for current config. No dependencies will be installed.");
+                    else MessageBox.Show("The current configuration does not need anything installed. No dependencies will be installed.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     break;
             }
             if (commandLineOutput) Console.WriteLine("Dependencies installed succesfully");

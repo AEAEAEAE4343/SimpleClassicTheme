@@ -50,19 +50,11 @@ namespace SimpleClassicTheme.Forms
 			TaskbarTypeDisplay.Add(TaskbarType.RetroBar, "RetroBar");
 			if (Environment.OSVersion.Version.CompareString("6.3") == 0)
 				TaskbarTypeDisplay.Add(TaskbarType.Windows81Vanilla, "Vanilla taskbar");
-			if (Environment.OSVersion.Version.CompareString("10.0") == 0)
-				TaskbarTypeDisplay.Add(TaskbarType.StartIsBackOpenShell, "StartIsBack with Open-Shell");
 			
-			TaskbarTypeDescription.Add(TaskbarType.StartIsBackOpenShell, "StartIsBack is a utility that brings back old quirks of the taskbar into newer versions of Windows. When combined with Open-Shell (a tool to bring back classic UI design to windows) you get a very convincing Classic Taskbar.");
 			TaskbarTypeDescription.Add(TaskbarType.Windows81Vanilla, "Takes the default Windows 8.1 taskbar and forces Classic Theme on it. This fails, so SCT also patches it. The end result is a pretty much perfect Windows 7 Classic Taskbar.");
 			TaskbarTypeDescription.Add(TaskbarType.SimpleClassicThemeTaskbar, "Simple Classic Theme Taskbar is a taskbar designed specifically for SCT. From the ground up it is designed to mimic a Win2K Classic Taskbar and it does so extremely good. Features built-in XP .msstyles support. Note that this taskbar requires more power out of your system than similar tools.");
 			TaskbarTypeDescription.Add(TaskbarType.RetroBar, "RetroBar is the most refined taskbar alternative out there. Although it lacks certain functionality that taskbars like SCTT and the Windows taskbar have, it provides with a very stable and smooth taskbar featuring multiple themes to match your style.");
 			
-			TaskbarTypeAuthor.Add(TaskbarType.StartIsBackOpenShell, "Spitfire_x86");
-			TaskbarTypeAuthorLink.Add(TaskbarType.StartIsBackOpenShell, "https://winclassic.boards.net/thread/280/classic-taskbar-superbar-startisback");
-			TaskbarTypeSupport.Add(TaskbarType.StartIsBackOpenShell, "WinClassic");
-			TaskbarTypeSupportLink.Add(TaskbarType.StartIsBackOpenShell, "https://winclassic.boards.net/thread/280/classic-taskbar-superbar-startisback");
-
 			TaskbarTypeAuthor.Add(TaskbarType.Windows81Vanilla, "Leet");
 			TaskbarTypeAuthorLink.Add(TaskbarType.Windows81Vanilla, "https://github.com/AEAEAEAE4343/");
 			TaskbarTypeSupport.Add(TaskbarType.Windows81Vanilla, "GitHub Issues");

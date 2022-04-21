@@ -79,10 +79,6 @@ namespace SimpleClassicTheme
             {
                 case TaskbarType.SimpleClassicThemeTaskbar:
                     return File.Exists($"{Configuration.InstallPath}Taskbar\\SimpleClassicThemeTaskbar.exe");
-                case TaskbarType.StartIsBackOpenShell:
-                    bool osInstalled = Directory.Exists("C:\\Program Files\\Open-Shell\\");
-                    bool sibInstalled = Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
-                    return !((!osInstalled || !sibInstalled) && Taskbar);
                 case TaskbarType.RetroBar:
                     return File.Exists($"{Configuration.InstallPath}RetroBar\\RetroBar.exe");
                 case TaskbarType.Windows81Vanilla:
@@ -96,21 +92,10 @@ namespace SimpleClassicTheme
         {
             EnableAllControls();
 
-            if (CheckDependencies(Configuration.EnableTaskbar))
-            {
-                if (Configuration.EnableTaskbar && Configuration.TaskbarType == TaskbarType.StartIsBackOpenShell)
-                    buttonInstallRequirements.Text = "Reconfigure OS+SiB";
-                else
-                {
-                    buttonInstallRequirements.Text = "Install requirements";
-                    buttonInstallRequirements.Enabled = false;
-                }
-            }
-            else
-            {
-                buttonEnable.Enabled = false;
-                buttonDisable.Enabled = false;
-            }
+            bool dependenciesInstalled = CheckDependencies(Configuration.EnableTaskbar);
+            buttonInstallRequirements.Enabled = !dependenciesInstalled;
+            buttonEnable.Enabled = dependenciesInstalled;
+            buttonDisable.Enabled = dependenciesInstalled;
 
             // Do a bunch of version/configuration specific checks
             Version OSVersion = Environment.OSVersion.Version;
@@ -118,8 +103,6 @@ namespace SimpleClassicTheme
             // ECMT: Windows 10 x64
             buttonECMT.Enabled = OSVersion.Major == 10 && OSVersion.CompareString("10.0.22000.0") < 0 && IntPtr.Size == 8;
             buttonECMT.Enabled &= !File.Exists("C:\\Windows\\System32\\ExplorerContextMenuTweaker.dll");
-            // ExplorerPatcher: Windows 11 x64
-            buttonExplorerPatcher.Enabled = OSVersion.Major == 10 /*&& OSVersion.CompareString("10.0.22000.0") >= 0 */ && IntPtr.Size == 8;
 
             button3DBorders.Text = UsefulRegistryKeys.Borders3D ? "Disable 3D Borders" : "Enable 3D Borders";
         }
@@ -164,14 +147,6 @@ namespace SimpleClassicTheme
         // Install dependencies
         private void ButtonInstallRequirements_Click(object sender, EventArgs e)
         {
-            bool osInstalled = Directory.Exists("C:\\Program Files\\Open-Shell\\");
-            bool sibInstalled = Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StartIsBack\\"));
-            if (buttonInstallRequirements.Text == "Reconfigure OS+SiB")
-            {
-                ExtraFunctions.ReConfigureOS(osInstalled, osInstalled, sibInstalled);
-                return;
-            }
-
             ExtraFunctions.InstallDependencies();
             
             //Make sure EVERYTHING is disabled before continuing
@@ -182,6 +157,11 @@ namespace SimpleClassicTheme
         // Open Classic Theme CPL
         private void ButtonConfigure_Click(object sender, EventArgs e)
         {
+            if (ModifierKeys.HasFlag(Keys.Shift))
+            {
+                new ThemeConfigurationForm().ShowDialog();
+                return;
+            }
             File.WriteAllBytes($"{Configuration.InstallPath}deskn.cpl", Properties.Resources.desktopControlPanelCPL);
             Process.Start($"{Configuration.InstallPath}deskn.cpl");
         }
@@ -203,12 +183,6 @@ namespace SimpleClassicTheme
             File.WriteAllBytes("C:\\Windows\\System32\\ExplorerContextMenuTweaker.dll", Properties.Resources.ExplorerContextMenuTweaker);
             File.WriteAllBytes("C:\\Windows\\System32\\ShellPayload.dll", Properties.Resources.ShellPayload);
             Process.Start(new ProcessStartInfo() { FileName = "C:\\Windows\\System32\\regsvr32.exe", Arguments = "ExplorerContextMenuTweaker.dll", Verb = "runas" }).WaitForExit();
-        }
-
-        // Show ExplorerPatcher UI
-        private void ButtonExplorerPatcher_Click(object sender, EventArgs e)
-        {
-            new ExplorerPatcherForm().ShowDialog(this);
         }
 
         // Make borders 3D by changing UPM
@@ -234,42 +208,6 @@ namespace SimpleClassicTheme
         private void ButtonAHKScripts_Click(object sender, EventArgs e)
         {
             new AHKScriptManager().ShowDialog();
-        }
-
-        // Run the SCT utility manager
-        private void ButtonUtilities_Click(object sender, EventArgs e)
-        {
-            new UtilityManagerForm().ShowDialog();
-        }
-
-        // Restore all window settings
-        private void ButtonRestoreWindowSettings_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show(this, "This action will log you out. Continue?", "Simple Classic Theme", MessageBoxButtons.YesNo) == DialogResult.No)
-            {
-                return;
-            }
-
-            //Put Windows Aero scheme on
-            File.WriteAllText($"{Configuration.InstallPath}reg_windowcolors_restore.reg", Properties.Resources.reg_windowcolors_restore);
-            Process.Start("C:\\Windows\\System32\\reg.exe", $"import {Configuration.InstallPath}reg_windowcolors_restore.reg").WaitForExit();
-            Process.Start("C:\\Windows\\Resources\\Themes\\aero.theme").WaitForExit();
-
-            //Restore WindowMetrics
-            File.WriteAllText($"{Configuration.InstallPath}reg_windowmetrics_restore.reg", Environment.OSVersion.Version.Major == 10 ? Properties.Resources.reg_windowmetrics_restore : Properties.Resources.reg_windowmetrics_81);
-            Process.Start("C:\\Windows\\System32\\reg.exe", $"import {Configuration.InstallPath}reg_windowmetrics_restore.reg").WaitForExit();
-
-            System.Threading.Thread.Sleep(2000);
-            User32.ExitWindowsEx(0 | 0x00000004, 0);
-        }
-
-		// Uninstall SCT
-		private void ButtonUninstall_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("This restores all default theme settings and restart you PC.\nContinue?", "SCT Uninstallation", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                ClassicTheme.RemoveSCT();
-            }
         }
 
         #endregion

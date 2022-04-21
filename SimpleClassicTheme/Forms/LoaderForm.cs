@@ -61,12 +61,6 @@ namespace SimpleClassicTheme.Forms
             Configuration.MigrateOldSCTRegistry();
             Application.VisualStyleState = Configuration.Enabled ? VisualStyleState.NoneEnabled : VisualStyleState.ClientAndNonClientAreasEnabled;
 
-            //If it's the first time running SCT, start the wizard.
-            if (args.Length == 0 && Configuration.ShowWizard && MessageBox.Show("It seems to be the first time you are running SCT.\nWould you like to run the automated setup tool?", "First run", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                SetupWizard.SetupHandler.ShowWizard(SetupWizard.SetupHandler.CreateWizard());
-            else
-                Configuration.ShowWizard = false;
-
             Directory.CreateDirectory(Configuration.InstallPath);
 
             // Small delay for pressing Details button
@@ -312,9 +306,7 @@ namespace SimpleClassicTheme.Forms
                             WriteLine($"Set configuration item '{argument.Item2[0]}' to '{argument.Item2[1]}'");
                             break;
                         case "--wizard":
-                            WriteLine("Running SCT wizard... (Note that this console will stay open)");
-                            SetupWizard.SetupHandler.ShowWizard(SetupWizard.SetupHandler.CreateWizard());
-                            WriteLine("SCT Wizard finished");
+                            WriteLine("The wizard was removed in 1.7.0.6, it will be rebuilt soon.");
                             break;
                     }
                 }

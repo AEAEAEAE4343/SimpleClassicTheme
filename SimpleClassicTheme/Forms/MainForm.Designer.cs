@@ -67,14 +67,10 @@ namespace SimpleClassicTheme
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.buttonExplorerPatcher = new System.Windows.Forms.Button();
             this.buttonAHKScripts = new System.Windows.Forms.Button();
             this.buttonECMT = new System.Windows.Forms.Button();
-            this.buttonUtilities = new System.Windows.Forms.Button();
             this.buttonRibbonDisabler = new System.Windows.Forms.Button();
             this.buttonRunOnBoot = new System.Windows.Forms.Button();
-            this.buttonRestoreWindowSettings = new System.Windows.Forms.Button();
-            this.buttonUninstall = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.button3DBorders = new System.Windows.Forms.Button();
             this.buttonInstallRequirements = new System.Windows.Forms.Button();
@@ -115,20 +111,20 @@ namespace SimpleClassicTheme
             this.optionsToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -139,27 +135,27 @@ namespace SimpleClassicTheme
             this.reportBugsToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(40, 20);
             this.helpToolStripMenuItem1.Text = "&Help";
             // 
             // guideToolStripMenuItem
             // 
             this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-            this.guideToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.guideToolStripMenuItem.Text = "&Guide";
             this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
             // 
             // reportBugsToolStripMenuItem
             // 
             this.reportBugsToolStripMenuItem.Name = "reportBugsToolStripMenuItem";
-            this.reportBugsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.reportBugsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.reportBugsToolStripMenuItem.Text = "Report bugs";
             this.reportBugsToolStripMenuItem.Click += new System.EventHandler(this.reportBugsToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -214,14 +210,10 @@ namespace SimpleClassicTheme
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.buttonExplorerPatcher);
             this.panel1.Controls.Add(this.buttonAHKScripts);
             this.panel1.Controls.Add(this.buttonECMT);
-            this.panel1.Controls.Add(this.buttonUtilities);
             this.panel1.Controls.Add(this.buttonRibbonDisabler);
             this.panel1.Controls.Add(this.buttonRunOnBoot);
-            this.panel1.Controls.Add(this.buttonRestoreWindowSettings);
-            this.panel1.Controls.Add(this.buttonUninstall);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.button3DBorders);
             this.panel1.Controls.Add(this.buttonInstallRequirements);
@@ -233,33 +225,32 @@ namespace SimpleClassicTheme
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(11);
-            this.panel1.Size = new System.Drawing.Size(369, 382);
+            this.panel1.Size = new System.Drawing.Size(369, 311);
             this.panel1.TabIndex = 18;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 324);
+            this.label2.Location = new System.Drawing.Point(8, 253);
             this.label2.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(118, 13);
+            this.label2.Size = new System.Drawing.Size(135, 13);
             this.label2.TabIndex = 31;
-            this.label2.Text = "Version %v (revision %r)";
+            this.label2.Text = "Version %v (revision mct%r)";
             // 
             // label1
             // 
             this.label1.BackColor = System.Drawing.SystemColors.Info;
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label1.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.label1.Location = new System.Drawing.Point(11, 343);
+            this.label1.Location = new System.Drawing.Point(11, 272);
             this.label1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(344, 28);
             this.label1.TabIndex = 30;
-            this.label1.Text = "This is an RC release of SCT. Unexpected issues are more likely to occur with thi" +
-    "s version and support is limited.";
+            this.label1.Text = "This is an alpha release of Simple Classic Theme. Unexpected issues will occur wi" +
+    "th this version and support is not guaranteed.";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.label1.Visible = false;
             // 
             // label5
             // 
@@ -269,17 +260,6 @@ namespace SimpleClassicTheme
             this.label5.Size = new System.Drawing.Size(118, 13);
             this.label5.TabIndex = 29;
             this.label5.Text = "Other Classic programs:";
-            // 
-            // buttonExplorerPatcher
-            // 
-            this.buttonExplorerPatcher.Location = new System.Drawing.Point(191, 222);
-            this.buttonExplorerPatcher.Margin = new System.Windows.Forms.Padding(11, 6, 0, 5);
-            this.buttonExplorerPatcher.Name = "buttonExplorerPatcher";
-            this.buttonExplorerPatcher.Size = new System.Drawing.Size(164, 23);
-            this.buttonExplorerPatcher.TabIndex = 10;
-            this.buttonExplorerPatcher.Text = "Patch Explorer (Win11 only)";
-            this.buttonExplorerPatcher.UseVisualStyleBackColor = true;
-            this.buttonExplorerPatcher.Click += new System.EventHandler(this.ButtonExplorerPatcher_Click);
             // 
             // buttonAHKScripts
             // 
@@ -303,20 +283,9 @@ namespace SimpleClassicTheme
             this.buttonECMT.UseVisualStyleBackColor = true;
             this.buttonECMT.Click += new System.EventHandler(this.ButtonECMT_Click);
             // 
-            // buttonUtilities
-            // 
-            this.buttonUtilities.Location = new System.Drawing.Point(191, 290);
-            this.buttonUtilities.Margin = new System.Windows.Forms.Padding(11, 6, 0, 5);
-            this.buttonUtilities.Name = "buttonUtilities";
-            this.buttonUtilities.Size = new System.Drawing.Size(164, 23);
-            this.buttonUtilities.TabIndex = 12;
-            this.buttonUtilities.Text = "Install Classic utilities";
-            this.buttonUtilities.UseVisualStyleBackColor = true;
-            this.buttonUtilities.Click += new System.EventHandler(this.ButtonUtilities_Click);
-            // 
             // buttonRibbonDisabler
             // 
-            this.buttonRibbonDisabler.Location = new System.Drawing.Point(191, 256);
+            this.buttonRibbonDisabler.Location = new System.Drawing.Point(191, 222);
             this.buttonRibbonDisabler.Margin = new System.Windows.Forms.Padding(11, 6, 0, 5);
             this.buttonRibbonDisabler.Name = "buttonRibbonDisabler";
             this.buttonRibbonDisabler.Size = new System.Drawing.Size(164, 23);
@@ -335,28 +304,6 @@ namespace SimpleClassicTheme
             this.buttonRunOnBoot.Text = "Install SCT";
             this.buttonRunOnBoot.UseVisualStyleBackColor = true;
             this.buttonRunOnBoot.Click += new System.EventHandler(this.ButtonRunOnBoot_Click);
-            // 
-            // buttonRestoreWindowSettings
-            // 
-            this.buttonRestoreWindowSettings.Location = new System.Drawing.Point(11, 256);
-            this.buttonRestoreWindowSettings.Margin = new System.Windows.Forms.Padding(6, 6, 5, 5);
-            this.buttonRestoreWindowSettings.Name = "buttonRestoreWindowSettings";
-            this.buttonRestoreWindowSettings.Size = new System.Drawing.Size(164, 23);
-            this.buttonRestoreWindowSettings.TabIndex = 7;
-            this.buttonRestoreWindowSettings.Text = "Restore window settings";
-            this.buttonRestoreWindowSettings.UseVisualStyleBackColor = true;
-            this.buttonRestoreWindowSettings.Click += new System.EventHandler(this.ButtonRestoreWindowSettings_Click);
-            // 
-            // buttonUninstall
-            // 
-            this.buttonUninstall.Location = new System.Drawing.Point(11, 290);
-            this.buttonUninstall.Margin = new System.Windows.Forms.Padding(6, 6, 5, 5);
-            this.buttonUninstall.Name = "buttonUninstall";
-            this.buttonUninstall.Size = new System.Drawing.Size(164, 23);
-            this.buttonUninstall.TabIndex = 8;
-            this.buttonUninstall.Text = "Uninstall (restores all UI)";
-            this.buttonUninstall.UseVisualStyleBackColor = true;
-            this.buttonUninstall.Click += new System.EventHandler(this.ButtonUninstall_Click);
             // 
             // label4
             // 
@@ -427,7 +374,6 @@ namespace SimpleClassicTheme
 
         #endregion
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -447,13 +393,9 @@ namespace SimpleClassicTheme
         private System.Windows.Forms.Button button3DBorders;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button buttonRunOnBoot;
-        private System.Windows.Forms.Button buttonRestoreWindowSettings;
-        private System.Windows.Forms.Button buttonUninstall;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button buttonExplorerPatcher;
         private System.Windows.Forms.Button buttonAHKScripts;
         private System.Windows.Forms.Button buttonECMT;
-        private System.Windows.Forms.Button buttonUtilities;
         private System.Windows.Forms.Button buttonRibbonDisabler;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;

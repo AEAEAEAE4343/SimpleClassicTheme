@@ -49,12 +49,6 @@ namespace SimpleClassicTheme
 			set => SetItem("TaskbarDelay", value, RegistryValueKind.DWord);
 		}
 
-		public static bool ShowWizard
-		{
-			get => bool.Parse(GetItem("ShowWizard", true).ToString());
-			set => SetItem("ShowWizard", value.ToString());
-		}
-
 		public static bool BetaUpdates
 		{
 			get => bool.Parse(GetItem("BetaUpdates", false).ToString());
@@ -69,7 +63,7 @@ namespace SimpleClassicTheme
 
 		public static TaskbarType TaskbarType
 		{
-			get => (TaskbarType)Enum.Parse(typeof(TaskbarType), GetItem("TaskbarType", "SimpleClassicThemeTaskbar").ToString());
+			get => (TaskbarType)Enum.Parse(typeof(TaskbarType), GetItem("TaskbarType", "RetroBar").ToString());
 			set => SetItem("TaskbarType", value.ToString());
 		}
 
@@ -153,7 +147,7 @@ namespace SimpleClassicTheme
 					switch (oldValue)
 					{
 						case "SiB+OS":
-							TaskbarType = Environment.OSVersion.Version.CompareTo("6.3") > 0 ? TaskbarType.StartIsBackOpenShell : TaskbarType.Windows81Vanilla;
+							TaskbarType = TaskbarType.None;
 							break;
 						case "SCTT":
 							TaskbarType = TaskbarType.SimpleClassicThemeTaskbar;
@@ -167,7 +161,7 @@ namespace SimpleClassicTheme
 			// 1.5.4 or lower -> 1.6.0
 			if (ConfigVersion.CompareString("1.6.0") < 0)
 			{
-				ShowWizard = (string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\Simple Classic Theme\Base", "EnableTaskbar", "NO") == "NO";
+				//ShowWizard = (string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\Simple Classic Theme\Base", "EnableTaskbar", "NO") == "NO";
 			}
 
 			ConfigVersion = Assembly.GetExecutingAssembly().GetName().Version;
