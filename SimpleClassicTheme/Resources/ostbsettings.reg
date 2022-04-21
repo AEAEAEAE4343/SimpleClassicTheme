@@ -1,9 +1,0 @@
-Windows Registry Editor Version 5.00
-
-[HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings]
-"EnableStartButton"=dword:00000001
-"StartButtonType"="CustomButton"
-"StartButtonPath"="%USERPROFILE%\\AppData\\Local\\StartIsBack\\Orbs\\CS_classic3small.bmp"
-"CustomTaskbar"=dword:00000001
-"TaskbarLook"="Opaque"
-"TaskbarTexture"="%USERPROFILE%\\AppData\\Local\\StartIsBack\\Orbs\\taskbar.png"
