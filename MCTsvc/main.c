@@ -17,7 +17,7 @@
  *  along with this program. If not, see <https://www.gnu.org/licenses/>.
  *
  *
- *  SCT as a Service / Multi-user Classic Theme
+ *  Multi-user Classic Theme
  *  Copyright (C) 2022 Anis Errais (Leet)
  *  This code is part of the Simple Classic Theme project, which can be
  *  found here: https://github.com/WinClassic/SimpleClassicTheme
