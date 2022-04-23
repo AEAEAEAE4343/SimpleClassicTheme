@@ -43,7 +43,7 @@ BOOL StopService(SC_HANDLE service)
         if (GetLastError() == ERROR_SERVICE_NOT_ACTIVE)
             return NULL;
 
-        printf("Could not stop the MCT service: 0x%8x\n", GetLastError());
+        _tprintf(TEXT("Could not stop the MCT service: 0x%8x\n"), GetLastError());
         return GetLastError();
     }
 
@@ -52,7 +52,7 @@ BOOL StopService(SC_HANDLE service)
     {
         if (GetTickCount64() - ullStartTime > 10000ULL)
         {
-            printf("Timed out waiting for the MCT service to stop\n");
+            _tprintf(TEXT("Timed out waiting for the MCT service to stop\n"));
             return ERROR_TIMEOUT;
         }
 
@@ -63,7 +63,7 @@ BOOL StopService(SC_HANDLE service)
             sizeof(SERVICE_STATUS_PROCESS),
             &bytesNeeded))
         {
-            printf("Could not query service status: 0x%8x\n", GetLastError());
+            _tprintf(TEXT("Could not query service status: 0x%8x\n"), GetLastError());
             return GetLastError();
         }
 
@@ -84,8 +84,9 @@ int _tmain(int argc, TCHAR* argv[])
     if (StartServiceCtrlDispatcher(ServiceTable))
         return GetLastError();
 
-    if (argc == 2)
+    if (argc == 2 && (_tcscmp(argv[1], TEXT("/install")) == 0 || _tcscmp(argv[1], TEXT("/uninstall")) == 0))
     {
+        _tprintf(TEXT("Preparing...\n"));
         TCHAR destPath[MAX_PATH];
         TCHAR executableSrcPath[MAX_PATH];
         TCHAR executableDestPath[MAX_PATH];
@@ -93,17 +94,33 @@ int _tmain(int argc, TCHAR* argv[])
         TCHAR dllDestPath[MAX_PATH];
         
         // Get current executable
-        GetModuleFileName(NULL, executableSrcPath, MAX_PATH);
+        if (!GetModuleFileName(NULL, executableSrcPath, MAX_PATH))
+        {
+            _tprintf(TEXT("Could not get the file path of the current process: 0x%8x\n"), GetLastError());
+            return GetLastError();
+        }
         
         // Set current directory
         _tcscpy_s(destPath, MAX_PATH, executableSrcPath);
         TCHAR* p = _tcsrchr(destPath, TEXT('\\'));
         if (p) p[0] = 0;
-        SetCurrentDirectory(destPath);
+        if (!SetCurrentDirectory(destPath))
+        {
+            _tprintf(TEXT("Could not set the current working directory: 0x%8x\n"), GetLastError());
+            return GetLastError();
+        }
 
         // Get destination directory
-        GetFullPathName(TEXT("MCTapi.dll"), MAX_PATH, dllSrcPath, NULL);
-        GetEnvironmentVariable(TEXT("programfiles"), destPath, MAX_PATH);
+        if (!GetFullPathName(TEXT("MCTapi.dll"), MAX_PATH, dllSrcPath, NULL))
+        {
+            _tprintf(TEXT("Could not determine the file path of the library file: 0x%8x\n"), GetLastError());
+            return GetLastError();
+        }
+        if (!GetEnvironmentVariable(TEXT("programfiles"), destPath, MAX_PATH))
+        {
+            _tprintf(TEXT("Could not determine the path of the Program Files directory: 0x%8x\n"), GetLastError());
+            return GetLastError();
+        }
         _tcscpy_s(executableDestPath, MAX_PATH, destPath);
         _tcscpy_s(dllDestPath, MAX_PATH, destPath);
 
@@ -112,7 +129,7 @@ int _tmain(int argc, TCHAR* argv[])
         _tcscat_s(executableDestPath, MAX_PATH, TEXT("\\MCT\\MCTsvc.exe"));
         _tcscat_s(dllDestPath, MAX_PATH, TEXT("\\MCT\\MCTapi.dll"));
 
-        _tprintf(TEXT("Installing to: %s\n%s -> %s\n%s -> %s\n"), destPath, executableSrcPath, executableDestPath, dllSrcPath, dllDestPath);
+        _tprintf(TEXT("Installation path: %s\n%s -> %s\n%s -> %s\n"), destPath, executableSrcPath, executableDestPath, dllSrcPath, dllDestPath);
 
         if (_tcscmp(argv[1], TEXT("/install")) == 0)
         {
