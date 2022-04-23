@@ -127,7 +127,7 @@ namespace SimpleClassicTheme.Properties {
         ///REM ===================================
         ///REM        Programs to run after
         ///REM       disabling classic theme
-        ///REM ============ [rest of string was truncated]&quot;;.
+        ///REM ================================== [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DisableThemeScript {
             get {
@@ -158,7 +158,8 @@ namespace SimpleClassicTheme.Properties {
         ///REM ===================================
         ///REM        Programs to run after
         ///REM       enabling classic theme
-        ///REM ============== [rest of string was truncated]&quot;;.
+        ///REM ===================================
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EnableThemeScript {
             get {
@@ -193,7 +194,7 @@ namespace SimpleClassicTheme.Properties {
         ///
         ///--boot                                                      Running this command will make SCT set Classic Theme up 
         ///                                                            the way it was before logging out. This is used for 
-        ///                                         [rest of string was truncated]&quot;;.
+        ///                                               [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string helpMessage {
             get {
@@ -207,16 +208,6 @@ namespace SimpleClassicTheme.Properties {
         internal static System.Drawing.Bitmap msiexec {
             get {
                 object obj = ResourceManager.GetObject("msiexec", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap null_classic3small {
-            get {
-                object obj = ResourceManager.GetObject("null_classic3small", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -385,7 +376,7 @@ namespace SimpleClassicTheme.Properties {
         ///  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
         ///&quot;ScrollWidth&quot;=&quot;-255&quot;
         ///&quot;ScrollHeight&quot;=&quot;-255&quot;
-        ///&quot;PaddedBord [rest of string was truncated]&quot;;.
+        ///&quot;PaddedBorderWidth&quot;=&quot;-6 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string reg_windowmetrics_restore {
             get {
@@ -529,16 +520,6 @@ namespace SimpleClassicTheme.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap taskbar {
-            get {
-                object obj = ResourceManager.GetObject("taskbar", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to schtasks /Delete /TN &quot;Simple Classic Theme&quot; /F
         ///schtasks /Create /TN &quot;Simple Classic Theme&quot; /XML &quot;C:\SCT\SCTTask.xml&quot;.
         /// </summary>
@@ -568,26 +549,6 @@ namespace SimpleClassicTheme.Properties {
         internal static string updateString {
             get {
                 return ResourceManager.GetString("updateString", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap win7 {
-            get {
-                object obj = ResourceManager.GetObject("win7", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap win9x {
-            get {
-                object obj = ResourceManager.GetObject("win9x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

@@ -3,3 +3,8 @@ For C/C++ projects: $(SolutionDir)bin\$(PlatformTarget)\$(Configuration)\Native
 For .NET projects:  $(SolutionDir)bin\$(PlatformTarget)\$(Configuration)\Managed
 
 No code guidelines except camelCase for .NET
+
+Commit descriptions:
+The exact contents don't matter, but each change must follow the following format:
+Project: Change
+Possible projects beings: MCTsvc, MCTapi, MCT.NET or SCT
