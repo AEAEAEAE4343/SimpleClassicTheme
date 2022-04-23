@@ -1,0 +1,314 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="win7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\win7.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="helpMessage" xml:space="preserve">
+    <value>========================================================================================================================
+Usage: SimpleClassicTheme.exe (arguments...) 
+You can add as many from the arguments listed down here as you want
+
+--boot                                                      Running this command will make SCT set Classic Theme up 
+                                                            the way it was before logging out. This is used for 
+                                                            auto-launch. Do not run this yourself. 
+										                    
+--configure                                                 Opens the Classic Theme configuration menu, where you can
+-c                                                          set your color schemes.
+										                    
+--disable                                                   Disables Classic Theme. Behaviour is the same as the 
+-d                                                          button in the GUI. 
+										                    
+--enable                                                    Enables Classic Theme. Behaviour is the same as the 
+-e                                                          button in the GUI. 
+										                    
+--gui                                                       Runs the GUI of Simple Classic Theme. Any arguments passed
+-g                                                          after this one will be ignored. 
+										                    
+--help -h /help /h /?                                       Displays this help menu. 
+										                    
+--install                                                   Installs SCT to your C:\ drive and configures it to
+-i                                                          automatically run on boot. 
+										                    
+--install-dependencies                                      Installs all dependencies required for the set 
+-r                                                          configuration. This can be any combination, all or none
+                                                            of: SCT Taskbar, Open-Shell, StartlsBack++.
+										                    
+--set [setting name] [value]                                Sets the specified setting to the given value. Value must 
+-s [setting name] [value]                                   be of correct type. Possibilities:
+                                                               Boolean EnableTaskbar 
+                                                                  Sets whether SCT should also enable and disable a 
+                                                                  Classic Taskbar 
+                                                               Int32   TaskbarDelay	 
+                                                                  Sets the delay between enabling the Classic Taskbar 
+                                                                  and enabling Classic Theme. Only applicable for 
+                                                                  TaskbarType == OS+SiB 
+                                                               String  UpdateMode
+                                                                  Sets the way SCT should handle auto updating. 
+                                                                  Possible values: 'Automatic', 'Ask on startup' 
+                                                                  and 'Manual. 
+                                                               String  TaskbarType
+                                                                  Sets the Classic Taskbar to be used when SCT is 
+                                                                  enabling and disabling. Possible Values: OS+SiB 
+                                                                  or SCTT. 
+										                    
+--wizard                                                    Launches the Simple Classic Theme Install Wizard. This is
+-w                                                          a GUI tool that helps you install and configure SCT.
+
+
+For compatibility purposes, all arguments supplied starting with '/' will have / replaced with --
+
+This command line system allows for some pretty cool commands. For example:
+SCT.exe --set EnableTaskbar True --set TaskbarType SCTT --install-dependencies --install --enable 
+(Sets up SCT to use SCTT, installs dependencies, makes it auto-launch and enables it)</value>
+  </data>
+  <data name="reg_classicschemes_add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\addSchemes.sbat;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="fixstrips" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fixstrips.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="reg_os_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ossettings.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="classicStartIsBackTheme" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Classic3.msstyles;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cmd_create_task" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\scttask.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="setup_folder-options-x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fox.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="setup_classic-taskmgr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ctm.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="reg_upm_disable3d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\reg disable upm.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="removalString" xml:space="preserve">
+    <value>@echo off
+title SCT Uninstallation
+echo Removing final SCT files
+timeout 5 &gt; nul
+rmdir /S /Q {InstallPath}
+shutdown.exe -r -t 2
+(goto) 2&gt;nul &amp; del "%~f0"</value>
+  </data>
+  <data name="winxp_wizard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\winxp_wizard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="reg_upm_enable3d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\upm.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="taskbar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\taskbar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="reg_windowcolors_restore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RestoreColors.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="win9x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\win9x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="null_classic3small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\null_classic3small.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DisableThemeScript" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DisableThemeScript.bat;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="taskScheduleCommands" xml:space="preserve">
+    <value>schtasks /Delete /TN "Simple Classic Theme" /F
+schtasks /Create /TN "Simple Classic Theme" /XML "C:\SCT\SCTTask.xml"</value>
+  </data>
+  <data name="updateString" xml:space="preserve">
+    <value>@echo off
+title SCT Update
+echo Starting installation...
+timeout 2 &gt; nul
+echo Killing SCT...
+taskkill /im %2 /f
+echo Removing old files...
+del %2
+echo Installing SCT v%1...
+copy %3 %2
+echo Starting SCT...
+%2
+echo Removing temporary files...
+del %3
+(goto) 2&gt;nul &amp; del "%~f0"</value>
+  </data>
+  <data name="ExplorerContextMenuTweaker" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ExplorerContextMenuTweaker.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="reg_windowmetrics_restore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\restoreMetrics.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;iso-8859-1</value>
+  </data>
+  <data name="EnableThemeScript" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnableThemeScript.bat;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ShellPayload" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ShellPayload.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="reg_windowmetrics_81" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\reg_windowmetrics_81.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="desktopControlPanelCPL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\deskn.cpl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ribbonDisabler" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RibbonDisabler.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="msiexec" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\msiexec.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="reg_os_sm_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ossmsettings.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="reg_os_tb_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ostbsettings.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="reg_sib_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sibsettings.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="setup_open-shell" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OpenShellSetup_4_4_166.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="sct_light_164" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SCT Logo x164.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sct_banner_dark_400x73" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SCT Banner Dark 400x73.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sct_banner_light_400x73" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SCT Banner 400x73.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sct_dark_164" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SCT Logo Dark x164.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sct_dark_275" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SCT Logo Dark x275.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sct_light_275" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SCT Logo x275.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sct_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SCT Logo.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+</root>

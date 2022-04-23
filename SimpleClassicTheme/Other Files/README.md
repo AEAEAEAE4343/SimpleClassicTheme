@@ -1,0 +1,2 @@
+# SimpleClassicTheme
+Basically, I saw <a href="http://winclassic.boards.net/thread/413/reversibly-enable-disable-classic-powershell">this thread on the WinClassic boards</a> which is an amazing solution for Classic Theme and decided I wanted to create a GUI for it. For more info check <a href="http://winclassic.boards.net/thread/456/reversibly-enable-disable-classic-simple">the thread on the WinClassic Boards</a>

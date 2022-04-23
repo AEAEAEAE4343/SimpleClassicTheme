@@ -1,26 +1,373 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props" Condition="Exists('..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0929C14C-9E7B-4F2D-ADFD-67CE83618471}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows8.0</TargetFramework>
-    <Platforms>x64;x86</Platforms>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UseWPF>False</UseWPF>
+    <RootNamespace>SimpleClassicTheme</RootNamespace>
+    <AssemblyName>SimpleClassicTheme</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>0.3.0.0</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
-
   <PropertyGroup>
-    <OutputPath>$(SolutionDir)bin\$(PlatformTarget)\$(Configuration)\Managed</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>$(SolutionDir)bin\$(Platform)\$(Configuration)\Managed</OutputPath>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <Optimize>False</Optimize>
+  <PropertyGroup>
+    <StartupObject>SimpleClassicTheme.ApplicationEntryPoint</StartupObject>
+    <ApplicationIcon>SCT Logo.ico</ApplicationIcon>
+    <ApplicationManifest>Other Files\app.manifest</ApplicationManifest>
   </PropertyGroup>
-
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MCT.NET\MCT.NET.csproj" />
+    <Reference Include="Costura, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Costura.Fody.4.1.0\lib\net40\Costura.dll</HintPath>
+    </Reference>
+    <Reference Include="Craftplacer.ClassicSuite.Wizards, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Craftplacer.ClassicSuite.Wizards.1.3.0\lib\Craftplacer.ClassicSuite.Wizards.dll</HintPath>
+    </Reference>
+    <Reference Include="NtApiDotNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NtApiDotNet.1.1.31\lib\net45\NtApiDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Compile Include="Forms\Information\AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Information\AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Utility\AHKScriptManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Utility\AHKScriptManager.Designer.cs">
+      <DependentUpon>AHKScriptManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Information\CommandLineHelpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Information\CommandLineHelpForm.Designer.cs">
+      <DependentUpon>CommandLineHelpForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\LoaderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LoaderForm.Designer.cs">
+      <DependentUpon>LoaderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\OptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\OptionsForm.Designer.cs">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Utility\GithubDownloader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Utility\GithubDownloader.Designer.cs">
+      <DependentUpon>GithubDownloader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Utility\TaskbarTypeSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Utility\TaskbarTypeSelector.Designer.cs">
+      <DependentUpon>TaskbarTypeSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Unfinished\ThemeConfigurationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Unfinished\ThemeConfigurationForm.Designer.cs">
+      <DependentUpon>ThemeConfigurationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Unfinished\WMITest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Unfinished\WMITest.Designer.cs">
+      <DependentUpon>WMITest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Function Classes\ClassicColorScheme.cs" />
+    <Compile Include="Function Classes\ClassicTaskbar.cs" />
+    <Compile Include="Function Classes\ClassicTheme.cs" />
+    <Compile Include="Function Classes\Configuration.cs" />
+    <Compile Include="Function Classes\ExtraFunctions.cs" />
+    <Compile Include="Forms\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApplicationEntryPoint.cs" />
+    <Compile Include="Function Classes\SystemMenu.cs" />
+    <Compile Include="Function Classes\SystemMenuForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Function Classes\UsefulRegistryKeys.cs" />
+    <Compile Include="Function Classes\Utilities.cs" />
+    <Compile Include="Properties\AHKScripts.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AHKScripts.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Forms\UpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UpdateForm.Designer.cs">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Function Classes\WinApi.cs" />
+    <EmbeddedResource Include="Forms\Information\AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Utility\AHKScriptManager.resx">
+      <DependentUpon>AHKScriptManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Information\CommandLineHelpForm.resx">
+      <DependentUpon>CommandLineHelpForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LoaderForm.resx">
+      <DependentUpon>LoaderForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\OptionsForm.resx">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Utility\GithubDownloader.resx">
+      <DependentUpon>GithubDownloader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Utility\TaskbarTypeSelector.resx">
+      <DependentUpon>TaskbarTypeSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Unfinished\ThemeConfigurationForm.resx">
+      <DependentUpon>ThemeConfigurationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Unfinished\WMITest.resx">
+      <DependentUpon>WMITest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\AHKScripts.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AHKScripts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Forms\UpdateForm.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Other Files\app.manifest" />
+    <None Include="Other Files\packages.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Other Files\README.md" />
+    <None Include="Resources\addSchemes.bat" />
+    <None Include="Resources\addSchemes.sbat" />
+    <None Include="Resources\Classic3.msstyles" />
+    <None Include="Resources\deskn.cpl" />
+    <None Include="Resources\DisableThemeScript.bat" />
+    <None Include="Resources\EnableThemeScript.bat" />
+    <None Include="Resources\ossettings.reg" />
+    <None Include="Resources\ossmsettings.reg" />
+    <None Include="Resources\ostbsettings.reg" />
+    <None Include="Resources\reg disable upm.reg" />
+    <None Include="Resources\reg_windowmetrics_81.reg" />
+    <None Include="Resources\RestoreColors.reg" />
+    <None Include="Resources\restoreMetrics.reg" />
+    <None Include="Resources\sibsettings.reg" />
+    <None Include="Resources\upm.reg" />
+    <None Include="Resources\WindowMetrics.reg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Other Files\App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\null_classic3small.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\taskbar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\win9x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\win7.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ctm.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ShellPayload.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ExplorerContextMenuTweaker.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SCT Banner 400x81.png" />
+    <None Include="Resources\winxp_wizard.png" />
+    <None Include="Resources\msiexec.png" />
+    <None Include="Resources\OpenShellSetup_4_4_166.exe" />
+    <None Include="Resources\SCT Banner 400x73.png" />
+    <None Include="Resources\SCT Banner Dark 400x73.png" />
+    <None Include="Resources\SCT Logo x164.png" />
+    <None Include="Resources\SCT Logo Dark x164.png" />
+    <None Include="Resources\SCT Logo.ico" />
+    <None Include="Resources\SCT Logo x275.png" />
+    <None Include="Resources\SCT Logo Dark x275.png" />
+    <Content Include="SCT Logo.ico" />
+    <Content Include="SimpleClassicTheme.ico" />
+    <None Include="Resources\win98sctbanner.png" />
+    <None Include="Resources\win98sct.png" />
+    <None Include="Resources\fox.exe" />
+    <None Include="Resources\RibbonDisabler.exe" />
+    <None Include="Resources\OpenShellSetup_4_4_142.exe" />
+    <None Include="Resources\fixstrips.exe" />
+    <None Include="Resources\scttask.xml" />
+    <Content Include="Resources\win98.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.0\build\Fody.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Fody.6.0.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.0.0\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props'))" />
+  </Target>
 </Project>
