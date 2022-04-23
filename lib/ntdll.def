@@ -1,0 +1,6 @@
+NAME ntdll.dll
+EXPORTS
+ZwOpenSection
+ZwSetSecurityObject
+ZwClose
+RtlGetDaclSecurityDescriptor

@@ -116,6 +116,34 @@ namespace MCT.NET
             ClassicThemeEnabled = 0x80000001,
         }
 
+        public enum MctRevision : int
+        {
+            /// <summary>
+            /// This indicates that MCT is not installed on the system
+            /// </summary>
+            NotInstalled = -1,
+
+            /// <summary>
+            /// This indicates that MCT was found, but that MCTapi could not be loaded
+            /// </summary>
+            LoadFailed = -2,
+
+            /// <summary>
+            /// This indicates that MCT has been loaded, but that the MCTapi library that has been loaded is not of a known format
+            /// </summary>
+            InvalidLibrary = -3,
+
+            /// <summary>
+            /// This value is not used
+            /// </summary>
+            InvalidRevision = 0,
+
+            /// <summary>
+            /// Indicates that the MCT revision of the loaded MCTapi library is equal to MCT_REV_1
+            /// </summary>
+            MctRevision1 = 1
+        }
+
         /// <summary>
         /// A structure for storing error information returned from MCTapi functions
         /// </summary>
@@ -142,23 +170,23 @@ namespace MCT.NET
         /// <summary>
         /// Finds MCT and the correct API library and loads them into the current process.
         /// </summary>
-        /// <returns>If the functions succeeds, the return value will be the MCT revision loaded, otherwise this function returns 0</returns>
-        public static int InitializeAPI()
+        /// <returns>An MctRevision specifying the revision number of the loaded MCTapi, or an error code if the loading failed.</returns>
+        public static MctRevision InitializeAPI()
         {
             string path = Environment.GetEnvironmentVariable("programfiles") + "\\MCT\\MCTapi.dll";
             if (!File.Exists(path))
-                return 0;
+                return MctRevision.NotInstalled;
 
             IntPtr hModule = LoadLibrary(path);
             if (hModule == IntPtr.Zero)
-                return 0;
+                return MctRevision.LoadFailed;
 
             IntPtr functionAddress = GetProcAddress(hModule, "GetMCTRevision");
             if (functionAddress == IntPtr.Zero)
-                return 0;
+                return MctRevision.InvalidLibrary;
 
             GetMCTRevisionDelegate function = (GetMCTRevisionDelegate)Marshal.GetDelegateForFunctionPointer(functionAddress, typeof(GetMCTRevisionDelegate));
-            return function();
+            return (MctRevision)function();
         }
 
         /// <summary>

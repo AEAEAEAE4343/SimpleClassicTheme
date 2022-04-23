@@ -60,7 +60,8 @@
 
 #pragma once
 
-#define SERVICE_NAME  TEXT("MCTsvc")  
+#define SERVICE_NAME          TEXT("MCTsvc")  
+#define SERVICE_DISPLAY_NAME  TEXT("Classic Theme Management Service")
 
 #include <windows.h>
 

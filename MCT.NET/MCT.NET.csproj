@@ -17,7 +17,7 @@
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup>
-    <OutputPath>$(SolutionDir)$(Platform)\$(Configuration)\</OutputPath>
+    <OutputPath>$(SolutionDir)bin\$(Platform)\$(Configuration)\Managed</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
