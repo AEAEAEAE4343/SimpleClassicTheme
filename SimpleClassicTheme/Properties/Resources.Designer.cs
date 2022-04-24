@@ -61,16 +61,6 @@ namespace SimpleClassicTheme.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] classicStartIsBackTheme {
-            get {
-                object obj = ResourceManager.GetObject("classicStartIsBackTheme", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-16&quot;?&gt;
         ///&lt;Task version=&quot;1.2&quot; xmlns=&quot;http://schemas.microsoft.com/windows/2004/02/mit/task&quot;&gt;
         ///  &lt;RegistrationInfo&gt;
@@ -495,16 +485,6 @@ namespace SimpleClassicTheme.Properties {
         internal static byte[] setup_folder_options_x {
             get {
                 object obj = ResourceManager.GetObject("setup_folder-options-x", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] setup_open_shell {
-            get {
-                object obj = ResourceManager.GetObject("setup_open-shell", resourceCulture);
                 return ((byte[])(obj));
             }
         }
