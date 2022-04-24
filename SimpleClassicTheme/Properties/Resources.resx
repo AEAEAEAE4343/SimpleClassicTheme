@@ -191,9 +191,6 @@ SCT.exe --set EnableTaskbar True --set TaskbarType SCTT --install-dependencies -
   <data name="setup_classic-taskmgr" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ctm.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="reg_upm_disable3d" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\reg disable upm.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
-  </data>
   <data name="removalString" xml:space="preserve">
     <value>@echo off
 title SCT Uninstallation
@@ -205,12 +202,6 @@ shutdown.exe -r -t 2
   </data>
   <data name="winxp_wizard" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\winxp_wizard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="reg_upm_enable3d" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\upm.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
-  </data>
-  <data name="reg_windowcolors_restore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RestoreColors.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
   </data>
   <data name="DisableThemeScript" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DisableThemeScript.bat;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
@@ -239,17 +230,11 @@ del %3
   <data name="ExplorerContextMenuTweaker" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ExplorerContextMenuTweaker.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="reg_windowmetrics_restore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\restoreMetrics.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;iso-8859-1</value>
-  </data>
   <data name="EnableThemeScript" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EnableThemeScript.bat;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ShellPayload" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ShellPayload.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="reg_windowmetrics_81" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\reg_windowmetrics_81.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
   </data>
   <data name="desktopControlPanelCPL" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\deskn.cpl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

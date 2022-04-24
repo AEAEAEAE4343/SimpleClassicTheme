@@ -146,7 +146,7 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ApplicationEntryPoint.cs" />
+    <Compile Include="SCT.cs" />
     <Compile Include="Function Classes\SystemMenu.cs" />
     <Compile Include="Function Classes\SystemMenuForm.cs">
       <SubType>Form</SubType>
@@ -230,11 +230,6 @@
     <None Include="Resources\deskn.cpl" />
     <None Include="Resources\DisableThemeScript.bat" />
     <None Include="Resources\EnableThemeScript.bat" />
-    <None Include="Resources\reg disable upm.reg" />
-    <None Include="Resources\reg_windowmetrics_81.reg" />
-    <None Include="Resources\RestoreColors.reg" />
-    <None Include="Resources\restoreMetrics.reg" />
-    <None Include="Resources\upm.reg" />
     <None Include="Resources\WindowMetrics.reg" />
   </ItemGroup>
   <ItemGroup>

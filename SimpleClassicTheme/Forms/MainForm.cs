@@ -129,7 +129,7 @@ namespace SimpleClassicTheme
             ClassicTheme.MasterEnable(Configuration.Instance.EnableTaskbar);
             if (oldEnableValue != Configuration.Instance.Enabled)
             {
-                ApplicationEntryPoint.LoadGUI = true; Close();
+                SCT.ShouldLoadGUI = true; Close();
             }
         }
 
@@ -140,7 +140,7 @@ namespace SimpleClassicTheme
             ClassicTheme.MasterDisable(Configuration.Instance.EnableTaskbar);
             if (oldEnableValue != Configuration.Instance.Enabled)
             {
-                ApplicationEntryPoint.LoadGUI = true; Close();
+                SCT.ShouldLoadGUI = true; Close();
             }
         }
 

@@ -19,21 +19,16 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Security.Principal;
 using Microsoft.Win32;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
 using System.Windows.Forms.VisualStyles;
-using System.Linq;
 
 namespace SimpleClassicTheme
 {
-    static class ApplicationEntryPoint
+    static class SCT
     {
-		public static bool LoadGUI { get; set; }
+        public static Configuration Configuration { get; } = new Configuration();
+		public static bool ShouldLoadGUI { get; set; }
 
         /// <summary>
         /// The main entry point for the application.
@@ -69,12 +64,12 @@ namespace SimpleClassicTheme
 
             Forms.LoaderForm loader = new Forms.LoaderForm();
             loader.Show();
-            LoadGUI = loader.LoadSCT(args);
+            ShouldLoadGUI = loader.LoadSCT(args);
             loader.Close();
 
-            while (LoadGUI)
+            while (ShouldLoadGUI)
             {
-                LoadGUI = false;
+                ShouldLoadGUI = false;
                 Application.VisualStyleState = Configuration.Instance.Enabled ? VisualStyleState.NoneEnabled : VisualStyleState.ClientAndNonClientAreasEnabled;
                 Application.Run(new MainForm());
             }
