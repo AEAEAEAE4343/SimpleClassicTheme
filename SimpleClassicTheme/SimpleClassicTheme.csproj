@@ -324,5 +324,11 @@
       <Version>1.1.31</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MCT.NET\MCT.NET.csproj">
+      <Project>{a137d4b1-59bc-4cd5-b6c0-4a78cc82d8a5}</Project>
+      <Name>MCT.NET</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
