@@ -275,15 +275,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ctm.exe" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ShellPayload.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ExplorerContextMenuTweaker.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\SCT Banner 400x81.png" />
     <None Include="Resources\winxp_wizard.png" />
     <None Include="Resources\msiexec.png" />
@@ -294,9 +285,6 @@
     <None Include="Resources\SCT Logo.ico" />
     <None Include="Resources\SCT Logo x275.png" />
     <None Include="Resources\SCT Logo Dark x275.png" />
-    <None Include="Resources\fox.exe" />
-    <None Include="Resources\RibbonDisabler.exe" />
-    <None Include="Resources\fixstrips.exe" />
     <None Include="Resources\scttask.xml" />
   </ItemGroup>
   <ItemGroup>

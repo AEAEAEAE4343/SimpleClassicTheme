@@ -27,31 +27,128 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 
+using MCT.NET;
+
 namespace SimpleClassicTheme
 {
+    public enum ClassicThemeMethod
+    {
+        SingleUserSCT,
+        MultiUserClassicTheme,
+    }
+
     public static class ClassicTheme
     {
-        //Enables Classic Theme
-        public static void Enable()
+        /// <summary>
+        /// Enables Classic Theme by changing the ThemeSection permissions directly. This will only work with in an elevated process.
+        /// </summary>
+        /// <returns>A Boolean value specifying whether the operation completed succesfully. If the elevation of the current process is not high enough, this returns false.</returns>
+        public static bool EnableSingleUser()
+        {
+            try
+            {
+                NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
+                g.SetSecurityDescriptor(new SecurityDescriptor("O:BAG:SYD:(A;;RC;;;IU)(A;;DCSWRPSDRCWDWO;;;SY)"), SecurityInformation.Dacl);
+                g.Close();
+            }
+            catch (NtException e) 
+            {
+                if ((uint)e.HResult != 0xC0000022)
+                    throw e;
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Enables Classic Theme by sending a request to MCTsvc. This requires MCT to be installed on the system.
+        /// </summary>
+        /// <returns>A Boolean value specifying whether the operation completed succesfully.</returns>
+        public static bool EnableMCT()
+        {
+            MctApi.InitializeAPI();
+
+            MctApi.MctErrorCode errorCode = new MctApi.MctErrorCode();
+            MctApi.EnableClassicTheme((ulong)Process.GetCurrentProcess().SessionId, ref errorCode);
+            if (!errorCode.Success)
+                return false;
+            return true;
+        }
+
+        /// <summary>
+        /// Enables Classic Theme using the currently configures ClassicThemeMethod specified in SCT.Configuration
+        /// </summary>
+        /// <returns>A Boolean value specifying whether the operation completed succesfully.</returns>
+        public static bool Enable()
         {
             if (Environment.OSVersion.Version.Major == 10)
             { 
                 Process.Start("explorer.exe", "C:\\Windows\\System32\\ApplicationFrameHost.exe").WaitForExit();
                 Thread.Sleep(200);
             }
-            NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
-            g.SetSecurityDescriptor(new SecurityDescriptor("O:BAG:SYD:(A;;RC;;;IU)(A;;DCSWRPSDRCWDWO;;;SY)"), SecurityInformation.Dacl);
-            g.Close();
-            Registry.LocalMachine.CreateSubKey("SOFTWARE").CreateSubKey("Microsoft").CreateSubKey("Windows").CreateSubKey("CurrentVersion").CreateSubKey("Themes").CreateSubKey("DefaultColors");
-            ExtraFunctions.RenameSubKey(Registry.LocalMachine.CreateSubKey("SOFTWARE").CreateSubKey("Microsoft").CreateSubKey("Windows").CreateSubKey("CurrentVersion").CreateSubKey("Themes"), "DefaultColors", "DefaultColorsOld");
+            
+            switch (SCT.Configuration.ClassicThemeMethod)
+            {
+                case ClassicThemeMethod.SingleUserSCT:
+                    return EnableSingleUser();
+                case ClassicThemeMethod.MultiUserClassicTheme:
+                    return EnableMCT();
+                default:
+                    return false;
+            }
         }
 
-        //Disables Classic Theme
-        public static void Disable()
+        /// <summary>
+        /// Disables Classic Theme by changing the ThemeSection permissions directly. This will only work with in an elevated process.
+        /// </summary>
+        /// <returns>A Boolean value specifying whether the operation completed succesfully. If the elevation of the current process is not high enough, this returns false.</returns>
+        public static bool DisableSingleUser()
         {
-            NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
-            g.SetSecurityDescriptor(new SecurityDescriptor("O:BAG:SYD:(A;;CCLCRC;;;IU)(A;;CCDCLCSWRPSDRCWDWO;;;SY)"), SecurityInformation.Dacl);
-            g.Close();
+            try
+            {
+                NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
+                g.SetSecurityDescriptor(new SecurityDescriptor("O:BAG:SYD:(A;;CCLCRC;;;IU)(A;;CCDCLCSWRPSDRCWDWO;;;SY)"), SecurityInformation.Dacl);
+                g.Close();
+            }
+            catch (NtException e)
+            {
+                if ((uint)e.HResult != 0xC0000022)
+                    throw e;
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Disables Classic Theme by sending a request to MCTsvc. This requires MCT to be installed on the system.
+        /// </summary>
+        /// <returns>A Boolean value specifying whether the operation completed succesfully.</returns>
+        public static bool DisableMCT()
+        {
+            MctApi.InitializeAPI();
+
+            MctApi.MctErrorCode errorCode = new MctApi.MctErrorCode();
+            MctApi.DisableClassicTheme((ulong)Process.GetCurrentProcess().SessionId, ref errorCode);
+            if (!errorCode.Success)
+                return false;
+            return true;
+        }
+
+        /// <summary>
+        /// Disables Classic Theme using the currently configures ClassicThemeMethod specified in SCT.Configuration
+        /// </summary>
+        /// <returns>A Boolean value specifying whether the operation completed succesfully.</returns>
+        public static bool Disable()
+        {
+            switch (SCT.Configuration.ClassicThemeMethod)
+            {
+                case ClassicThemeMethod.SingleUserSCT:
+                    return DisableSingleUser();
+                case ClassicThemeMethod.MultiUserClassicTheme:
+                    return DisableMCT();
+                default:
+                    return false;
+            }
         }
 
         //Enables Classic Theme and if specified Classic Taskbar.

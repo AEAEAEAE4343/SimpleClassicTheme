@@ -33,6 +33,12 @@ namespace SimpleClassicTheme
 			set => SetItem("Enabled", value.ToString());
 		}
 
+		public ClassicThemeMethod ClassicThemeMethod
+        {
+			get => (ClassicThemeMethod)Enum.Parse(typeof(ClassicThemeMethod), GetItem("ClassicThemeMethod", "MultiUserClassicTheme").ToString());
+			set => SetItem("ClassicThemeMethod", value.ToString());
+		}
+
 		public bool EnableTaskbar
 		{
 			get => bool.Parse(GetItem("EnableTaskbar", false).ToString());
