@@ -47,8 +47,8 @@ namespace SimpleClassicTheme
             panel1.Location = new Point(0, 0);
 
             ExtraFunctions.UpdateStartupExecutable(false);
-            File.WriteAllText($"{Configuration.InstallPath}addSchemes.bat", Properties.Resources.reg_classicschemes_add);
-            Process.Start(new ProcessStartInfo() { FileName = $"{Configuration.InstallPath}addSchemes.bat", Verb = "runas", UseShellExecute = false, CreateNoWindow = true });
+            File.WriteAllText($"{Configuration.Instance.InstallPath}addSchemes.bat", Properties.Resources.reg_classicschemes_add);
+            Process.Start(new ProcessStartInfo() { FileName = $"{Configuration.Instance.InstallPath}addSchemes.bat", Verb = "runas", UseShellExecute = false, CreateNoWindow = true });
 
             Version sctVersion = Assembly.GetExecutingAssembly().GetName().Version;
             label2.Text = label2.Text.Replace("%v", sctVersion.ToString(3)).Replace("%r", sctVersion.Revision.ToString());
@@ -75,12 +75,12 @@ namespace SimpleClassicTheme
             if (!Taskbar)
                 return true;
 
-            switch (Configuration.TaskbarType)
+            switch (Configuration.Instance.TaskbarType)
             {
                 case TaskbarType.SimpleClassicThemeTaskbar:
-                    return File.Exists($"{Configuration.InstallPath}Taskbar\\SimpleClassicThemeTaskbar.exe");
+                    return File.Exists($"{Configuration.Instance.InstallPath}Taskbar\\SimpleClassicThemeTaskbar.exe");
                 case TaskbarType.RetroBar:
-                    return File.Exists($"{Configuration.InstallPath}RetroBar\\RetroBar.exe");
+                    return File.Exists($"{Configuration.Instance.InstallPath}RetroBar\\RetroBar.exe");
                 case TaskbarType.Windows81Vanilla:
                 default:
                     return true;
@@ -92,7 +92,7 @@ namespace SimpleClassicTheme
         {
             EnableAllControls();
 
-            bool dependenciesInstalled = CheckDependencies(Configuration.EnableTaskbar);
+            bool dependenciesInstalled = CheckDependencies(Configuration.Instance.EnableTaskbar);
             buttonInstallRequirements.Enabled = !dependenciesInstalled;
             buttonEnable.Enabled = dependenciesInstalled;
             buttonDisable.Enabled = dependenciesInstalled;
@@ -125,9 +125,9 @@ namespace SimpleClassicTheme
 		// Enable
 		private void ButtonEnable_Click(object sender, EventArgs e)
         {
-            bool oldEnableValue = Configuration.Enabled;
-            ClassicTheme.MasterEnable(Configuration.EnableTaskbar);
-            if (oldEnableValue != Configuration.Enabled)
+            bool oldEnableValue = Configuration.Instance.Enabled;
+            ClassicTheme.MasterEnable(Configuration.Instance.EnableTaskbar);
+            if (oldEnableValue != Configuration.Instance.Enabled)
             {
                 ApplicationEntryPoint.LoadGUI = true; Close();
             }
@@ -136,9 +136,9 @@ namespace SimpleClassicTheme
         // Disable
         private void ButtonDisable_Click(object sender, EventArgs e)
         {
-            bool oldEnableValue = Configuration.Enabled;
-            ClassicTheme.MasterDisable(Configuration.EnableTaskbar);
-            if (oldEnableValue != Configuration.Enabled)
+            bool oldEnableValue = Configuration.Instance.Enabled;
+            ClassicTheme.MasterDisable(Configuration.Instance.EnableTaskbar);
+            if (oldEnableValue != Configuration.Instance.Enabled)
             {
                 ApplicationEntryPoint.LoadGUI = true; Close();
             }
@@ -162,14 +162,14 @@ namespace SimpleClassicTheme
                 new ThemeConfigurationForm().ShowDialog();
                 return;
             }
-            File.WriteAllBytes($"{Configuration.InstallPath}deskn.cpl", Properties.Resources.desktopControlPanelCPL);
-            Process.Start($"{Configuration.InstallPath}deskn.cpl");
+            File.WriteAllBytes($"{Configuration.Instance.InstallPath}deskn.cpl", Properties.Resources.desktopControlPanelCPL);
+            Process.Start($"{Configuration.Instance.InstallPath}deskn.cpl");
         }
 
         // Auto-launch SCT on boot
         private void ButtonRunOnBoot_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show($"This makes SCT automatically launch when you log onto your PC. You can use the boot scripts in {Configuration.InstallPath} to configure things to load before Classic Theme gets enabled. Continue?", "Run Simple Clasic Theme on boot", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show($"This makes SCT automatically launch when you log onto your PC. You can use the boot scripts in {Configuration.Instance.InstallPath} to configure things to load before Classic Theme gets enabled. Continue?", "Run Simple Clasic Theme on boot", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 ExtraFunctions.UpdateStartupExecutable(true);
             }
@@ -197,11 +197,11 @@ namespace SimpleClassicTheme
         // Open RibbonDisabler 4.0
         private void ButtonRibbonDisabler_Click(object sender, EventArgs e)
         {
-            if (!File.Exists($"{Configuration.InstallPath}RibbonDisabler.exe"))
+            if (!File.Exists($"{Configuration.Instance.InstallPath}RibbonDisabler.exe"))
             {
-                File.WriteAllBytes($"{Configuration.InstallPath}RibbonDisabler.exe", Properties.Resources.ribbonDisabler);
+                File.WriteAllBytes($"{Configuration.Instance.InstallPath}RibbonDisabler.exe", Properties.Resources.ribbonDisabler);
             }
-            Process.Start($"{Configuration.InstallPath}RibbonDisabler.exe");
+            Process.Start($"{Configuration.Instance.InstallPath}RibbonDisabler.exe");
         }
 
         // Run the SCT AHK script manager

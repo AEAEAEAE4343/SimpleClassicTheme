@@ -82,7 +82,7 @@ namespace SimpleClassicTheme
         {
             byte[] installer = (byte[])Properties.Resources.ResourceManager.GetObject(ResourceName);
 
-            string path = Configuration.InstallPath + SafeNameForFile;
+            string path = Configuration.Instance.InstallPath + SafeNameForFile;
             File.WriteAllBytes(path, installer);
             Process p = Process.Start(path, InstallParameters);
             p.WaitForExit();
@@ -136,7 +136,7 @@ namespace SimpleClassicTheme
             using (WebClient c = new WebClient() { Proxy = null })
                 installer = c.DownloadData(DownloadURI);
 
-            string path = Configuration.InstallPath + SafeNameForFile;
+            string path = Configuration.Instance.InstallPath + SafeNameForFile;
             File.WriteAllBytes(path, installer);
             Process p = Process.Start(path, InstallParameters);
             p.WaitForExit();

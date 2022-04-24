@@ -57,23 +57,23 @@ namespace SimpleClassicTheme
         //Enables Classic Theme and if specified Classic Taskbar.
         public static void MasterEnable(bool taskbar, bool commandLineError = false)
         {
-            Process.Start($"{Configuration.InstallPath}EnableThemeScript.bat", "pre").WaitForExit();
-            Configuration.Enabled = true;
+            Process.Start($"{Configuration.Instance.InstallPath}EnableThemeScript.bat", "pre").WaitForExit();
+            Configuration.Instance.Enabled = true;
             if (!taskbar)
             {
                 // No taskbar
                 Enable();
             }
-            else if (!File.Exists($"{Configuration.InstallPath}SCT.exe"))
+            else if (!File.Exists($"{Configuration.Instance.InstallPath}SCT.exe"))
 			{
                 if (!commandLineError)
                     MessageBox.Show("You need to install Simple Classic Theme in order to enable it with Classic Taskbar enabled. Either disable Classic Taskbar from the options menu, or install SCT by pressing 'Run SCT on boot' in the main menu.", "Unsupported action");
                 else
-                    Console.WriteLine($"Enabling SCT with a taskbar requires SCT to be installed to \"{Configuration.InstallPath}SCT.exe\".");
-                Configuration.Enabled = false;
+                    Console.WriteLine($"Enabling SCT with a taskbar requires SCT to be installed to \"{Configuration.Instance.InstallPath}SCT.exe\".");
+                Configuration.Instance.Enabled = false;
                 return;
             }
-            else if (Configuration.TaskbarType == TaskbarType.SimpleClassicThemeTaskbar)
+            else if (Configuration.Instance.TaskbarType == TaskbarType.SimpleClassicThemeTaskbar)
             {
                 // Simple Classic Theme Taskbar
                 Enable();
@@ -81,49 +81,49 @@ namespace SimpleClassicTheme
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
                 ClassicTaskbar.EnableSCTT();
             }
-            else if (Configuration.TaskbarType == TaskbarType.Windows81Vanilla)
+            else if (Configuration.Instance.TaskbarType == TaskbarType.Windows81Vanilla)
 			{
                 // Windows 8.1 Vanilla taskbar with post-load patches
                 Enable();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
-                Thread.Sleep(Configuration.TaskbarDelay);
+                Thread.Sleep(Configuration.Instance.TaskbarDelay);
                 ClassicTaskbar.FixWin8_1();
             }
-            else if (Configuration.TaskbarType == TaskbarType.RetroBar)
+            else if (Configuration.Instance.TaskbarType == TaskbarType.RetroBar)
 			{
                 // RetroBar
                 Enable();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
-                Process.Start($"{Configuration.InstallPath}RetroBar\\RetroBar.exe");
+                Process.Start($"{Configuration.Instance.InstallPath}RetroBar\\RetroBar.exe");
             }
-            Process.Start($"{Configuration.InstallPath}EnableThemeScript.bat", "post").WaitForExit();
+            Process.Start($"{Configuration.Instance.InstallPath}EnableThemeScript.bat", "post").WaitForExit();
         }
 
         //Disables Classic Theme and if specified Classic Taskbar.
         public static void MasterDisable(bool taskbar)
         {
-            Process.Start($"{Configuration.InstallPath}DisableThemeScript.bat", "pre").WaitForExit();
-            Configuration.Enabled = false;
+            Process.Start($"{Configuration.Instance.InstallPath}DisableThemeScript.bat", "pre").WaitForExit();
+            Configuration.Instance.Enabled = false;
             if (!taskbar)
             {
                 Disable();
             }
-            else if (Configuration.TaskbarType == TaskbarType.SimpleClassicThemeTaskbar)
+            else if (Configuration.Instance.TaskbarType == TaskbarType.SimpleClassicThemeTaskbar)
             {
                 ClassicTaskbar.DisableSCTT();
                 Disable();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
             }
-            else if (Configuration.TaskbarType == TaskbarType.Windows81Vanilla)
+            else if (Configuration.Instance.TaskbarType == TaskbarType.Windows81Vanilla)
             {
                 Disable();
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
             }
-            else if (Configuration.TaskbarType == TaskbarType.RetroBar)
+            else if (Configuration.Instance.TaskbarType == TaskbarType.RetroBar)
             {
                 foreach (Process p in Process.GetProcessesByName("RetroBar"))
                     p.Kill();
@@ -132,7 +132,7 @@ namespace SimpleClassicTheme
                 Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
                 Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
             }
-            Process.Start($"{Configuration.InstallPath}DisableThemeScript.bat", "post").WaitForExit();
+            Process.Start($"{Configuration.Instance.InstallPath}DisableThemeScript.bat", "post").WaitForExit();
         }
     }
 }

@@ -20,83 +20,84 @@
 
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SimpleClassicTheme
 {
-	internal static class Configuration
+	internal class Configuration
 	{
-		public static bool Enabled
+		private static Configuration _instance;
+		public static Configuration Instance 
+		{ 
+			get 
+			{
+				if (_instance is null)
+					_instance = new Configuration();
+				return _instance; 
+			} 
+		}
+
+		public bool Enabled
 		{
 			get => bool.Parse(GetItem("Enabled", false).ToString());
 			set => SetItem("Enabled", value.ToString());
 		}
 
-		public static bool EnableTaskbar
+		public bool EnableTaskbar
 		{
 			get => bool.Parse(GetItem("EnableTaskbar", false).ToString());
 			set => SetItem("EnableTaskbar", value.ToString());
 		}
 
-		public static int TaskbarDelay
+		public int TaskbarDelay
 		{
 			get => (int)GetItem("TaskbarDelay", 5000);
 			set => SetItem("TaskbarDelay", value, RegistryValueKind.DWord);
 		}
 
-		public static bool BetaUpdates
-		{
-			get => bool.Parse(GetItem("BetaUpdates", false).ToString());
-			set => SetItem("BetaUpdates", value.ToString());
-		}
-
-		/*public static string TaskbarType
-		{
-			get => (string)GetItem("TaskbarType", "OS+SiB");
-			set => SetItem("TaskbarType", value);
-		}*/
-
-		public static TaskbarType TaskbarType
+		public TaskbarType TaskbarType
 		{
 			get => (TaskbarType)Enum.Parse(typeof(TaskbarType), GetItem("TaskbarType", "RetroBar").ToString());
 			set => SetItem("TaskbarType", value.ToString());
 		}
 
-		public static string UpdateMode
+		public string InstallPath
 		{
-			get => (string)GetItem("UpdateMode", "Automatic");
-			set => SetItem("UpdateMode", value);
-		}
-
-		public static Version ConfigVersion
-		{
-			get => Version.Parse(GetItem("ConfigVersion", Assembly.GetExecutingAssembly().GetName().Version).ToString());
-			set => SetItem("ConfigVersion", value.ToString());
-		}
-
-		public static string InstallPath
-        {
 			get
-            {
+			{
 				string path = (string)GetItem("InstallPath", "C:\\SCT\\");
 				if (!path.EndsWith("\\"))
-                {
+				{
 					path += "\\";
 					InstallPath = path;
-                }
+				}
 				return path;
 			}
 			set => SetItem("InstallPath", value);
 		}
 
-		public static RegistryKey GetRegistryKey() => Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").CreateSubKey("Simple Classic Theme").CreateSubKey("Base");
+		public bool BetaUpdates
+		{
+			get => bool.Parse(GetItem("BetaUpdates", false).ToString());
+			set => SetItem("BetaUpdates", value.ToString());
+		}
 
-		private static object GetItem(string itemName, object defaultValue)
+		public string UpdateMode
+		{
+			get => (string)GetItem("UpdateMode", "Automatic");
+			set => SetItem("UpdateMode", value);
+		}
+
+		public Version ConfigVersion
+		{
+			get => Version.Parse(GetItem("ConfigVersion", Assembly.GetExecutingAssembly().GetName().Version).ToString());
+			set => SetItem("ConfigVersion", value.ToString());
+		}
+
+		private RegistryKey GetRegistryKey() => Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").CreateSubKey("Simple Classic Theme").CreateSubKey("Base");
+
+		public object GetItem(string itemName, object defaultValue)
 		{
 			RegistryKey key = GetRegistryKey();
 			object returnValue = key.GetValue(itemName, defaultValue);
@@ -104,17 +105,20 @@ namespace SimpleClassicTheme
 			return returnValue;
 		}
 
-		public static void SetItemManually(string itemName, object newValue, RegistryValueKind valueKind = RegistryValueKind.String)
-			=> SetItem(itemName, newValue, valueKind);
-		private static void SetItem(string itemName, object newValue, RegistryValueKind valueKind = RegistryValueKind.String)
+		public void SetItem(string itemName, object newValue, RegistryValueKind valueKind = RegistryValueKind.String)
 		{
 			RegistryKey key = GetRegistryKey();
 			key.SetValue(itemName, newValue, valueKind);
 			key.Close();
 		}
 
-		public static void MigrateOldSCTRegistry()
+		public Configuration()
 		{
+			UpdateConfig();
+		}
+
+        private void UpdateConfig()
+        {
 			if (Registry.CurrentUser.CreateSubKey("SOFTWARE").GetSubKeyNames().Contains("SimpleClassicTheme"))
 			{
 				RegistryKey source = Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("SimpleClassicTheme");
@@ -131,7 +135,7 @@ namespace SimpleClassicTheme
 				foreach (string value in source.GetValueNames())
 					source.DeleteValue(value);
 				Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").DeleteSubKey("SimpleClassicTheme");
-			} 
+			}
 
 			// Starting from 1.5.0, SCT will track a config version. If any critical changes have been made to the config
 			// SCT will automatically apply those changes starting from changes past the original config version.
@@ -166,5 +170,5 @@ namespace SimpleClassicTheme
 
 			ConfigVersion = Assembly.GetExecutingAssembly().GetName().Version;
 		}
-	}
+    }
 }

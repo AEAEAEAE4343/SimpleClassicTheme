@@ -95,7 +95,7 @@ namespace SimpleClassicTheme.Forms
 
 		private void TaskbarTypeSelector_Load(object sender, EventArgs e)
 		{
-			comboBoxTaskbar.SelectedItem = TaskbarTypeDisplay[TaskbarTypeDisplay.ContainsKey(Configuration.TaskbarType) ? Configuration.TaskbarType : TaskbarType.SimpleClassicThemeTaskbar];
+			comboBoxTaskbar.SelectedItem = TaskbarTypeDisplay[TaskbarTypeDisplay.ContainsKey(Configuration.Instance.TaskbarType) ? Configuration.Instance.TaskbarType : TaskbarType.SimpleClassicThemeTaskbar];
 		}
 
 		private void TaskbarTypeSelector_EnabledChanged(object sender, EventArgs e)

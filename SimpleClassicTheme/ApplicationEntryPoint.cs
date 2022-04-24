@@ -77,7 +77,7 @@ namespace SimpleClassicTheme
             while (LoadGUI)
             {
                 LoadGUI = false;
-                Application.VisualStyleState = Configuration.Enabled ? VisualStyleState.NoneEnabled : VisualStyleState.ClientAndNonClientAreasEnabled;
+                Application.VisualStyleState = Configuration.Instance.Enabled ? VisualStyleState.NoneEnabled : VisualStyleState.ClientAndNonClientAreasEnabled;
                 Application.Run(new MainForm());
             }
         }

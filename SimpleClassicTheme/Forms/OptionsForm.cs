@@ -38,10 +38,10 @@ namespace SimpleClassicTheme.Forms
 
 		private void OptionsForm_Load(object sender, EventArgs e)
 		{
-			comboBoxUpdates.SelectedItem = Configuration.UpdateMode;
-			numericUpDownTaskbarDelay.Value = Configuration.TaskbarDelay;
-			checkBox1.Checked = Configuration.EnableTaskbar;
-			checkBox2.Checked = Configuration.BetaUpdates;
+			comboBoxUpdates.SelectedItem = Configuration.Instance.UpdateMode;
+			numericUpDownTaskbarDelay.Value = Configuration.Instance.TaskbarDelay;
+			checkBox1.Checked = Configuration.Instance.EnableTaskbar;
+			checkBox2.Checked = Configuration.Instance.BetaUpdates;
 			taskbarTypeSelector1.Enabled = numericUpDownTaskbarDelay.Enabled = label2.Enabled = checkBox1.Checked;
 		}
 
@@ -58,11 +58,11 @@ namespace SimpleClassicTheme.Forms
 
 		private void buttonApply_Click(object sender, EventArgs e)
 		{
-			Configuration.UpdateMode = (string)comboBoxUpdates.SelectedItem;
-			Configuration.TaskbarType = taskbarTypeSelector1.SelectedItem;
-			Configuration.TaskbarDelay = (int)numericUpDownTaskbarDelay.Value;
-			Configuration.EnableTaskbar = checkBox1.Checked;
-			Configuration.BetaUpdates = checkBox2.Checked;
+			Configuration.Instance.UpdateMode = (string)comboBoxUpdates.SelectedItem;
+			Configuration.Instance.TaskbarType = taskbarTypeSelector1.SelectedItem;
+			Configuration.Instance.TaskbarDelay = (int)numericUpDownTaskbarDelay.Value;
+			Configuration.Instance.EnableTaskbar = checkBox1.Checked;
+			Configuration.Instance.BetaUpdates = checkBox2.Checked;
 			buttonApply.Enabled = false;
 		}
 

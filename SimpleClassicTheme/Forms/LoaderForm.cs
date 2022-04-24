@@ -58,10 +58,9 @@ namespace SimpleClassicTheme.Forms
 
         public bool LoadSCT(string[] args)
         {
-            Configuration.MigrateOldSCTRegistry();
-            Application.VisualStyleState = Configuration.Enabled ? VisualStyleState.NoneEnabled : VisualStyleState.ClientAndNonClientAreasEnabled;
+            Application.VisualStyleState = Configuration.Instance.Enabled ? VisualStyleState.NoneEnabled : VisualStyleState.ClientAndNonClientAreasEnabled;
 
-            Directory.CreateDirectory(Configuration.InstallPath);
+            Directory.CreateDirectory(Configuration.Instance.InstallPath);
 
             // Small delay for pressing Details button
             label2.Text = "Status: ";
@@ -74,16 +73,16 @@ namespace SimpleClassicTheme.Forms
             Application.DoEvents();
 
             //Write loading scripts
-            if (!File.Exists($"{Configuration.InstallPath}EnableThemeScript.bat"))
-                File.WriteAllText($"{Configuration.InstallPath}EnableThemeScript.bat", Properties.Resources.EnableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
-            if (!File.Exists($"{Configuration.InstallPath}DisableThemeScript.bat"))
-                File.WriteAllText($"{Configuration.InstallPath}DisableThemeScript.bat", Properties.Resources.DisableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+            if (!File.Exists($"{Configuration.Instance.InstallPath}EnableThemeScript.bat"))
+                File.WriteAllText($"{Configuration.Instance.InstallPath}EnableThemeScript.bat", Properties.Resources.EnableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+            if (!File.Exists($"{Configuration.Instance.InstallPath}DisableThemeScript.bat"))
+                File.WriteAllText($"{Configuration.Instance.InstallPath}DisableThemeScript.bat", Properties.Resources.DisableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
             label2.Text = "Status: Checking for updates";
             Application.DoEvents();
 
             //Start update checking
-            string updateMode = Configuration.UpdateMode;
+            string updateMode = Configuration.Instance.UpdateMode;
             if (updateMode == "Automatic" || updateMode == "Ask on startup")
                 if (ExtraFunctions.Update(this))
                     return false;
@@ -236,7 +235,7 @@ namespace SimpleClassicTheme.Forms
                 }
             execute_arguments:
                 WriteLine($"Succesfully parsed {arguments.Count} argument{(arguments.Count > 1 ? "s" : "")}");
-                bool enableTaskbar = Configuration.EnableTaskbar;
+                bool enableTaskbar = Configuration.Instance.EnableTaskbar;
                 for (int i = 0; i < arguments.Count; i++)
                 {
                     label2.Text = $"Status: Parsing arguments ({i}/{args.Length})";
@@ -250,9 +249,9 @@ namespace SimpleClassicTheme.Forms
                     {
                         case "--boot":
                             WriteLine("Simple Classic Theme is restoring Classic Theme settings");
-                            bool Enabled = Configuration.Enabled;
-                            if (Directory.Exists($"{Configuration.InstallPath}AHK"))
-                                foreach (string f in Directory.EnumerateFiles($"{Configuration.InstallPath}AHK"))
+                            bool Enabled = Configuration.Instance.Enabled;
+                            if (Directory.Exists($"{Configuration.Instance.InstallPath}AHK"))
+                                foreach (string f in Directory.EnumerateFiles($"{Configuration.Instance.InstallPath}AHK"))
                                     Process.Start(f);
                             if (Enabled)
                             {
@@ -261,8 +260,8 @@ namespace SimpleClassicTheme.Forms
                             }
                             break;
                         case "--configure":
-                            File.WriteAllBytes($"{Configuration.InstallPath}deskn.cpl", Properties.Resources.desktopControlPanelCPL);
-                            Process.Start($"{Configuration.InstallPath}deskn.cpl");
+                            File.WriteAllBytes($"{Configuration.Instance.InstallPath}deskn.cpl", Properties.Resources.desktopControlPanelCPL);
+                            Process.Start($"{Configuration.Instance.InstallPath}deskn.cpl");
                             WriteLine("Launched Clasic Theme configuration dialog");
                             break;
                         case "--disable":
@@ -302,7 +301,7 @@ namespace SimpleClassicTheme.Forms
                         case "--set":
                             if ((string)argument.Item2[0] == "EnableTaskbar")
                                 enableTaskbar = Boolean.Parse((string)argument.Item2[1]);
-                            Configuration.SetItemManually((string)argument.Item2[0], argument.Item2[1], (RegistryValueKind)argument.Item2[2]);
+                            Configuration.Instance.SetItem((string)argument.Item2[0], argument.Item2[1], (RegistryValueKind)argument.Item2[2]);
                             WriteLine($"Set configuration item '{argument.Item2[0]}' to '{argument.Item2[1]}'");
                             break;
                         case "--wizard":

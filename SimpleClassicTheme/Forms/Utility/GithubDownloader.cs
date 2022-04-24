@@ -37,7 +37,7 @@ namespace SimpleClassicTheme
 				Name = "WinClassic/SimpleClassicTheme.Taskbar", 
 				Filename = (IntPtr.Size == 8) ? "SimpleClassicThemeTaskbar_x64.zip" : "SimpleClassicThemeTaskbar_x86.zip",
 				ProcessName = "SimpleClassicThemeTaskbar",
-				TargetDirectory = $"{Configuration.InstallPath}Taskbar\\",
+				TargetDirectory = $"{Configuration.Instance.InstallPath}Taskbar\\",
 				NeedsExtraction = true
 			};
 
@@ -46,7 +46,7 @@ namespace SimpleClassicTheme
 				Name = "dremin/RetroBar",
 				Filename = "RetroBar.zip",
 				ProcessName = "RetroBar",
-				TargetDirectory = $"{Configuration.InstallPath}RetroBar\\",
+				TargetDirectory = $"{Configuration.Instance.InstallPath}RetroBar\\",
 				NeedsExtraction = true
 			};
 
@@ -55,7 +55,7 @@ namespace SimpleClassicTheme
 				Name = "valinet/ExplorerPatcher",
 				Filename = "dxgi.dll",
 				ProcessName = "",
-				TargetDirectory = $"{Configuration.InstallPath}ExplorerPatcher\\",
+				TargetDirectory = $"{Configuration.Instance.InstallPath}ExplorerPatcher\\",
 				NeedsExtraction = false
 			};
 
@@ -64,7 +64,7 @@ namespace SimpleClassicTheme
 				Name = "valinet/ExplorerPatcher",
 				Filename = (IntPtr.Size == 8) ? "SCT.FEH.x64.zip" : "SCT.FEH.x64.zip",
 				ProcessName = "",
-				TargetDirectory = $"{Configuration.InstallPath}AHK\\",
+				TargetDirectory = $"{Configuration.Instance.InstallPath}AHK\\",
 				NeedsExtraction = true
 			};
 
@@ -138,7 +138,7 @@ namespace SimpleClassicTheme
 							p.Kill();
 
 			string dlUrl = $"https://github.com/{project.Name}/releases/latest/download/{project.Filename}";
-			string dlDest = $"{Configuration.InstallPath}ghtemp.tmp";
+			string dlDest = $"{Configuration.Instance.InstallPath}ghtemp.tmp";
 			string dlDestExtract = project.TargetDirectory;
 
 			if (Directory.Exists(dlDestExtract))

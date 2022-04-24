@@ -124,7 +124,7 @@ namespace SimpleClassicTheme
                 return false;
             }).ToArray();
             if (scttInstances.Length == 0)
-                Process.Start($"{Configuration.InstallPath}Taskbar\\SimpleClassicThemeTaskbar.exe", "--sct");
+                Process.Start($"{Configuration.Instance.InstallPath}Taskbar\\SimpleClassicThemeTaskbar.exe", "--sct");
 		}
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         static extern int GetClassName (int hWnd, StringBuilder title, int size);
