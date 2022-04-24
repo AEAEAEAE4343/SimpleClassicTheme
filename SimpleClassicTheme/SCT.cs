@@ -70,7 +70,7 @@ namespace SimpleClassicTheme
             while (ShouldLoadGUI)
             {
                 ShouldLoadGUI = false;
-                Application.VisualStyleState = Configuration.Instance.Enabled ? VisualStyleState.NoneEnabled : VisualStyleState.ClientAndNonClientAreasEnabled;
+                Application.VisualStyleState = SCT.Configuration.Enabled ? VisualStyleState.NoneEnabled : VisualStyleState.ClientAndNonClientAreasEnabled;
                 Application.Run(new MainForm());
             }
         }

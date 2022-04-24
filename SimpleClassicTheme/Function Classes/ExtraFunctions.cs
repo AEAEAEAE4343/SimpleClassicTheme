@@ -119,18 +119,18 @@ namespace SimpleClassicTheme
                 File.Delete(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\Simple Classic Theme.exe");
             if (createIfNot)
             {
-                if (Assembly.GetExecutingAssembly().Location != $"{Configuration.Instance.InstallPath}SCT.exe")
+                if (Assembly.GetExecutingAssembly().Location != $"{SCT.Configuration.InstallPath}SCT.exe")
                 {
-                    File.Delete($"{Configuration.Instance.InstallPath}SCT.exe");
-                    File.Copy(Assembly.GetExecutingAssembly().Location, $"{Configuration.Instance.InstallPath}SCT.exe");
+                    File.Delete($"{SCT.Configuration.InstallPath}SCT.exe");
+                    File.Copy(Assembly.GetExecutingAssembly().Location, $"{SCT.Configuration.InstallPath}SCT.exe");
                 }
-                File.WriteAllText($"{Configuration.Instance.InstallPath}SCTTask.xml", Properties.Resources.cmd_create_task);
-                File.WriteAllText($"{Configuration.Instance.InstallPath}TaskSchedule.cmd", Properties.Resources.taskScheduleCommands);
+                File.WriteAllText($"{SCT.Configuration.InstallPath}SCTTask.xml", Properties.Resources.cmd_create_task);
+                File.WriteAllText($"{SCT.Configuration.InstallPath}TaskSchedule.cmd", Properties.Resources.taskScheduleCommands);
                 Process task = new Process()
                 {
                     StartInfo = new ProcessStartInfo()
                     {
-                        FileName = $"{Configuration.Instance.InstallPath}TaskSchedule.cmd",
+                        FileName = $"{SCT.Configuration.InstallPath}TaskSchedule.cmd",
                         Verb = "runas",
                         UseShellExecute = false,
                         CreateNoWindow = true
@@ -138,21 +138,21 @@ namespace SimpleClassicTheme
                 };
                 task.Start();
                 task.WaitForExit();
-                File.SetAttributes($"{Configuration.Instance.InstallPath}SCT.exe", File.GetAttributes(Assembly.GetExecutingAssembly().Location) | FileAttributes.Hidden);
+                File.SetAttributes($"{SCT.Configuration.InstallPath}SCT.exe", File.GetAttributes(Assembly.GetExecutingAssembly().Location) | FileAttributes.Hidden);
                 IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
                 Directory.CreateDirectory(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\");
                 IWshRuntimeLibrary.IWshShortcut shortcut = shell.CreateShortcut(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\1337ftw\Simple Classic Theme.lnk");
                 shortcut.Description = "Simple Classic Theme";
-                shortcut.TargetPath = $"{Configuration.Instance.InstallPath}SCT.exe";
-                shortcut.WorkingDirectory = Configuration.Instance.InstallPath;
+                shortcut.TargetPath = $"{SCT.Configuration.InstallPath}SCT.exe";
+                shortcut.WorkingDirectory = SCT.Configuration.InstallPath;
                 shortcut.Save();
             }
-            /*else if (File.Exists($"{Configuration.Instance.InstallPath}SCT.exe") && Assembly.GetExecutingAssembly().Location != $"{Configuration.Instance.InstallPath}SCT.exe" && CheckMD5(@"C:\SCT\SCT.exe") != CheckMD5(Assembly.GetExecutingAssembly().Location))
+            /*else if (File.Exists($"{SCT.Configuration.InstallPath}SCT.exe") && Assembly.GetExecutingAssembly().Location != $"{SCT.Configuration.InstallPath}SCT.exe" && CheckMD5(@"C:\SCT\SCT.exe") != CheckMD5(Assembly.GetExecutingAssembly().Location))
 			{
                 try
                 {
-                    File.Delete($"{Configuration.Instance.InstallPath}SCT.exe");
-                    File.Copy(Assembly.GetExecutingAssembly().Location, $"{Configuration.Instance.InstallPath}SCT.exe");
+                    File.Delete($"{SCT.Configuration.InstallPath}SCT.exe");
+                    File.Copy(Assembly.GetExecutingAssembly().Location, $"{SCT.Configuration.InstallPath}SCT.exe");
                 }
                 catch (UnauthorizedAccessException)
 				{
@@ -211,7 +211,7 @@ namespace SimpleClassicTheme
 
         public static bool InstallDependencies(bool commandLineOutput = false)
 		{
-            switch (Configuration.Instance.TaskbarType)
+            switch (SCT.Configuration.TaskbarType)
             {
                 case TaskbarType.RetroBar:
                     GithubDownloader download = new GithubDownloader(GithubDownloader.DownloadableGithubProject.RetroBar);

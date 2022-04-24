@@ -27,17 +27,6 @@ namespace SimpleClassicTheme
 {
 	internal class Configuration
 	{
-		private static Configuration _instance;
-		public static Configuration Instance 
-		{ 
-			get 
-			{
-				if (_instance is null)
-					_instance = new Configuration();
-				return _instance; 
-			} 
-		}
-
 		public bool Enabled
 		{
 			get => bool.Parse(GetItem("Enabled", false).ToString());

@@ -46,7 +46,7 @@ namespace SimpleClassicTheme
             {
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
                 c.Headers.Set(HttpRequestHeader.UserAgent, "SimpleClasicTheme");
-                if (Configuration.Instance.BetaUpdates)
+                if (SCT.Configuration.BetaUpdates)
                     f = c.DownloadString("https://api.github.com/repos/WinClassic/SimpleClassicTheme/releases");
                 else
                     f = c.DownloadString("https://api.github.com/repos/WinClassic/SimpleClassicTheme/releases/latest");
@@ -72,7 +72,7 @@ namespace SimpleClassicTheme
                 //Check if newestVersion is bigger then currentVersion
                 if (currentVersion.CompareTo(newestVersion) < 0)
                 {
-                    if (Configuration.Instance.UpdateMode == "Ask on startup" && MessageBox.Show($"SCT version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
+                    if (SCT.Configuration.UpdateMode == "Ask on startup" && MessageBox.Show($"SCT version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
                         Close();
                     else
                     {
@@ -84,7 +84,7 @@ namespace SimpleClassicTheme
                 }
             }
 
-            if (File.Exists($"{Configuration.Instance.InstallPath}Taskbar\\SimpleClassicThemeTaskbar.exe") && Configuration.Instance.TaskbarType == TaskbarType.SimpleClassicThemeTaskbar)
+            if (File.Exists($"{SCT.Configuration.InstallPath}Taskbar\\SimpleClassicThemeTaskbar.exe") && SCT.Configuration.TaskbarType == TaskbarType.SimpleClassicThemeTaskbar)
 			{
                 //Get latest release info
                 f = "";
@@ -110,14 +110,14 @@ namespace SimpleClassicTheme
                 if (tagName != "")
                 {
                     Version newestVersion = Version.Parse(tagName);
-                    FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo($"{Configuration.Instance.InstallPath}Taskbar\\SimpleClassicThemeTaskbar.exe");
+                    FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo($"{SCT.Configuration.InstallPath}Taskbar\\SimpleClassicThemeTaskbar.exe");
                     Version currentVersion;
                     Version.TryParse(versionInfo.ProductVersion, out currentVersion);
 
                     //Check if newestVersion is bigger then currentVersion
                     if (currentVersion != null && currentVersion.CompareTo(newestVersion) < 0)
                     {
-                        if (Configuration.Instance.UpdateMode == "Ask on startup" && MessageBox.Show($"SCT Taskbar version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
+                        if (SCT.Configuration.UpdateMode == "Ask on startup" && MessageBox.Show($"SCT Taskbar version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
                             Close();
                         else
                         {
@@ -129,7 +129,7 @@ namespace SimpleClassicTheme
                 }
             }
 
-            if (File.Exists($"{Configuration.Instance.InstallPath}RetroBar\\RetroBar.exe") && Configuration.Instance.TaskbarType == TaskbarType.RetroBar)
+            if (File.Exists($"{SCT.Configuration.InstallPath}RetroBar\\RetroBar.exe") && SCT.Configuration.TaskbarType == TaskbarType.RetroBar)
 			{
                 //Get latest release info
                 f = "";
@@ -156,14 +156,14 @@ namespace SimpleClassicTheme
                 if (tagName != "")
                 {
                     Version newestVersion = Version.Parse(tagName);
-                    FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo($"{Configuration.Instance.InstallPath}RetroBar\\RetroBar.exe");
+                    FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo($"{SCT.Configuration.InstallPath}RetroBar\\RetroBar.exe");
                     Version currentVersion;
                     Version.TryParse(versionInfo.ProductVersion, out currentVersion);
 
                     //Check if newestVersion is bigger then currentVersion
                     if (currentVersion != null && currentVersion.CompareString(tagName.Remove(tagName.LastIndexOf('.'))) < 0)
                     {
-                        if (Configuration.Instance.UpdateMode == "Ask on startup" && MessageBox.Show($"RetroBar version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
+                        if (SCT.Configuration.UpdateMode == "Ask on startup" && MessageBox.Show($"RetroBar version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
                             Close();
                         else
                         {

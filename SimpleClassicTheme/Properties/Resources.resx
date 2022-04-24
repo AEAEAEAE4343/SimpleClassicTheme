@@ -144,7 +144,7 @@ You can add as many from the arguments listed down here as you want
 -i                                                          automatically run on boot. 
 										                    
 --install-dependencies                                      Installs all dependencies required for the set 
--r                                                          configuration. This can be any combination, all or none
+-r                                                          SCT.Configuration. This can be any combination, all or none
                                                             of: SCT Taskbar, Open-Shell, StartlsBack++.
 										                    
 --set [setting name] [value]                                Sets the specified setting to the given value. Value must 
