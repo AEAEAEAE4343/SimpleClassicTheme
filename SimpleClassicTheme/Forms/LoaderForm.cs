@@ -74,9 +74,9 @@ namespace SimpleClassicTheme.Forms
 
             //Write loading scripts
             if (!File.Exists($"{SCT.Configuration.InstallPath}EnableThemeScript.bat"))
-                File.WriteAllText($"{SCT.Configuration.InstallPath}EnableThemeScript.bat", Properties.Resources.EnableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+                File.WriteAllText($"{SCT.Configuration.InstallPath}EnableThemeScript.bat", SCT.ResourceFetcher.EnableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
             if (!File.Exists($"{SCT.Configuration.InstallPath}DisableThemeScript.bat"))
-                File.WriteAllText($"{SCT.Configuration.InstallPath}DisableThemeScript.bat", Properties.Resources.DisableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+                File.WriteAllText($"{SCT.Configuration.InstallPath}DisableThemeScript.bat", SCT.ResourceFetcher.DisableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
             label2.Text = "Status: Checking for updates";
             Application.DoEvents();
@@ -260,7 +260,7 @@ namespace SimpleClassicTheme.Forms
                             }
                             break;
                         case "--configure":
-                            File.WriteAllBytes($"{SCT.Configuration.InstallPath}deskn.cpl", Properties.Resources.desktopControlPanelCPL);
+                            File.WriteAllBytes($"{SCT.Configuration.InstallPath}deskn.cpl", SCT.ResourceFetcher.AppearanceCPL);
                             Process.Start($"{SCT.Configuration.InstallPath}deskn.cpl");
                             WriteLine("Launched Clasic Theme configuration dialog");
                             break;

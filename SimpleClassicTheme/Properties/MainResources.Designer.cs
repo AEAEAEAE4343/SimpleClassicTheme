@@ -22,14 +22,14 @@ namespace SimpleClassicTheme.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    internal class MainResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal MainResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace SimpleClassicTheme.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SimpleClassicTheme.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SimpleClassicTheme.Properties.MainResources", typeof(MainResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -163,26 +163,6 @@ namespace SimpleClassicTheme.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] ExplorerContextMenuTweaker {
-            get {
-                object obj = ResourceManager.GetObject("ExplorerContextMenuTweaker", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] fixstrips {
-            get {
-                object obj = ResourceManager.GetObject("fixstrips", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to ========================================================================================================================
         ///Usage: SimpleClassicTheme.exe (arguments...) 
         ///You can add as many from the arguments listed down here as you want
@@ -228,16 +208,6 @@ namespace SimpleClassicTheme.Properties {
         internal static string removalString {
             get {
                 return ResourceManager.GetString("removalString", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] ribbonDisabler {
-            get {
-                object obj = ResourceManager.GetObject("ribbonDisabler", resourceCulture);
-                return ((byte[])(obj));
             }
         }
         
@@ -308,36 +278,6 @@ namespace SimpleClassicTheme.Properties {
             get {
                 object obj = ResourceManager.GetObject("sct_logo", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] setup_classic_taskmgr {
-            get {
-                object obj = ResourceManager.GetObject("setup_classic-taskmgr", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] setup_folder_options_x {
-            get {
-                object obj = ResourceManager.GetObject("setup_folder-options-x", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] ShellPayload {
-            get {
-                object obj = ResourceManager.GetObject("ShellPayload", resourceCulture);
-                return ((byte[])(obj));
             }
         }
         

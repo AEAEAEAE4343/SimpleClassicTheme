@@ -28,6 +28,8 @@ namespace SimpleClassicTheme
     static class SCT
     {
         public static Configuration Configuration { get; } = new Configuration();
+        public static ResourceFetcher ResourceFetcher { get; } = new ResourceFetcher();
+
 		public static bool ShouldLoadGUI { get; set; }
 
         /// <summary>
@@ -55,7 +57,7 @@ namespace SimpleClassicTheme
             }
 
             // Check if SCT is running on a compatible version of .NET (4.8 or higher).
-            int netReleaseVersion = (int)Registry.GetValue("SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full\\", "Release", 0);
+            int netReleaseVersion = (int)Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full\\", "Release", 0);
             if (netReleaseVersion < 528040)
             {
                 MessageBox.Show("SCT requires .NET Framework version 4.8 or higher.", "Simple Classic Theme");

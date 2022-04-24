@@ -124,13 +124,14 @@ namespace SimpleClassicTheme
                     File.Delete($"{SCT.Configuration.InstallPath}SCT.exe");
                     File.Copy(Assembly.GetExecutingAssembly().Location, $"{SCT.Configuration.InstallPath}SCT.exe");
                 }
-                File.WriteAllText($"{SCT.Configuration.InstallPath}SCTTask.xml", Properties.Resources.cmd_create_task);
-                File.WriteAllText($"{SCT.Configuration.InstallPath}TaskSchedule.cmd", Properties.Resources.taskScheduleCommands);
+                Directory.CreateDirectory($"{SCT.Configuration.InstallPath}Resources\\");
+                File.WriteAllText($"{SCT.Configuration.InstallPath}Resources\\SCTTask.xml", SCT.ResourceFetcher.TaskFile);
+                File.WriteAllText($"{SCT.Configuration.InstallPath}Resources\\TaskSchedule.cmd", SCT.ResourceFetcher.CreateTaskScript);
                 Process task = new Process()
                 {
                     StartInfo = new ProcessStartInfo()
                     {
-                        FileName = $"{SCT.Configuration.InstallPath}TaskSchedule.cmd",
+                        FileName = $"{SCT.Configuration.InstallPath}Resources\\TaskSchedule.cmd",
                         Verb = "runas",
                         UseShellExecute = false,
                         CreateNoWindow = true

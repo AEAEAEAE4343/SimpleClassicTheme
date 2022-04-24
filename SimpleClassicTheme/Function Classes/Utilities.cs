@@ -80,7 +80,7 @@ namespace SimpleClassicTheme
 
         public override int Install()
         {
-            byte[] installer = (byte[])Properties.Resources.ResourceManager.GetObject(ResourceName);
+            byte[] installer = (byte[])SCT.ResourceFetcher.OptionalResourceManager.GetObject(ResourceName);
 
             string path = SCT.Configuration.InstallPath + SafeNameForFile;
             File.WriteAllBytes(path, installer);

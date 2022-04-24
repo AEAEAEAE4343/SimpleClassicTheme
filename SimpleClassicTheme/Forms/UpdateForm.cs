@@ -192,7 +192,7 @@ namespace SimpleClassicTheme
 			};
 			c.DownloadFileCompleted += delegate
 			{
-				File.WriteAllText("___UPDATESCT.bat", Properties.Resources.updateString);
+				File.WriteAllText("___UPDATESCT.bat", SCT.ResourceFetcher.UpdateString);
 				Process.Start("___UPDATESCT.bat", $"{ver.ToString(3)} {Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName)} ___SCT.exe");
 			};
 

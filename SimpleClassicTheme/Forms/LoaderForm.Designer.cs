@@ -59,7 +59,7 @@ namespace SimpleClassicTheme.Forms
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::SimpleClassicTheme.Properties.Resources.sct_banner_light_400x73;
+            this.pictureBox1.Image = global::SimpleClassicTheme.Properties.MainResources.sct_banner_light_400x73;
             this.pictureBox1.Location = new System.Drawing.Point(12, 12);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(400, 73);

@@ -47,8 +47,11 @@ namespace SimpleClassicTheme
             panel1.Location = new Point(0, 0);
 
             ExtraFunctions.UpdateStartupExecutable(false);
-            File.WriteAllText($"{SCT.Configuration.InstallPath}addSchemes.bat", Properties.Resources.reg_classicschemes_add);
-            Process.Start(new ProcessStartInfo() { FileName = $"{SCT.Configuration.InstallPath}addSchemes.bat", Verb = "runas", UseShellExecute = false, CreateNoWindow = true });
+
+            Directory.CreateDirectory($"{SCT.Configuration.InstallPath}Resources\\");
+            string colorSchemes = SCT.ResourceFetcher.ColorSchemesReg;
+            File.WriteAllText($"{SCT.Configuration.InstallPath}Resources\\schemes.bat", colorSchemes);
+            Process.Start(new ProcessStartInfo() { FileName = $"{SCT.Configuration.InstallPath}Resources\\schemes.bat", Verb = "runas", UseShellExecute = false, CreateNoWindow = true });
 
             Version sctVersion = Assembly.GetExecutingAssembly().GetName().Version;
             label2.Text = label2.Text.Replace("%v", sctVersion.ToString(3)).Replace("%r", sctVersion.Revision.ToString());
@@ -56,9 +59,9 @@ namespace SimpleClassicTheme
             CheckDependenciesAndSetControls();
 
             if (ExtraFunctions.ShouldDrawLight(SystemColors.Control))
-                pictureBox1.Image = Properties.Resources.sct_light_164;
+                pictureBox1.Image = SCT.ResourceFetcher.SCTLogoLight164;
             else
-                pictureBox1.Image = Properties.Resources.sct_dark_164;
+                pictureBox1.Image = SCT.ResourceFetcher.SCTLogoDark164;
 
             if (DateTime.Now.Year == 2022 && DateTime.Now.Day == 1 && DateTime.Now.Month == 1)
             {
@@ -162,8 +165,15 @@ namespace SimpleClassicTheme
                 new ThemeConfigurationForm().ShowDialog();
                 return;
             }
-            File.WriteAllBytes($"{SCT.Configuration.InstallPath}deskn.cpl", Properties.Resources.desktopControlPanelCPL);
-            Process.Start($"{SCT.Configuration.InstallPath}deskn.cpl");
+            if (!File.Exists($"{SCT.Configuration.InstallPath}Resources\\deskn.cpl"))
+            {
+                byte[] bytes = SCT.ResourceFetcher.AppearanceCPL;
+                if (bytes is null)
+                    return;
+                Directory.CreateDirectory($"{SCT.Configuration.InstallPath}Resources\\");
+                File.WriteAllBytes($"{SCT.Configuration.InstallPath}Resources\\deskn.cpl", bytes);
+            }
+            Process.Start($"{SCT.Configuration.InstallPath}Resources\\deskn.cpl");
         }
 
         // Auto-launch SCT on boot
@@ -180,8 +190,23 @@ namespace SimpleClassicTheme
         {
             buttonECMT.Enabled = false;
 
-            File.WriteAllBytes("C:\\Windows\\System32\\ExplorerContextMenuTweaker.dll", Properties.Resources.ExplorerContextMenuTweaker);
-            File.WriteAllBytes("C:\\Windows\\System32\\ShellPayload.dll", Properties.Resources.ShellPayload);
+            if (!File.Exists($"{SCT.Configuration.InstallPath}Resources\\ExplorerContextMenuTweaker.dll"))
+            {
+                byte[] bytes = SCT.ResourceFetcher.ExplorerContextMenuTweaker;
+                if (bytes is null)
+                    return;
+                Directory.CreateDirectory($"{SCT.Configuration.InstallPath}Resources\\");
+                File.WriteAllBytes($"{SCT.Configuration.InstallPath}Resources\\ShellPayloadShellPayload.dll", bytes);
+            }
+            if (!File.Exists($"{SCT.Configuration.InstallPath}Resources\\ShellPayload.dll"))
+            {
+                byte[] bytes = SCT.ResourceFetcher.ShellPayload;
+                if (bytes is null)
+                    return;
+                Directory.CreateDirectory($"{SCT.Configuration.InstallPath}Resources\\");
+                File.WriteAllBytes($"{SCT.Configuration.InstallPath}Resources\\ShellPayload.dll", bytes);
+            }
+
             Process.Start(new ProcessStartInfo() { FileName = "C:\\Windows\\System32\\regsvr32.exe", Arguments = "ExplorerContextMenuTweaker.dll", Verb = "runas" }).WaitForExit();
         }
 
@@ -197,11 +222,15 @@ namespace SimpleClassicTheme
         // Open RibbonDisabler 4.0
         private void ButtonRibbonDisabler_Click(object sender, EventArgs e)
         {
-            if (!File.Exists($"{SCT.Configuration.InstallPath}RibbonDisabler.exe"))
+            if (!File.Exists($"{SCT.Configuration.InstallPath}Resources\\RibbonDisabler.exe"))
             {
-                File.WriteAllBytes($"{SCT.Configuration.InstallPath}RibbonDisabler.exe", Properties.Resources.ribbonDisabler);
+                byte[] bytes = SCT.ResourceFetcher.RibbonDisabler;
+                if (bytes is null)
+                    return;
+                Directory.CreateDirectory($"{SCT.Configuration.InstallPath}Resources\\");
+                File.WriteAllBytes($"{SCT.Configuration.InstallPath}Resources\\RibbonDisabler.exe", bytes);
             }
-            Process.Start($"{SCT.Configuration.InstallPath}RibbonDisabler.exe");
+            Process.Start($"{SCT.Configuration.InstallPath}Resources\\RibbonDisabler.exe");
         }
 
         // Run the SCT AHK script manager

@@ -39,9 +39,8 @@
     <ApplicationIcon>Resources\SCT Logo.ico</ApplicationIcon>
     <ApplicationManifest>Other Files\app.manifest</ApplicationManifest>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28Full%29|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -50,8 +49,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>bin\Release\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release %28Full%29|AnyCPU' ">
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -60,6 +58,24 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug %28Lite%29|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE;SCTLITE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %28Lite%29|AnyCPU'">
+    <DefineConstants>TRACE;SCTLITE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -146,6 +162,7 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\ResourceFetcher.cs" />
     <Compile Include="SCT.cs" />
     <Compile Include="Function Classes\SystemMenu.cs" />
     <Compile Include="Function Classes\SystemMenuForm.cs">
@@ -201,13 +218,22 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AHKScripts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="Properties\MainResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>MainResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UpdateForm.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\OptionalResources.Designer.cs" Condition="'$(Configuration)' != 'Debug %28Lite%29' and '$(Configuration)' != 'Release %28Lite%29'">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OptionalResources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\OptionalResources.resx" Condition="'$(Configuration)' != 'Debug %28Lite%29' and '$(Configuration)' != 'Release %28Lite%29'">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>OptionalResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Other Files\app.manifest" />
@@ -216,10 +242,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="Properties\MainResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>MainResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -268,7 +294,6 @@
     <None Include="Resources\SCT Logo.ico" />
     <None Include="Resources\SCT Logo x275.png" />
     <None Include="Resources\SCT Logo Dark x275.png" />
-    <Content Include="SCT Logo.ico" />
     <None Include="Resources\fox.exe" />
     <None Include="Resources\RibbonDisabler.exe" />
     <None Include="Resources\fixstrips.exe" />
@@ -301,6 +326,24 @@
       <Project>{a137d4b1-59bc-4cd5-b6c0-4a78cc82d8a5}</Project>
       <Name>MCT.NET</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ExplorerContextMenuTweaker1.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fixstrips1.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RibbonDisabler1.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ctm1.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fox1.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ShellPayload1.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -161,7 +161,7 @@ namespace SimpleClassicTheme
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::SimpleClassicTheme.Properties.Resources.sct_light_164;
+            this.pictureBox1.Image = global::SimpleClassicTheme.Properties.MainResources.sct_light_164;
             this.pictureBox1.Location = new System.Drawing.Point(11, 11);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(0, 0, 5, 5);
             this.pictureBox1.Name = "pictureBox1";
