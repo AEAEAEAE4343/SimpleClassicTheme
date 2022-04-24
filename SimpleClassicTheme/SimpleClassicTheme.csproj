@@ -202,14 +202,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Forms\UpdateForm.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -220,26 +215,25 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Other Files\README.md" />
-    <None Include="Resources\addSchemes.bat" />
     <None Include="Resources\addSchemes.sbat" />
-    <None Include="Resources\Classic3.msstyles" />
     <None Include="Resources\deskn.cpl" />
     <None Include="Resources\DisableThemeScript.bat" />
     <None Include="Resources\EnableThemeScript.bat" />
-    <None Include="Resources\ossettings.reg" />
-    <None Include="Resources\ossmsettings.reg" />
-    <None Include="Resources\ostbsettings.reg" />
     <None Include="Resources\reg disable upm.reg" />
     <None Include="Resources\reg_windowmetrics_81.reg" />
     <None Include="Resources\RestoreColors.reg" />
     <None Include="Resources\restoreMetrics.reg" />
-    <None Include="Resources\sibsettings.reg" />
     <None Include="Resources\upm.reg" />
     <None Include="Resources\WindowMetrics.reg" />
   </ItemGroup>
@@ -248,15 +242,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\null_classic3small.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\taskbar.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\win9x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\win7.bmp" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -283,7 +268,6 @@
     <None Include="Resources\SCT Banner 400x81.png" />
     <None Include="Resources\winxp_wizard.png" />
     <None Include="Resources\msiexec.png" />
-    <None Include="Resources\OpenShellSetup_4_4_166.exe" />
     <None Include="Resources\SCT Banner 400x73.png" />
     <None Include="Resources\SCT Banner Dark 400x73.png" />
     <None Include="Resources\SCT Logo x164.png" />
@@ -293,14 +277,10 @@
     <None Include="Resources\SCT Logo Dark x275.png" />
     <Content Include="SCT Logo.ico" />
     <Content Include="SimpleClassicTheme.ico" />
-    <None Include="Resources\win98sctbanner.png" />
-    <None Include="Resources\win98sct.png" />
     <None Include="Resources\fox.exe" />
     <None Include="Resources\RibbonDisabler.exe" />
-    <None Include="Resources\OpenShellSetup_4_4_142.exe" />
     <None Include="Resources\fixstrips.exe" />
     <None Include="Resources\scttask.xml" />
-    <Content Include="Resources\win98.ico" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">

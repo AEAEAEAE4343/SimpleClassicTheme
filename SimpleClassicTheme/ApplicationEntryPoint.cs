@@ -45,8 +45,6 @@ namespace SimpleClassicTheme
             Application.VisualStyleState = VisualStyleState.NoneEnabled;
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //Application.Run(new Forms.ThemeConfigurationForm()); return;
-
             bool windows = Environment.OSVersion.Platform == PlatformID.Win32NT;
             bool windows10or11 = Environment.OSVersion.Version.Major == 10 /*&& Int32.Parse(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId", "").ToString()) >= 1803*/;
             bool windows8 = Environment.OSVersion.Version.Major == 6 && (Environment.OSVersion.Version.Minor == 2 || Environment.OSVersion.Version.Minor == 3);
@@ -62,7 +60,7 @@ namespace SimpleClassicTheme
             }
 
             // Check if SCT is running on a compatible version of .NET (4.8 or higher).
-            int netReleaseVersion = (int)Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\").GetValue("Release");
+            int netReleaseVersion = (int)Registry.GetValue("SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full\\", "Release", 0);
             if (netReleaseVersion < 528040)
             {
                 MessageBox.Show("SCT requires .NET Framework version 4.8 or higher.", "Simple Classic Theme");

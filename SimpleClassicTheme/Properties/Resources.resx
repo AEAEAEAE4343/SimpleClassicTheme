@@ -182,9 +182,6 @@ SCT.exe --set EnableTaskbar True --set TaskbarType SCTT --install-dependencies -
   <data name="fixstrips" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\fixstrips.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="reg_os_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ossettings.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
-  </data>
   <data name="cmd_create_task" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\scttask.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
   </data>
@@ -262,15 +259,6 @@ del %3
   </data>
   <data name="msiexec" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\msiexec.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="reg_os_sm_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ossmsettings.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
-  </data>
-  <data name="reg_os_tb_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ostbsettings.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="reg_sib_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sibsettings.reg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
   </data>
   <data name="sct_light_164" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SCT Logo x164.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
