@@ -167,7 +167,14 @@
     <ClInclude Include="classictheme.h" />
     <ClInclude Include="ntobj.h" />
     <ClInclude Include="pipe.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="service.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MCTsvc.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\MCT Logo.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
