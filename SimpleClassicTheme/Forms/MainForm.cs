@@ -42,15 +42,14 @@ namespace SimpleClassicTheme
             SystemMenu.CopyToolStripToMenu(menuStrip1, menu);
             Controls.Remove(menuStrip1);
             SystemMenu = menu;
-            panel1.ClientSize = new Size(panel1.ClientSize.Width, label2.Location.Y + 27);
+
             ClientSize = new Size(panel1.Width, panel1.Height + menu.Height);
             panel1.Location = new Point(0, 0);
 
             ExtraFunctions.UpdateStartupExecutable(false);
 
             Directory.CreateDirectory($"{SCT.Configuration.InstallPath}Resources\\");
-            string colorSchemes = SCT.ResourceFetcher.ColorSchemesReg;
-            File.WriteAllText($"{SCT.Configuration.InstallPath}Resources\\schemes.bat", colorSchemes);
+            File.WriteAllText($"{SCT.Configuration.InstallPath}Resources\\schemes.bat", SCT.ResourceFetcher.ColorSchemesReg);
             Process.Start(new ProcessStartInfo() { FileName = $"{SCT.Configuration.InstallPath}Resources\\schemes.bat", Verb = "runas", UseShellExecute = false, CreateNoWindow = true });
 
             Version sctVersion = Assembly.GetExecutingAssembly().GetName().Version;
@@ -62,12 +61,6 @@ namespace SimpleClassicTheme
                 pictureBox1.Image = SCT.ResourceFetcher.SCTLogoLight164;
             else
                 pictureBox1.Image = SCT.ResourceFetcher.SCTLogoDark164;
-
-            if (DateTime.Now.Year == 2022 && DateTime.Now.Day == 1 && DateTime.Now.Month == 1)
-            {
-                //linkLabel1.Hide();
-                //label2.Text = "Happy New Year!";
-            }
         }
 
 		#region Configuration checks

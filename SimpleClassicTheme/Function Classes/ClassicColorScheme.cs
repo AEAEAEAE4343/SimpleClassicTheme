@@ -6,204 +6,304 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimpleClassicTheme.Function_Classes
+namespace SimpleClassicTheme.Theming
 {
-	public class ColorScheme
-	{
-		[StructLayout(LayoutKind.Explicit, Size = 92, Pack = 1)]
-		private struct LOGFONTW
-		{
-			[FieldOffset(0)]
-			public int lfHeight;
-			[FieldOffset(4)]
-			public int lfWidth;
-			[FieldOffset(8)]
-			public int lfEscapement;
-			[FieldOffset(12)]
-			public int lfOrientation;
-			[FieldOffset(16)]
-			public int lfWeight;
-			[FieldOffset(20)]
-			public byte lfItalic;
-			[FieldOffset(21)]
-			public byte lfUnderline;
-			[FieldOffset(22)]
-			public byte lfStrikeOut;
-			[FieldOffset(23)]
-			public byte lfCharSet;
-			[FieldOffset(24)]
-			public byte lfOutPrecision;
-			[FieldOffset(25)]
-			public byte lfClipPrecision;
-			[FieldOffset(26)]
-			public byte lfQuality;
-			[FieldOffset(27)]
-			public byte lfPitchAndFamily;
-			[FieldOffset(28), MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-			public byte[] lfFaceName;
-		}
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct COLORREF
+    {
+        public byte r;
+        public byte g;
+        public byte b;
+        public byte reserved;
 
-		[StructLayout(LayoutKind.Explicit, Size = 712, Pack = 1)]
-		private struct ColorSchemeStruct
-		{
-			[FieldOffset(8)]
-			public byte WindowBorderSize;
-			[FieldOffset(12)]
-			public byte ScrollBarSize1;
-			[FieldOffset(16)]
-			public byte ScrollBarSize2;
-			
-			[FieldOffset(20)]
-			public byte CaptionSize1;
-			[FieldOffset(24)]
-			public byte CaptionSize2;
-			[FieldOffset(0x1C), MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x5C)]
-			public LOGFONTW CaptionFont;
+        public static COLORREF FromColor(Color c)
+        {
+            return new COLORREF() { r = c.R, g = c.G, b = c.B, reserved = 0 };
+        }
+    }
 
-			[FieldOffset(120)]
-			public byte PaletteTitleSize;
-			[FieldOffset(0x80), MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x5C)]
-			public LOGFONTW PaletteTitleFont;
+    public enum SchemeColor
+    {
+        ScrollBarColor,
+        DesktopColor,
+        ActiveCaptionColor,
+        InactiveCaptionColor,
+        MenuColor,
+        WindowColor,
+        WindowFrameColor,
+        MenuFontColor,
+        WindowFontColor,
+        ActiveCaptionFontColor,
+        ActiveWindowBorderColor,
+        InactiveWindowBorderColor,
+        ApplicationBackgroundColor,
+        SelectedItemsColor,
+        SelectedItemsFontColor,
+        ThreeDimensionalObjectColor,
+        ThreeDimensionalObjectShadowColor,
+        DisabledFontColor,
+        ThreeDimensionalObjectFontColor,
+        InactiveCaptionFontColor,
+        ThreeDimensionalObjectHighlightColor,
+        ThreeDimensionalObjectDarkShadowColor,
+        ThreeDimensionalObjectLightColor,
+        ToolTipFontColor,
+        ToolTipColor,
+        Unused,
+        HyperlinkColor,
+        ActiveCaptionGradientColor,
+        InactiveCaptionGradientColor,
+    }
 
-			[FieldOffset(220)]
-			public byte MenuSize;
-			[FieldOffset(0xE4), MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x5C)]
-			public LOGFONTW MenuFont;
-			
-			[FieldOffset(0x140), MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x5C)]
-			public LOGFONTW ToolTipFont;
-			[FieldOffset(0x19C), MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x5C)]
-			public LOGFONTW MessageBoxFont;
-			[FieldOffset(0x1F8), MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x5C)]
-			public LOGFONTW IconFont;
+    public class AppearanceScheme : IDisposable
+    {
+        [DllImport("gdi32.dll")]
+        static extern IntPtr CreateFontIndirectW(ref LOGFONTW lfFont);
+        [DllImport("gdi32.dll")]
+        static extern IntPtr CreateSolidBrush(COLORREF color);
+        [DllImport("gdi32.dll")]
+        static extern int DeleteObject(IntPtr color);
 
-			[FieldOffset(600), MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			public byte[] DesktopColor;
-			[FieldOffset(604), MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			public byte[] ActiveTitleBarColor;
-			[FieldOffset(608), MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			public byte[] InactiveTitleBarColor;
-			[FieldOffset(612), MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			public byte[] MenuColor;
-			[FieldOffset(616), MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			public byte[] WindowColor;
-			[FieldOffset(624), MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			public byte[] MenuFontColor;
-			[FieldOffset(628), MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			public byte[] MessageBoxFontColor;
-			[FieldOffset(632), MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			public byte[] ActiveTitleBarFontColor;
-			[FieldOffset(636), MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			public byte[] ActiveWindowBorderColor;
-			[FieldOffset(640), MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			public byte[] InactiveWindowBorderColor;
-			[FieldOffset(644), MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			public byte[] ApplicationBackgroundColor;
-			[FieldOffset(648), MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			public byte[] SelectedItemsColor;
-			[FieldOffset(672), MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			public byte[] InactiveTitleBarFontColor;
-			[FieldOffset(688), MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			public byte[] ToolTipFontColor;
-			[FieldOffset(692), MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			public byte[] ToolTipColor;
-			[FieldOffset(704), MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			public byte[] ActiveTitleBarGradientColor;
-			[FieldOffset(708), MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			public byte[] InactiveTitleBarGradientColor;
-		}
+        [DllImport("user32.dll")]
+        static extern COLORREF GetSysColor(int nIndex);
+        [DllImport("user32.dll")]
+        static extern bool SystemParametersInfoW(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
 
-		public byte WindowBorderSize { get => str.WindowBorderSize; set => str.WindowBorderSize = value; }
-		public byte ScrollBarSize { get => str.ScrollBarSize1; set { str.ScrollBarSize1 = value; str.ScrollBarSize2 = value; } }
-		public byte CaptionSize { get => str.CaptionSize1; set { str.CaptionSize1 = value; str.CaptionSize2 = value; } }
-		//public string CaptionFont { get => GetStringFromBytes(str.CaptionFont); set => str.CaptionFont = GetBytesFromString(value); }
-		public byte PaletteTitleSize { get => str.PaletteTitleSize; set => str.PaletteTitleSize = value; }
-		//public string PaletteTitleFont { get => GetStringFromBytes(str.PaletteTitleFont); set => str.PaletteTitleFont = GetBytesFromString(value); }
-		public byte MenuSize { get => str.MenuSize; set => str.MenuSize = value; }
-		//public string MenuFont { get => GetStringFromBytes(str.MenuFont); set => str.MenuFont = GetBytesFromString(value); }
-		//public string ToolTipFont { get => GetStringFromBytes(str.ToolTipFont); set => str.ToolTipFont = GetBytesFromString(value); }
-		//public string MessageBoxFont { get => GetStringFromBytes(str.MessageBoxFont); set => str.MessageBoxFont = GetBytesFromString(value); }
-		//public string IconFont { get => GetStringFromBytes(str.IconFont); set => str.IconFont = GetBytesFromString(value); }
-		public Color DesktopColor { get => GetColorFromBytes(str.DesktopColor); set => str.DesktopColor = GetBytesFromColor(value); }
-		public Color ActiveTitleBarColor { get => GetColorFromBytes(str.ActiveTitleBarColor); set => str.ActiveTitleBarColor = GetBytesFromColor(value); }
-		public Color InactiveTitleBarColor { get => GetColorFromBytes(str.InactiveTitleBarColor); set => str.InactiveTitleBarColor = GetBytesFromColor(value); }
-		public Color MenuColor { get => GetColorFromBytes(str.MenuColor); set => str.MenuColor = GetBytesFromColor(value); }
-		public Color WindowColor { get => GetColorFromBytes(str.WindowColor); set => str.WindowColor = GetBytesFromColor(value); }
-		public Color MenuFontColor { get => GetColorFromBytes(str.MenuFontColor); set => str.MenuFontColor = GetBytesFromColor(value); }
-		public Color MessageBoxFontColor { get => GetColorFromBytes(str.MessageBoxFontColor); set => str.MessageBoxFontColor = GetBytesFromColor(value); }
-		public Color ActiveTitleBarFontColor { get => GetColorFromBytes(str.ActiveTitleBarFontColor); set => str.ActiveTitleBarFontColor = GetBytesFromColor(value); }
-		public Color ActiveWindowBorderColor { get => GetColorFromBytes(str.ActiveWindowBorderColor); set => str.ActiveWindowBorderColor = GetBytesFromColor(value); }
-		public Color InactiveWindowBorderColor { get => GetColorFromBytes(str.InactiveWindowBorderColor); set => str.InactiveWindowBorderColor = GetBytesFromColor(value); }
-		public Color ApplicationBackgroundColor { get => GetColorFromBytes(str.ApplicationBackgroundColor); set => str.ApplicationBackgroundColor = GetBytesFromColor(value); }
-		public Color SelectedItemsColor { get => GetColorFromBytes(str.SelectedItemsColor); set => str.SelectedItemsColor = GetBytesFromColor(value); }
-		public Color InactiveTitleBarFontColor { get => GetColorFromBytes(str.InactiveTitleBarFontColor); set => str.InactiveTitleBarFontColor = GetBytesFromColor(value); }
-		public Color ToolTipFontColor { get => GetColorFromBytes(str.ToolTipFontColor); set => str.ToolTipFontColor = GetBytesFromColor(value); }
-		public Color ToolTipColor { get => GetColorFromBytes(str.ToolTipColor); set => str.ToolTipColor = GetBytesFromColor(value); }
-		public Color ActiveTitleBarGradientColor { get => GetColorFromBytes(str.ActiveTitleBarGradientColor); set => str.ActiveTitleBarGradientColor = GetBytesFromColor(value); }
-		public Color InactiveTitleBarGradientColor { get => GetColorFromBytes(str.InactiveTitleBarGradientColor); set => str.InactiveTitleBarGradientColor = GetBytesFromColor(value); }
 
-		ColorSchemeStruct str;
+        const uint SPI_GETNONCLIENTMETRICS = 0x0029;
+        const uint SPI_GETICONMETRICS = 0x002D;
 
-		public ColorScheme()
-		{
-			str = new ColorSchemeStruct();
-		}
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct LOGFONTW
+        {
+            public int lfHeight;
+            public int lfWidth;
+            public int lfEscapement;
+            public int lfOrientation;
+            public int lfWeight;
+            public byte lfItalic;
+            public byte lfUnderline;
+            public byte lfStrikeOut;
+            public byte lfCharSet;
+            public byte lfOutPrecision;
+            public byte lfClipPrecision;
+            public byte lfQuality;
+            public byte lfPitchAndFamily;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
+            public byte[] lfFaceName;
 
-		private ColorScheme(ColorSchemeStruct structure)
-		{
-			str = structure;
-		}
+            public IntPtr GetFont()
+            {
+                return CreateFontIndirectW(ref this);
+            }
 
-		public static ColorScheme FromColorScheme(byte[] colorScheme)
-		{
-			if (colorScheme.Length != 712)
-				throw new ArgumentException("Not enough data to fill struct.");
-			IntPtr buffer = Marshal.AllocHGlobal(712);
-			Marshal.Copy(colorScheme, 0, buffer, 712);
-			ColorSchemeStruct retobj = (ColorSchemeStruct)Marshal.PtrToStructure(buffer, typeof(ColorSchemeStruct));
-			Marshal.FreeHGlobal(buffer);
-			return new ColorScheme(retobj);
-		}
+            public static void FreeFont(IntPtr font)
+            {
+                DeleteObject(font);
+            }
+        }
 
-		public byte[] ToColorScheme()
-		{
-			IntPtr buffer = Marshal.AllocHGlobal(712);
-			Marshal.StructureToPtr(str, buffer, false);
-			byte[] colorScheme = new byte[712];
-			Marshal.Copy(buffer, colorScheme, 0, 712);
-			Marshal.FreeHGlobal(buffer);
-			return colorScheme;
-		}
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct WindowMetricData
+        {
+            public uint cbSize;
+            public int iBorderWidth;
+            public int iScrollWidth;
+            public int iScrollHeight;
+            public int iCaptionWidth;
+            public int iCaptionHeight;
+            public LOGFONTW lfCaptionFont;
+            public int iSmCaptionWidth;
+            public int iSmCaptionHeight;
+            public LOGFONTW lfSmCaptionFont;
+            public int iMenuWidth;
+            public int iMenuHeight;
+            public LOGFONTW lfMenuFont;
+            public LOGFONTW lfStatusFont;
+            public LOGFONTW lfMessageFont;
 
-		private Color GetColorFromBytes(byte[] bytes) => Color.FromArgb(bytes[0], bytes[1], bytes[2]);
-		private byte[] GetBytesFromColor(Color color) => new byte[] { color.R, color.G, color.B };
+            public static WindowMetricData FromSystem()
+            {
+                int size = Marshal.SizeOf(typeof(WindowMetricData));
+                WindowMetricData ncmetrics = new WindowMetricData();
+                ncmetrics.cbSize = (uint)size;
+                IntPtr lpncmetrics = Marshal.AllocHGlobal(size);
+                Marshal.StructureToPtr(ncmetrics, lpncmetrics, true);
+                SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, (uint)size, lpncmetrics, 0);
+                ncmetrics = Marshal.PtrToStructure<WindowMetricData>(lpncmetrics);
+                Marshal.FreeHGlobal(lpncmetrics);
+                return ncmetrics;
+            }
+        }
 
-		private string GetStringFromBytes(byte[] bytes)
-		{
-			if (bytes.Length != 64)
-				throw new ArgumentException("The array was not 64 bytes long");
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        private struct ICONMETRICSW
+        {
+            public uint cbSize;
+            public int iHorzSpacing;
+            public int iVertSpacing;
+            public int iTitleWrap;
+            public LOGFONTW lfFont;
 
-			byte[] newBytes = new byte[32];
-			for (int i = 0; i < 32; i++)
-				newBytes[i] = bytes[i * 2];
+            public static ICONMETRICSW FromSystem()
+            {
+                int size = Marshal.SizeOf(typeof(ICONMETRICSW));
+                ICONMETRICSW iconmetrics = new ICONMETRICSW();
+                iconmetrics.cbSize = (uint)size;
+                IntPtr lpiconmetrics = Marshal.AllocHGlobal(size);
+                Marshal.StructureToPtr(iconmetrics, lpiconmetrics, true);
+                SystemParametersInfoW(SPI_GETICONMETRICS, (uint)size, lpiconmetrics, 0);
+                iconmetrics = Marshal.PtrToStructure<ICONMETRICSW>(lpiconmetrics);
+                Marshal.FreeHGlobal(lpiconmetrics);
+                return iconmetrics;
+            }
+        }
 
-			return Encoding.ASCII.GetString(newBytes).Trim('\0');
-		}
+        [StructLayout(LayoutKind.Sequential, Size = 712, Pack = 1)]
+        private struct ColorSchemeStruct
+        {
+            public int padding;
+            public WindowMetricData NonClientMetrics;
+            public LOGFONTW IconFont;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 29)]
+            public COLORREF[] SchemeColors;
 
-		private byte[] GetBytesFromString(string text)
-		{
-			if (text.Length > 32)
-				throw new ArgumentException("The string was longer than 32 characters");
+            public static ColorSchemeStruct FromSystem()
+            {
+                ColorSchemeStruct str = new ColorSchemeStruct();
+                str.padding = 2;
+                str.NonClientMetrics = WindowMetricData.FromSystem();
+                str.IconFont = ICONMETRICSW.FromSystem().lfFont;
+                str.SchemeColors = new COLORREF[29];
+                for (int i = 0; i < str.SchemeColors.Length; i++)
+                    str.SchemeColors[i] = GetSysColor(i);
 
-			byte[] bytes = Encoding.ASCII.GetBytes(text);
-			byte[] newBytes = new byte[64];
+                return str;
+            }
 
-			for (int i = 0; i < 64; i++)
-				newBytes[i] = 0;
-			for (int i = 0; i < bytes.Length; i++)
-				newBytes[i * 2] = bytes[i];
+            public static ColorSchemeStruct FromRegistry(string schemeName)
+            {
+                if (schemeName is null)
+                    throw new ArgumentNullException("The scheme name supplied is null");
+                byte[] bytes = (byte[])Microsoft.Win32.Registry.GetValue("HKEY_CURRENT_USER\\Control Panel\\Appearance\\Schemes", schemeName, new byte[]{ 0 });
+                if (bytes.Length == 1)
+                    throw new ArgumentException("The scheme name supplied is invalid");
 
-			return newBytes;
-		}
-	}
+                int size = Marshal.SizeOf(typeof(ColorSchemeStruct));
+                IntPtr lpscheme = Marshal.AllocHGlobal(size);
+                Marshal.Copy(bytes, 0, lpscheme, size);
+                ColorSchemeStruct scheme = Marshal.PtrToStructure<ColorSchemeStruct>(lpscheme);
+                Marshal.FreeHGlobal(lpscheme);
+                return scheme;
+            }
+        }
+
+        public WindowMetricData WindowMetrics;
+        public LOGFONTW IconFont;
+
+        COLORREF[] Colors = new COLORREF[29];
+        IntPtr[] brushes;
+        IntPtr[] Brushes 
+        { 
+            get 
+            {
+                if (brushes is null)
+                {
+                    brushes = new IntPtr[29];
+                    for (int i = 0; i < brushes.Length; i++)
+                        brushes[i] = IntPtr.Zero;
+                }
+                return brushes;
+            } 
+        }
+
+        /// <summary>
+        /// Retrieves the specified color in the scheme.
+        /// </summary>
+        /// <param name="color">A SchemeColor specifying what color to retrieve.</param>
+        /// <returns>A COLORREF containing the requested RGB colors.</returns>
+        public COLORREF GetColor(SchemeColor color) => Colors[(int)color];
+
+        /// <summary>
+        /// Sets the specified color in the scheme.
+        /// NOTE: If a brush handle for the specified color was retrieved, it will be deleted.
+        /// </summary>
+        /// <param name="color">A SchemeColor specifying what color to set.</param>
+        /// <param name="value">A COLORREF specifying the new value of the color.</param>
+        public void SetColor(SchemeColor color, COLORREF value)
+        {
+            if (Brushes[(int)color] != IntPtr.Zero)
+                DeleteObject(Brushes[(int)color]);
+            Colors[(int)color] = value;
+        }
+
+        /// <summary>
+        /// Retrieves all colors in the scheme.
+        /// </summary>
+        /// <returns>An array of type COLORREF with all colors in the scheme.</returns>
+        public COLORREF[] GetAllColors() => Colors;
+
+        /// <summary>
+        /// Creates a brush handle for the specified scheme color.
+        /// NOTE: Disposing this AppearanceScheme deletes any handles retrieved.
+        /// </summary>
+        /// <param name="color">A SchemeColor specifying what color to get a brush handle for.</param>
+        /// <returns>A brush handle for the specified SchemeColor.</returns>
+        public IntPtr GetBrush(SchemeColor color)
+        {
+            if (Brushes[(int)color] == IntPtr.Zero)
+                Brushes[(int)color] = CreateSolidBrush(Colors[(int)color]);
+            return Brushes[(int)color];
+        }
+
+        /// <summary>
+        /// Creates brush handles for all colors in the scheme.
+        /// NOTE: Disposing this AppearanceScheme deletes any handles retrieved.
+        /// </summary>
+        /// <returns>An array with brush handles for all colors in the scheme.</returns>
+        public IntPtr[] GetAllBrushes()
+        {
+            for (int i = 0; i < 29; i++)
+                GetBrush((SchemeColor)i);
+            return brushes;
+        }
+
+        /// <summary>
+        /// Creates an AppearanceScheme from the current theme settings.
+        /// </summary>
+        /// <returns>An assembled AppearanceScheme object containing the current theme settings.</returns>
+        public static AppearanceScheme FromSystem()
+        {
+            return FromStruct(ColorSchemeStruct.FromSystem());
+        }
+
+        /// <summary>
+        /// Creates an AppearanceScheme from the specified scheme stored in registry.
+        /// </summary>
+        /// <param name="schemeName">The name of the scheme to retrieve from registry.</param>
+        /// <returns>An AppearanceScheme containing the theme settings retrieved from the specified scheme from registry.</returns>
+        public static AppearanceScheme FromRegistry(string schemeName)
+        {
+            return FromStruct(ColorSchemeStruct.FromRegistry(schemeName));
+        }
+
+        private static AppearanceScheme FromStruct(ColorSchemeStruct structure)
+        {
+            AppearanceScheme scheme = new AppearanceScheme();
+            scheme.Colors = structure.SchemeColors;
+            scheme.WindowMetrics = structure.NonClientMetrics;
+            scheme.IconFont = structure.IconFont;
+            return scheme;
+        }
+
+        /// <summary>
+        /// Cleans up the scheme and deletes all handles to created objects
+        /// </summary>
+        public void Dispose()
+        {
+            for (int i = 0; i < Brushes.Length; i++)
+                if (Brushes[i] != IntPtr.Zero)
+                    DeleteObject(Brushes[i]);
+        }
+    }
 }
