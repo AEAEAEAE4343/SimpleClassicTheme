@@ -22,7 +22,7 @@ using System;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using System.Windows.Forms.VisualStyles;
-using SimpleClassicTheme.Forms;
+using SimpleClassicTheme.Theming;
 
 namespace SimpleClassicTheme
 {
@@ -43,7 +43,10 @@ namespace SimpleClassicTheme
             Application.VisualStyleState = VisualStyleState.NoneEnabled;
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //new ThemeConfigurationForm().ShowDialog(); return;
+            new ThemeConfigurationForm().ShowDialog(); 
+            Environment.Exit(0);
+
+            //new Forms.Unfinished.DialogTest().ShowDialog(); return;
 
             bool windows = Environment.OSVersion.Platform == PlatformID.Win32NT;
             bool windows10or11 = Environment.OSVersion.Version.Major == 10 /*&& Int32.Parse(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId", "").ToString()) >= 1803*/;
@@ -78,6 +81,8 @@ namespace SimpleClassicTheme
                 Application.VisualStyleState = SCT.Configuration.Enabled ? VisualStyleState.NoneEnabled : VisualStyleState.ClientAndNonClientAreasEnabled;
                 Application.Run(new MainForm());
             }
+
+            Environment.Exit(0);
         }
     }
 }

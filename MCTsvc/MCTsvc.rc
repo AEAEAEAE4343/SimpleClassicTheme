@@ -52,7 +52,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_APPICON             ICON                    "H:\\1. Visual Studio Repositories\\SimpleClassicTheme.Branding\\Logo\\Normal\\MCT Logo.ico"
+IDI_APPICON             ICON                    "..\\..\\SimpleClassicTheme.Branding\\Logo\\Normal\\MCT Logo.ico"
 
 #endif    // Dutch (Netherlands) resources
 /////////////////////////////////////////////////////////////////////////////

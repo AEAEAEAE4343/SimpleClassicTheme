@@ -21,11 +21,10 @@ using System;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
-using System.IO.Compression;
-using SimpleClassicTheme.Forms;
 using System.Drawing;
 using System.Reflection;
+using SimpleClassicTheme.Forms;
+using SimpleClassicTheme.Theming;
 
 namespace SimpleClassicTheme
 {

@@ -82,6 +82,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System">
@@ -98,75 +99,91 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\Information\AboutForm.cs">
+    <Compile Include="UI\Controls\ColorButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Information\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Information\AboutForm.Designer.cs">
+    <Compile Include="UI\Information\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Utility\AHKScriptManager.cs">
+    <Compile Include="UI\Unfinished\DialogTest.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Utility\AHKScriptManager.Designer.cs">
+    <Compile Include="UI\Unfinished\DialogTest.Designer.cs">
+      <DependentUpon>DialogTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Utility\AHKScriptManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Utility\AHKScriptManager.Designer.cs">
       <DependentUpon>AHKScriptManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Information\CommandLineHelpForm.cs">
+    <Compile Include="UI\Information\CommandLineHelpForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Information\CommandLineHelpForm.Designer.cs">
+    <Compile Include="UI\Information\CommandLineHelpForm.Designer.cs">
       <DependentUpon>CommandLineHelpForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\LoaderForm.cs">
+    <Compile Include="UI\LoaderForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\LoaderForm.Designer.cs">
+    <Compile Include="UI\LoaderForm.Designer.cs">
       <DependentUpon>LoaderForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\OptionsForm.cs">
+    <Compile Include="UI\OptionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\OptionsForm.Designer.cs">
+    <Compile Include="UI\OptionsForm.Designer.cs">
       <DependentUpon>OptionsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Utility\GithubDownloader.cs">
+    <Compile Include="UI\Utility\GithubDownloader.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Utility\GithubDownloader.Designer.cs">
+    <Compile Include="UI\Utility\GithubDownloader.Designer.cs">
       <DependentUpon>GithubDownloader.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Utility\TaskbarTypeSelector.cs">
+    <Compile Include="UI\Utility\TaskbarTypeSelector.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Utility\TaskbarTypeSelector.Designer.cs">
+    <Compile Include="UI\Utility\TaskbarTypeSelector.Designer.cs">
       <DependentUpon>TaskbarTypeSelector.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Unfinished\ThemeConfigurationForm.cs">
+    <Compile Include="Theming\ThemeConfigurationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Unfinished\ThemeConfigurationForm.Designer.cs">
+    <Compile Include="Theming\ThemeConfigurationForm.Designer.cs">
       <DependentUpon>ThemeConfigurationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Unfinished\WMITest.cs">
+    <Compile Include="UI\Unfinished\WMITest.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Unfinished\WMITest.Designer.cs">
+    <Compile Include="UI\Unfinished\WMITest.Designer.cs">
       <DependentUpon>WMITest.cs</DependentUpon>
     </Compile>
-    <Compile Include="Function Classes\ClassicColorScheme.cs" />
+    <Compile Include="Theming\ApperanceScheme.cs" />
     <Compile Include="Function Classes\ClassicTaskbar.cs" />
     <Compile Include="Function Classes\ClassicTheme.cs" />
     <Compile Include="Function Classes\Configuration.cs" />
     <Compile Include="Function Classes\ExtraFunctions.cs" />
-    <Compile Include="Forms\MainForm.cs">
+    <Compile Include="UI\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MainForm.Designer.cs">
+    <Compile Include="UI\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Theming\ThemingStructures.cs" />
     <Compile Include="Properties\ResourceFetcher.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SCT.cs" />
     <Compile Include="Function Classes\SystemMenu.cs" />
     <Compile Include="Function Classes\SystemMenuForm.cs">
@@ -180,42 +197,45 @@
       <DependentUpon>AHKScripts.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Forms\UpdateForm.cs">
+    <Compile Include="UI\UpdateForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\UpdateForm.Designer.cs">
+    <Compile Include="UI\UpdateForm.Designer.cs">
       <DependentUpon>UpdateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Function Classes\WinApi.cs" />
-    <EmbeddedResource Include="Forms\Information\AboutForm.resx">
+    <EmbeddedResource Include="UI\Information\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Utility\AHKScriptManager.resx">
+    <EmbeddedResource Include="UI\Unfinished\DialogTest.resx">
+      <DependentUpon>DialogTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Utility\AHKScriptManager.resx">
       <DependentUpon>AHKScriptManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Information\CommandLineHelpForm.resx">
+    <EmbeddedResource Include="UI\Information\CommandLineHelpForm.resx">
       <DependentUpon>CommandLineHelpForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\LoaderForm.resx">
+    <EmbeddedResource Include="UI\LoaderForm.resx">
       <DependentUpon>LoaderForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MainForm.resx">
+    <EmbeddedResource Include="UI\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\OptionsForm.resx">
+    <EmbeddedResource Include="UI\OptionsForm.resx">
       <DependentUpon>OptionsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Utility\GithubDownloader.resx">
+    <EmbeddedResource Include="UI\Utility\GithubDownloader.resx">
       <DependentUpon>GithubDownloader.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Utility\TaskbarTypeSelector.resx">
+    <EmbeddedResource Include="UI\Utility\TaskbarTypeSelector.resx">
       <DependentUpon>TaskbarTypeSelector.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Unfinished\ThemeConfigurationForm.resx">
+    <EmbeddedResource Include="Theming\ThemeConfigurationForm.resx">
       <DependentUpon>ThemeConfigurationForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Unfinished\WMITest.resx">
+    <EmbeddedResource Include="UI\Unfinished\WMITest.resx">
       <DependentUpon>WMITest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\AHKScripts.resx">
@@ -227,7 +247,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>MainResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UpdateForm.resx">
+    <EmbeddedResource Include="UI\UpdateForm.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\OptionalResources.Designer.cs" Condition="'$(Configuration)' != 'Debug %28Lite%29' and '$(Configuration)' != 'Release %28Lite%29'">
@@ -238,6 +258,10 @@
     <EmbeddedResource Include="Properties\OptionalResources.resx" Condition="'$(Configuration)' != 'Debug %28Lite%29' and '$(Configuration)' != 'Release %28Lite%29'">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>OptionalResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Other Files\app.manifest" />
