@@ -34,9 +34,9 @@ using System.Windows.Forms.VisualStyles;
 
 namespace SimpleClassicTheme.Forms
 {
-    public partial class LoaderForm : Form
+    public partial class LoadForm : Form
     {
-        public LoaderForm()
+        public LoadForm()
         {
             InitializeComponent();
         }
@@ -235,7 +235,6 @@ namespace SimpleClassicTheme.Forms
                 }
             execute_arguments:
                 WriteLine($"Succesfully parsed {arguments.Count} argument{(arguments.Count > 1 ? "s" : "")}");
-                bool enableTaskbar = SCT.Configuration.EnableTaskbar;
                 for (int i = 0; i < arguments.Count; i++)
                 {
                     label2.Text = $"Status: Parsing arguments ({i}/{args.Length})";
@@ -265,23 +264,23 @@ namespace SimpleClassicTheme.Forms
                             WriteLine("Launched Clasic Theme configuration dialog");
                             break;
                         case "--disable":
-                            if (!MainForm.CheckDependencies(enableTaskbar))
+                            if (!MainForm.CheckDependencies(SCT.Configuration.EnableTaskbar))
                             {
                                 WriteLine("Error: Not all dependencies are installed\r\nPlease use the GUI or --install-dependencies to install the dependencies");
                                 goto exit;
                             }
-                            Write($"Disabling classic theme{(enableTaskbar ? " and taskbar" : "")}...");
-                            ClassicTheme.MasterDisable(enableTaskbar); WriteLine("");
+                            Write("Disabling Simple Classic Theme...");
+                            ClassicTheme.MasterDisable(); WriteLine("");
                             WriteLine("Disabled SCT succesfully");
                             break;
                         case "--enable":
-                            if (!MainForm.CheckDependencies(enableTaskbar))
+                            if (!MainForm.CheckDependencies(SCT.Configuration.EnableTaskbar))
                             {
                                 WriteLine("Error: Not all dependencies are installed\r\nPlease use the GUI or --install-dependencies to install the dependencies");
                                 goto exit;
                             }
-                            Write($"Enabling classic theme{(enableTaskbar ? " and taskbar" : "")}...");
-                            ClassicTheme.MasterEnable(enableTaskbar, true); WriteLine("");
+                            Write("Enabling Simple Classic Theme...");
+                            ClassicTheme.MasterEnable(); WriteLine("");
                             WriteLine("Enabled SCT succesfully");
                             break;
                         case "--gui":
@@ -299,8 +298,6 @@ namespace SimpleClassicTheme.Forms
                                 goto exit;
                             break;
                         case "--set":
-                            if ((string)argument.Item2[0] == "EnableTaskbar")
-                                enableTaskbar = Boolean.Parse((string)argument.Item2[1]);
                             SCT.Configuration.SetItem((string)argument.Item2[0], argument.Item2[1], (RegistryValueKind)argument.Item2[2]);
                             WriteLine($"Set configuration item '{argument.Item2[0]}' to '{argument.Item2[1]}'");
                             break;

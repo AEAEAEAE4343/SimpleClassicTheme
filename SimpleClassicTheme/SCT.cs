@@ -43,8 +43,8 @@ namespace SimpleClassicTheme
             Application.VisualStyleState = VisualStyleState.NoneEnabled;
             Application.SetCompatibleTextRenderingDefault(false);
 
-            new ThemeConfigurationForm().ShowDialog(); 
-            Environment.Exit(0);
+            //new ThemeConfigurationForm().ShowDialog(); 
+            //Environment.Exit(0);
 
             //new Forms.Unfinished.DialogTest().ShowDialog(); return;
 
@@ -70,7 +70,7 @@ namespace SimpleClassicTheme
                 return;
             }
 
-            Forms.LoaderForm loader = new Forms.LoaderForm();
+            Forms.LoadForm loader = new Forms.LoadForm();
             loader.Show();
             ShouldLoadGUI = loader.LoadSCT(args);
             loader.Close();

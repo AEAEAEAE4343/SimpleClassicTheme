@@ -49,7 +49,7 @@ namespace SimpleClassicTheme
     static class ExtraFunctions
     {
         /// <summary>
-        /// Check if there's a network connectionX
+        /// Check if there's a network connection
         /// </summary>
         /// <returns>Whether a valid network connection is present</returns>
         public static bool CheckForInternetConnection()
@@ -96,7 +96,7 @@ namespace SimpleClassicTheme
             return false;
 		}
 
-        //Updates the application
+        // Updates the application
         internal static bool Update(Form p = null)
         {
             //Check if there is an internet connection
@@ -162,56 +162,12 @@ namespace SimpleClassicTheme
             }*/
         }
 
-        //Renames a subkey
-        public static bool RenameSubKey(RegistryKey parentKey,
-            string subKeyName, string newSubKeyName)
-        {
-            CopyKey(parentKey, subKeyName, newSubKeyName);
-            parentKey.DeleteSubKeyTree(subKeyName);
-            return true;
-        }
-
-        //Copies a key
-        public static bool CopyKey(RegistryKey parentKey,
-            string keyNameToCopy, string newKeyName)
-        {
-            RegistryKey destinationKey = parentKey.CreateSubKey(newKeyName);
-            RegistryKey sourceKey = parentKey.OpenSubKey(keyNameToCopy);
-            RecurseCopyKey(sourceKey, destinationKey);
-            return true;
-        }
-
-        //Recursively copies a key
-        public static void RecurseCopyKey(RegistryKey sourceKey, RegistryKey destinationKey)
-        {
-            foreach (string valueName in sourceKey.GetValueNames())
-            {
-                object objValue = sourceKey.GetValue(valueName);
-                RegistryValueKind valKind = sourceKey.GetValueKind(valueName);
-                destinationKey.SetValue(valueName, objValue, valKind);
-            }
-            foreach (string sourceSubKeyName in sourceKey.GetSubKeyNames())
-            {
-                RegistryKey sourceSubKey = sourceKey.OpenSubKey(sourceSubKeyName);
-                RegistryKey destSubKey = destinationKey.CreateSubKey(sourceSubKeyName);
-                RecurseCopyKey(sourceSubKey, destSubKey);
-            }
-        }
-
-        //Gets the MD5 checksum of a file
-        public static string CheckMD5(string filename)
-        {
-            using (var md5 = MD5.Create())
-            {
-                using (var stream = File.OpenRead(filename))
-                {
-                    return Encoding.Default.GetString(md5.ComputeHash(stream));
-                }
-            }
-        }
-
         public static bool InstallDependencies(bool commandLineOutput = false)
 		{
+            if (SCT.Configuration.ClassicThemeMethod == ClassicThemeMethod.MultiUserClassicTheme)
+            {
+
+            }
             switch (SCT.Configuration.TaskbarType)
             {
                 case TaskbarType.RetroBar:
@@ -242,7 +198,7 @@ namespace SimpleClassicTheme
         {
             // Get the subdirectories for the specified directory.
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
-
+            
             if (!dir.Exists)
             {
                 throw new DirectoryNotFoundException(

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
+﻿using System.Drawing;
 using System.Resources;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace SimpleClassicTheme
@@ -22,7 +17,10 @@ namespace SimpleClassicTheme
             }
         }
 
+#if SCTLITE
+#else
         ResourceManager optionalResourceManager;
+#endif
         public ResourceManager OptionalResourceManager
         {
             get
@@ -66,6 +64,7 @@ namespace SimpleClassicTheme
         public Bitmap SCTLogoDark164 => (Bitmap)MainResourceManager.GetObject("sct_dark_164");
         public Bitmap SCTLogoLight275 => (Bitmap)MainResourceManager.GetObject("sct_light_275");
         public Bitmap SCTLogoDark275 => (Bitmap)MainResourceManager.GetObject("sct_dark_275");
+        public Bitmap ThemePreviewToolWindowIcons => (Bitmap)MainResourceManager.GetObject("ThemePreviewToolWindowIcons");
         public Icon SCTLogoIcon => (Icon)MainResourceManager.GetObject("sct_logo");
 
         public byte[] ExplorerContextMenuTweaker => GetBytesFromOptionalResourceManager("ExplorerContextMenuTweaker");

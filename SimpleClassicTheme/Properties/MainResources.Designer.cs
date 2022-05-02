@@ -292,6 +292,16 @@ namespace SimpleClassicTheme.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ThemePreviewToolWindowIcons {
+            get {
+                object obj = ResourceManager.GetObject("ThemePreviewToolWindowIcons", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @echo off
         ///title SCT Update
         ///echo Starting installation...

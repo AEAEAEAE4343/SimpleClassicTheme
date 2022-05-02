@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 
@@ -119,14 +120,14 @@ namespace SimpleClassicTheme.Theming
 
         BinaryData data = new BinaryData() { version = 3 };
 
-        int[] metrics 
-        { 
-            get => data.metrics; 
-            set 
-            { 
-                if (value.Length == 14) data.metrics = value; 
-                else throw new ArgumentException("The array must be of length 14."); 
-            } 
+        int[] metrics
+        {
+            get => data.metrics;
+            set
+            {
+                if (value.Length == 14) data.metrics = value;
+                else throw new ArgumentException("The array must be of length 14.");
+            }
         }
 
         LogicalFont[] fonts
@@ -150,9 +151,9 @@ namespace SimpleClassicTheme.Theming
         }
 
         IntPtr[] _brushes;
-        IntPtr[] brushes 
-        { 
-            get 
+        IntPtr[] brushes
+        {
+            get
             {
                 if (_brushes is null)
                 {
@@ -161,7 +162,7 @@ namespace SimpleClassicTheme.Theming
                         _brushes[i] = IntPtr.Zero;
                 }
                 return _brushes;
-            } 
+            }
         }
 
         /// <summary>
@@ -261,21 +262,23 @@ namespace SimpleClassicTheme.Theming
         /// </summary>
         public void ApplyToSystem()
         {
-            Thread t = new Thread(() => 
+            Thread t = new Thread(() =>
             {
                 string[] regNames = { "Scrollbar", "Background", "ActiveTitle", "InactiveTitle", "Menu", "Window",
-                                        "WindowFrame", "MenuText", "WindowText", "TitleText", "ActiveBorder", "Inactive Border",
+                                        "WindowFrame", "MenuText", "WindowText", "TitleText", "ActiveBorder", "InactiveBorder",
                                         "AppWorkspace", "Hilight", "HilightText", "ButtonFace", "ButtonShadow", "GrayText", "ButtonText",
                                         "InactiveTitleText", "ButtonHilight", "ButtonDkShadow", "ButtonLight", "InfoText", "InfoWindow",
-                                        "_", "HotTracking", "GradientActiveTitle", "GradientInactiveTitle" };
+                                        "_", "HotTrackingColor", "GradientActiveTitle", "GradientInactiveTitle" };
                 int[] indeces = new int[29];
                 for (int i = 0; i < 29; i++)
                 {
                     indeces[i] = i;
                     if (regNames[i] != "_")
-                        Microsoft.Win32.Registry.CurrentUser.SetValue($"Control Panel\\Colors\\{regNames[i]}", $"{colors[i].r} {colors[i].g} {colors[i].b}");
+                        Registry.SetValue("HKEY_CURRENT_USER\\Control Panel\\Colors\\", regNames[i], $"{colors[i].r} {colors[i].g} {colors[i].b}");
                 }
                 SetSysColors(29, indeces, colors);
+
+                Registry.SetValue("HKEY_CURRENT_USER\\Control Panel\\Desktop\\WindowMetrics", "Shell Icon Size", GetMetric(SchemeMetric.IconSize).ToString());
 
                 int simSize = Marshal.SizeOf(typeof(SystemIconMetricsStruct));
                 SystemIconMetricsStruct sim = new SystemIconMetricsStruct();
@@ -299,7 +302,7 @@ namespace SimpleClassicTheme.Theming
                 sm.iCaptionWidth = GetMetric(SchemeMetric.CaptionWidth);
                 sm.iCaptionHeight = GetMetric(SchemeMetric.CaptionHeight);
                 sm.iSmCaptionWidth = GetMetric(SchemeMetric.SmallCaptionWidth);
-                sm.iSmCaptionHeight = GetMetric(SchemeMetric.CaptionHeight);
+                sm.iSmCaptionHeight = GetMetric(SchemeMetric.SmallCaptionHeight);
                 sm.iMenuWidth = GetMetric(SchemeMetric.MenuWidth);
                 sm.iMenuHeight = GetMetric(SchemeMetric.MenuHeight);
                 sm.iPaddedBorderWidth = GetMetric(SchemeMetric.PaddedWindowBorderWidth);
@@ -326,8 +329,6 @@ namespace SimpleClassicTheme.Theming
             });
             t.Start();
             t.Join(5000);
-            t.Interrupt();
-            t.Abort();
         }
 
         public void SaveToRegistry(string schemeName)
@@ -338,7 +339,7 @@ namespace SimpleClassicTheme.Theming
             Marshal.StructureToPtr(data, lpData, true);
             Marshal.Copy(lpData, bytes, 0, dataSize);
             Marshal.FreeHGlobal(lpData);
-            Microsoft.Win32.Registry.SetValue("HKEY_CURRENT_USER\\Control Panel\\Appearance\\Schemes", schemeName, bytes);
+            Registry.SetValue("HKEY_CURRENT_USER\\Control Panel\\Appearance\\Schemes", schemeName, bytes);
         }
 
         /// <summary>
@@ -365,6 +366,8 @@ namespace SimpleClassicTheme.Theming
             for (int i = 0; i < 29; i++)
                 colors[i] = GetSysColor(i);
 
+            int iconSize = Int32.Parse(Registry.GetValue("HKEY_CURRENT_USER\\Control Panel\\Desktop\\WindowMetrics", "Shell Icon Size", 32).ToString());
+
             return new AppearanceScheme()
             {
                 metrics = new[]
@@ -375,7 +378,7 @@ namespace SimpleClassicTheme.Theming
                     metrics.iSmCaptionWidth, metrics.iSmCaptionHeight,
                     metrics.iMenuWidth, metrics.iMenuHeight,
                     iconMetrics.iHorzSpacing, iconMetrics.iVertSpacing,
-                    iconMetrics.iTitleWrap, 32,
+                    iconMetrics.iTitleWrap, iconSize,
                 },
                 fonts = new[]
                 {
@@ -396,8 +399,8 @@ namespace SimpleClassicTheme.Theming
         {
             if (schemeName is null)
                 throw new ArgumentNullException("The scheme name supplied is null");
-            byte[] bytes = (byte[])Microsoft.Win32.Registry.GetValue("HKEY_CURRENT_USER\\Control Panel\\Appearance\\Schemes", schemeName, new byte[] { 0 });
-            if (bytes.Length == 1)
+            byte[] bytes = (byte[])Registry.GetValue("HKEY_CURRENT_USER\\Control Panel\\Appearance\\Schemes", schemeName, new byte[0]);
+            if (bytes.Length == 0)
                 throw new ArgumentException("The scheme name supplied is invalid");
 
             int version = BitConverter.ToInt32(bytes, 0);

@@ -19,7 +19,7 @@
 
 namespace SimpleClassicTheme.Forms
 {
-    partial class LoaderForm
+    partial class LoadForm
     {
         /// <summary>
         /// Required designer variable.

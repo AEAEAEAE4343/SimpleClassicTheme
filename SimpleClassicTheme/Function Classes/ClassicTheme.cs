@@ -18,19 +18,19 @@
  *
  */
 
-using Microsoft.Win32;
-using NtApiDotNet;
+//using NtApiDotNet;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
-using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Security.Principal;
 using System.Threading;
 using System.Windows.Forms;
 
 using MCT.NET;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.ComponentModel;
+
+using static SimpleClassicTheme.NtApi;
+using static SimpleClassicTheme.CommonControls;
 
 namespace SimpleClassicTheme
 {
@@ -42,137 +42,144 @@ namespace SimpleClassicTheme
 
     public static class ClassicTheme
     {
-        [DllImport("ntdll.dll", CharSet = CharSet.Unicode)]
-        private static extern unsafe uint NtOpenSection(out IntPtr sectionHandle, AccessMask desiredAccess, ref ObjectAttributes objectAttributes);
-        [DllImport("ntdll.dll", CharSet = CharSet.Unicode)]
-        private static extern unsafe uint NtSetSecurityObject(IntPtr sectionHandle, SecurityInformation desiredAccess, IntPtr securityDescriptor);
-        [DllImport("ntdll.dll", CharSet = CharSet.Unicode)]
-        private static extern unsafe uint NtClose(IntPtr handle);
-
-        [DllImport("advapi32.dll", CharSet = CharSet.Unicode)]
-        private static extern unsafe uint ConvertStringSecurityDescriptorToSecurityDescriptor(string StringSecurityDescriptor, uint StringSDRevision, out IntPtr SecurityDescriptor, out UIntPtr SecurityDescriptorSize);
-        [DllImport("kernel32.dll", SetLastError = true)]
-        static extern IntPtr LocalFree(IntPtr hMem);
-
-
-        [StructLayout(LayoutKind.Sequential)]
-        private unsafe struct UnicodeString
+        public enum CtErrorSource
         {
-            public ushort Length;
-            public ushort MaxLength;
+            /// <summary>
+            /// The error didn't have any source. This means no error occured.
+            /// </summary>
+            None = 0,
 
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 520)]
-            public byte* Buffer;
+            /// <summary>
+            /// The error occured within MCT.
+            /// </summary>
+            Mct = 1,
 
-            public static UnicodeString Create(string text)
+            /// <summary>
+            /// The error occured within Win32.
+            /// </summary>
+            Win32 = 2,
+
+            /// <summary>
+            /// The error happened in low-level system API's. 
+            /// </summary>
+            NtDll = 3,
+        }
+
+        public struct CtResult
+        {
+            public bool Success;
+            public CtErrorSource Source;
+            public uint ErrorCode;
+
+            public string GetDescription()
             {
-                UnicodeString s = new UnicodeString();
-                s.Length = (ushort)(text.Length * 2);
-                s.MaxLength = 520;
-                s.Buffer = (byte*)Marshal.AllocHGlobal(520);
+                if (Success)
+                {
+                    Source = CtErrorSource.Win32;
+                    ErrorCode = 0;
+                }
 
-                int strSize = Math.Min(text.Length * 2, 518);
-                Marshal.Copy(Encoding.Unicode.GetBytes(text), 0, (IntPtr)s.Buffer, strSize);
-                s.Buffer[strSize] = 0; s.Buffer[strSize + 1] = 0;
-                return s;
+                switch (Source)
+                {
+                    case CtErrorSource.NtDll:
+                    case CtErrorSource.Win32:
+                        return new Win32Exception((int)ErrorCode).Message;
+                    case CtErrorSource.Mct:
+                        return MctApi.GetErrorString((MctApi.MctError)ErrorCode);
+                    default:
+                        return "";
+                }
             }
+        }
 
-            public void Free()
+        private static bool IsAdministrator => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+
+        private static unsafe CtResult SetThemeSectionSecurity(string dacl)
+        {
+            NtApi.UnicodeString uniStr = NtApi.UnicodeString.Create($@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection");
+            NtApi.ObjectAttributes attrib = new NtApi.ObjectAttributes();
+            attrib.Length = (uint)sizeof(NtApi.ObjectAttributes);
+            attrib.ObjectName = &uniStr;
+            attrib.Attributes = AttributesEnum.OBJ_CASE_INSENSITIVE | AttributesEnum.OBJ_KERNEL_HANDLE;
+
+            uint result = NtOpenSection(out IntPtr section, NtApi.AccessMask.WRITE_DAC, ref attrib);
+            if (result != 0U)
+                return new CtResult
+                {
+                    Success = false,
+                    ErrorCode = result,
+                    Source = CtErrorSource.NtDll,
+                };
+
+            result = ConvertStringSecurityDescriptorToSecurityDescriptor(dacl, 1, out IntPtr securityDescriptor, out _);
+            if (result == 0)
+                return new CtResult
+                {
+                    Success = false,
+                    ErrorCode = (uint)Marshal.GetLastWin32Error(),
+                    Source = CtErrorSource.Win32,
+                };
+
+            result = NtSetSecurityObject(section, NtApi.SecurityInformation.DACL_SECURITY_INFORMATION, securityDescriptor);
+            if (result != 0)
+                return new CtResult
+                {
+                    Success = false,
+                    ErrorCode = result,
+                    Source = CtErrorSource.NtDll,
+                };
+
+            LocalFree(securityDescriptor);
+            NtClose(section);
+
+            return new CtResult
             {
-                Marshal.FreeHGlobal((IntPtr)Buffer);
-            }
+                Success = true,
+                ErrorCode = 0,
+                Source = CtErrorSource.None,
+            };
         }
 
-        private enum AttributesEnum : uint
+        private static void RestartExplorer(bool wait = false)
         {
-            OBJ_CASE_INSENSITIVE = 0x40U,
-            OBJ_KERNEL_HANDLE = 0x200U,
-        }
-
-        private enum AccessMask : uint
-        {
-            WRITE_DAC = 0x00040000U,
-        }
-
-        private enum SecurityInformation : uint
-        {
-            DACL_SECURITY_INFORMATION = 0x4U,
-        }
-
-        private unsafe struct ObjectAttributes
-        {
-            public uint Length;
-            public IntPtr RootDirectory;
-            [MarshalAs(UnmanagedType.LPStruct)]
-            public UnicodeString* ObjectName;
-            public AttributesEnum Attributes;
-            public IntPtr SecurityDescriptor;
-            public IntPtr SecurityQualityOfService;
+            Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
+            Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
+            if (wait) Thread.Sleep(SCT.Configuration.TaskbarDelay);
         }
 
         /// <summary>
         /// Enables Classic Theme by changing the ThemeSection permissions directly. This will only work with in an elevated process.
         /// </summary>
         /// <returns>A Boolean value specifying whether the operation completed succesfully. If the elevation of the current process is not high enough, this returns false.</returns>
-        public static unsafe bool EnableSingleUser()
+        public static CtResult EnableSingleUser()
         {
-            UnicodeString uniStr = UnicodeString.Create($@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection");
-            ObjectAttributes attrib = new ObjectAttributes();
-            attrib.Length = (uint)sizeof(ObjectAttributes);
-            attrib.ObjectName = &uniStr;
-            attrib.Attributes = AttributesEnum.OBJ_CASE_INSENSITIVE | AttributesEnum.OBJ_KERNEL_HANDLE;
-
-            uint result = NtOpenSection(out IntPtr section, AccessMask.WRITE_DAC, ref attrib);
-            if (result != 0U)
-                throw new NtException((NtStatus)result);
-
-            result = ConvertStringSecurityDescriptorToSecurityDescriptor("O:BAG:SYD:(A;;RC;;;IU)(A;;DCSWRPSDRCWDWO;;;SY)", 1, out IntPtr securityDescriptor, out _);
-            if (result == 0)
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-
-            result = NtSetSecurityObject(section, SecurityInformation.DACL_SECURITY_INFORMATION, securityDescriptor);
-            if (result != 0)
-                throw new NtException((NtStatus)result);
-
-            LocalFree(securityDescriptor);
-
-            NtClose(section);
-
-            /*try
-            {
-                NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
-                g.SetSecurityDescriptor(new SecurityDescriptor("O:BAG:SYD:(A;;RC;;;IU)(A;;DCSWRPSDRCWDWO;;;SY)"), NtApiDotNet.SecurityInformation.Dacl);
-                g.Close();
-            }
-            catch (NtException e) 
-            {
-                if ((uint)e.HResult != 0xC0000022)
-                    throw e;
-                return false;
-            }*/
-            return true;
+            return SetThemeSectionSecurity("O:BAG:SYD:(A;;RC;;;IU)(A;;DCSWRPSDRCWDWO;;;SY)");
         }
 
         /// <summary>
         /// Enables Classic Theme by sending a request to MCTsvc. This requires MCT to be installed on the system.
         /// </summary>
-        /// <returns>A Boolean value specifying whether the operation completed succesfully.</returns>
-        public static bool EnableMCT()
+        /// <returns>A CtResult specifying whether the operation completed succesfully, and if not, what problem occured.</returns>
+        public static CtResult EnableMCT()
         {
             MctApi.InitializeAPI();
 
             MctApi.MctErrorCode errorCode = new MctApi.MctErrorCode();
             MctApi.EnableClassicTheme((ulong)Process.GetCurrentProcess().SessionId, ref errorCode);
-            if (!errorCode.Success)
-                return false;
-            return true;
+
+            return new CtResult
+            {
+                Success = errorCode.Success,
+                ErrorCode = errorCode.Result,
+                Source = (CtErrorSource)errorCode.ErrorSource,
+            };
         }
 
         /// <summary>
         /// Enables Classic Theme using the currently configures ClassicThemeMethod specified in SCT.Configuration
         /// </summary>
         /// <returns>A Boolean value specifying whether the operation completed succesfully.</returns>
-        public static bool Enable()
+        public static CtResult Enable()
         {
             if (Environment.OSVersion.Version.Major == 10)
             { 
@@ -187,51 +194,48 @@ namespace SimpleClassicTheme
                 case ClassicThemeMethod.MultiUserClassicTheme:
                     return EnableMCT();
                 default:
-                    return false;
+                    return new CtResult
+                    {
+                        Success = false,
+                        ErrorCode = 0,
+                        Source = CtErrorSource.None,
+                    };
             }
         }
 
         /// <summary>
         /// Disables Classic Theme by changing the ThemeSection permissions directly. This will only work with in an elevated process.
         /// </summary>
-        /// <returns>A Boolean value specifying whether the operation completed succesfully. If the elevation of the current process is not high enough, this returns false.</returns>
-        public static bool DisableSingleUser()
+        /// <returns>A CtResult specifying whether the operation completed succesfully, and if not, what problem occured.</returns>
+        public static CtResult DisableSingleUser()
         {
-            try
-            {
-                NtObject g = NtObject.OpenWithType("Section", $@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection", null, GenericAccessRights.WriteDac);
-                g.SetSecurityDescriptor(new SecurityDescriptor("O:BAG:SYD:(A;;CCLCRC;;;IU)(A;;CCDCLCSWRPSDRCWDWO;;;SY)"), NtApiDotNet.SecurityInformation.Dacl);
-                g.Close();
-            }
-            catch (NtException e)
-            {
-                if ((uint)e.HResult != 0xC0000022)
-                    throw e;
-                return false;
-            }
-            return true;
+            return SetThemeSectionSecurity("O:BAG:SYD:(A;;CCLCRC;;;IU)(A;;CCDCLCSWRPSDRCWDWO;;;SY)");
         }
 
         /// <summary>
         /// Disables Classic Theme by sending a request to MCTsvc. This requires MCT to be installed on the system.
         /// </summary>
         /// <returns>A Boolean value specifying whether the operation completed succesfully.</returns>
-        public static bool DisableMCT()
+        public static CtResult DisableMCT()
         {
             MctApi.InitializeAPI();
 
             MctApi.MctErrorCode errorCode = new MctApi.MctErrorCode();
             MctApi.DisableClassicTheme((ulong)Process.GetCurrentProcess().SessionId, ref errorCode);
-            if (!errorCode.Success)
-                return false;
-            return true;
+
+            return new CtResult
+            {
+                Success = errorCode.Success,
+                ErrorCode = errorCode.Result,
+                Source = (CtErrorSource)errorCode.ErrorSource,
+            };
         }
 
         /// <summary>
         /// Disables Classic Theme using the currently configures ClassicThemeMethod specified in SCT.Configuration
         /// </summary>
         /// <returns>A Boolean value specifying whether the operation completed succesfully.</returns>
-        public static bool Disable()
+        public static CtResult Disable()
         {
             switch (SCT.Configuration.ClassicThemeMethod)
             {
@@ -240,89 +244,93 @@ namespace SimpleClassicTheme
                 case ClassicThemeMethod.MultiUserClassicTheme:
                     return DisableMCT();
                 default:
-                    return false;
+                    return new CtResult
+                    {
+                        Success = false,
+                        ErrorCode = 0,
+                        Source = CtErrorSource.None,
+                    };
             }
         }
 
         //Enables Classic Theme and if specified Classic Taskbar.
-        public static void MasterEnable(bool taskbar, bool commandLineError = false)
+        public static bool MasterEnable()
         {
+            if (SCT.Configuration.ClassicThemeMethod == ClassicThemeMethod.SingleUserSCT && !IsAdministrator)
+            {
+                TaskDialog.Show(Application.OpenForms[typeof(MainForm).Name], "To enable or disable Classic Theme, either run Simple Classic Theme as Administrator, or install MCT to enable and disable Classic Theme freely.", "Simple Classic Theme", "You don't have permission to modify the Classic Theme state", TaskDialogButtons.OK, TaskDialogIcon.ErrorIcon);
+                return false;
+            }
+
             Process.Start($"{SCT.Configuration.InstallPath}EnableThemeScript.bat", "pre").WaitForExit();
-            SCT.Configuration.Enabled = true;
-            if (!taskbar)
+            CtResult res = Enable();
+            if (!res.Success)
             {
-                // No taskbar
-                Enable();
+                TaskDialog.Show(Application.OpenForms[typeof(MainForm).Name], $"{res.GetDescription()}", "Simple Classic Theme", "Failed to enable Classic Theme", TaskDialogButtons.OK, TaskDialogIcon.ErrorIcon);
+                return false;
             }
-            else if (!File.Exists($"{SCT.Configuration.InstallPath}SCT.exe"))
-			{
-                if (!commandLineError)
-                    MessageBox.Show("You need to install Simple Classic Theme in order to enable it with Classic Taskbar enabled. Either disable Classic Taskbar from the options menu, or install SCT by pressing 'Run SCT on boot' in the main menu.", "Unsupported action");
-                else
-                    Console.WriteLine($"Enabling SCT with a taskbar requires SCT to be installed to \"{SCT.Configuration.InstallPath}SCT.exe\".");
-                SCT.Configuration.Enabled = false;
-                return;
-            }
-            else if (SCT.Configuration.TaskbarType == TaskbarType.SimpleClassicThemeTaskbar)
+
+            switch (SCT.Configuration.TaskbarType)
             {
-                // Simple Classic Theme Taskbar
-                Enable();
-                Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-                Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
-                ClassicTaskbar.EnableSCTT();
+                case TaskbarType.None:
+                    break;
+                case TaskbarType.Windows81Vanilla:
+                    RestartExplorer(true);
+                    ClassicTaskbar.FixWin8_1();
+                    break;
+                case TaskbarType.SimpleClassicThemeTaskbar:
+                    RestartExplorer(false);
+                    ClassicTaskbar.EnableSCTT();
+                    break;
+                case TaskbarType.RetroBar:
+                    RestartExplorer(false);
+                    Process.Start($"{SCT.Configuration.InstallPath}RetroBar\\RetroBar.exe");
+                    break;
             }
-            else if (SCT.Configuration.TaskbarType == TaskbarType.Windows81Vanilla)
-			{
-                // Windows 8.1 Vanilla taskbar with post-load patches
-                Enable();
-                Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-                Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
-                Thread.Sleep(SCT.Configuration.TaskbarDelay);
-                ClassicTaskbar.FixWin8_1();
-            }
-            else if (SCT.Configuration.TaskbarType == TaskbarType.RetroBar)
-			{
-                // RetroBar
-                Enable();
-                Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-                Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
-                Process.Start($"{SCT.Configuration.InstallPath}RetroBar\\RetroBar.exe");
-            }
+
             Process.Start($"{SCT.Configuration.InstallPath}EnableThemeScript.bat", "post").WaitForExit();
+            SCT.Configuration.Enabled = true;
+            return true;
         }
 
         //Disables Classic Theme and if specified Classic Taskbar.
-        public static void MasterDisable(bool taskbar)
+        public static bool MasterDisable()
         {
-            Process.Start($"{SCT.Configuration.InstallPath}DisableThemeScript.bat", "pre").WaitForExit();
-            SCT.Configuration.Enabled = false;
-            if (!taskbar)
+            if (SCT.Configuration.ClassicThemeMethod == ClassicThemeMethod.SingleUserSCT && !IsAdministrator)
             {
-                Disable();
+                TaskDialog.Show(Application.OpenForms[typeof(MainForm).Name], "To enable or disable Classic Theme, either run Simple Classic Theme as Administrator, or install MCT to enable and disable Classic Theme freely.", "Simple Classic Theme", "You don't have permission to modify the Classic Theme state", TaskDialogButtons.OK, TaskDialogIcon.ErrorIcon);
+                return false;
             }
-            else if (SCT.Configuration.TaskbarType == TaskbarType.SimpleClassicThemeTaskbar)
-            {
-                ClassicTaskbar.DisableSCTT();
-                Disable();
-                Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-                Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
-            }
-            else if (SCT.Configuration.TaskbarType == TaskbarType.Windows81Vanilla)
-            {
-                Disable();
-                Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-                Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
-            }
-            else if (SCT.Configuration.TaskbarType == TaskbarType.RetroBar)
-            {
-                foreach (Process p in Process.GetProcessesByName("RetroBar"))
-                    p.Kill();
 
-                Disable();
-                Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-                Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
+            Process.Start($"{SCT.Configuration.InstallPath}DisableThemeScript.bat", "pre").WaitForExit();
+            CtResult res = Disable();
+            if (!res.Success)
+            {
+                TaskDialog.Show(Application.OpenForms[typeof(MainForm).Name], $"{res.GetDescription()}", "Simple Classic Theme", "Failed to disable Classic Theme", TaskDialogButtons.OK, TaskDialogIcon.ErrorIcon);
+                return false;
             }
+
+            switch (SCT.Configuration.TaskbarType)
+            {
+                case TaskbarType.None:
+                    break;
+                case TaskbarType.Windows81Vanilla:
+                    RestartExplorer(false);
+                    break;
+                case TaskbarType.SimpleClassicThemeTaskbar:
+                    ClassicTaskbar.DisableSCTT();
+                    RestartExplorer(false);
+                    break;
+                case TaskbarType.RetroBar:
+                    foreach (Process p in Process.GetProcessesByName("RetroBar"))
+                        p.Kill();
+                    RestartExplorer(false);
+                    break;
+            }
+
             Process.Start($"{SCT.Configuration.InstallPath}DisableThemeScript.bat", "post").WaitForExit();
+            SCT.Configuration.Enabled = false;
+            return true;
         }
     }
 }

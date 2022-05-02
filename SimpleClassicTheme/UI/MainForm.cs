@@ -99,7 +99,7 @@ namespace SimpleClassicTheme
             buttonECMT.Enabled = OSVersion.Major == 10 && OSVersion.CompareString("10.0.22000.0") < 0 && IntPtr.Size == 8;
             buttonECMT.Enabled &= !File.Exists("C:\\Windows\\System32\\ExplorerContextMenuTweaker.dll");
 
-            button3DBorders.Text = UsefulRegistryKeys.Borders3D ? "Disable 3D Borders" : "Enable 3D Borders";
+            button3DBorders.Text = RegistryExtensions.Borders3D ? "Disable 3D Borders" : "Enable 3D Borders";
         }
 
         // Enables all controls
@@ -120,9 +120,7 @@ namespace SimpleClassicTheme
 		// Enable
 		private void ButtonEnable_Click(object sender, EventArgs e)
         {
-            bool oldEnableValue = SCT.Configuration.Enabled;
-            ClassicTheme.MasterEnable(SCT.Configuration.EnableTaskbar);
-            if (oldEnableValue != SCT.Configuration.Enabled)
+            if (ClassicTheme.MasterEnable())
             {
                 SCT.ShouldLoadGUI = true; Close();
             }
@@ -131,9 +129,7 @@ namespace SimpleClassicTheme
         // Disable
         private void ButtonDisable_Click(object sender, EventArgs e)
         {
-            bool oldEnableValue = SCT.Configuration.Enabled;
-            ClassicTheme.MasterDisable(SCT.Configuration.EnableTaskbar);
-            if (oldEnableValue != SCT.Configuration.Enabled)
+            if (ClassicTheme.MasterDisable())
             {
                 SCT.ShouldLoadGUI = true; Close();
             }
@@ -205,7 +201,7 @@ namespace SimpleClassicTheme
         // Make borders 3D by changing UPM
         private void Button3DBorders_Click(object sender, EventArgs e)
         {
-            UsefulRegistryKeys.Borders3D = !UsefulRegistryKeys.Borders3D;
+            RegistryExtensions.Borders3D = !RegistryExtensions.Borders3D;
             CheckDependenciesAndSetControls();
             MessageBox.Show(this, "Setting changed. You have to log off in order to apply changes.", "Simple Classic Theme");
             return;

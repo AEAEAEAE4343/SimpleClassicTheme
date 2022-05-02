@@ -103,6 +103,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Function Classes\NtApi.cs" />
     <Compile Include="UI\Controls\ColorButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -111,12 +112,6 @@
     </Compile>
     <Compile Include="UI\Information\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Unfinished\DialogTest.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Unfinished\DialogTest.Designer.cs">
-      <DependentUpon>DialogTest.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Utility\AHKScriptManager.cs">
       <SubType>Form</SubType>
@@ -130,11 +125,11 @@
     <Compile Include="UI\Information\CommandLineHelpForm.Designer.cs">
       <DependentUpon>CommandLineHelpForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\LoaderForm.cs">
+    <Compile Include="UI\LoadForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\LoaderForm.Designer.cs">
-      <DependentUpon>LoaderForm.cs</DependentUpon>
+    <Compile Include="UI\LoadForm.Designer.cs">
+      <DependentUpon>LoadForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\OptionsForm.cs">
       <SubType>Form</SubType>
@@ -148,10 +143,10 @@
     <Compile Include="UI\Utility\GithubDownloader.Designer.cs">
       <DependentUpon>GithubDownloader.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Utility\TaskbarTypeSelector.cs">
+    <Compile Include="UI\Controls\TaskbarTypeSelector.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Utility\TaskbarTypeSelector.Designer.cs">
+    <Compile Include="UI\Controls\TaskbarTypeSelector.Designer.cs">
       <DependentUpon>TaskbarTypeSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="Theming\ThemeConfigurationForm.cs">
@@ -159,12 +154,6 @@
     </Compile>
     <Compile Include="Theming\ThemeConfigurationForm.Designer.cs">
       <DependentUpon>ThemeConfigurationForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Unfinished\WMITest.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Unfinished\WMITest.Designer.cs">
-      <DependentUpon>WMITest.cs</DependentUpon>
     </Compile>
     <Compile Include="Theming\ApperanceScheme.cs" />
     <Compile Include="Function Classes\ClassicTaskbar.cs" />
@@ -185,12 +174,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SCT.cs" />
-    <Compile Include="Function Classes\SystemMenu.cs" />
+    <Compile Include="UI\Controls\SystemMenu.cs" />
     <Compile Include="Function Classes\SystemMenuForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Function Classes\UsefulRegistryKeys.cs" />
-    <Compile Include="Function Classes\Utilities.cs" />
+    <Compile Include="Function Classes\RegistryExtensions.cs" />
+    <Compile Include="Function Classes\InstallableUtility.cs" />
     <Compile Include="Properties\AHKScripts.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -207,9 +196,6 @@
     <EmbeddedResource Include="UI\Information\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Unfinished\DialogTest.resx">
-      <DependentUpon>DialogTest.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Utility\AHKScriptManager.resx">
       <DependentUpon>AHKScriptManager.cs</DependentUpon>
     </EmbeddedResource>
@@ -217,8 +203,8 @@
       <DependentUpon>CommandLineHelpForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\LoaderForm.resx">
-      <DependentUpon>LoaderForm.cs</DependentUpon>
+    <EmbeddedResource Include="UI\LoadForm.resx">
+      <DependentUpon>LoadForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -229,14 +215,11 @@
     <EmbeddedResource Include="UI\Utility\GithubDownloader.resx">
       <DependentUpon>GithubDownloader.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Utility\TaskbarTypeSelector.resx">
+    <EmbeddedResource Include="UI\Controls\TaskbarTypeSelector.resx">
       <DependentUpon>TaskbarTypeSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Theming\ThemeConfigurationForm.resx">
       <DependentUpon>ThemeConfigurationForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Unfinished\WMITest.resx">
-      <DependentUpon>WMITest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\AHKScripts.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -360,6 +343,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ShellPayload1.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ThemePreviewToolWindowIcons.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

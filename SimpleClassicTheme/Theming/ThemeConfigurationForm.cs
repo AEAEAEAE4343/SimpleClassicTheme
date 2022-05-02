@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -67,6 +68,7 @@ namespace SimpleClassicTheme.Theming
 
         AppearanceScheme appearanceScheme;
         bool loadingBindings = false;
+        Bitmap toolWindowButtons = SCT.ResourceFetcher.ThemePreviewToolWindowIcons;
 
         public ThemeConfigurationForm()
         {
@@ -77,6 +79,7 @@ namespace SimpleClassicTheme.Theming
             comboBoxScheme.Items.AddRange(names);
 
             appearanceScheme = AppearanceScheme.FromSystem();
+
             panelWindowPreview.Invalidate();
             panelWindowPreview.Refresh();
 
@@ -197,15 +200,48 @@ namespace SimpleClassicTheme.Theming
             }
         }
 
-        private void buttonApply_Click(object sender, EventArgs e)
+        private void upDownFontSize_ValueChanged(object sender, EventArgs e)
         {
-            appearanceScheme.ApplyToSystem();
-            RedrawImmediately();
+            if (!loadingBindings)
+            {
+                UIAppearanceBinding binding = (UIAppearanceBinding)comboBoxItem.Items[comboBoxItem.SelectedIndex];
+                LogicalFont font = binding.GetFont(appearanceScheme);
+                font.SetSize((int)upDownFontSize.Value);
+                binding.SetFont(appearanceScheme, font);
+            }
         }
 
-        private void RedrawImmediately()
+        private void checkBoxBold_CheckedChanged(object sender, EventArgs e)
         {
-            RedrawWindow(Handle, IntPtr.Zero, IntPtr.Zero, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+            if (!loadingBindings)
+            {
+                UIAppearanceBinding binding = (UIAppearanceBinding)comboBoxItem.Items[comboBoxItem.SelectedIndex];
+                LogicalFont font = binding.GetFont(appearanceScheme);
+                font.lfWeight = checkBoxBold.Checked ? 700 : 400;
+                binding.SetFont(appearanceScheme, font);
+            }
+        }
+
+        private void checkBoxItalic_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!loadingBindings)
+            {
+                UIAppearanceBinding binding = (UIAppearanceBinding)comboBoxItem.Items[comboBoxItem.SelectedIndex];
+                LogicalFont font = binding.GetFont(appearanceScheme);
+                font.lfItalic = (byte)(checkBoxItalic.Checked ? 1 : 0);
+                binding.SetFont(appearanceScheme, font);
+            }
+        }
+
+        private void comboBoxFont_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!loadingBindings)
+            {
+                UIAppearanceBinding binding = (UIAppearanceBinding)comboBoxItem.Items[comboBoxItem.SelectedIndex];
+                LogicalFont font = binding.GetFont(appearanceScheme);
+                font.SetName(comboBoxFont.SelectedItem.ToString());
+                binding.SetFont(appearanceScheme, font);
+            }
         }
 
         [Flags]
@@ -220,6 +256,8 @@ namespace SimpleClassicTheme.Theming
             CloseOnly = 32,
             TextContent = 64,
             Scrollbars = 128,
+            ToolWindow = Dialog | CloseOnly | 256,
+            MessageBox = Dialog | 512,
         }
 
         private struct WindowDrawingResult
@@ -231,14 +269,14 @@ namespace SimpleClassicTheme.Theming
         }
 
         /// <summary>
-        /// Adjusts the given client rectangle to accomodate for the window frame.
+        /// Returns the dimensions of a window with a client area of size (0x0) at location (0;0) with a window frame around it.
         /// </summary>
-        /// <param name="appearanceScheme">An AppearanceScheme to use for calculating the new window rectangle.</param>
+        /// <param name="appearanceScheme">An AppearanceScheme to use for calculating the window rectangle.</param>
         /// <param name="flags">Flags specifying what parts of the window frame should be accounted for.</param>
-        /// <param name="windowRectangle">A RECT specifying the desired client area.</param>
-        /// <returns>A RECT specifying the window area with all border elements drawn around the specified client area.</returns>
-        private static RECT AdjustWindowRect(AppearanceScheme appearanceScheme, WindowDrawingFlags flags, RECT windowRectangle)
+        private static RECT GetWindowFrameSize(AppearanceScheme appearanceScheme, WindowDrawingFlags flags)
         {
+            RECT windowRectangle = new RECT(0, 0, 0, 0);
+
             // Window edge (2px + 1px padding)
             windowRectangle.Inflate(3);
 
@@ -247,11 +285,11 @@ namespace SimpleClassicTheme.Theming
                 windowRectangle.Inflate(appearanceScheme.GetMetric(SchemeMetric.WindowBorderWidth) + appearanceScheme.GetMetric(SchemeMetric.PaddedWindowBorderWidth));
 
             // Window caption
-            windowRectangle.Height += appearanceScheme.GetMetric(SchemeMetric.CaptionHeight) + 1;
+            windowRectangle.Top -= appearanceScheme.GetMetric(flags.HasFlag(WindowDrawingFlags.ToolWindow) ? SchemeMetric.SmallCaptionHeight : SchemeMetric.CaptionHeight) + 1;
 
             // Menu bar
             if (flags.HasFlag(WindowDrawingFlags.Menu))
-                windowRectangle.Height += appearanceScheme.GetMetric(SchemeMetric.MenuHeight) + 1;
+                windowRectangle.Top -= appearanceScheme.GetMetric(SchemeMetric.MenuHeight) + 1;
 
             // Client edge
             if (flags.HasFlag(WindowDrawingFlags.ClientEdge))
@@ -259,11 +297,24 @@ namespace SimpleClassicTheme.Theming
 
             // Scrollbars
             if (flags.HasFlag(WindowDrawingFlags.Scrollbars))
-            { 
-                windowRectangle.Width += appearanceScheme.GetMetric(SchemeMetric.ScrollBarWidth);
-                windowRectangle.Height += appearanceScheme.GetMetric(SchemeMetric.ScrollBarHeight);
+            {
+                windowRectangle.Right += appearanceScheme.GetMetric(SchemeMetric.ScrollBarWidth);
+                windowRectangle.Bottom += appearanceScheme.GetMetric(SchemeMetric.ScrollBarHeight);
             }
 
+            return windowRectangle;
+        }
+
+        /// <summary>
+        /// Adjusts the given client rectangle to accomodate for the window frame.
+        /// </summary>
+        /// <param name="appearanceScheme">An AppearanceScheme to use for calculating the new window rectangle.</param>
+        /// <param name="flags">Flags specifying what parts of the window frame should be accounted for.</param>
+        /// <param name="windowRectangle">A RECT specifying the desired client area.</param>
+        /// <returns>A RECT specifying the window area with all border elements drawn around the specified client area.</returns>
+        private static RECT AdjustWindowRect(AppearanceScheme appearanceScheme, WindowDrawingFlags flags, RECT windowRectangle)
+        {
+            windowRectangle.Add(GetWindowFrameSize(appearanceScheme, flags));
             return windowRectangle;
         }
 
@@ -276,9 +327,9 @@ namespace SimpleClassicTheme.Theming
         /// <returns>A RECT specifying the window size with all border elements drawn around the specified client area, positioned at the location originally specified.</returns>
         private static RECT AdjustWindowRectFixed(AppearanceScheme appearanceScheme, WindowDrawingFlags flags, RECT windowRectangle)
         {
-            Point originalPoint = windowRectangle.Location;
-            windowRectangle = AdjustWindowRect(appearanceScheme, flags, windowRectangle);
-            windowRectangle.MoveTo(originalPoint);
+            RECT temp = GetWindowFrameSize(appearanceScheme, flags);
+            windowRectangle.Width += temp.Width;
+            windowRectangle.Height += temp.Height;
             return windowRectangle;
         }
 
@@ -293,7 +344,7 @@ namespace SimpleClassicTheme.Theming
         /// <param name="hIcon">A handle to an icon. Set this to IntPtr.Zero when not using WindowDrawingFlags.Icon.</param>
         /// <param name="caption">The window title to use in the caption.</param>
         /// <param name="caption">The text content to be drawn in the window. This parameter is ignored if WindowDrawingFlags.TextContent is not specified.</param>
-        private WindowDrawingResult DrawWindow(IntPtr hDc, AppearanceScheme appearanceScheme, RECT windowRect, IntPtr hWnd, 
+        private static WindowDrawingResult DrawWindow(IntPtr hDc, AppearanceScheme appearanceScheme, RECT windowRect, IntPtr hWnd, 
                                                WindowDrawingFlags flags, string caption, IntPtr hIcon, string content = "")
         {
             WindowDrawingResult result = new WindowDrawingResult();
@@ -317,9 +368,9 @@ namespace SimpleClassicTheme.Theming
             windowRect.Inflate(-1);
 
             // Draw window caption
-            int captionWidth = appearanceScheme.GetMetric(SchemeMetric.CaptionHeight) - 2;
+            int captionWidth = appearanceScheme.GetMetric(flags.HasFlag(WindowDrawingFlags.ToolWindow) ? SchemeMetric.SmallCaptionHeight : SchemeMetric.CaptionHeight) - 2;
             RECT captionRect = windowRect;
-            captionRect.Height = appearanceScheme.GetMetric(SchemeMetric.CaptionHeight);
+            captionRect.Height = appearanceScheme.GetMetric(flags.HasFlag(WindowDrawingFlags.ToolWindow) ? SchemeMetric.SmallCaptionHeight : SchemeMetric.CaptionHeight);
             windowRect.Top += captionRect.Height + 1;
             FillRect(hDc, ref captionRect, appearanceScheme.GetBrush(flags.HasFlag(WindowDrawingFlags.Active) ? SchemeColor.ActiveCaptionGradientColor : SchemeColor.InactiveCaptionGradientColor));
             result.CaptionRect = captionRect;
@@ -345,7 +396,7 @@ namespace SimpleClassicTheme.Theming
 
             // Draw window caption gradient, text and icon
             captionRect.Right = captionButtonRect.Left - 1;
-            if (flags.HasFlag(WindowDrawingFlags.Icon))
+            if (flags.HasFlag(WindowDrawingFlags.Icon) && !flags.HasFlag(WindowDrawingFlags.ToolWindow))
             {
                 if (hIcon == IntPtr.Zero)
                     throw new ArgumentNullException();
@@ -477,21 +528,28 @@ namespace SimpleClassicTheme.Theming
             int restoreHandle = SetSysColorsTemp(appearanceScheme.GetAllColors(), appearanceScheme.GetAllBrushes(), 29);
             IntPtr hDc = e.Graphics.GetHdc();
 
-            // Set the background color
+            // Draw the desktop
             RECT clientRect = RECT.FromRectangle(panelWindowPreview.ClientRectangle);
             FillRect(hDc, ref clientRect, appearanceScheme.GetBrush(SchemeColor.DesktopColor));
 
+            // Draw inactive window
             WindowDrawingFlags flags = WindowDrawingFlags.Default;
-            WindowDrawingResult result = DrawWindow(hDc, appearanceScheme, AdjustWindowRectFixed(appearanceScheme, flags, new RECT(8, 8, 300, 75)), Handle, flags, "Inactive window", IntPtr.Zero);
+            WindowDrawingResult result = DrawWindow(hDc, appearanceScheme, AdjustWindowRectFixed(appearanceScheme, flags, new RECT(8, 8, 300, 75)), Handle, flags, "Inactive Window", IntPtr.Zero);
             
+            // Draw active window based on inactive window's caption
             flags = WindowDrawingFlags.Active | WindowDrawingFlags.ClientEdge | WindowDrawingFlags.Menu | WindowDrawingFlags.Scrollbars | WindowDrawingFlags.Icon | WindowDrawingFlags.TextContent;
-            result = DrawWindow(hDc, appearanceScheme, AdjustWindowRectFixed(appearanceScheme, flags, new RECT(12, result.CaptionRect.Bottom, 300, 75)), Handle, flags, "Active window", Icon.Handle, "Window text");
-            
+            result = DrawWindow(hDc, appearanceScheme, AdjustWindowRectFixed(appearanceScheme, flags, new RECT(12, result.CaptionRect.Bottom, 300, 75)), Handle, flags, "Active Window", Icon.Handle, "Window Text");
             
             // Restore custom colors
             e.Graphics.ReleaseHdc(hDc);
             SetSysColorsTemp(null, null, restoreHandle);
         }
+
+        [DllImport("gdi32.dll")]
+        public static extern IntPtr CreateCompatibleDC(IntPtr hDc);
+
+        [DllImport("Msimg32.dll")]
+        public static extern int TransparentBlt(IntPtr hdcDest, int xoriginDest, int yoriginDest, int wDest, int hDest, IntPtr hDcSrc, int xoriginSrc, int yoriginSrc, int wSrc, int hSrc, ColorReference crTransparent);
 
         private void panelDialogPreview_Paint(object sender, PaintEventArgs e)
         {
@@ -499,22 +557,86 @@ namespace SimpleClassicTheme.Theming
             int restoreHandle = SetSysColorsTemp(appearanceScheme.GetAllColors(), appearanceScheme.GetAllBrushes(), 29);
             IntPtr hDc = e.Graphics.GetHdc();
 
-            WindowDrawingFlags flags = WindowDrawingFlags.Active | WindowDrawingFlags.Dialog | WindowDrawingFlags.TextContent;
-            WindowDrawingResult result = DrawWindow(hDc, appearanceScheme, AdjustWindowRectFixed(appearanceScheme, flags, new RECT(16, 16, 200, 50)), Handle, flags, "Message box", Icon.Handle, "Message text");
+            // Load bitmap
+            IntPtr hdcBitmap = CreateCompatibleDC(hDc);
+            IntPtr hBitmap = toolWindowButtons.GetHbitmap();
+            IntPtr oldBitmap = SelectObject(hdcBitmap, hBitmap);
 
+            // Draw the desktop
+            RECT clientRect = RECT.FromRectangle(panelWindowPreview.ClientRectangle);
+            FillRect(hDc, ref clientRect, appearanceScheme.GetBrush(SchemeColor.DesktopColor));
+
+            // Draw dialog window
+
+            // Draw message box
+            WindowDrawingFlags flags = WindowDrawingFlags.Active | WindowDrawingFlags.MessageBox | WindowDrawingFlags.TextContent;
+            WindowDrawingResult result = DrawWindow(hDc, appearanceScheme, AdjustWindowRectFixed(appearanceScheme, flags, new RECT(16, 16, 200, 50)), Handle, flags, "Message Box", Icon.Handle, "Message text");
+
+            // Draw tool window
+            flags = WindowDrawingFlags.Active | WindowDrawingFlags.ToolWindow | WindowDrawingFlags.ClientEdge;
+            RECT toolWindowRect = AdjustWindowRect(appearanceScheme, flags, new RECT(0, 0, 50, 150));
+            toolWindowRect.Location = new Point(panelDialogPreview.ClientRectangle.Right - toolWindowRect.Width - 16, 16);
+            result = DrawWindow(hDc, appearanceScheme, toolWindowRect, Handle, flags, "Tool Window", IntPtr.Zero, "");
+
+            // Draw the tool window buttons
+            for (int x = 0; x < 2; x++)
+                for (int y = 0; y < 6; y++)
+                {
+                    RECT buttonDestRect = result.ClientRect;
+                    buttonDestRect.Size = new Size(0, 0);
+                    buttonDestRect.Add(new RECT(x * 25, y * 25, 25, 25));
+                    DrawEdge(hDc, ref buttonDestRect, BDR_RAISEDOUTER | BDR_RAISEDINNER, BF_RECT | BF_MIDDLE | BF_ADJUST);
+                    TransparentBlt(hDc, buttonDestRect.Left, buttonDestRect.Top, 21, 21, hdcBitmap, x * 21, y * 21, 21, 21, new ColorReference { r = 128, g = 128, b = 128 });
+                }
+
+            label12.ForeColor = SystemColors.HighlightText;
+
+            // Restore bitmap
+            SelectObject(hdcBitmap, oldBitmap);
+            DeleteObject(hBitmap);
+            DeleteObject(hdcBitmap);
 
             // Restore custom colors
             e.Graphics.ReleaseHdc(hDc);
             SetSysColorsTemp(null, null, restoreHandle);
         }
 
-        private void buttonSave(object sender, EventArgs e)
+        private void RedrawImmediately()
+        {
+            RedrawWindow(Handle, IntPtr.Zero, IntPtr.Zero, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
         {
             string name = Interaction.InputBox("Save this color scheme as:", "Save Scheme");
             foreach (char c in Path.GetInvalidFileNameChars())
                 name = name.Replace(c, '_');
 
             appearanceScheme.SaveToRegistry(name);
+        }
+
+        private void buttonOK_Click(object sender, EventArgs e)
+        {
+            buttonApply_Click(sender, e);
+            buttonCancel_Click(sender, e);
+
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void buttonApply_Click(object sender, EventArgs e)
+        {
+            appearanceScheme.ApplyToSystem();
+            RedrawImmediately();
+        }
+
+        private void ThemeConfigurationForm_Load(object sender, EventArgs e)
+        {
+            Version sctVersion = Assembly.GetExecutingAssembly().GetName().Version;
+            label13.Text = label13.Text.Replace("%v", sctVersion.ToString(3)).Replace("%r", sctVersion.Revision.ToString());
         }
     }
 }

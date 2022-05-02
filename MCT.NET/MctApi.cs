@@ -67,7 +67,7 @@ namespace MCT.NET
             /// <summary>
             /// The error happened in low-level system API's. 
             /// </summary>
-            Ntdll = 3,
+            NtDll = 3,
         }
 
         public enum MctError : uint
@@ -83,7 +83,7 @@ namespace MCT.NET
             SessionIdInvalid = 1,
 
             /// <summary>
-            /// The MCT service is not running or inavailable
+            /// The MCT service is not running or unavailable
             /// </summary>
             ServiceNotRunning = 2,
 
@@ -166,6 +166,27 @@ namespace MCT.NET
             /// </summary>
             public bool Success => ErrorSource == MctErrorSource.None;
         };
+
+        public static string GetErrorString(MctError error)
+        {
+            switch (error)
+            {
+                case MctError.Success:
+                    return "The request was parsed and executed successfully.";
+                case MctError.SessionIdInvalid:
+                    return "The provided login session ID was invalid.";
+                case MctError.ServiceNotRunning:
+                    return "The MCT service is not running or unavailable.";
+                case MctError.ApiTooOld:
+                    return "This version of the MCT API (MCTapi.dll) is too old for the installed MCT version.";
+                case MctError.ApiTooNew:
+                    return "This version of the MCT API (MCTapi.dll) is too new for the installed MCT version.";
+                case MctError.InvalidRequest:
+                    return "Internal error: The request was invalid.";
+                default:
+                    return "";
+            }
+        }
 
         /// <summary>
         /// Finds MCT and the correct API library and loads them into the current process.

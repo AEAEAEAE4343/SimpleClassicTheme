@@ -19,12 +19,51 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Windows.Forms;
 
 namespace SimpleClassicTheme
 {
+    static class CommonControls
+    {
+        public enum TaskDialogIcon
+        {
+            NoIcon = 0,
+            WarningIcon = 84,
+            ErrorIcon = 98,
+            InformationIcon = 81,
+            ShieldIcon = 78,
+        }
+
+        public enum TaskDialogButtons
+        {
+            OK = 1,
+            Yes = 2,
+            No = 4,
+            Cancel = 8,
+            Retry = 16,
+            Close = 32,
+        }
+
+        public static class TaskDialog
+        {
+            [DllImport("Comctl32.dll", EntryPoint = "TaskDialog", CharSet = CharSet.Unicode)]
+            public static extern int TaskDialogNative(IntPtr hWndOwner, IntPtr hInstance, string windowTitle, string mainInstruction, string content, TaskDialogButtons buttons, TaskDialogIcon icon, out int result);
+
+            public static DialogResult Show(IWin32Window owner, string text, string caption, string title = null, TaskDialogButtons buttons = TaskDialogButtons.OK, TaskDialogIcon icon = TaskDialogIcon.NoIcon)
+            {
+                int funcResult = TaskDialogNative(owner is null ? IntPtr.Zero : owner.Handle, IntPtr.Zero, caption, title, text, buttons, icon, out int result);
+                if (result == 0)
+                    throw new Win32Exception(funcResult);
+                return (DialogResult)result;
+            }
+            public static DialogResult Show(string text, string caption, string title = null, TaskDialogButtons buttons = TaskDialogButtons.OK, TaskDialogIcon icon = TaskDialogIcon.NoIcon) => Show(null, text, caption, title, buttons, icon);
+        }
+    }
+
     static class Kernel32
     {
         public const int ATTACH_PARENT_PROCESS = -1;

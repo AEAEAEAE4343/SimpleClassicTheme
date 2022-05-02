@@ -132,8 +132,26 @@ namespace SimpleClassicTheme.Theming
             set => Bottom = Top + value;
         }
 
-        public Size Size => new Size(Width, Height);
-        public Point Location => new Point(Left, Top);
+        public Size Size 
+        {
+            get => new Size(Width, Height);
+            set
+            {
+                Width = value.Width;
+                Height = value.Height;
+            }
+        }
+
+        public Point Location 
+        {
+            get => new Point(Left, Top);
+            set
+            {
+                Size temp = Size;
+                Left = value.X; Top = value.Y;
+                Width = temp.Width; Height = temp.Height;
+            }
+        }
 
         public void Inflate(int by)
         {
@@ -141,11 +159,12 @@ namespace SimpleClassicTheme.Theming
             Top -= by; Bottom += by;
         }
 
-        public void MoveTo(Point p)
+        public void Add(RECT rct)
         {
-            Size temp = Size;
-            Left = p.X; Top = p.Y;
-            Width = temp.Width; Height = temp.Height;
+            Left += rct.Left;
+            Right += rct.Right;
+            Top += rct.Top;
+            Bottom += rct.Bottom;
         }
 
         public RECT(int l, int t, int w, int h)

@@ -22,6 +22,7 @@ using Microsoft.Win32;
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Windows;
 
 namespace SimpleClassicTheme
 {
@@ -118,7 +119,7 @@ namespace SimpleClassicTheme
 			{
 				RegistryKey source = Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("SimpleClassicTheme");
 				RegistryKey dest = GetRegistryKey();
-				ExtraFunctions.RecurseCopyKey(source, dest);
+				RegistryExtensions.RecurseCopyKey(source, dest);
 				RegistryKey software = Registry.CurrentUser.CreateSubKey("SOFTWARE");
 				software.DeleteSubKey("SimpleClassicTheme", false);
 			}
@@ -126,7 +127,7 @@ namespace SimpleClassicTheme
 			{
 				RegistryKey source = Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("SimpleClassicTheme");
 				RegistryKey dest = GetRegistryKey();
-				ExtraFunctions.RecurseCopyKey(source, dest);
+				RegistryExtensions.RecurseCopyKey(source, dest);
 				foreach (string value in source.GetValueNames())
 					source.DeleteValue(value);
 				Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").DeleteSubKey("SimpleClassicTheme");
@@ -161,6 +162,15 @@ namespace SimpleClassicTheme
 			if (ConfigVersion.CompareString("1.6.0") < 0)
 			{
 				//ShowWizard = (string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\Simple Classic Theme\Base", "EnableTaskbar", "NO") == "NO";
+				ConfigVersion = new Version(1, 6, 0);
+			}
+
+			// Config version 1.6.0 to 1.7.0
+			if (ConfigVersion.CompareString("1.7.0") < 0)
+			{
+				MessageBox.Show("You are migrating from SCT 1.6 or older. In the past SCT interfaced with system API's directly to enable Classic Theme. To circumvent the security and application restrictions of this method, starting from SCT 1.7 a new system service called MCT is used. Your setup will keep using the old method, but upgrading to the new one is recommended. This can be done through the options menu.", "Simple Classic Theme", MessageBoxButton.OK, MessageBoxImage.Warning);
+				ClassicThemeMethod = ClassicThemeMethod.SingleUserSCT;
+				ConfigVersion = new Version(1, 7, 0);
 			}
 
 			ConfigVersion = Assembly.GetExecutingAssembly().GetName().Version;

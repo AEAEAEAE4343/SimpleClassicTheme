@@ -46,9 +46,9 @@ namespace SimpleClassicTheme.Theming
             this.upDownFontSize = new System.Windows.Forms.NumericUpDown();
             this.checkBoxBold = new System.Windows.Forms.CheckBox();
             this.checkBoxItalic = new System.Windows.Forms.CheckBox();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
+            this.buttonOK = new System.Windows.Forms.Button();
+            this.buttonCancel = new System.Windows.Forms.Button();
+            this.buttonApply = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -59,14 +59,19 @@ namespace SimpleClassicTheme.Theming
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panelDialogPreview = new System.Windows.Forms.Panel();
+            this.label12 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label11 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.upDownItemSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.upDownFontSize)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.panelDialogPreview.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -149,7 +154,7 @@ namespace SimpleClassicTheme.Theming
             this.button1.TabIndex = 7;
             this.button1.Text = "Save As...";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.buttonSave);
+            this.button1.Click += new System.EventHandler(this.buttonApply_Click);
             // 
             // button2
             // 
@@ -215,6 +220,7 @@ namespace SimpleClassicTheme.Theming
             this.upDownFontSize.Name = "upDownFontSize";
             this.upDownFontSize.Size = new System.Drawing.Size(48, 20);
             this.upDownFontSize.TabIndex = 12;
+            this.upDownFontSize.ValueChanged += new System.EventHandler(this.upDownFontSize_ValueChanged);
             // 
             // checkBoxBold
             // 
@@ -226,6 +232,7 @@ namespace SimpleClassicTheme.Theming
             this.checkBoxBold.TabIndex = 15;
             this.checkBoxBold.Text = "B";
             this.checkBoxBold.UseVisualStyleBackColor = true;
+            this.checkBoxBold.CheckedChanged += new System.EventHandler(this.checkBoxBold_CheckedChanged);
             // 
             // checkBoxItalic
             // 
@@ -238,36 +245,39 @@ namespace SimpleClassicTheme.Theming
             this.checkBoxItalic.Text = "I";
             this.checkBoxItalic.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // buttonOK
             // 
-            this.button5.Location = new System.Drawing.Point(262, 566);
-            this.button5.Margin = new System.Windows.Forms.Padding(6, 6, 3, 6);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 17;
-            this.button5.Text = "OK";
-            this.button5.UseVisualStyleBackColor = true;
+            this.buttonOK.Location = new System.Drawing.Point(262, 516);
+            this.buttonOK.Margin = new System.Windows.Forms.Padding(6, 6, 3, 6);
+            this.buttonOK.Name = "buttonOK";
+            this.buttonOK.Size = new System.Drawing.Size(75, 23);
+            this.buttonOK.TabIndex = 17;
+            this.buttonOK.Text = "OK";
+            this.buttonOK.UseVisualStyleBackColor = true;
+            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
-            // button7
+            // buttonCancel
             // 
-            this.button7.Location = new System.Drawing.Point(343, 566);
-            this.button7.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
-            this.button7.TabIndex = 18;
-            this.button7.Text = "Cancel";
-            this.button7.UseVisualStyleBackColor = true;
+            this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.buttonCancel.Location = new System.Drawing.Point(343, 516);
+            this.buttonCancel.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.TabIndex = 18;
+            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
-            // button8
+            // buttonApply
             // 
-            this.button8.Location = new System.Drawing.Point(424, 566);
-            this.button8.Margin = new System.Windows.Forms.Padding(3, 6, 6, 6);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(75, 23);
-            this.button8.TabIndex = 19;
-            this.button8.Text = "Apply";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.buttonApply_Click);
+            this.buttonApply.Location = new System.Drawing.Point(424, 516);
+            this.buttonApply.Margin = new System.Windows.Forms.Padding(3, 6, 6, 6);
+            this.buttonApply.Name = "buttonApply";
+            this.buttonApply.Size = new System.Drawing.Size(75, 23);
+            this.buttonApply.TabIndex = 19;
+            this.buttonApply.Text = "Apply";
+            this.buttonApply.UseVisualStyleBackColor = true;
+            this.buttonApply.Click += new System.EventHandler(this.buttonApply_Click);
             // 
             // label5
             // 
@@ -360,6 +370,7 @@ namespace SimpleClassicTheme.Theming
             // 
             this.panelDialogPreview.BackColor = System.Drawing.SystemColors.Desktop;
             this.panelDialogPreview.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelDialogPreview.Controls.Add(this.label12);
             this.panelDialogPreview.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelDialogPreview.Location = new System.Drawing.Point(3, 3);
             this.panelDialogPreview.Margin = new System.Windows.Forms.Padding(6);
@@ -368,8 +379,19 @@ namespace SimpleClassicTheme.Theming
             this.panelDialogPreview.TabIndex = 1;
             this.panelDialogPreview.Paint += new System.Windows.Forms.PaintEventHandler(this.panelDialogPreview_Paint);
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(24, 228);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(427, 13);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "A preview of a button, a toolwindow and a dialog window will be added here in the" +
+    " future.";
+            // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.label11);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -377,6 +399,16 @@ namespace SimpleClassicTheme.Theming
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Icons";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label11.Location = new System.Drawing.Point(3, 3);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(473, 268);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "This preview has not been designed yet.";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox1
             // 
@@ -403,7 +435,7 @@ namespace SimpleClassicTheme.Theming
             this.groupBox1.Controls.Add(this.buttonColorFont);
             this.groupBox1.Location = new System.Drawing.Point(12, 331);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(487, 226);
+            this.groupBox1.Size = new System.Drawing.Size(487, 176);
             this.groupBox1.TabIndex = 27;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
@@ -417,26 +449,43 @@ namespace SimpleClassicTheme.Theming
             this.label1.TabIndex = 28;
             this.label1.Text = "Preview of the theme:";
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(12, 521);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(226, 13);
+            this.label13.TabIndex = 29;
+            this.label13.Text = "Simple Classic Theme alpha %v revision mct%r";
+            // 
             // ThemeConfigurationForm
             // 
+            this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(511, 604);
+            this.CancelButton = this.buttonCancel;
+            this.ClientSize = new System.Drawing.Size(511, 554);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.button8);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button7);
+            this.Controls.Add(this.buttonApply);
+            this.Controls.Add(this.buttonOK);
+            this.Controls.Add(this.buttonCancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "ThemeConfigurationForm";
             this.Text = "Simple Classic Theme - Configure Appearance";
+            this.Load += new System.EventHandler(this.ThemeConfigurationForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.upDownItemSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.upDownFontSize)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.panelDialogPreview.ResumeLayout(false);
+            this.panelDialogPreview.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -462,9 +511,9 @@ namespace SimpleClassicTheme.Theming
 		private System.Windows.Forms.NumericUpDown upDownFontSize;
 		private System.Windows.Forms.CheckBox checkBoxBold;
 		private System.Windows.Forms.CheckBox checkBoxItalic;
-		private System.Windows.Forms.Button button5;
-		private System.Windows.Forms.Button button7;
-		private System.Windows.Forms.Button button8;
+		private System.Windows.Forms.Button buttonOK;
+		private System.Windows.Forms.Button buttonCancel;
+		private System.Windows.Forms.Button buttonApply;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label7;
@@ -478,5 +527,8 @@ namespace SimpleClassicTheme.Theming
         private System.Windows.Forms.Panel panelDialogPreview;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
     }
 }

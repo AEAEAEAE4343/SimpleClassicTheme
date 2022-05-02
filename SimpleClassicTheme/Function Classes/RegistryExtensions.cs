@@ -21,7 +21,7 @@ using Microsoft.Win32;
 
 namespace SimpleClassicTheme
 {
-    internal static class UsefulRegistryKeys
+    internal static class RegistryExtensions
     {
         public static bool Borders3D 
         { 
@@ -39,6 +39,44 @@ namespace SimpleClassicTheme
                 upm[2] ^= 0b10;
                 hKey.SetValue("UserPreferencesMask", upm);
                 hKey.Close();
+            }
+        }
+
+
+
+        // Renames a subkey
+        public static bool RenameSubKey(RegistryKey parentKey,
+            string subKeyName, string newSubKeyName)
+        {
+            CopyKey(parentKey, subKeyName, newSubKeyName);
+            parentKey.DeleteSubKeyTree(subKeyName);
+            return true;
+        }
+
+        // Copies a key
+        public static bool CopyKey(RegistryKey parentKey,
+            string keyNameToCopy, string newKeyName)
+        {
+            RegistryKey destinationKey = parentKey.CreateSubKey(newKeyName);
+            RegistryKey sourceKey = parentKey.OpenSubKey(keyNameToCopy);
+            RecurseCopyKey(sourceKey, destinationKey);
+            return true;
+        }
+
+        // Recursively copies a key
+        public static void RecurseCopyKey(RegistryKey sourceKey, RegistryKey destinationKey)
+        {
+            foreach (string valueName in sourceKey.GetValueNames())
+            {
+                object objValue = sourceKey.GetValue(valueName);
+                RegistryValueKind valKind = sourceKey.GetValueKind(valueName);
+                destinationKey.SetValue(valueName, objValue, valKind);
+            }
+            foreach (string sourceSubKeyName in sourceKey.GetSubKeyNames())
+            {
+                RegistryKey sourceSubKey = sourceKey.OpenSubKey(sourceSubKeyName);
+                RegistryKey destSubKey = destinationKey.CreateSubKey(sourceSubKeyName);
+                RecurseCopyKey(sourceSubKey, destSubKey);
             }
         }
     }
