@@ -61,7 +61,8 @@ namespace SimpleClassicTheme.Theming
             new UIAppearanceBinding() { ItemName = "Message Box / Dialog Window", FontColor = SchemeColor.WindowFontColor, FontMetric = SchemeFont.DialogFont },
             new UIAppearanceBinding() { ItemName = "Scrollbar", PrimaryColor = SchemeColor.ScrollBarColor, SizeMetrics = new [] { SchemeMetric.ScrollBarWidth, SchemeMetric.ScrollBarHeight } },
             new UIAppearanceBinding() { ItemName = "Selected Items", PrimaryColor = SchemeColor.SelectedItemsColor, FontColor = SchemeColor.SelectedItemsFontColor, SizeMetrics = new [] { SchemeMetric.MenuHeight, SchemeMetric.MenuWidth }, FontMetric = SchemeFont.MenuFont },
-            new UIAppearanceBinding() { ItemName = "ToolTip", PrimaryColor = SchemeColor.ToolTipColor, FontColor = SchemeColor.ToolTipFontColor, FontMetric = SchemeFont.ToolTipFont },
+            new UIAppearanceBinding() { ItemName = "Tool Tip", PrimaryColor = SchemeColor.ToolTipColor, FontColor = SchemeColor.ToolTipFontColor, FontMetric = SchemeFont.ToolTipFont },
+            new UIAppearanceBinding() { ItemName = "Tool Window", SizeMetrics = new [] { SchemeMetric.SmallCaptionHeight, SchemeMetric.SmallCaptionWidth }, FontMetric = SchemeFont.SmallCaptionFont },
             new UIAppearanceBinding() { ItemName = "Window", PrimaryColor = SchemeColor.WindowColor, FontColor = SchemeColor.WindowFontColor },
             
         };
