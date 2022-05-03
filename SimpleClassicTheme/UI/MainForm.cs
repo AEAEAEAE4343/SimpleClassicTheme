@@ -33,6 +33,7 @@ namespace SimpleClassicTheme
         public MainForm()
         {
             InitializeComponent();
+            label2.Text = SCT.VersionString;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -50,9 +51,6 @@ namespace SimpleClassicTheme
             Directory.CreateDirectory($"{SCT.Configuration.InstallPath}Resources\\");
             File.WriteAllText($"{SCT.Configuration.InstallPath}Resources\\schemes.bat", SCT.ResourceFetcher.ColorSchemesReg);
             Process.Start(new ProcessStartInfo() { FileName = $"{SCT.Configuration.InstallPath}Resources\\schemes.bat", Verb = "runas", UseShellExecute = false, CreateNoWindow = true });
-
-            Version sctVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            label2.Text = label2.Text.Replace("%v", sctVersion.ToString(3)).Replace("%r", sctVersion.Revision.ToString());
 
             CheckDependenciesAndSetControls();
 

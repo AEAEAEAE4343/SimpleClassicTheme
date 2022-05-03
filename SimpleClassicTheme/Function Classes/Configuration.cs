@@ -34,9 +34,9 @@ namespace SimpleClassicTheme
 			set => SetItem("Enabled", value.ToString());
 		}
 
-		public ClassicThemeMethod ClassicThemeMethod
+		public ClassicTheme.ClassicThemeMethod ClassicThemeMethod
         {
-			get => (ClassicThemeMethod)Enum.Parse(typeof(ClassicThemeMethod), GetItem("ClassicThemeMethod", "MultiUserClassicTheme").ToString());
+			get => (ClassicTheme.ClassicThemeMethod)Enum.Parse(typeof(ClassicTheme.ClassicThemeMethod), GetItem("ClassicThemeMethod", "MultiUserClassicTheme").ToString());
 			set => SetItem("ClassicThemeMethod", value.ToString());
 		}
 
@@ -169,7 +169,7 @@ namespace SimpleClassicTheme
 			if (ConfigVersion.CompareString("1.7.0") < 0)
 			{
 				MessageBox.Show("You are migrating from SCT 1.6 or older. In the past SCT interfaced with system API's directly to enable Classic Theme. To circumvent the security and application restrictions of this method, starting from SCT 1.7 a new system service called MCT is used. Your setup will keep using the old method, but upgrading to the new one is recommended. This can be done through the options menu.", "Simple Classic Theme", MessageBoxButton.OK, MessageBoxImage.Warning);
-				ClassicThemeMethod = ClassicThemeMethod.SingleUserSCT;
+				ClassicThemeMethod = ClassicTheme.ClassicThemeMethod.SingleUserSCT;
 				ConfigVersion = new Version(1, 7, 0);
 			}
 

@@ -27,9 +27,9 @@ using System.Windows.Forms;
 
 namespace SimpleClassicTheme
 {
-    static class CommonControls
+    internal static class CommonControls
     {
-        public enum TaskDialogIcon
+        internal enum TaskDialogIcon
         {
             NoIcon = 0,
             WarningIcon = 84,
@@ -38,7 +38,7 @@ namespace SimpleClassicTheme
             ShieldIcon = 78,
         }
 
-        public enum TaskDialogButtons
+        internal enum TaskDialogButtons
         {
             OK = 1,
             Yes = 2,
@@ -48,91 +48,91 @@ namespace SimpleClassicTheme
             Close = 32,
         }
 
-        public static class TaskDialog
+        internal static class TaskDialog
         {
             [DllImport("Comctl32.dll", EntryPoint = "TaskDialog", CharSet = CharSet.Unicode)]
-            public static extern int TaskDialogNative(IntPtr hWndOwner, IntPtr hInstance, string windowTitle, string mainInstruction, string content, TaskDialogButtons buttons, TaskDialogIcon icon, out int result);
+            internal static extern int TaskDialogNative(IntPtr hWndOwner, IntPtr hInstance, string windowTitle, string mainInstruction, string content, TaskDialogButtons buttons, TaskDialogIcon icon, out int result);
 
-            public static DialogResult Show(IWin32Window owner, string text, string caption, string title = null, TaskDialogButtons buttons = TaskDialogButtons.OK, TaskDialogIcon icon = TaskDialogIcon.NoIcon)
+            internal static DialogResult Show(IWin32Window owner, string text, string caption, string title = null, TaskDialogButtons buttons = TaskDialogButtons.OK, TaskDialogIcon icon = TaskDialogIcon.NoIcon)
             {
                 int funcResult = TaskDialogNative(owner is null ? IntPtr.Zero : owner.Handle, IntPtr.Zero, caption, title, text, buttons, icon, out int result);
                 if (result == 0)
                     throw new Win32Exception(funcResult);
                 return (DialogResult)result;
             }
-            public static DialogResult Show(string text, string caption, string title = null, TaskDialogButtons buttons = TaskDialogButtons.OK, TaskDialogIcon icon = TaskDialogIcon.NoIcon) => Show(null, text, caption, title, buttons, icon);
+            internal static DialogResult Show(string text, string caption, string title = null, TaskDialogButtons buttons = TaskDialogButtons.OK, TaskDialogIcon icon = TaskDialogIcon.NoIcon) => Show(null, text, caption, title, buttons, icon);
         }
     }
 
-    static class Kernel32
+    internal static class Kernel32
     {
-        public const int ATTACH_PARENT_PROCESS = -1;
+        internal const int ATTACH_PARENT_PROCESS = -1;
 
         [DllImport("kernel32.dll")]
-        public static extern bool AllocConsole();
+        internal static extern bool AllocConsole();
 
         [DllImport("kernel32.dll")]
-        public static extern bool AttachConsole(int dwProcessId);
+        internal static extern bool AttachConsole(int dwProcessId);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool FreeConsole();
+        internal static extern bool FreeConsole();
     }
 
-    static class User32
+    internal static class User32
     {
         [StructLayout(LayoutKind.Sequential)]
-        public struct ACCENTPOLICY
+        internal struct ACCENTPOLICY
         {
-            public int nAccentState;
-            public int nFlags;
-            public uint nColor;
-            public int nAnimationId;
+            internal int nAccentState;
+            internal int nFlags;
+            internal uint nColor;
+            internal int nAnimationId;
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct WINCOMPATTRDATA
+        internal struct WINCOMPATTRDATA
         {
-            public int nAttribute;
-            public IntPtr pData;
-            public int ulDataSize;
+            internal int nAttribute;
+            internal IntPtr pData;
+            internal int ulDataSize;
         }
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        public static extern IntPtr GetWindowLongPtrW(IntPtr hWndParent, int index);
+        internal static extern IntPtr GetWindowLongPtrW(IntPtr hWndParent, int index);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        public static extern IntPtr SetWindowLongPtrW(IntPtr hWndParent, int index, IntPtr dwNewLong);
+        internal static extern IntPtr SetWindowLongPtrW(IntPtr hWndParent, int index, IntPtr dwNewLong);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        public static extern IntPtr FindWindowExW(IntPtr hWndParent, IntPtr hWndChildAfter, string lpszClass, string lpszWindow);
+        internal static extern IntPtr FindWindowExW(IntPtr hWndParent, IntPtr hWndChildAfter, string lpszClass, string lpszWindow);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+        internal static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
 
         [DllImport("user32.dll")]
-        public static extern bool SetWindowCompositionAttribute(IntPtr hWnd, ref WINCOMPATTRDATA pAttrData);
+        internal static extern bool SetWindowCompositionAttribute(IntPtr hWnd, ref WINCOMPATTRDATA pAttrData);
 
-        public const int WM_NULL = 0x0000;
-        public const int WM_GETTEXT = 0x000D;
+        internal const int WM_NULL = 0x0000;
+        internal const int WM_GETTEXT = 0x000D;
 
-        public const int WM_SCT = 0x0420;
-        public const int SCTWP_EXIT = 0x0001;
-        public const int SCTWP_ISMANAGED = 0x0002;
-        public const int SCTWP_ISSCT = 0x0003;
-        public const int SCTLP_FORCE = 0x0001;
+        internal const int WM_SCT = 0x0420;
+        internal const int SCTWP_EXIT = 0x0001;
+        internal const int SCTWP_ISMANAGED = 0x0002;
+        internal const int SCTWP_ISSCT = 0x0003;
+        internal const int SCTLP_FORCE = 0x0001;
 
-        public delegate bool EnumThreadDelegate(IntPtr hWnd, IntPtr lParam);
+        internal delegate bool EnumThreadDelegate(IntPtr hWnd, IntPtr lParam);
         [DllImport("user32.dll")]
-        public static extern bool EnumThreadWindows(int dwThreadId, EnumThreadDelegate lpfn, IntPtr lParam);
+        internal static extern bool EnumThreadWindows(int dwThreadId, EnumThreadDelegate lpfn, IntPtr lParam);
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+        internal static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
         //[DllImport("user32.dll", EntryPoint = "GetWindowLongPtr")]
-        //public static extern IntPtr GetWindowLongPtr(IntPtr hWnd, int nIndex);
+        //internal static extern IntPtr GetWindowLongPtr(IntPtr hWnd, int nIndex);
 
-        //public const int GWL_EXSTYLE = -20;
+        //internal const int GWL_EXSTYLE = -20;
 
-        public static List<IntPtr> EnumerateProcessWindowHandles(int processId, string name)
+        internal static List<IntPtr> EnumerateProcessWindowHandles(int processId, string name)
         {
             List<IntPtr> handles = new List<IntPtr>();
 
@@ -148,13 +148,13 @@ namespace SimpleClassicTheme
         }
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool ExitWindowsEx(uint uFlags, uint dwReason);
+        internal static extern bool ExitWindowsEx(uint uFlags, uint dwReason);
     }
 
-    static class UxTheme
+    internal static class UxTheme
     {
         //Sets the theme of a window. if pszSubAppName and pszSubIdList are both a space, the window will be themed Classic
         [DllImport("uxtheme.dll", CharSet = CharSet.Unicode)]
-        public static extern int SetWindowTheme(IntPtr hWnd, string pszSubAppName, string pszSubIdList);
+        internal static extern int SetWindowTheme(IntPtr hWnd, string pszSubAppName, string pszSubIdList);
     }
 }

@@ -75,13 +75,14 @@ namespace SimpleClassicTheme.Theming
             InitializeComponent();
 
             string[] names = Registry.CurrentUser.CreateSubKey("Control Panel").CreateSubKey("Appearance").CreateSubKey("Schemes").GetValueNames();
-            
             comboBoxScheme.Items.AddRange(names);
 
             appearanceScheme = AppearanceScheme.FromSystem();
 
             panelWindowPreview.Invalidate();
             panelWindowPreview.Refresh();
+
+            label13.Text = SCT.VersionString;
 
             GenerateLists();
         }
@@ -631,12 +632,6 @@ namespace SimpleClassicTheme.Theming
         {
             appearanceScheme.ApplyToSystem();
             RedrawImmediately();
-        }
-
-        private void ThemeConfigurationForm_Load(object sender, EventArgs e)
-        {
-            Version sctVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            label13.Text = label13.Text.Replace("%v", sctVersion.ToString(3)).Replace("%r", sctVersion.Revision.ToString());
         }
     }
 }

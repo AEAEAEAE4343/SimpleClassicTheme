@@ -18,7 +18,6 @@
  *
  */
 
-//using NtApiDotNet;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -34,15 +33,15 @@ using static SimpleClassicTheme.CommonControls;
 
 namespace SimpleClassicTheme
 {
-    public enum ClassicThemeMethod
-    {
-        SingleUserSCT,
-        MultiUserClassicTheme,
-    }
-
     public static class ClassicTheme
     {
-        public enum CtErrorSource
+        public enum ClassicThemeMethod
+        {
+            SingleUserSCT,
+            MultiUserClassicTheme,
+        }
+
+        public enum ClassicThemeErrorSource
         {
             /// <summary>
             /// The error didn't have any source. This means no error occured.
@@ -65,26 +64,26 @@ namespace SimpleClassicTheme
             NtDll = 3,
         }
 
-        public struct CtResult
+        public struct ClassicThemeResult
         {
             public bool Success;
-            public CtErrorSource Source;
+            public ClassicThemeErrorSource Source;
             public uint ErrorCode;
 
             public string GetDescription()
             {
                 if (Success)
                 {
-                    Source = CtErrorSource.Win32;
+                    Source = ClassicThemeErrorSource.Win32;
                     ErrorCode = 0;
                 }
 
                 switch (Source)
                 {
-                    case CtErrorSource.NtDll:
-                    case CtErrorSource.Win32:
+                    case ClassicThemeErrorSource.NtDll:
+                    case ClassicThemeErrorSource.Win32:
                         return new Win32Exception((int)ErrorCode).Message;
-                    case CtErrorSource.Mct:
+                    case ClassicThemeErrorSource.Mct:
                         return MctApi.GetErrorString((MctApi.MctError)ErrorCode);
                     default:
                         return "";
@@ -94,49 +93,49 @@ namespace SimpleClassicTheme
 
         private static bool IsAdministrator => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
 
-        private static unsafe CtResult SetThemeSectionSecurity(string dacl)
+        private static unsafe ClassicThemeResult SetThemeSectionSecurity(string dacl)
         {
-            NtApi.UnicodeString uniStr = NtApi.UnicodeString.Create($@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection");
-            NtApi.ObjectAttributes attrib = new NtApi.ObjectAttributes();
-            attrib.Length = (uint)sizeof(NtApi.ObjectAttributes);
+            UnicodeString uniStr = UnicodeString.Create($@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection");
+            ObjectAttributes attrib = new ObjectAttributes();
+            attrib.Length = (uint)sizeof(ObjectAttributes);
             attrib.ObjectName = &uniStr;
             attrib.Attributes = AttributesEnum.OBJ_CASE_INSENSITIVE | AttributesEnum.OBJ_KERNEL_HANDLE;
 
-            uint result = NtOpenSection(out IntPtr section, NtApi.AccessMask.WRITE_DAC, ref attrib);
+            uint result = NtOpenSection(out IntPtr section, AccessMask.WRITE_DAC, ref attrib);
             if (result != 0U)
-                return new CtResult
+                return new ClassicThemeResult
                 {
                     Success = false,
                     ErrorCode = result,
-                    Source = CtErrorSource.NtDll,
+                    Source = ClassicThemeErrorSource.NtDll,
                 };
 
             result = ConvertStringSecurityDescriptorToSecurityDescriptor(dacl, 1, out IntPtr securityDescriptor, out _);
             if (result == 0)
-                return new CtResult
+                return new ClassicThemeResult
                 {
                     Success = false,
                     ErrorCode = (uint)Marshal.GetLastWin32Error(),
-                    Source = CtErrorSource.Win32,
+                    Source = ClassicThemeErrorSource.Win32,
                 };
 
-            result = NtSetSecurityObject(section, NtApi.SecurityInformation.DACL_SECURITY_INFORMATION, securityDescriptor);
+            result = NtSetSecurityObject(section, SecurityInformation.DACL_SECURITY_INFORMATION, securityDescriptor);
             if (result != 0)
-                return new CtResult
+                return new ClassicThemeResult
                 {
                     Success = false,
                     ErrorCode = result,
-                    Source = CtErrorSource.NtDll,
+                    Source = ClassicThemeErrorSource.NtDll,
                 };
 
             LocalFree(securityDescriptor);
             NtClose(section);
 
-            return new CtResult
+            return new ClassicThemeResult
             {
                 Success = true,
                 ErrorCode = 0,
-                Source = CtErrorSource.None,
+                Source = ClassicThemeErrorSource.None,
             };
         }
 
@@ -151,7 +150,7 @@ namespace SimpleClassicTheme
         /// Enables Classic Theme by changing the ThemeSection permissions directly. This will only work with in an elevated process.
         /// </summary>
         /// <returns>A Boolean value specifying whether the operation completed succesfully. If the elevation of the current process is not high enough, this returns false.</returns>
-        public static CtResult EnableSingleUser()
+        public static ClassicThemeResult EnableSingleUser()
         {
             return SetThemeSectionSecurity("O:BAG:SYD:(A;;RC;;;IU)(A;;DCSWRPSDRCWDWO;;;SY)");
         }
@@ -160,18 +159,18 @@ namespace SimpleClassicTheme
         /// Enables Classic Theme by sending a request to MCTsvc. This requires MCT to be installed on the system.
         /// </summary>
         /// <returns>A CtResult specifying whether the operation completed succesfully, and if not, what problem occured.</returns>
-        public static CtResult EnableMCT()
+        public static ClassicThemeResult EnableMCT()
         {
             MctApi.InitializeAPI();
 
             MctApi.MctErrorCode errorCode = new MctApi.MctErrorCode();
             MctApi.EnableClassicTheme((ulong)Process.GetCurrentProcess().SessionId, ref errorCode);
 
-            return new CtResult
+            return new ClassicThemeResult
             {
                 Success = errorCode.Success,
                 ErrorCode = errorCode.Result,
-                Source = (CtErrorSource)errorCode.ErrorSource,
+                Source = (ClassicThemeErrorSource)errorCode.ErrorSource,
             };
         }
 
@@ -179,7 +178,7 @@ namespace SimpleClassicTheme
         /// Enables Classic Theme using the currently configures ClassicThemeMethod specified in SCT.Configuration
         /// </summary>
         /// <returns>A Boolean value specifying whether the operation completed succesfully.</returns>
-        public static CtResult Enable()
+        public static ClassicThemeResult Enable()
         {
             if (Environment.OSVersion.Version.Major == 10)
             { 
@@ -194,11 +193,11 @@ namespace SimpleClassicTheme
                 case ClassicThemeMethod.MultiUserClassicTheme:
                     return EnableMCT();
                 default:
-                    return new CtResult
+                    return new ClassicThemeResult
                     {
                         Success = false,
                         ErrorCode = 0,
-                        Source = CtErrorSource.None,
+                        Source = ClassicThemeErrorSource.None,
                     };
             }
         }
@@ -207,7 +206,7 @@ namespace SimpleClassicTheme
         /// Disables Classic Theme by changing the ThemeSection permissions directly. This will only work with in an elevated process.
         /// </summary>
         /// <returns>A CtResult specifying whether the operation completed succesfully, and if not, what problem occured.</returns>
-        public static CtResult DisableSingleUser()
+        public static ClassicThemeResult DisableSingleUser()
         {
             return SetThemeSectionSecurity("O:BAG:SYD:(A;;CCLCRC;;;IU)(A;;CCDCLCSWRPSDRCWDWO;;;SY)");
         }
@@ -216,18 +215,18 @@ namespace SimpleClassicTheme
         /// Disables Classic Theme by sending a request to MCTsvc. This requires MCT to be installed on the system.
         /// </summary>
         /// <returns>A Boolean value specifying whether the operation completed succesfully.</returns>
-        public static CtResult DisableMCT()
+        public static ClassicThemeResult DisableMCT()
         {
             MctApi.InitializeAPI();
 
             MctApi.MctErrorCode errorCode = new MctApi.MctErrorCode();
             MctApi.DisableClassicTheme((ulong)Process.GetCurrentProcess().SessionId, ref errorCode);
 
-            return new CtResult
+            return new ClassicThemeResult
             {
                 Success = errorCode.Success,
                 ErrorCode = errorCode.Result,
-                Source = (CtErrorSource)errorCode.ErrorSource,
+                Source = (ClassicThemeErrorSource)errorCode.ErrorSource,
             };
         }
 
@@ -235,7 +234,7 @@ namespace SimpleClassicTheme
         /// Disables Classic Theme using the currently configures ClassicThemeMethod specified in SCT.Configuration
         /// </summary>
         /// <returns>A Boolean value specifying whether the operation completed succesfully.</returns>
-        public static CtResult Disable()
+        public static ClassicThemeResult Disable()
         {
             switch (SCT.Configuration.ClassicThemeMethod)
             {
@@ -244,11 +243,11 @@ namespace SimpleClassicTheme
                 case ClassicThemeMethod.MultiUserClassicTheme:
                     return DisableMCT();
                 default:
-                    return new CtResult
+                    return new ClassicThemeResult
                     {
                         Success = false,
                         ErrorCode = 0,
-                        Source = CtErrorSource.None,
+                        Source = ClassicThemeErrorSource.None,
                     };
             }
         }
@@ -263,7 +262,7 @@ namespace SimpleClassicTheme
             }
 
             Process.Start($"{SCT.Configuration.InstallPath}EnableThemeScript.bat", "pre").WaitForExit();
-            CtResult res = Enable();
+            ClassicThemeResult res = Enable();
             if (!res.Success)
             {
                 TaskDialog.Show(Application.OpenForms[typeof(MainForm).Name], $"{res.GetDescription()}", "Simple Classic Theme", "Failed to enable Classic Theme", TaskDialogButtons.OK, TaskDialogIcon.ErrorIcon);
@@ -303,7 +302,7 @@ namespace SimpleClassicTheme
             }
 
             Process.Start($"{SCT.Configuration.InstallPath}DisableThemeScript.bat", "pre").WaitForExit();
-            CtResult res = Disable();
+            ClassicThemeResult res = Disable();
             if (!res.Success)
             {
                 TaskDialog.Show(Application.OpenForms[typeof(MainForm).Name], $"{res.GetDescription()}", "Simple Classic Theme", "Failed to disable Classic Theme", TaskDialogButtons.OK, TaskDialogIcon.ErrorIcon);

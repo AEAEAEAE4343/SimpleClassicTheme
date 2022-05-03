@@ -39,58 +39,36 @@ namespace SimpleClassicTheme.Forms
         public LoadForm()
         {
             InitializeComponent();
-        }
-
-        public void Write(string text)
-        {
-            textBox1.Text += text;
-            textBox1.SelectionStart = textBox1.Text.Length;
-            textBox1.SelectionLength = 0;
-            textBox1.ScrollToCaret();
-        }
-        public void WriteLine(string text)
-        {
-            textBox1.Text += text + "\n";
-            textBox1.SelectionStart = textBox1.Text.Length;
-            textBox1.SelectionLength = 0;
-            textBox1.ScrollToCaret();
+            label2.Text = SCT.VersionString;
         }
 
         public bool LoadSCT(string[] args)
         {
             Application.VisualStyleState = SCT.Configuration.Enabled ? VisualStyleState.NoneEnabled : VisualStyleState.ClientAndNonClientAreasEnabled;
-
             Directory.CreateDirectory(SCT.Configuration.InstallPath);
 
-            // Small delay for pressing Details button
-            label2.Text = "Status: ";
-            DateTime time = DateTime.Now;
-            while (DateTime.Now.Subtract(time).TotalSeconds < 0.8)
-                Application.DoEvents();
-            button1.Hide();
-
-            label2.Text = "Status: Writing load scripts";
+            // Generating classic theme load scripts
+            label2.Text = "Status: Generating SCT load scripts";
             Application.DoEvents();
 
-            //Write loading scripts
             if (!File.Exists($"{SCT.Configuration.InstallPath}EnableThemeScript.bat"))
                 File.WriteAllText($"{SCT.Configuration.InstallPath}EnableThemeScript.bat", SCT.ResourceFetcher.EnableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
             if (!File.Exists($"{SCT.Configuration.InstallPath}DisableThemeScript.bat"))
                 File.WriteAllText($"{SCT.Configuration.InstallPath}DisableThemeScript.bat", SCT.ResourceFetcher.DisableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
+            // Check for updates
             label2.Text = "Status: Checking for updates";
             Application.DoEvents();
 
-            //Start update checking
             string updateMode = SCT.Configuration.UpdateMode;
             if (updateMode == "Automatic" || updateMode == "Ask on startup")
                 if (ExtraFunctions.Update(this))
                     return false;
 
+            // Clean up any files that might have been left over by old SCT versions
             label2.Text = "Status: Cleaning up files";
             Application.DoEvents();
 
-            //Clean up any files that might have been left over on the root of the C: drive
             File.Delete("C:\\upm.reg");
             File.Delete("C:\\restoreMetrics.reg");
             File.Delete("C:\\fox.exe");
@@ -312,26 +290,12 @@ namespace SimpleClassicTheme.Forms
                 return false;
             exit:
                 Kernel32.FreeConsole();
-                button1_Click(null, null);
                 Application.Run(this);
                 return false;
             }
 
         run_gui:
             return true;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            ControlBox = true;
-            button1.Visible = false;
-            label4.Visible = true;
-            textBox1.Visible = true;
-            Size = new Size(868, 533);
-            label1.Location = new Point(9, 457);
-            label2.Location = new Point(9, 470);
-            label3.Location = new Point(9, 483);
-            pictureBox1.Location = new Point(231, 12);
         }
 
         private void LoaderForm_Load(object sender, EventArgs e)

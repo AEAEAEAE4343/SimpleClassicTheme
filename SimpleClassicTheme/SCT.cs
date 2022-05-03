@@ -23,13 +23,17 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using System.Windows.Forms.VisualStyles;
 using SimpleClassicTheme.Theming;
+using System.Reflection;
 
 namespace SimpleClassicTheme
 {
     static class SCT
     {
+        static Version Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
+
         public static Configuration Configuration { get; } = new Configuration();
         public static ResourceFetcher ResourceFetcher { get; } = new ResourceFetcher();
+        public static string VersionString => $"Version {Version:3} revision {Version.Revision}";
 
 		public static bool ShouldLoadGUI { get; set; }
 

@@ -23,7 +23,7 @@ namespace SimpleClassicTheme
 {
     internal static class RegistryExtensions
     {
-        public static bool Borders3D 
+        internal static bool Borders3D 
         { 
             get
             {
@@ -45,7 +45,7 @@ namespace SimpleClassicTheme
 
 
         // Renames a subkey
-        public static bool RenameSubKey(RegistryKey parentKey,
+        internal static bool RenameSubKey(RegistryKey parentKey,
             string subKeyName, string newSubKeyName)
         {
             CopyKey(parentKey, subKeyName, newSubKeyName);
@@ -54,7 +54,7 @@ namespace SimpleClassicTheme
         }
 
         // Copies a key
-        public static bool CopyKey(RegistryKey parentKey,
+        internal static bool CopyKey(RegistryKey parentKey,
             string keyNameToCopy, string newKeyName)
         {
             RegistryKey destinationKey = parentKey.CreateSubKey(newKeyName);
@@ -64,7 +64,7 @@ namespace SimpleClassicTheme
         }
 
         // Recursively copies a key
-        public static void RecurseCopyKey(RegistryKey sourceKey, RegistryKey destinationKey)
+        internal static void RecurseCopyKey(RegistryKey sourceKey, RegistryKey destinationKey)
         {
             foreach (string valueName in sourceKey.GetValueNames())
             {

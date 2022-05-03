@@ -44,7 +44,7 @@ namespace SimpleClassicTheme
     }
 
     /// <summary>
-    /// Helper class: Contains all longish functions that make code unreadable
+    /// Helper class: Contains all functions that don't belong anywhere else
     /// </summary>
     static class ExtraFunctions
     {
@@ -175,7 +175,7 @@ namespace SimpleClassicTheme
                     download.ShowDialog();
                     break;
                 case TaskbarType.SimpleClassicThemeTaskbar:
-                    if (!ExtraFunctions.IsDotNetRuntimeInstalled())
+                    if (!IsDotNetRuntimeInstalled())
                     {
                         if (commandLineOutput) Console.WriteLine("Error: .NET 5.0 is not installed and is required for SCTT to be installed");
                         else MessageBox.Show(".NET 5.0 is not installed and is required for SCTT to be installed", "Error installing dependencies", MessageBoxButtons.OK, MessageBoxIcon.Error);

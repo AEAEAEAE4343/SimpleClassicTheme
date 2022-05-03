@@ -33,14 +33,25 @@ namespace SimpleClassicTheme
         public static InstallableUtilityWithInstallerFromResource 	FolderOptionsX				= new InstallableUtilityWithInstallerFromResource(	"Folder Options X",		 	"fox.exe", 			"setup_folder-options-x",										    	"C:\\Program Files\\T800 Productions\\Folder Options X",	"C:\\Program Files\\T800 Productions\\Folder Options X\\unins000.exe",		            "/silent",					("C:\\Program Files\\T800 Productions\\Folder Options X\\unins000.exe",			"/silent"));
         public static InstallableUtilityWithInstallerFromResource   OpenShell                   = new InstallableUtilityWithInstallerFromResource(  "Open-Shell",               "oss.exe",          "setup_open-shell",                                                     "C:\\Program Files\\Open-Shell",                            "C:\\Program Files\\Open-Shell\\OpenShell.chm",                                         "/qn /norestart",           ("C:\\Windows\\System32\\msiexec.exe",                                          "/X{FD722BB1-4960-455F-89C6-EFAEB79527EF} /qn /norestart"));
 
-        public static List<InstallableUtility> GetInstallableUtilities() => new List<InstallableUtility>()
+        static List<InstallableUtility> utilities;
+        public static InstallableUtility[] GetInstallableUtilities()
         {
-            SevenPlusTaskbarTweaker,
-            StartIsBackPlusPlus,
-            ClassicTaskManager,
-            FolderOptionsX,
-            OpenShell
-        };
+            if (utilities is null)
+                utilities = new List<InstallableUtility>()
+                {
+                    SevenPlusTaskbarTweaker,
+                    StartIsBackPlusPlus,
+                    ClassicTaskManager,
+                    FolderOptionsX,
+                    OpenShell
+                };
+            return utilities.ToArray();
+        }
+
+        public static void RegisterInstallableUtility(InstallableUtility utility)
+        {
+            utilities.Add(utility);
+        }
 
         public string Name;
         public abstract bool IsInstalled { get; }
