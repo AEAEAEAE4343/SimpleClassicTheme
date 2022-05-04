@@ -34,68 +34,86 @@ namespace SimpleClassicTheme.Forms
 	public partial class TaskbarTypeSelector : UserControl
 	{
 		public event EventHandler SelectedItemChanged;
-		public TaskbarType SelectedItem => TaskbarTypeDisplay.FirstOrDefault(x => x.Value == (string)comboBoxTaskbar.SelectedItem).Key;
+		public TaskbarType SelectedItem => comboBoxTaskbar.SelectedIndex != -1 ? ((TaskbarTypeItem)comboBoxTaskbar.Items[comboBoxTaskbar.SelectedIndex]).Value : TaskbarType.None;
 
-		public Dictionary<TaskbarType, string> TaskbarTypeDisplay = new Dictionary<TaskbarType, string>();
-		public Dictionary<TaskbarType, string> TaskbarTypeDescription = new Dictionary<TaskbarType, string>();
-		public Dictionary<TaskbarType, string> TaskbarTypeAuthor = new Dictionary<TaskbarType, string>();
-		public Dictionary<TaskbarType, string> TaskbarTypeAuthorLink = new Dictionary<TaskbarType, string>();
-		public Dictionary<TaskbarType, string> TaskbarTypeSupport = new Dictionary<TaskbarType, string>();
-		public Dictionary<TaskbarType, string> TaskbarTypeSupportLink = new Dictionary<TaskbarType, string>();
+		public class TaskbarTypeItem
+        {
+			public string Text { get; set; }
+			public string Description { get; set; }
+			public string Author { get; set; }
+			public string AuthorLink { get; set; }
+			public string Support { get; set; }
+			public string SupportLink { get; set; }
+			public TaskbarType Value { get; set; }
 
-		public TaskbarTypeSelector() : this(TaskbarType.SimpleClassicThemeTaskbar) { }
-		public TaskbarTypeSelector(TaskbarType selectedTaskbar)
+            public override string ToString()
+            {
+				return Text;
+            }
+        }
+
+		public TaskbarTypeSelector(TaskbarType selectedTaskbar = TaskbarType.RetroBar)
 		{
-			TaskbarTypeDisplay.Add(TaskbarType.SimpleClassicThemeTaskbar, "Simple Classic Theme Taskbar");
-			TaskbarTypeDisplay.Add(TaskbarType.RetroBar, "RetroBar");
-			if (Environment.OSVersion.Version.CompareString("6.3") == 0)
-				TaskbarTypeDisplay.Add(TaskbarType.Windows81Vanilla, "Vanilla taskbar");
-			
-			TaskbarTypeDescription.Add(TaskbarType.Windows81Vanilla, "Takes the default Windows 8.1 taskbar and forces Classic Theme on it. This fails, so SCT also patches it. The end result is a pretty much perfect Windows 7 Classic Taskbar.");
-			TaskbarTypeDescription.Add(TaskbarType.SimpleClassicThemeTaskbar, "Simple Classic Theme Taskbar is a taskbar designed specifically for SCT. From the ground up it is designed to mimic a Win2K Classic Taskbar and it does so extremely good. Features built-in XP .msstyles support. Note that this taskbar requires more power out of your system than similar tools.");
-			TaskbarTypeDescription.Add(TaskbarType.RetroBar, "RetroBar is the most refined taskbar alternative out there. Although it lacks certain functionality that taskbars like SCTT and the Windows taskbar have, it provides with a very stable and smooth taskbar featuring multiple themes to match your style.");
-			
-			TaskbarTypeAuthor.Add(TaskbarType.Windows81Vanilla, "Leet");
-			TaskbarTypeAuthorLink.Add(TaskbarType.Windows81Vanilla, "https://github.com/AEAEAEAE4343/");
-			TaskbarTypeSupport.Add(TaskbarType.Windows81Vanilla, "GitHub Issues");
-			TaskbarTypeSupportLink.Add(TaskbarType.Windows81Vanilla, "https://github.com/WinClassic/SimpleClassicTheme");
+			comboBoxTaskbar.Items.AddRange(new[]
+			{
+				new TaskbarTypeItem
+				{
+					Text = "RetroBar",
+					Description = "RetroBar is the most refined taskbar alternative out there. Although it lacks certain functionality that taskbars like SCTT and the Windows taskbar have, it provides with a very stable and smooth taskbar featuring multiple themes to match your style.",
+					Author = "dremin/scj312",
+					AuthorLink = "https://github.com/dremin/",
+					Support = "GitHub Issues",
+					SupportLink = "https://github.com/dremin/RetroBar/issues",
+					Value = TaskbarType.RetroBar,
+				},
+				new TaskbarTypeItem
+				{
+					Text = "Simple Classic Theme Taskbar",
+					Description = "RetroBar is the most refined taskbar alternative out there. Although it lacks certain functionality that taskbars like SCTT and the Windows taskbar have, it provides with a very stable and smooth taskbar featuring multiple themes to match your style.",
+					Author = "Leet",
+					AuthorLink = "https://github.com/AEAEAEAE4343/",
+					Support = "GitHub Issues",
+					SupportLink = "https://github.com/WinClassic/SimpleClassicTheme/issues",
+					Value = TaskbarType.SimpleClassicThemeTaskbar,
+				},
+			});
 
-			TaskbarTypeAuthor.Add(TaskbarType.SimpleClassicThemeTaskbar, "Leet");
-			TaskbarTypeAuthorLink.Add(TaskbarType.SimpleClassicThemeTaskbar, "https://github.com/AEAEAEAE4343/");
-			TaskbarTypeSupport.Add(TaskbarType.SimpleClassicThemeTaskbar, "GitHub Issues");
-			TaskbarTypeSupportLink.Add(TaskbarType.SimpleClassicThemeTaskbar, "https://github.com/WinClassic/SimpleClassicTheme");
-			
-			TaskbarTypeAuthor.Add(TaskbarType.RetroBar, "dremin/scj312");
-			TaskbarTypeAuthorLink.Add(TaskbarType.RetroBar, "https://github.com/dremin/");
-			TaskbarTypeSupport.Add(TaskbarType.RetroBar, "GitHub Issues");
-			TaskbarTypeSupportLink.Add(TaskbarType.RetroBar, "https://github.com/dremin/RetroBar/issues");
+			if (Environment.OSVersion.Version.CompareString("6.3") == 0)
+				comboBoxTaskbar.Items.Add(new TaskbarTypeItem
+				{
+					Text = "Vanilla taskbar",
+					Description = "Takes the default Windows 8.1 taskbar and forces Classic Theme on it. This fails, so SCT also patches it. The end result is a pretty much perfect Windows 7 Classic Taskbar.",
+					Author = "Leet",
+					AuthorLink = "https://github.com/AEAEAEAE4343/",
+					Support = "GitHub Issues",
+					SupportLink = "https://github.com/WinClassic/SimpleClassicTheme/issues",
+					Value = TaskbarType.Windows81Vanilla,
+				});
 
 			InitializeComponent();
 
-			foreach (KeyValuePair<TaskbarType, string> f in TaskbarTypeDisplay)
-				comboBoxTaskbar.Items.Add(f.Value);
-			comboBoxTaskbar.SelectedItem = TaskbarTypeDisplay[TaskbarTypeDisplay.ContainsKey(selectedTaskbar) ? selectedTaskbar : TaskbarType.SimpleClassicThemeTaskbar];
+			comboBoxTaskbar.SelectedItem = comboBoxTaskbar.Items.OfType<TaskbarTypeItem>().Where((a) => a.Value == selectedTaskbar).FirstOrDefault();
 		}
 
 		private void comboBoxTaskbar_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			label1.Text = TaskbarTypeDescription[SelectedItem];
+			if (comboBoxTaskbar.SelectedIndex == -1)
+				return;
+
+			TaskbarTypeItem item = (TaskbarTypeItem)comboBoxTaskbar.Items[comboBoxTaskbar.SelectedIndex];
+
+			label1.Text = item.Description;
 			linkLabel1.Links.Clear();
-			string a = TaskbarTypeAuthor[SelectedItem];
-			string b = TaskbarTypeSupport[SelectedItem];
+			string a = item.Author;
+			string b = item.Support;
 			string text = $"Author: (a) Support: (b)";
-			linkLabel1.Links.Add(text.IndexOf("(a)"), a.Length, TaskbarTypeAuthorLink[SelectedItem]);
+			linkLabel1.Links.Add(text.IndexOf("(a)"), a.Length, item.AuthorLink);
 			text = text.Replace("(a)", a);
-			linkLabel1.Links.Add(text.IndexOf("(b)"), b.Length, TaskbarTypeSupportLink[SelectedItem]);
+			linkLabel1.Links.Add(text.IndexOf("(b)"), b.Length, item.SupportLink);
 			text = text.Replace("(b)", b);
 			linkLabel1.Text = text;
 
 			SelectedItemChanged?.Invoke(this, EventArgs.Empty);
-		}
-
-		private void TaskbarTypeSelector_Load(object sender, EventArgs e)
-		{
-			comboBoxTaskbar.SelectedItem = TaskbarTypeDisplay[TaskbarTypeDisplay.ContainsKey(SCT.Configuration.TaskbarType) ? SCT.Configuration.TaskbarType : TaskbarType.SimpleClassicThemeTaskbar];
 		}
 
 		private void TaskbarTypeSelector_EnabledChanged(object sender, EventArgs e)

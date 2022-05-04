@@ -121,9 +121,6 @@
   <data name="ExplorerContextMenuTweaker" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ExplorerContextMenuTweaker1.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="fixstrips" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fixstrips1.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="RibbonDisabler" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RibbonDisabler1.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

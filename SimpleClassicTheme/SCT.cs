@@ -24,6 +24,7 @@ using Microsoft.Win32;
 using System.Windows.Forms.VisualStyles;
 using SimpleClassicTheme.Theming;
 using System.Reflection;
+using System.Collections.Generic;
 
 namespace SimpleClassicTheme
 {
@@ -41,16 +42,11 @@ namespace SimpleClassicTheme
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main(string[] args)
+        static void Main(string[] argv)
         {
             Application.EnableVisualStyles();
             Application.VisualStyleState = VisualStyleState.NoneEnabled;
             Application.SetCompatibleTextRenderingDefault(false);
-
-            //new ThemeConfigurationForm().ShowDialog(); 
-            //Environment.Exit(0);
-
-            //new Forms.Unfinished.DialogTest().ShowDialog(); return;
 
             bool windows = Environment.OSVersion.Platform == PlatformID.Win32NT;
             bool windows10or11 = Environment.OSVersion.Version.Major == 10 /*&& Int32.Parse(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId", "").ToString()) >= 1803*/;
@@ -66,23 +62,29 @@ namespace SimpleClassicTheme
 #endif
             }
 
-            // Check if SCT is running on a compatible version of .NET (4.8 or higher).
-            int netReleaseVersion = (int)Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full\\", "Release", 0);
-            if (netReleaseVersion < 528040)
+            // Parse silencer arguments
+            List<string> arguments = new List<string>(argv);
+            if (arguments.Contains("--noerr"))
             {
-                MessageBox.Show("SCT requires .NET Framework version 4.8 or higher.", "Simple Classic Theme");
-                return;
+                arguments.RemoveAll((a) => a == "--noerr");
+                Logger.UILevel = UILevel.LogWarningsAndErrors;
+            }
+            if (arguments.Contains("--silent"))
+            {
+                arguments.RemoveAll((a) => a == "--silent");
+                Logger.UILevel = UILevel.Silent;
             }
 
             Forms.LoadForm loader = new Forms.LoadForm();
-            loader.Show();
-            ShouldLoadGUI = loader.LoadSCT(args);
+            if (Logger.UILevel != UILevel.Silent) loader.Show();
+
+            ShouldLoadGUI = loader.LoadSCT(arguments.ToArray());
             loader.Close();
 
-            while (ShouldLoadGUI)
+            while (Logger.UILevel != UILevel.Silent && ShouldLoadGUI)
             {
                 ShouldLoadGUI = false;
-                Application.VisualStyleState = SCT.Configuration.Enabled ? VisualStyleState.NoneEnabled : VisualStyleState.ClientAndNonClientAreasEnabled;
+                Application.VisualStyleState = Configuration.Enabled ? VisualStyleState.NoneEnabled : VisualStyleState.ClientAndNonClientAreasEnabled;
                 Application.Run(new MainForm());
             }
 

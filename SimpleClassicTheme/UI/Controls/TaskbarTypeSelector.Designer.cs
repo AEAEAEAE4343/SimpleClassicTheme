@@ -120,7 +120,6 @@ namespace SimpleClassicTheme.Forms
 			this.Controls.Add(this.groupBox1);
 			this.Name = "TaskbarTypeSelector";
 			this.Size = new System.Drawing.Size(467, 161);
-			this.Load += new System.EventHandler(this.TaskbarTypeSelector_Load);
 			this.EnabledChanged += new System.EventHandler(this.TaskbarTypeSelector_EnabledChanged);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();

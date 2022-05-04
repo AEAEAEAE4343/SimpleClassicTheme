@@ -73,16 +73,6 @@ namespace SimpleClassicTheme.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] fixstrips {
-            get {
-                object obj = ResourceManager.GetObject("fixstrips", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
         internal static byte[] RibbonDisabler {
             get {
                 object obj = ResourceManager.GetObject("RibbonDisabler", resourceCulture);

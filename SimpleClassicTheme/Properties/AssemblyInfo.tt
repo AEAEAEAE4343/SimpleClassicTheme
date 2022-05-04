@@ -1,4 +1,6 @@
-﻿/*
+﻿<#@ output extension=".cs" #>
+<#@ template language="C#" hostspecific="True" #>
+/*
  *  SimpleClassicTheme, a basic utility to bring back classic theme to newer versions of the Windows operating system.
  *  Copyright (C) 2021 Anis Errais
  *
@@ -44,5 +46,19 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("0929c14c-9e7b-4f2d-adfd-67ce83618471")]
 
-[assembly: AssemblyVersion("1.7.0.136")]
-[assembly: AssemblyFileVersion("1.7.0.136")]
+[assembly: AssemblyVersion("<#= this.VersionString #>")]
+[assembly: AssemblyFileVersion("<#= this.VersionString #>")]
+<#+ 
+    string VersionString 
+    {
+        get
+        {
+            string oldContent = System.IO.File.ReadAllText(this.Host.ResolvePath("AssemblyInfo.cs"));
+            string oldVersionString = new System.Text.RegularExpressions.Regex("[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+").Match(oldContent).Value;
+            if (oldVersionString == String.Empty)
+                return "1.0.0.0";
+            Version oldVersion = Version.Parse(oldVersionString);
+            return $"{oldVersion.ToString(3)}.{oldVersion.Revision + 1}";
+        }
+    }
+#>

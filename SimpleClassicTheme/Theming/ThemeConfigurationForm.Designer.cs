@@ -477,7 +477,6 @@ namespace SimpleClassicTheme.Theming
             this.MaximizeBox = false;
             this.Name = "ThemeConfigurationForm";
             this.Text = "Simple Classic Theme - Configure Appearance";
-            this.Load += new System.EventHandler(this.ThemeConfigurationForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.upDownItemSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.upDownFontSize)).EndInit();
             this.tabControl1.ResumeLayout(false);

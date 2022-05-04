@@ -69,7 +69,6 @@ namespace SimpleClassicTheme
 
         public byte[] ExplorerContextMenuTweaker => GetBytesFromOptionalResourceManager("ExplorerContextMenuTweaker");
         public byte[] ShellPayload => GetBytesFromOptionalResourceManager("ShellPayload");
-        public byte[] FixStrips => GetBytesFromOptionalResourceManager("fixstrips");
         public byte[] RibbonDisabler => GetBytesFromOptionalResourceManager("ribbonDisabler");
         public byte[] ClassicTaskManager => GetBytesFromOptionalResourceManager("setup_classic-taskmgr");
         public byte[] FolderOptionsX => GetBytesFromOptionalResourceManager("setup_folder-options-x");

@@ -31,36 +31,7 @@ using System.Windows.Forms;
 namespace SimpleClassicTheme
 {
     public static class ClassicTaskbar
-    {
-        public static void Enable()
-        {
-            //Start settings app in order to increase chances of metro working
-            Process.Start("ms-settings:");
-            //Set registry so that SIB and OS will load
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "EnableStartButton", 1);
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "CustomTaskbar", 1);
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "WinKey", "ClassicMenu");
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "MouseClick", "ClassicMenu");
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\StartIsBack", "Disabled", 0);
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Search", "SearchboxTaskbarMode", 0);
-            //Restart explorer
-            Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-            Process.Start("cmd", "/c taskkill /im sihost.exe /f").WaitForExit();
-        }
-
-        public static void Disable()
-        {
-            //Set registry so that SIB and OS won't load
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "EnableStartButton", 0);
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "CustomTaskbar", 0);
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "WinKey", "WindowsMenu");
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\OpenShell\StartMenu\Settings", "MouseClick", "WindowsMenu");
-            Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\StartIsBack", "Disabled", 1);
-            //Restart explorer
-            Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-            Process.Start("cmd", "/c taskkill /im sihost.exe /f").WaitForExit();
-        }
-
+    { 
         public static void FixWin8_1()
         {
             /*

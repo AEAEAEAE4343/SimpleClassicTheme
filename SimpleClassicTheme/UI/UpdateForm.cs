@@ -28,6 +28,13 @@ using System.Windows.Forms;
 
 namespace SimpleClassicTheme
 {
+    public enum UpdateMode
+    {
+        Automatic,
+        AskOnStartup,
+        Manual,
+    }
+
     public partial class Updater : Form
     {
         public Updater()
@@ -72,7 +79,7 @@ namespace SimpleClassicTheme
                 //Check if newestVersion is bigger then currentVersion
                 if (currentVersion.CompareTo(newestVersion) < 0)
                 {
-                    if (SCT.Configuration.UpdateMode == "Ask on startup" && MessageBox.Show($"SCT version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
+                    if (SCT.Configuration.UpdateMode == UpdateMode.AskOnStartup && MessageBox.Show($"SCT version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
                         Close();
                     else
                     {
@@ -117,7 +124,7 @@ namespace SimpleClassicTheme
                     //Check if newestVersion is bigger then currentVersion
                     if (currentVersion != null && currentVersion.CompareTo(newestVersion) < 0)
                     {
-                        if (SCT.Configuration.UpdateMode == "Ask on startup" && MessageBox.Show($"SCT Taskbar version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
+                        if (SCT.Configuration.UpdateMode == UpdateMode.AskOnStartup && MessageBox.Show($"SCT Taskbar version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
                             Close();
                         else
                         {
@@ -163,7 +170,7 @@ namespace SimpleClassicTheme
                     //Check if newestVersion is bigger then currentVersion
                     if (currentVersion != null && currentVersion.CompareString(tagName.Remove(tagName.LastIndexOf('.'))) < 0)
                     {
-                        if (SCT.Configuration.UpdateMode == "Ask on startup" && MessageBox.Show($"RetroBar version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
+                        if (SCT.Configuration.UpdateMode == UpdateMode.AskOnStartup && MessageBox.Show($"RetroBar version {newestVersion} is available.\nWould you like to update now?", "Update available") != DialogResult.Yes)
                             Close();
                         else
                         {

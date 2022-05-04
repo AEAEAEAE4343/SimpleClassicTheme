@@ -78,10 +78,6 @@ namespace SimpleClassicTheme.Forms
             // 
             this.comboBoxUpdates.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxUpdates.FormattingEnabled = true;
-            this.comboBoxUpdates.Items.AddRange(new object[] {
-            "Automatic",
-            "Ask on startup",
-            "Manual"});
             this.comboBoxUpdates.Location = new System.Drawing.Point(308, 15);
             this.comboBoxUpdates.Margin = new System.Windows.Forms.Padding(6);
             this.comboBoxUpdates.Name = "comboBoxUpdates";

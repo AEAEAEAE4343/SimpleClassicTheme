@@ -32,6 +32,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
+using static SimpleClassicTheme.Logger;
+
 namespace SimpleClassicTheme.Forms
 {
     public partial class LoadForm : Form
@@ -39,7 +41,14 @@ namespace SimpleClassicTheme.Forms
         public LoadForm()
         {
             InitializeComponent();
-            label2.Text = SCT.VersionString;
+            label3.Text = SCT.VersionString;
+        }
+
+        public void SetStatus(string status)
+        {
+            label2.Text = $"Status {status}";
+            DebugMessage(status);
+            Application.DoEvents();
         }
 
         public bool LoadSCT(string[] args)
@@ -48,8 +57,7 @@ namespace SimpleClassicTheme.Forms
             Directory.CreateDirectory(SCT.Configuration.InstallPath);
 
             // Generating classic theme load scripts
-            label2.Text = "Status: Generating SCT load scripts";
-            Application.DoEvents();
+            SetStatus("Generating Classic Theme load scripts...");
 
             if (!File.Exists($"{SCT.Configuration.InstallPath}EnableThemeScript.bat"))
                 File.WriteAllText($"{SCT.Configuration.InstallPath}EnableThemeScript.bat", SCT.ResourceFetcher.EnableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
@@ -57,17 +65,13 @@ namespace SimpleClassicTheme.Forms
                 File.WriteAllText($"{SCT.Configuration.InstallPath}DisableThemeScript.bat", SCT.ResourceFetcher.DisableThemeScript.Replace("{ver}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
             // Check for updates
-            label2.Text = "Status: Checking for updates";
-            Application.DoEvents();
+            SetStatus("Checking for updates...");
 
-            string updateMode = SCT.Configuration.UpdateMode;
-            if (updateMode == "Automatic" || updateMode == "Ask on startup")
-                if (ExtraFunctions.Update(this))
-                    return false;
+            if (SCT.Configuration.UpdateMode != UpdateMode.Manual && ExtraFunctions.Update(this))
+                return false;
 
             // Clean up any files that might have been left over by old SCT versions
-            label2.Text = "Status: Cleaning up files";
-            Application.DoEvents();
+            SetStatus("Cleaning up files..");
 
             File.Delete("C:\\upm.reg");
             File.Delete("C:\\restoreMetrics.reg");
@@ -80,222 +84,85 @@ namespace SimpleClassicTheme.Forms
             File.Delete("C:\\windowmetrics.reg");
             File.Delete("C:\\RibbonDisabler.exe");
 
-            Application.DoEvents();
-            if (args.Length > 0)
+            if (args.Length == 0)
+                return true;
+
+            SetStatus("Parsing command line...");
+            switch (args[0])
             {
-                /*// Free the console if by any chance we are still attached to one.
-                Kernel32.FreeConsole();
+                case "--boot":
+                    DebugMessage("--boot: Running Classic Theme applications...");
+                    if (Directory.Exists($"{SCT.Configuration.InstallPath}AHK"))
+                        foreach (string f in Directory.EnumerateFiles($"{SCT.Configuration.InstallPath}AHK"))
+                            Process.Start(f);
+                    if (Enabled)
+                        goto case "--enable";
+                    break;
 
-                // Allocate a console so we can output information.
-                // TODO: Create a custom screen that will replace the console and display the status in a 'Classic' GUI way
-                Kernel32.AllocConsole();
-
-                // Show copyright header
-                WriteLine("Simple Classic Theme {0}\r\n(C) 2021 LeetFTW\r\n", Assembly.GetExecutingAssembly().GetName().Version);
-                */
-
-                // Parse arguments
-                List<(string, object[])> arguments = new List<(string, object[])>();
-                for (int i = 0; i < args.Length; i++)
-                {
-                    label2.Text = $"Status: Parsing arguments ({i}/{args.Length})";
-                    Application.DoEvents();
-
-                    string parseableArgument;
-                    if (args[i].StartsWith("/"))
-                        parseableArgument = "--" + args[i].Substring(1);
-                    else
-                        parseableArgument = args[i];
-                    switch (parseableArgument)
+                case "--enable":
+                case "-e":
+                case "/e":
+                    DebugMessage("--enable: Enabling Classic Theme...");
+                    if (!MainForm.CheckDependencies(SCT.Configuration.EnableTaskbar))
                     {
-                        case "--verbose":
-                        case "-v":
-                            button1_Click(null, null);
-                            break;
-                        case "--boot":
-                            if (args.Length > 1)
-                                WriteLine("Warning: Any arguments beside --boot will be ignored");
-                            arguments.Clear();
-                            arguments.Add(("--boot", null));
-                            goto execute_arguments;
-                        case "--configure":
-                        case "-c":
-                            arguments.Add(("--configure", null));
-                            break;
-                        case "--enable":
-                        case "-e":
-                            arguments.Add(("--enable", null));
-                            break;
-                        case "--disable":
-                        case "-d":
-                            arguments.Add(("--disable", null));
-                            break;
-                        case "--install-dependencies":
-                        case "-r":
-                            arguments.Add(("--install-dependencies", null));
-                            break;
-                        case "--install":
-                        case "-i":
-                            arguments.Add(("--install", null));
-                            break;
-                        case "--set":
-                        case "-s":
-                            if (args.Length - 3 >= i)
-                            {
-                                List<string> possibleSettingNames = new[] { "EnableTaskbar", "TaskbarDelay", "UpdateMode", "TaskbarType" }.ToList();
-                                string[] possibleSettingTypes = { "Boolean", "Int32", "String", "String" };
-                                if (possibleSettingNames.Contains(args[i + 1]))
-                                {
-                                    switch (possibleSettingTypes[possibleSettingNames.IndexOf(args[i + 1])])
-                                    {
-                                        case "Boolean":
-                                            if (Boolean.TryParse(args[i + 2], out bool boolean))
-                                            {
-                                                arguments.Add(("--set", new object[] { args[i + 1], boolean.ToString(), RegistryValueKind.String }));
-                                            }
-                                            else
-                                            {
-                                                WriteLine($"Error: Could not parse '{args[i + 2]}' to type System.Boolean");
-                                                goto exit;
-                                            }
-                                            break;
-                                        case "Int32":
-                                            if (Int32.TryParse(args[i + 2], out int int32))
-                                            {
-                                                arguments.Add(("--set", new object[] { args[i + 1], int32, RegistryValueKind.DWord }));
-                                            }
-                                            else
-                                            {
-                                                WriteLine($"Error: Could not parse '{args[i + 2]}' to type System.Int32");
-                                                goto exit;
-                                            }
-                                            break;
-                                        case "String":
-                                            arguments.Add(("--set", new object[] { args[i + 1], args[i + 2], RegistryValueKind.String }));
-                                            break;
-                                    }
-                                }
-                                else
-                                {
-                                    WriteLine($"Error: Invalid setting name '{args[i + 1]}'\r\nPossible values: {1}");
-                                    goto exit;
-                                }
-                            }
-                            else
-                            {
-                                WriteLine($"Error: Insufficient information supplied for argument {args[i]}");
-                                goto exit;
-                            }
-                            i += 2;
-                            break;
-                        case "--gui":
-                        case "-g":
-                            arguments.Add(("--gui", null));
-                            if (i < args.Length - 1)
-                                WriteLine($"Warning: Arguments after {args[i]} will be ingnored\r\nIgnored arguments: {string.Join(", ", args.Skip(i + 1))}");
-                            goto execute_arguments;
-                        default:
-                            WriteLine("Error: Invalid argument '{args[i]}'");
-                            goto case "/?";
-                        case "--help":
-                        case "-h":
-                        case "/help":
-                        case "/h":
-                        case "/?":
-                            arguments.Clear();
-                            arguments.Add(("--help", null));
-                            goto execute_arguments;
-                        case "--wizard":
-                        case "-w":
-                            arguments.Add(("--wizard", null));
-                            break;
+                        ErrorMessage("Failed to enable Classic Theme", "The required dependencies are not installed. Use the GUI or --install-dependencies to install them.");
+                        break;
                     }
-                }
-            execute_arguments:
-                WriteLine($"Succesfully parsed {arguments.Count} argument{(arguments.Count > 1 ? "s" : "")}");
-                for (int i = 0; i < arguments.Count; i++)
-                {
-                    label2.Text = $"Status: Parsing arguments ({i}/{args.Length})";
-                    Application.DoEvents();
+                    ClassicTheme.MasterEnable();
+                    DebugMessage("Succesfully enabled Classic Theme");
+                    break;
 
-                    (string, object[]) argument = arguments[i];
-                    string selector = argument.Item1;
-                run_argument:
-                    WriteLine("");
-                    switch (selector)
+                case "--disable":
+                case "-d":
+                case "/d":
+                    DebugMessage("--enable: Disabling Classic Theme...");
+                    if (!MainForm.CheckDependencies(SCT.Configuration.EnableTaskbar))
                     {
-                        case "--boot":
-                            WriteLine("Simple Classic Theme is restoring Classic Theme settings");
-                            bool Enabled = SCT.Configuration.Enabled;
-                            if (Directory.Exists($"{SCT.Configuration.InstallPath}AHK"))
-                                foreach (string f in Directory.EnumerateFiles($"{SCT.Configuration.InstallPath}AHK"))
-                                    Process.Start(f);
-                            if (Enabled)
-                            {
-                                selector = "--enable";
-                                goto run_argument;
-                            }
-                            break;
-                        case "--configure":
-                            File.WriteAllBytes($"{SCT.Configuration.InstallPath}deskn.cpl", SCT.ResourceFetcher.AppearanceCPL);
-                            Process.Start($"{SCT.Configuration.InstallPath}deskn.cpl");
-                            WriteLine("Launched Clasic Theme configuration dialog");
-                            break;
-                        case "--disable":
-                            if (!MainForm.CheckDependencies(SCT.Configuration.EnableTaskbar))
-                            {
-                                WriteLine("Error: Not all dependencies are installed\r\nPlease use the GUI or --install-dependencies to install the dependencies");
-                                goto exit;
-                            }
-                            Write("Disabling Simple Classic Theme...");
-                            ClassicTheme.MasterDisable(); WriteLine("");
-                            WriteLine("Disabled SCT succesfully");
-                            break;
-                        case "--enable":
-                            if (!MainForm.CheckDependencies(SCT.Configuration.EnableTaskbar))
-                            {
-                                WriteLine("Error: Not all dependencies are installed\r\nPlease use the GUI or --install-dependencies to install the dependencies");
-                                goto exit;
-                            }
-                            Write("Enabling Simple Classic Theme...");
-                            ClassicTheme.MasterEnable(); WriteLine("");
-                            WriteLine("Enabled SCT succesfully");
-                            break;
-                        case "--gui":
-                            WriteLine("Starting GUI interface"); 
-                            goto run_gui;
-                        case "--help":
-                            new CommandLineHelpForm().ShowDialog(this);
-                            goto exit;
-                        case "--install":
-                            ExtraFunctions.UpdateStartupExecutable(true);
-                            WriteLine("Installed SCT succesfully");
-                            break;
-                        case "--install-dependencies":
-                            if (!ExtraFunctions.InstallDependencies())
-                                goto exit;
-                            break;
-                        case "--set":
-                            SCT.Configuration.SetItem((string)argument.Item2[0], argument.Item2[1], (RegistryValueKind)argument.Item2[2]);
-                            WriteLine($"Set configuration item '{argument.Item2[0]}' to '{argument.Item2[1]}'");
-                            break;
-                        case "--wizard":
-                            WriteLine("The wizard was removed in 1.7.0.6, it will be rebuilt soon.");
-                            break;
+                        ErrorMessage("Failed to disable Classic Theme", "The required dependencies are not installed. Use the GUI or --install-dependencies to install them.");
+                        break;
                     }
-                }
-                Kernel32.FreeConsole();
-                if (ControlBox)
-                    goto exit;
-                return false;
-            exit:
-                Kernel32.FreeConsole();
-                Application.Run(this);
-                return false;
+                    ClassicTheme.MasterEnable();
+                    DebugMessage("Succesfully disabled Classic Theme");
+                    break;
+
+                case "--configure":
+                case "-c":
+                case "/c":
+                    DebugMessage("--configure: Launching configuration dialog...");
+                    new Theming.ThemeConfigurationForm().ShowDialog(this);
+                    DebugMessage("Configuration dialog closed");
+                    break;
+
+                case "--help":
+                case "/help":
+                case "-h":
+                case "/h":
+                case "/?":
+                    DebugMessage("--help: Launching command line help form...");
+                    new CommandLineHelpForm().ShowDialog();
+                    DebugMessage("Help form closed");
+                    break;
+
+                case "--wizard":
+                case "-w":
+                case "/w":
+
+                case "--set":
+                case "-s":
+                case "/s":
+
+                case "--install":
+                case "-i":
+                case "/i":
+
+                case "--install-dependencies":
+                case "-r":
+                case "/r":
+                    DebugMessage($"{args[0]}: Unimplemented, but planned command specified");
+                    ErrorMessage("Cannot parse command line", $"The specified command ${args[0]} is a valid command, but is not implemented in this version of SCT.");
+                    break;
             }
-
-        run_gui:
-            return true;
+            return false;
         }
 
         private void LoaderForm_Load(object sender, EventArgs e)

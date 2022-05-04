@@ -164,7 +164,7 @@ namespace SimpleClassicTheme
 
         public static bool InstallDependencies(bool commandLineOutput = false)
 		{
-            if (SCT.Configuration.ClassicThemeMethod == ClassicThemeMethod.MultiUserClassicTheme)
+            if (SCT.Configuration.ClassicThemeMethod == ClassicTheme.ClassicThemeMethod.MultiUserClassicTheme)
             {
 
             }

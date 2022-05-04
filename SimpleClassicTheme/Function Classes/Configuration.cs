@@ -79,10 +79,10 @@ namespace SimpleClassicTheme
 			set => SetItem("BetaUpdates", value.ToString());
 		}
 
-		public string UpdateMode
+		public UpdateMode UpdateMode
 		{
-			get => (string)GetItem("UpdateMode", "Automatic");
-			set => SetItem("UpdateMode", value);
+			get => (UpdateMode)Enum.Parse(typeof(UpdateMode), GetItem("UpdateMode", "Automatic").ToString());
+			set => SetItem("UpdateMode", value.ToString());
 		}
 
 		public Version ConfigVersion
@@ -159,17 +159,33 @@ namespace SimpleClassicTheme
 			}
 
 			// 1.5.4 or lower -> 1.6.0
-			if (ConfigVersion.CompareString("1.6.0") < 0)
-			{
+			//if (ConfigVersion.CompareString("1.6.0") < 0)
+			//{
 				//ShowWizard = (string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\1337ftw\Simple Classic Theme\Base", "EnableTaskbar", "NO") == "NO";
-				ConfigVersion = new Version(1, 6, 0);
-			}
+				//ConfigVersion = new Version(1, 6, 0);
+			//}
 
 			// Config version 1.6.0 to 1.7.0
 			if (ConfigVersion.CompareString("1.7.0") < 0)
 			{
 				MessageBox.Show("You are migrating from SCT 1.6 or older. In the past SCT interfaced with system API's directly to enable Classic Theme. To circumvent the security and application restrictions of this method, starting from SCT 1.7 a new system service called MCT is used. Your setup will keep using the old method, but upgrading to the new one is recommended. This can be done through the options menu.", "Simple Classic Theme", MessageBoxButton.OK, MessageBoxImage.Warning);
 				ClassicThemeMethod = ClassicTheme.ClassicThemeMethod.SingleUserSCT;
+
+				string oldUpdateMode = (string)GetItem("UpdateMode", "Automatic");
+				switch (oldUpdateMode)
+                {
+					default:
+					case "Automatic":
+						UpdateMode = UpdateMode.Automatic;
+						break;
+					case "Ask on startup":
+						UpdateMode = UpdateMode.AskOnStartup;
+						break;
+					case "Manual":
+						UpdateMode = UpdateMode.Manual;
+						break;
+                }
+
 				ConfigVersion = new Version(1, 7, 0);
 			}
 

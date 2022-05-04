@@ -29,7 +29,16 @@ namespace SimpleClassicTheme.Forms
 {
 	public partial class OptionsForm : Form
 	{
-		public Dictionary<string, string> TaskbarTypeDisplay = new Dictionary<string, string>();
+		public class UpdateModeItem
+		{
+			public string Text { get; set; }
+			public UpdateMode Value { get; set; }
+
+			public override string ToString()
+			{
+				return Text;
+			}
+		}
 
 		public OptionsForm()
 		{
@@ -38,7 +47,13 @@ namespace SimpleClassicTheme.Forms
 
 		private void OptionsForm_Load(object sender, EventArgs e)
 		{
-			comboBoxUpdates.SelectedItem = SCT.Configuration.UpdateMode;
+            comboBoxUpdates.Items.AddRange(new []
+			{ 
+				new UpdateModeItem { Text = "Automatic", Value = UpdateMode.Automatic },
+				new UpdateModeItem { Text = "Ask on startup", Value = UpdateMode.AskOnStartup },
+				new UpdateModeItem { Text = "Manual", Value = UpdateMode.Manual },
+			});
+			comboBoxUpdates.SelectedIndex = 0;
 			numericUpDownTaskbarDelay.Value = SCT.Configuration.TaskbarDelay;
 			checkBox1.Checked = SCT.Configuration.EnableTaskbar;
 			checkBox2.Checked = SCT.Configuration.BetaUpdates;
@@ -58,7 +73,7 @@ namespace SimpleClassicTheme.Forms
 
 		private void buttonApply_Click(object sender, EventArgs e)
 		{
-			SCT.Configuration.UpdateMode = (string)comboBoxUpdates.SelectedItem;
+			SCT.Configuration.UpdateMode = (UpdateMode)comboBoxUpdates.SelectedItem;
 			SCT.Configuration.TaskbarType = taskbarTypeSelector1.SelectedItem;
 			SCT.Configuration.TaskbarDelay = (int)numericUpDownTaskbarDelay.Value;
 			SCT.Configuration.EnableTaskbar = checkBox1.Checked;
