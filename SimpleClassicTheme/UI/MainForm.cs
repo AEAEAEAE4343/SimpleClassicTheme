@@ -63,11 +63,8 @@ namespace SimpleClassicTheme
 		#region Configuration checks
 
 		// Check if all requirements for SCT and, if selected, the classic taskbar are installed
-		public static bool CheckDependencies(bool Taskbar)
+		public static bool CheckDependencies()
         {
-            if (!Taskbar)
-                return true;
-
             switch (SCT.Configuration.TaskbarType)
             {
                 case TaskbarType.SimpleClassicThemeTaskbar:
@@ -75,6 +72,7 @@ namespace SimpleClassicTheme
                 case TaskbarType.RetroBar:
                     return File.Exists($"{SCT.Configuration.InstallPath}RetroBar\\RetroBar.exe");
                 case TaskbarType.Windows81Vanilla:
+                case TaskbarType.None:
                 default:
                     return true;
             }
@@ -85,7 +83,7 @@ namespace SimpleClassicTheme
         {
             EnableAllControls();
 
-            bool dependenciesInstalled = CheckDependencies(SCT.Configuration.EnableTaskbar);
+            bool dependenciesInstalled = CheckDependencies();
             buttonInstallRequirements.Enabled = !dependenciesInstalled;
             buttonEnable.Enabled = dependenciesInstalled;
             buttonDisable.Enabled = dependenciesInstalled;

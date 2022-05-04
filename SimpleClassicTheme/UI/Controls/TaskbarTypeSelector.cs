@@ -52,8 +52,10 @@ namespace SimpleClassicTheme.Forms
             }
         }
 
-		public TaskbarTypeSelector(TaskbarType selectedTaskbar = TaskbarType.RetroBar)
-		{
+		public TaskbarTypeSelector()
+        {
+			InitializeComponent();
+
 			comboBoxTaskbar.Items.AddRange(new[]
 			{
 				new TaskbarTypeItem
@@ -89,9 +91,10 @@ namespace SimpleClassicTheme.Forms
 					SupportLink = "https://github.com/WinClassic/SimpleClassicTheme/issues",
 					Value = TaskbarType.Windows81Vanilla,
 				});
+		}
 
-			InitializeComponent();
-
+		public TaskbarTypeSelector(TaskbarType selectedTaskbar = TaskbarType.RetroBar) : this()
+		{
 			comboBoxTaskbar.SelectedItem = comboBoxTaskbar.Items.OfType<TaskbarTypeItem>().Where((a) => a.Value == selectedTaskbar).FirstOrDefault();
 		}
 

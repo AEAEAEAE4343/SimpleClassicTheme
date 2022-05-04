@@ -30,6 +30,7 @@ using MCT.NET;
 
 using static SimpleClassicTheme.NtApi;
 using static SimpleClassicTheme.CommonControls;
+using static SimpleClassicTheme.Logger;
 
 namespace SimpleClassicTheme
 {
@@ -217,7 +218,7 @@ namespace SimpleClassicTheme
         /// <returns>A Boolean value specifying whether the operation completed succesfully.</returns>
         public static ClassicThemeResult DisableMCT()
         {
-            MctApi.InitializeAPI();
+            MctApi.MctRevision revision = MctApi.InitializeAPI();
 
             MctApi.MctErrorCode errorCode = new MctApi.MctErrorCode();
             MctApi.DisableClassicTheme((ulong)Process.GetCurrentProcess().SessionId, ref errorCode);
@@ -257,7 +258,7 @@ namespace SimpleClassicTheme
         {
             if (SCT.Configuration.ClassicThemeMethod == ClassicThemeMethod.SingleUserSCT && !IsAdministrator)
             {
-                TaskDialog.Show(Application.OpenForms[typeof(MainForm).Name], "To enable or disable Classic Theme, either run Simple Classic Theme as Administrator, or install MCT to enable and disable Classic Theme freely.", "Simple Classic Theme", "You don't have permission to modify the Classic Theme state", TaskDialogButtons.OK, TaskDialogIcon.ErrorIcon);
+                ErrorMessage("You don't have permission to modify the Classic Theme state", "To enable or disable Classic Theme, either run Simple Classic Theme as Administrator, or install MCT to enable and disable Classic Theme freely.");
                 return false;
             }
 

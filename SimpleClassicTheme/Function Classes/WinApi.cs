@@ -53,8 +53,45 @@ namespace SimpleClassicTheme
             [DllImport("Comctl32.dll", EntryPoint = "TaskDialog", CharSet = CharSet.Unicode)]
             internal static extern int TaskDialogNative(IntPtr hWndOwner, IntPtr hInstance, string windowTitle, string mainInstruction, string content, TaskDialogButtons buttons, TaskDialogIcon icon, out int result);
 
+            private static MessageBoxButtons GetMsbButtons(TaskDialogButtons buttons)
+            {
+                switch (buttons)
+                {
+                    case TaskDialogButtons.OK | TaskDialogButtons.Cancel:
+                        return MessageBoxButtons.OKCancel;
+                    case TaskDialogButtons.Yes | TaskDialogButtons.No | TaskDialogButtons.Cancel:
+                        return MessageBoxButtons.YesNoCancel;
+                    case TaskDialogButtons.Yes| TaskDialogButtons.No:
+                        return MessageBoxButtons.YesNo;
+                    case TaskDialogButtons.Retry | TaskDialogButtons.Cancel:
+                        return MessageBoxButtons.RetryCancel;
+                    default:
+                    case TaskDialogButtons.OK:
+                        return MessageBoxButtons.OK;
+                }
+            }
+
+            private static MessageBoxIcon GetMsbIcon(TaskDialogIcon icon)
+            {
+                switch (icon)
+                {
+                    case TaskDialogIcon.InformationIcon:
+                        return MessageBoxIcon.Information;
+                    case TaskDialogIcon.ShieldIcon:
+                    case TaskDialogIcon.WarningIcon:
+                        return MessageBoxIcon.Warning;
+                    case TaskDialogIcon.ErrorIcon:
+                        return MessageBoxIcon.Error;
+                    default:
+                    case TaskDialogIcon.NoIcon:
+                        return MessageBoxIcon.None;
+                }
+            }
+
             internal static DialogResult Show(IWin32Window owner, string text, string caption, string title = null, TaskDialogButtons buttons = TaskDialogButtons.OK, TaskDialogIcon icon = TaskDialogIcon.NoIcon)
             {
+                if (SCT.Configuration.Enabled)
+                    return MessageBox.Show(owner, title is null || title == String.Empty ? text : $"{title}\r\n\r\n{text}", caption, GetMsbButtons(buttons), GetMsbIcon(icon));
                 int funcResult = TaskDialogNative(owner is null ? IntPtr.Zero : owner.Handle, IntPtr.Zero, caption, title, text, buttons, icon, out int result);
                 if (result == 0)
                     throw new Win32Exception(funcResult);

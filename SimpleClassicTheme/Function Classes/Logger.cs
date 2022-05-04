@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Windows.Forms;
 
 namespace SimpleClassicTheme
 {
@@ -29,7 +30,7 @@ namespace SimpleClassicTheme
             switch (UILevel)
             {
                 case UILevel.Standard:
-                    CommonControls.TaskDialog.Show(message, "Simple Classic Theme", title, icon: CommonControls.TaskDialogIcon.WarningIcon);
+                    CommonControls.TaskDialog.Show(Application.OpenForms[typeof(MainForm).Name], message, "Simple Classic Theme", title, icon: CommonControls.TaskDialogIcon.WarningIcon);
                     goto case UILevel.LogWarningsAndErrors;
                 case UILevel.LogWarningsAndErrors:
                 case UILevel.Silent:
@@ -43,7 +44,7 @@ namespace SimpleClassicTheme
             switch (UILevel)
             {
                 case UILevel.Standard:
-                    CommonControls.TaskDialog.Show(message, "Simple Classic Theme", title, icon: CommonControls.TaskDialogIcon.ErrorIcon);
+                    CommonControls.TaskDialog.Show(Application.OpenForms[typeof(MainForm).Name], message, "Simple Classic Theme", title, icon: CommonControls.TaskDialogIcon.ErrorIcon);
                     goto case UILevel.LogWarningsAndErrors;
                 case UILevel.LogWarningsAndErrors:
                 case UILevel.Silent:

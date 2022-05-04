@@ -42,6 +42,8 @@ namespace SimpleClassicTheme
         private void About_Load(object sender, EventArgs e)
         {
             string ver = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId", Environment.OSVersion.Version.Build.ToString()).ToString();
+            if (Int32.Parse(ver) >= 2009)
+                ver = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "DisplayVersion", Environment.OSVersion.Version.Build.ToString()).ToString();
             label2.Text = label2.Text.Replace("%build%", ver);
 
             string name = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProductName", "Windows " + Environment.OSVersion.Version.Major.ToString()).ToString();
@@ -50,8 +52,7 @@ namespace SimpleClassicTheme
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             label2.Text = label2.Text.Replace("%username%", userName);
 
-            Version sctVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            label2.Text = label2.Text.Replace("%v", sctVersion.ToString(3)).Replace("%r", sctVersion.Revision.ToString());
+            label2.Text = label2.Text.Replace("%v", SCT.VersionString);
 
             Color A = SystemColors.ActiveCaption;
             Color B = SystemColors.GradientActiveCaption;

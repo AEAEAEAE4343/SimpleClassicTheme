@@ -103,7 +103,7 @@ namespace SimpleClassicTheme.Forms
                 case "-e":
                 case "/e":
                     DebugMessage("--enable: Enabling Classic Theme...");
-                    if (!MainForm.CheckDependencies(SCT.Configuration.EnableTaskbar))
+                    if (!MainForm.CheckDependencies())
                     {
                         ErrorMessage("Failed to enable Classic Theme", "The required dependencies are not installed. Use the GUI or --install-dependencies to install them.");
                         break;
@@ -116,7 +116,7 @@ namespace SimpleClassicTheme.Forms
                 case "-d":
                 case "/d":
                     DebugMessage("--enable: Disabling Classic Theme...");
-                    if (!MainForm.CheckDependencies(SCT.Configuration.EnableTaskbar))
+                    if (!MainForm.CheckDependencies())
                     {
                         ErrorMessage("Failed to disable Classic Theme", "The required dependencies are not installed. Use the GUI or --install-dependencies to install them.");
                         break;

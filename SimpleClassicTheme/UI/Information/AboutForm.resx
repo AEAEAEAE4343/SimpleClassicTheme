@@ -119,7 +119,7 @@
   </resheader>
   <data name="label2.Text" xml:space="preserve">
     <value>Simple Classic Theme
-Version %v (revision %r)
+%v
 © 2022 Leet
 
 This program is free software: you can redistribute it and/or modify

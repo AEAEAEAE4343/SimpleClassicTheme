@@ -17,15 +17,12 @@
  *
  */
 
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace SimpleClassicTheme
@@ -38,43 +35,43 @@ namespace SimpleClassicTheme
              Remove taskbar blur
              */
 
-            //Get a handle to the taskbar
+            // Get the handle of the taskbar window
             IntPtr taskBarHandle = User32.FindWindowExW(IntPtr.Zero, IntPtr.Zero, "Shell_TrayWnd", "");
-            //Create an ACCENTPOLICY instance which describe to disable any sort of transparency or blur
+            // Create an ACCENTPOLICY structure which describes that all blur must be disabled
             User32.ACCENTPOLICY accentPolicy = new User32.ACCENTPOLICY { nAccentState = 0 };
-            //Get the size of the ACCENTPOLICY instance
+            // Get the size of the ACCENTPOLICY structure
             int accentPolicySize = Marshal.SizeOf(accentPolicy);
-            //Get the pointer to the ACCENTPOLICY instance
+            // Allocate unmanaged memory to accomodate for the ACCENTPOLICY structure
             IntPtr accentPolicyPtr = Marshal.AllocHGlobal(accentPolicySize);
-            //Copy the struct to unmanaged memory so that Win32 can read it
+            // Copy the struct to unmanaged memory so that a pointer to it can be given to Win32
             Marshal.StructureToPtr(accentPolicy, accentPolicyPtr, false);
-            //Create a WINCOMPATTRDATA instance which sets the WindowCompositionAttribute (19) to the ACCENTPOLICY instance
+            // Create a WINCOMPATTRDATA instance which sets the WindowCompositionAttribute (19) to the ACCENTPOLICY instance
             var winCompatData = new User32.WINCOMPATTRDATA
             {
                 nAttribute = 19,
                 ulDataSize = accentPolicySize,
                 pData = accentPolicyPtr
             };
-            //Tell Windows to apply the attribute
+            // Tell Windows to apply the attribute
             User32.SetWindowCompositionAttribute(taskBarHandle, ref winCompatData);
-            //Free the pointer to the ACCENTPOLICY instance
+            // Free the pointer to the ACCENTPOLICY instance
             Marshal.FreeHGlobal(accentPolicyPtr);
 
             /*
              Remove taskbar borders
              */
 
-            //Get the current taskbar WindowStyle
+            // Get the current style of the taskbar window
             IntPtr p = User32.GetWindowLongPtrW(taskBarHandle, -16);
-            //Set the taskbar WindowStyle to the original plus an offset of 0x400000
-            User32.SetWindowLongPtrW(taskBarHandle, -16, new IntPtr(p.ToInt64() + 0x400000));
-            //Set the taskbar WindowStyle back to the original
-            User32.SetWindowLongPtrW(taskBarHandle, -16, p);
+            // Add WS_DLGFRAME to the window style
+            User32.SetWindowLongPtrW(taskBarHandle, -16, new IntPtr(p.ToInt64() | 0x400000));
+            // Remove WS_DLGFRAME from the window style
+            User32.SetWindowLongPtrW(taskBarHandle, -16, new IntPtr(p.ToInt64() ^ 0x400000));
         }
 
         public static void InstallSCTT(Form parent, bool ask = true)
 		{
-            if (!ask || MessageBox.Show(parent, "Would you like to install Simple Classic Theme Taskbar? Please note that SCTT is still in beta and may contain bugs.", "Simple Classic Theme Taskbar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (!ask || CommonControls.TaskDialog.Show(parent, "Please note that SCTT is not being actively developed anymore, and support with issues will not be provided.", "Simple Classic Theme Taskbar", "Would you like to install Simple Classic Theme Taskbar?", CommonControls.TaskDialogButtons.Yes | CommonControls.TaskDialogButtons.No, CommonControls.TaskDialogIcon.WarningIcon) == DialogResult.Yes)
 			{
                 GithubDownloader download = new GithubDownloader(GithubDownloader.DownloadableGithubProject.SimpleClassicThemeTaskbar);
                 download.ShowDialog(parent);

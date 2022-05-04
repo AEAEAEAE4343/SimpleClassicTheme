@@ -40,12 +40,6 @@ namespace SimpleClassicTheme
 			set => SetItem("ClassicThemeMethod", value.ToString());
 		}
 
-		public bool EnableTaskbar
-		{
-			get => bool.Parse(GetItem("EnableTaskbar", false).ToString());
-			set => SetItem("EnableTaskbar", value.ToString());
-		}
-
 		public int TaskbarDelay
 		{
 			get => (int)GetItem("TaskbarDelay", 5000);
@@ -185,6 +179,10 @@ namespace SimpleClassicTheme
 						UpdateMode = UpdateMode.Manual;
 						break;
                 }
+
+				bool enableTaskbar = Boolean.Parse(GetItem("EnableTaskbar", "True").ToString());
+				if (!enableTaskbar)
+					TaskbarType = TaskbarType.None;
 
 				ConfigVersion = new Version(1, 7, 0);
 			}
