@@ -22,15 +22,11 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Security.Principal;
 using System.Threading;
-using System.Windows.Forms;
 
 using MCT.NET;
 
 using static SimpleClassicTheme.NtApi;
-using static SimpleClassicTheme.CommonControls;
-using static SimpleClassicTheme.Logger;
 
 namespace SimpleClassicTheme
 {
@@ -92,8 +88,6 @@ namespace SimpleClassicTheme
             }
         }
 
-        private static bool IsAdministrator => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
-
         private static ClassicThemeResult SetThemeSectionSecurity(string dacl)
         {
             UnicodeString uniStr = UnicodeString.Create($@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection");
@@ -151,13 +145,6 @@ namespace SimpleClassicTheme
                 ErrorCode = 0,
                 Source = ClassicThemeErrorSource.None,
             };
-        }
-
-        private static void RestartExplorer(bool wait = false)
-        {
-            Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
-            Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
-            if (wait) Thread.Sleep(SCT.Configuration.TaskbarDelay);
         }
 
         /// <summary>
@@ -264,86 +251,6 @@ namespace SimpleClassicTheme
                         Source = ClassicThemeErrorSource.None,
                     };
             }
-        }
-
-        //Enables Classic Theme and if specified Classic Taskbar.
-        public static bool MasterEnable()
-        {
-            if (SCT.Configuration.ClassicThemeMethod == ClassicThemeMethod.SingleUserSCT && !IsAdministrator)
-            {
-                ErrorMessage("You don't have permission to modify the Classic Theme state", "To enable or disable Classic Theme, either run Simple Classic Theme as Administrator, or install MCT to enable and disable Classic Theme freely.");
-                return false;
-            }
-
-            Process.Start($"{SCT.Configuration.InstallPath}EnableThemeScript.bat", "pre").WaitForExit();
-            ClassicThemeResult res = Enable();
-            if (!res.Success)
-            {
-                TaskDialog.Show(Application.OpenForms[typeof(MainForm).Name], $"{res.GetDescription()}", "Simple Classic Theme", "Failed to enable Classic Theme", TaskDialogButtons.OK, TaskDialogIcon.ErrorIcon);
-                return false;
-            }
-
-            switch (SCT.Configuration.TaskbarType)
-            {
-                case TaskbarType.None:
-                    break;
-                case TaskbarType.Windows81Vanilla:
-                    RestartExplorer(true);
-                    ClassicTaskbar.FixWin8_1();
-                    break;
-                case TaskbarType.SimpleClassicThemeTaskbar:
-                    RestartExplorer(false);
-                    ClassicTaskbar.EnableSCTT();
-                    break;
-                case TaskbarType.RetroBar:
-                    RestartExplorer(false);
-                    Process.Start($"{SCT.Configuration.InstallPath}RetroBar\\RetroBar.exe");
-                    break;
-            }
-
-            Process.Start($"{SCT.Configuration.InstallPath}EnableThemeScript.bat", "post").WaitForExit();
-            SCT.Configuration.Enabled = true;
-            return true;
-        }
-
-        //Disables Classic Theme and if specified Classic Taskbar.
-        public static bool MasterDisable()
-        {
-            if (SCT.Configuration.ClassicThemeMethod == ClassicThemeMethod.SingleUserSCT && !IsAdministrator)
-            {
-                TaskDialog.Show(Application.OpenForms[typeof(MainForm).Name], "To enable or disable Classic Theme, either run Simple Classic Theme as Administrator, or install MCT to enable and disable Classic Theme freely.", "Simple Classic Theme", "You don't have permission to modify the Classic Theme state", TaskDialogButtons.OK, TaskDialogIcon.ErrorIcon);
-                return false;
-            }
-
-            Process.Start($"{SCT.Configuration.InstallPath}DisableThemeScript.bat", "pre").WaitForExit();
-            ClassicThemeResult res = Disable();
-            if (!res.Success)
-            {
-                TaskDialog.Show(Application.OpenForms[typeof(MainForm).Name], $"{res.GetDescription()}", "Simple Classic Theme", "Failed to disable Classic Theme", TaskDialogButtons.OK, TaskDialogIcon.ErrorIcon);
-                return false;
-            }
-
-            switch (SCT.Configuration.TaskbarType)
-            {
-                case TaskbarType.None:
-                    break;
-                case TaskbarType.Windows81Vanilla:
-                    RestartExplorer(false);
-                    break;
-                case TaskbarType.SimpleClassicThemeTaskbar:
-                    ClassicTaskbar.DisableSCTT();
-                    RestartExplorer(false);
-                    break;
-                case TaskbarType.RetroBar:
-                    foreach (Process p in Process.GetProcessesByName("RetroBar"))
-                        p.Kill();
-                    RestartExplorer(false);
-                    break;
-            }
-
-            Process.Start($"{SCT.Configuration.InstallPath}DisableThemeScript.bat", "post").WaitForExit();
-            SCT.Configuration.Enabled = false;
-            return true;
         }
     }
 }

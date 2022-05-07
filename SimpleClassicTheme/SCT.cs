@@ -39,6 +39,7 @@ namespace SimpleClassicTheme
 #endif
 
         public static bool ShouldLoadGUI { get; set; }
+        public static bool TaskbarOverride { get; set; } = true;
 
         /// <summary>
         /// The main entry point for the application.
@@ -74,6 +75,11 @@ namespace SimpleClassicTheme
             if (arguments.Contains("--silent"))
             {
                 arguments.RemoveAll((a) => a == "--silent");
+                Logger.UILevel = UILevel.Silent;
+            }
+            if (arguments.Contains("--no-taskbar"))
+            {
+                arguments.RemoveAll((a) => a == "--no-taskbar");
                 Logger.UILevel = UILevel.Silent;
             }
 

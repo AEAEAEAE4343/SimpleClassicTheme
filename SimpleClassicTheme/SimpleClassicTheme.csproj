@@ -107,6 +107,7 @@
   <ItemGroup>
     <Compile Include="Function Classes\Logger.cs" />
     <Compile Include="Function Classes\NtApi.cs" />
+    <Compile Include="Function Classes\ThemeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

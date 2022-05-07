@@ -164,12 +164,12 @@ namespace SimpleClassicTheme.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to ========================================================================================================================
-        ///Usage: SimpleClassicTheme.exe (arguments...) 
-        ///You can add as many from the arguments listed down here as you want
+        ///Usage: SimpleClassicTheme.exe &lt;option&gt; [option arguments...] [--no-err|--silent] [--no-taskbar]
+        ///You can use the following options:
         ///
         ///--boot                                                      Running this command will make SCT set Classic Theme up 
         ///                                                            the way it was before logging out. This is used for 
-        ///                                               [rest of string was truncated]&quot;;.
+        ///                        [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string helpMessage {
             get {

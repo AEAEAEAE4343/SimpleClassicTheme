@@ -119,8 +119,8 @@
   </resheader>
   <data name="helpMessage" xml:space="preserve">
     <value>========================================================================================================================
-Usage: SimpleClassicTheme.exe (arguments...) 
-You can add as many from the arguments listed down here as you want
+Usage: SimpleClassicTheme.exe &lt;option&gt; [option arguments...] [--no-err|--silent] [--no-taskbar]
+You can use the following options:
 
 --boot                                                      Running this command will make SCT set Classic Theme up 
                                                             the way it was before logging out. This is used for 
@@ -128,52 +128,60 @@ You can add as many from the arguments listed down here as you want
 										                    
 --configure                                                 Opens the Classic Theme configuration menu, where you can
 -c                                                          set your color schemes.
-										                    
---disable                                                   Disables Classic Theme. Behaviour is the same as the 
--d                                                          button in the GUI. 
-										                    
---enable                                                    Enables Classic Theme. Behaviour is the same as the 
--e                                                          button in the GUI. 
-										                    
---gui                                                       Runs the GUI of Simple Classic Theme. Any arguments passed
--g                                                          after this one will be ignored. 
-										                    
+										                    										                    
+--enable -e                                                 Enables Simple Classic Theme and all related components.
+
+--disable -d                                                Disables Simple Classic Theme and all related components.
+
 --help -h /help /h /?                                       Displays this help menu. 
 										                    
---install                                                   Installs SCT to your C:\ drive and configures it to
--i                                                          automatically run on boot. 
+--install                                                   Installs SCT to the install path drive and configures it
+-i                                                          to automatically run on boot. 
 										                    
---install-dependencies                                      Installs all dependencies required for the set 
--r                                                          SCT.Configuration. This can be any combination, all or none
-                                                            of: SCT Taskbar, Open-Shell, StartlsBack++.
+--install-dependencies                                      Installs all dependencies required for the currently set 
+-r                                                          configuration. This can be a combination, some or none 
+                                                            of: SCT Taskbar, MCT and/or RetroBar 
 										                    
---set [setting name] [value]                                Sets the specified setting to the given value. Value must 
--s [setting name] [value]                                   be of correct type. Possibilities:
+--set &lt;setting name&gt; &lt;value&gt;                                Sets the specified setting to the given value. Value must 
+-s &lt;setting name&gt; &lt;value&gt;                                   be of correct type. Possibilities:
                                                                Boolean EnableTaskbar 
                                                                   Sets whether SCT should also enable and disable a 
                                                                   Classic Taskbar 
                                                                Int32   TaskbarDelay	 
                                                                   Sets the delay between enabling the Classic Taskbar 
-                                                                  and enabling Classic Theme. Only applicable for 
-                                                                  TaskbarType == OS+SiB 
+                                                                  and enabling Classic Theme.
                                                                String  UpdateMode
                                                                   Sets the way SCT should handle auto updating. 
-                                                                  Possible values: 'Automatic', 'Ask on startup' 
-                                                                  and 'Manual. 
+                                                                  Possible values: 'Automatic', 'AskOnStartup' 
+                                                                  and 'Manual'.
                                                                String  TaskbarType
                                                                   Sets the Classic Taskbar to be used when SCT is 
-                                                                  enabling and disabling. Possible Values: OS+SiB 
-                                                                  or SCTT. 
+                                                                  enabling and disabling. Possible Values: 'RetroBar',
+                                                                  'SimpleClassicThemeTaskbar', 'Win81Vanilla' or 'None'
 										                    
 --wizard                                                    Launches the Simple Classic Theme Install Wizard. This is
 -w                                                          a GUI tool that helps you install and configure SCT.
 
+--no-taskbar                                                Override for the current configuration. This will skip
+                                                            running any Classic Taskbar related functionality. Note
+                                                            that this only works for command line arguments, the GUI
+                                                            will still load taskbar related functionality when needed.
+                                                            This is intended for use with -e, -d and -r.
 
 For compatibility purposes, all arguments supplied starting with '/' will have / replaced with --
 
-This command line system allows for some pretty cool commands. For example:
-SCT.exe --set EnableTaskbar True --set TaskbarType SCTT --install-dependencies --install --enable 
-(Sets up SCT to use SCTT, installs dependencies, makes it auto-launch and enables it)</value>
+Examples:
+SCT.exe --set TaskbarType None
+Disables all taskbar functionality inside SCT.
+
+SCT.exe --install-dependencies --silent
+Silently installs all requirements needed for the current configuration.
+
+SCT.exe --install --no-err
+Install SCT to run on boot automatically, hiding any errors from the user, but still displaying SCT's UI.
+
+SCT.exe --enable 
+Enables SCT and all related components.</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="reg_classicschemes_add" type="System.Resources.ResXFileRef, System.Windows.Forms">

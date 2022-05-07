@@ -23,13 +23,97 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SimpleClassicTheme
 {
-    public static class ClassicTaskbar
-    { 
-        public static void FixWin8_1()
+    public class ClassicTaskbarSCTT : ClassicTaskbar
+    {
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        static extern int GetClassName(int hWnd, StringBuilder title, int size);
+
+        public ClassicTaskbarSCTT()
+        {
+            RestartExplorer = true; 
+            WaitForExplorer = false;
+            type = TaskbarType.SimpleClassicThemeTaskbar;
+        }
+
+        public override bool Enable()
+        {
+            Process[] scttInstances = Process.GetProcessesByName("SimpleClassicThemeTaskbar");
+            scttInstances = scttInstances.Where(a =>
+            {
+                foreach (IntPtr handle in User32.EnumerateProcessWindowHandles(a.Id, "SCTT_Shell_TrayWnd"))
+                {
+                    IntPtr returnValue = User32.SendMessage(handle, User32.WM_SCT, new IntPtr(User32.SCTWP_ISSCT), IntPtr.Zero);
+                    if (returnValue != IntPtr.Zero)
+                        return true;
+                }
+                return false;
+            }).ToArray();
+            if (scttInstances.Length == 0)
+                Process.Start($"{SCT.Configuration.InstallPath}Taskbar\\SimpleClassicThemeTaskbar.exe", "--sct");
+            return true;
+        }
+
+        public override bool Disable()
+        {
+            Process[] scttInstances = Process.GetProcessesByName("SimpleClassicThemeTaskbar");
+            Array.ForEach(scttInstances, a =>
+            {
+                List<IntPtr> handles = User32.EnumerateProcessWindowHandles(a.Id, "SCTT_Shell_TrayWnd");
+                string s = "";
+                foreach (IntPtr handle in handles)
+                {
+                    StringBuilder builder = new StringBuilder(1000);
+                    GetClassName(handle.ToInt32(), builder, 1000);
+                    if (builder.Length > 0)
+                        s = s + builder.ToString() + "\n";
+                    IntPtr returnValue = User32.SendMessage(handle, User32.WM_SCT, new IntPtr(User32.SCTWP_ISSCT), IntPtr.Zero);
+                    if (returnValue != IntPtr.Zero)
+                    {
+                        User32.SendMessage(handle, User32.WM_SCT, new IntPtr(User32.SCTWP_EXIT), IntPtr.Zero);
+                    }
+                }
+            });
+            return true;
+        }
+    }
+
+    public class ClassicTaskbarRetroBar : ClassicTaskbar
+    {
+        public ClassicTaskbarRetroBar()
+        {
+            RestartExplorer = true;
+            WaitForExplorer = false;
+            type = TaskbarType.RetroBar;
+        }
+
+        public override bool Enable()
+        {
+            Process.Start($"{SCT.Configuration.InstallPath}RetroBar\\RetroBar.exe");
+        }
+
+        public override bool Disable()
+        {
+            foreach (Process p in Process.GetProcessesByName("RetroBar"))
+                p.Kill();
+            return true;
+        }
+    }
+
+    public class ClassicTaskbarWin81 : ClassicTaskbar
+    {
+        public ClassicTaskbarWin81()
+        {
+            RestartExplorer = true;
+            WaitForExplorer = true;
+            type = TaskbarType.Windows81Vanilla;
+        }
+
+        public override bool Enable()
         {
             /*
              Remove taskbar blur
@@ -67,57 +151,83 @@ namespace SimpleClassicTheme
             User32.SetWindowLongPtrW(taskBarHandle, -16, new IntPtr(p.ToInt64() | 0x400000));
             // Remove WS_DLGFRAME from the window style
             User32.SetWindowLongPtrW(taskBarHandle, -16, new IntPtr(p.ToInt64() ^ 0x400000));
+            return true;
         }
 
+        public override bool Disable() => true;
+    }
+
+    public abstract class ClassicTaskbar
+    {
+        private static void restartExplorer(bool wait = false)
+        {
+            Process.Start("cmd", "/c taskkill /im explorer.exe /f").WaitForExit();
+            Process.Start("explorer.exe", @"C:\Windows\explorer.exe");
+            if (wait) Thread.Sleep(SCT.Configuration.TaskbarDelay);
+        }
+
+        protected TaskbarType type { get; set; } = TaskbarType.None;
+        public bool RestartExplorer { get; protected set; } = false;
+        public bool WaitForExplorer { get; protected set; } = false;
+        public abstract bool Enable();
+        public abstract bool Disable();
+
+
+        private static ClassicTaskbar current;
+        public static ClassicTaskbar Current
+        {
+            get
+            {
+                if (current is null || current.type != SCT.Configuration.TaskbarType)
+                {
+                    switch (SCT.Configuration.TaskbarType)
+                    {
+                        case TaskbarType.SimpleClassicThemeTaskbar:
+                            current = new ClassicTaskbarSCTT();
+                            break;
+                        case TaskbarType.RetroBar:
+                            current = new ClassicTaskbarRetroBar();
+                            break;
+                        case TaskbarType.None:
+                            current = null;
+                            break;
+                    }
+                }
+                return current;
+            }
+        }
+
+        public static bool EnableCurrent()
+        {
+            ClassicTaskbar current = Current;
+            if (current is null)
+                return true;
+            if (current.RestartExplorer)
+                restartExplorer(current.WaitForExplorer);
+            if (!current.Enable())
+                return false;
+            return true;
+        }
+
+        public static bool DisableCurrent()
+        {
+            ClassicTaskbar current = Current;
+            if (current is null)
+                return true;
+            if (!current.Enable())
+                return false;
+            if (current.RestartExplorer)
+                restartExplorer(current.WaitForExplorer);
+            return true;
+        }
+   
         public static void InstallSCTT(Form parent, bool ask = true)
 		{
             if (!ask || CommonControls.TaskDialog.Show(parent, "Please note that SCTT is not being actively developed anymore, and support with issues will not be provided.", "Simple Classic Theme Taskbar", "Would you like to install Simple Classic Theme Taskbar?", CommonControls.TaskDialogButtons.Yes | CommonControls.TaskDialogButtons.No, CommonControls.TaskDialogIcon.WarningIcon) == DialogResult.Yes)
-			{
+            {
                 GithubDownloader download = new GithubDownloader(GithubDownloader.DownloadableGithubProject.SimpleClassicThemeTaskbar);
                 download.ShowDialog(parent);
-			}
-		}
-
-        public static void EnableSCTT()
-		{
-            Process[] scttInstances = Process.GetProcessesByName("SimpleClassicThemeTaskbar");
-            scttInstances = scttInstances.Where(a =>
-            {
-                foreach (IntPtr handle in User32.EnumerateProcessWindowHandles(a.Id, "SCTT_Shell_TrayWnd"))
-                {
-                    IntPtr returnValue = User32.SendMessage(handle, User32.WM_SCT, new IntPtr(User32.SCTWP_ISSCT), IntPtr.Zero);
-                    if (returnValue != IntPtr.Zero)
-                        return true;
-                }
-                return false;
-            }).ToArray();
-            if (scttInstances.Length == 0)
-                Process.Start($"{SCT.Configuration.InstallPath}Taskbar\\SimpleClassicThemeTaskbar.exe", "--sct");
-		}
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        static extern int GetClassName (int hWnd, StringBuilder title, int size);
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        static extern int GetWindowText(int hWnd, StringBuilder title, int size);
-        public static void DisableSCTT()
-		{
-            Process[] scttInstances = Process.GetProcessesByName("SimpleClassicThemeTaskbar");
-            Array.ForEach(scttInstances, a =>
-            {
-                List<IntPtr> handles = User32.EnumerateProcessWindowHandles(a.Id, "SCTT_Shell_TrayWnd");
-                string s = "";
-                foreach (IntPtr handle in handles)
-                {
-                    StringBuilder builder = new StringBuilder(1000);
-                    GetClassName(handle.ToInt32(), builder, 1000);
-                    if (builder.Length > 0)
-                        s = s + builder.ToString() + "\n";
-                    IntPtr returnValue = User32.SendMessage(handle, User32.WM_SCT, new IntPtr(User32.SCTWP_ISSCT), IntPtr.Zero);
-                    if (returnValue != IntPtr.Zero)
-                    {
-                        User32.SendMessage(handle, User32.WM_SCT, new IntPtr(User32.SCTWP_EXIT), IntPtr.Zero);
-                    }
-                }
-            });
+            }
         }
     }
 }

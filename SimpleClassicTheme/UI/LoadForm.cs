@@ -108,7 +108,7 @@ namespace SimpleClassicTheme.Forms
                         ErrorMessage("Failed to enable Classic Theme", "The required dependencies are not installed. Use the GUI or --install-dependencies to install them.");
                         break;
                     }
-                    ClassicTheme.MasterEnable();
+                    ThemeManager.EnableSCT(SCT.TaskbarOverride);
                     DebugMessage("Succesfully enabled Classic Theme");
                     break;
 
@@ -121,7 +121,7 @@ namespace SimpleClassicTheme.Forms
                         ErrorMessage("Failed to disable Classic Theme", "The required dependencies are not installed. Use the GUI or --install-dependencies to install them.");
                         break;
                     }
-                    ClassicTheme.MasterEnable();
+                    ThemeManager.DisableSCT(SCT.TaskbarOverride);
                     DebugMessage("Succesfully disabled Classic Theme");
                     break;
 

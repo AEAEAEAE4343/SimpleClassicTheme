@@ -120,7 +120,7 @@ namespace SimpleClassicTheme
 		// Enable
 		private void ButtonEnable_Click(object sender, EventArgs e)
         {
-            if (ClassicTheme.MasterEnable())
+            if (ThemeManager.EnableSCT())
             {
                 SCT.ShouldLoadGUI = true; Close();
             }
@@ -129,7 +129,7 @@ namespace SimpleClassicTheme
         // Disable
         private void ButtonDisable_Click(object sender, EventArgs e)
         {
-            if (ClassicTheme.MasterDisable())
+            if (ThemeManager.DisableSCT())
             {
                 SCT.ShouldLoadGUI = true; Close();
             }
