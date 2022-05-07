@@ -32,9 +32,13 @@ namespace SimpleClassicTheme
 
         public static Configuration Configuration { get; } = new Configuration();
         public static ResourceFetcher ResourceFetcher { get; } = new ResourceFetcher();
+#if SCTLITE
+        public static string VersionString => $"Version {Version.ToString(3)} revision mctlite{Version.Revision}";
+#else
         public static string VersionString => $"Version {Version.ToString(3)} revision mct{Version.Revision}";
+#endif
 
-		public static bool ShouldLoadGUI { get; set; }
+        public static bool ShouldLoadGUI { get; set; }
 
         /// <summary>
         /// The main entry point for the application.

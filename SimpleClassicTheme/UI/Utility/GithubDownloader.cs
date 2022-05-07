@@ -24,7 +24,6 @@ using System.Net;
 using System.IO;
 using System.IO.Compression;
 using System.Diagnostics;
-using System.Collections.Generic;
 
 namespace SimpleClassicTheme
 {
@@ -44,7 +43,7 @@ namespace SimpleClassicTheme
 			public static DownloadableGithubProject RetroBar = new DownloadableGithubProject()
 			{
 				Name = "dremin/RetroBar",
-				Filename = "RetroBar.zip",
+				Filename = (IntPtr.Size == 8) ? "RetroBar.64-bit.zip" : "RetroBar.32-bit.zip",
 				ProcessName = "RetroBar",
 				TargetDirectory = $"{SCT.Configuration.InstallPath}RetroBar\\",
 				NeedsExtraction = true

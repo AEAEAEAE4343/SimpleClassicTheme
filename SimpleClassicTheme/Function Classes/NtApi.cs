@@ -8,40 +8,41 @@ namespace SimpleClassicTheme
     internal static class NtApi
     {
         [DllImport("ntdll.dll", CharSet = CharSet.Unicode)]
-        internal static extern unsafe uint NtOpenSection(out IntPtr sectionHandle, AccessMask desiredAccess, ref ObjectAttributes objectAttributes);
+        internal static extern uint NtOpenSection(out IntPtr sectionHandle, AccessMask desiredAccess, ref ObjectAttributes objectAttributes);
         [DllImport("ntdll.dll", CharSet = CharSet.Unicode)]
-        internal static extern unsafe uint NtSetSecurityObject(IntPtr sectionHandle, SecurityInformation desiredAccess, IntPtr securityDescriptor);
+        internal static extern uint NtSetSecurityObject(IntPtr sectionHandle, SecurityInformation desiredAccess, IntPtr securityDescriptor);
         [DllImport("ntdll.dll", CharSet = CharSet.Unicode)]
-        internal static extern unsafe uint NtClose(IntPtr handle);
+        internal static extern uint NtClose(IntPtr handle);
 
         [DllImport("advapi32.dll", CharSet = CharSet.Unicode)]
-        internal static extern unsafe uint ConvertStringSecurityDescriptorToSecurityDescriptor(string StringSecurityDescriptor, uint StringSDRevision, out IntPtr SecurityDescriptor, out UIntPtr SecurityDescriptorSize);
+        internal static extern uint ConvertStringSecurityDescriptorToSecurityDescriptor(string StringSecurityDescriptor, uint StringSDRevision, out IntPtr SecurityDescriptor, out UIntPtr SecurityDescriptorSize);
         [DllImport("kernel32.dll", SetLastError = true)]
         internal static extern IntPtr LocalFree(IntPtr hMem);
 
+        private const int MAX_PATH = 260;
         [StructLayout(LayoutKind.Sequential)]
-        internal unsafe struct UnicodeString
+        internal struct UnicodeString
         {
             public ushort Length;
             public ushort MaxLength;
-            public byte* Buffer;
+            public IntPtr Buffer;
 
             public static UnicodeString Create(string text)
             {
                 UnicodeString s = new UnicodeString();
                 s.Length = (ushort)(text.Length * 2);
-                s.MaxLength = 520;
-                s.Buffer = (byte*)Marshal.AllocHGlobal(520);
+                s.MaxLength = 2 * MAX_PATH;
+                s.Buffer = Marshal.AllocHGlobal(s.MaxLength);
 
-                int strSize = Math.Min(text.Length * 2, 518);
-                Marshal.Copy(Encoding.Unicode.GetBytes(text), 0, (IntPtr)s.Buffer, strSize);
-                s.Buffer[strSize] = 0; s.Buffer[strSize + 1] = 0;
+                int strSize = Math.Min(s.Length, s.MaxLength - 2);
+                Marshal.Copy(Encoding.Unicode.GetBytes(text), 0, s.Buffer, strSize);
+                Marshal.Copy(new byte[]{ 0, 0 }, 0, s.Buffer + strSize, 2);
                 return s;
             }
 
             public void Free()
             {
-                Marshal.FreeHGlobal((IntPtr)Buffer);
+                Marshal.FreeHGlobal(Buffer);
             }
         }
 
@@ -61,12 +62,12 @@ namespace SimpleClassicTheme
             DACL_SECURITY_INFORMATION = 0x4U,
         }
 
-        internal unsafe struct ObjectAttributes
+        internal struct ObjectAttributes
         {
             public uint Length;
             public IntPtr RootDirectory;
             [MarshalAs(UnmanagedType.LPStruct)]
-            public UnicodeString* ObjectName;
+            public IntPtr ObjectName;
             public AttributesEnum Attributes;
             public IntPtr SecurityDescriptor;
             public IntPtr SecurityQualityOfService;

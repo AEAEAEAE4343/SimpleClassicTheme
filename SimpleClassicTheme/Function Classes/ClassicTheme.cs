@@ -94,41 +94,54 @@ namespace SimpleClassicTheme
 
         private static bool IsAdministrator => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
 
-        private static unsafe ClassicThemeResult SetThemeSectionSecurity(string dacl)
+        private static ClassicThemeResult SetThemeSectionSecurity(string dacl)
         {
             UnicodeString uniStr = UnicodeString.Create($@"\Sessions\{Process.GetCurrentProcess().SessionId}\Windows\ThemeSection");
             ObjectAttributes attrib = new ObjectAttributes();
-            attrib.Length = (uint)sizeof(ObjectAttributes);
-            attrib.ObjectName = &uniStr;
+            
+            attrib.Length = (uint)Marshal.SizeOf(attrib);
             attrib.Attributes = AttributesEnum.OBJ_CASE_INSENSITIVE | AttributesEnum.OBJ_KERNEL_HANDLE;
+            IntPtr lpUniStr = Marshal.AllocHGlobal(Marshal.SizeOf(uniStr));
+            Marshal.StructureToPtr(uniStr, lpUniStr, true);
+            attrib.ObjectName = lpUniStr;
 
             uint result = NtOpenSection(out IntPtr section, AccessMask.WRITE_DAC, ref attrib);
             if (result != 0U)
+            {
+                Marshal.FreeHGlobal(lpUniStr);
                 return new ClassicThemeResult
                 {
                     Success = false,
                     ErrorCode = result,
                     Source = ClassicThemeErrorSource.NtDll,
                 };
+            }
 
             result = ConvertStringSecurityDescriptorToSecurityDescriptor(dacl, 1, out IntPtr securityDescriptor, out _);
             if (result == 0)
+            {
+                Marshal.FreeHGlobal(lpUniStr);
                 return new ClassicThemeResult
                 {
                     Success = false,
                     ErrorCode = (uint)Marshal.GetLastWin32Error(),
                     Source = ClassicThemeErrorSource.Win32,
                 };
+            }
 
             result = NtSetSecurityObject(section, SecurityInformation.DACL_SECURITY_INFORMATION, securityDescriptor);
             if (result != 0)
+            {
+                Marshal.FreeHGlobal(lpUniStr);
                 return new ClassicThemeResult
                 {
                     Success = false,
                     ErrorCode = result,
                     Source = ClassicThemeErrorSource.NtDll,
                 };
+            }
 
+            Marshal.FreeHGlobal(lpUniStr);
             LocalFree(securityDescriptor);
             NtClose(section);
 
@@ -162,7 +175,7 @@ namespace SimpleClassicTheme
         /// <returns>A CtResult specifying whether the operation completed succesfully, and if not, what problem occured.</returns>
         public static ClassicThemeResult EnableMCT()
         {
-            MctApi.InitializeAPI();
+            MctApi.MctRevision revision = MctApi.InitializeAPI();
 
             MctApi.MctErrorCode errorCode = new MctApi.MctErrorCode();
             MctApi.EnableClassicTheme((ulong)Process.GetCurrentProcess().SessionId, ref errorCode);

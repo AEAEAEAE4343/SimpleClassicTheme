@@ -34,7 +34,17 @@ namespace SimpleClassicTheme.Forms
 	public partial class TaskbarTypeSelector : UserControl
 	{
 		public event EventHandler SelectedItemChanged;
-		public TaskbarType SelectedItem => comboBoxTaskbar.SelectedIndex != -1 ? ((TaskbarTypeItem)comboBoxTaskbar.Items[comboBoxTaskbar.SelectedIndex]).Value : TaskbarType.None;
+		public TaskbarType SelectedItem
+		{
+			get
+			{
+				return comboBoxTaskbar.SelectedIndex != -1 ? ((TaskbarTypeItem)comboBoxTaskbar.Items[comboBoxTaskbar.SelectedIndex]).Value : TaskbarType.None;
+			}
+            set
+			{
+				comboBoxTaskbar.SelectedItem = comboBoxTaskbar.Items.OfType<TaskbarTypeItem>().Where((a) => a.Value == value).FirstOrDefault();
+			}
+		}
 
 		public class TaskbarTypeItem
         {
@@ -52,7 +62,7 @@ namespace SimpleClassicTheme.Forms
             }
         }
 
-		public TaskbarTypeSelector()
+		private TaskbarTypeSelector()
         {
 			InitializeComponent();
 

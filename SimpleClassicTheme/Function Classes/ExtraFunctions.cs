@@ -17,18 +17,16 @@
  *
  */
 
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
-using System.Net.Sockets;
 using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
 using System.Windows.Forms;
+
+using static SimpleClassicTheme.Logger;
 
 namespace SimpleClassicTheme
 {
@@ -164,9 +162,28 @@ namespace SimpleClassicTheme
 
         public static bool InstallDependencies(bool commandLineOutput = false)
 		{
-            if (SCT.Configuration.ClassicThemeMethod == ClassicTheme.ClassicThemeMethod.MultiUserClassicTheme)
+            if (SCT.Configuration.ClassicThemeMethod == ClassicTheme.ClassicThemeMethod.MultiUserClassicTheme &&
+                !File.Exists(Environment.GetEnvironmentVariable("programfiles") + "\\MCT\\MCTapi.dll"))
             {
+                DebugMessage("MCT component is not installed, running installer...");
+                DebugMessage("Executing command `MCTsvc.exe /install` with administrative privileges...");
 
+                ProcessStartInfo psi = new ProcessStartInfo()
+                {
+                    FileName = "MCTsvc.exe",
+                    Arguments = "/install",
+                    Verb = "runas",
+                    CreateNoWindow = true,
+                };
+                Process mctInstaller = Process.Start(psi);
+                mctInstaller.WaitForExit();
+                DebugMessage($"Process exited with code 0x{mctInstaller.ExitCode:08x}");
+                if (mctInstaller.ExitCode != 0)
+                {
+                    ErrorMessage("Could not install dependencies", 
+                        $"Installing the MCT service failed: { new ClassicTheme.ClassicThemeResult() { Source = ClassicTheme.ClassicThemeErrorSource.Win32, ErrorCode = (uint)mctInstaller.ExitCode }.GetDescription() }");
+
+                }
             }
             switch (SCT.Configuration.TaskbarType)
             {

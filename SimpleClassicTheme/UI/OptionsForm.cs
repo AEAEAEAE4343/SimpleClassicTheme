@@ -53,11 +53,11 @@ namespace SimpleClassicTheme.Forms
 				new UpdateModeItem { Text = "Ask on startup", Value = UpdateMode.AskOnStartup },
 				new UpdateModeItem { Text = "Manual", Value = UpdateMode.Manual },
 			});
-			comboBoxUpdates.SelectedIndex = 0;
+			comboBoxUpdates.SelectedIndex = (int)SCT.Configuration.UpdateMode;
 			numericUpDownTaskbarDelay.Value = SCT.Configuration.TaskbarDelay;
-			checkBox1.Checked = SCT.Configuration.TaskbarType != TaskbarType.None;
 			checkBox2.Checked = SCT.Configuration.BetaUpdates;
-			taskbarTypeSelector1.Enabled = numericUpDownTaskbarDelay.Enabled = label2.Enabled = checkBox1.Checked;
+			taskbarTypeSelector1.Enabled = numericUpDownTaskbarDelay.Enabled = label2.Enabled = checkBox1.Checked = SCT.Configuration.TaskbarType != TaskbarType.None;
+			if (checkBox1.Checked) taskbarTypeSelector1.SelectedItem = SCT.Configuration.TaskbarType;
 		}
 
 		private void buttonOK_Click(object sender, EventArgs e)
@@ -73,7 +73,7 @@ namespace SimpleClassicTheme.Forms
 
 		private void buttonApply_Click(object sender, EventArgs e)
 		{
-			SCT.Configuration.UpdateMode = (UpdateMode)comboBoxUpdates.SelectedItem;
+			SCT.Configuration.UpdateMode = ((UpdateModeItem)comboBoxUpdates.SelectedItem).Value;
 			SCT.Configuration.TaskbarType = checkBox1.Checked ? taskbarTypeSelector1.SelectedItem : TaskbarType.None;
 			SCT.Configuration.TaskbarDelay = (int)numericUpDownTaskbarDelay.Value;
 			SCT.Configuration.BetaUpdates = checkBox2.Checked;

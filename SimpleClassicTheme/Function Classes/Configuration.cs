@@ -85,6 +85,25 @@ namespace SimpleClassicTheme
 			set => SetItem("ConfigVersion", value.ToString());
 		}
 
+		public bool Borders3D
+		{
+			get
+			{
+				RegistryKey hKey = Registry.CurrentUser.OpenSubKey("Control Panel\\Desktop", true);
+				byte[] upm = (byte[])hKey.GetValue("UserPreferencesMask");
+				hKey.Close();
+				return (upm[2] & 0b10) == 0;
+			}
+			set
+			{
+				RegistryKey hKey = Registry.CurrentUser.OpenSubKey("Control Panel\\Desktop", true);
+				byte[] upm = (byte[])hKey.GetValue("UserPreferencesMask");
+				upm[2] ^= 0b10;
+				hKey.SetValue("UserPreferencesMask", upm);
+				hKey.Close();
+			}
+		}
+
 		private RegistryKey GetRegistryKey() => Registry.CurrentUser.CreateSubKey("SOFTWARE").CreateSubKey("1337ftw").CreateSubKey("Simple Classic Theme").CreateSubKey("Base");
 
 		public object GetItem(string itemName, object defaultValue)

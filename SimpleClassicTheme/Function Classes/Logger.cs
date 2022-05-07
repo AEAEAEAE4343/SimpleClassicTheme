@@ -17,7 +17,7 @@ namespace SimpleClassicTheme
 
         public static void WriteLog(string level, string message)
         {
-            File.AppendAllText($"{SCT.Configuration.InstallPath}latest.log", $"[{DateTime.Now:yyyy/MM/dd HH:mm:ss,fff}] [{level,-8}] {message}");
+            File.AppendAllText($"{SCT.Configuration.InstallPath}latest.log", $"[{DateTime.Now:yyyy/MM/dd HH:mm:ss,fff}] [{level,-8}] {message}\r\n");
         }
 
         public static void DebugMessage(string message)
