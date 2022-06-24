@@ -1,9 +1,9 @@
 **[Simple Classic Theme](https://github.com/WinClassic/SimpleClassicTheme)** • [Taskbar](https://github.com/WinClassic/SimpleClassicTheme.Taskbar) • [Explorer](https://github.com/WinClassic/SimpleClassicTheme.Explorer) • [Control Panel](https://github.com/WinClassic/SimpleClassicTheme.ControlPanel)
 
-# Simple Classic Theme
+# THIS IS AN ARCHIVE
+Starting with SCT 1.7, the project is closed-source. This page only exists to keep older versions' update mechanisms intact.
 
-[![Latest release](https://img.shields.io/github/v/release/WinClassic/SimpleClassicTheme)](https://github.com/WinClassic/SimpleClassicTheme/releases/latest)
-[![CodeFactor](https://www.codefactor.io/repository/github/winclassic/simpleclassictheme/badge)](https://www.codefactor.io/repository/github/winclassic/simpleclassictheme)
+# Simple Classic Theme
 
 A basic utility to bring back Classic Theme to newer versions of the Windows operating system. Includes a setup wizard that automatically installs everything the user wants.Supports Windows 8.1 and Windows 10 (1803+ only).
 
