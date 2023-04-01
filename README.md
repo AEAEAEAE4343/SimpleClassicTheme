@@ -1,7 +1,5 @@
-**[Simple Classic Theme](https://github.com/WinClassic/SimpleClassicTheme)** • [Taskbar](https://github.com/WinClassic/SimpleClassicTheme.Taskbar) • [Explorer](https://github.com/WinClassic/SimpleClassicTheme.Explorer) • [Control Panel](https://github.com/WinClassic/SimpleClassicTheme.ControlPanel)
-
 # THIS IS AN ARCHIVE
-Starting with SCT 1.7, the project is closed-source. This page only exists to keep older versions' update mechanisms intact.
+Starting with SCT version 2.0.0, the project is no longer open-source. This page only exists for archival purposes. The latest versions of Simple Classic Theme will from now on be available from https://simpleclassictheme.nl, the new official website for the project. 
 
 # Simple Classic Theme
 
